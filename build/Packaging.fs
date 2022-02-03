@@ -31,7 +31,7 @@ let provideLicense path =
     |> String.convertTextToWindowsLineBreaks
     |> File.replaceContent (path </> "license.txt")
 
-let provideReadme header title (release:Release) path =
+let private provideReadme header title (release:Release) path =
     String.concat Environment.NewLine [header; " " + title; ""; File.readAsString release.ReleaseNotesFile]
     |> String.convertTextToWindowsLineBreaks
     |> File.replaceContent (path </> "readme.txt")
@@ -78,7 +78,7 @@ let zip (package:ZipPackage) header zipDir filesDir filesFilter =
     Directory.delete "obj/Zip"
 
 
-let updateNuspec (nuget:NuGetPackage) outPath dependencies (spec:NuGet.NuGet.NuGetParams) =
+let private updateNuspec (nuget:NuGetPackage) outPath dependencies (spec:NuGet.NuGet.NuGetParams) =
     { spec with ToolPath = "packages/build/NuGet.CommandLine/tools/NuGet.exe"
                 OutputPath = outPath
                 WorkingDir = "obj/NuGet"

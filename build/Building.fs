@@ -6,26 +6,38 @@ open Fake.DotNet
 open Fake.IO.FileSystemOperators
 
 open Model
-open Dotnet
 
-let rootDir = System.Environment.CurrentDirectory
 
-let clean (solution:Solution) = dotnet rootDir (sprintf "clean %s --configuration Release --verbosity minimal" solution.SolutionFile)
+let private dotnet command =
+    DotNet.exec id command "" |> ignore<ProcessResult>
 
-let restoreWeak (solution:Solution) = dotnetWeak rootDir (sprintf "restore %s --verbosity minimal" solution.SolutionFile)
-let restoreStrong (solution:Solution) = dotnetStrong rootDir (sprintf "restore %s --verbosity minimal" solution.SolutionFile)
+let private dotnetWeak command =
+    let properties = [ ("StrongName", "False") ]
+    let suffix = properties |> List.map (fun (name, value) -> sprintf """ /p:%s="%s" /nr:false """ name value) |> String.concat ""
+    DotNet.exec id command suffix |> ignore<ProcessResult>
 
-let buildWeak (solution:Solution) = dotnetWeak rootDir (sprintf "build %s --configuration Release --no-incremental --no-restore --verbosity minimal" solution.SolutionFile)
-let buildStrong (solution:Solution) = dotnetStrong rootDir (sprintf "build %s --configuration Release --no-incremental --no-restore --verbosity minimal" solution.SolutionFile)
+let private dotnetStrong command =
+    let properties = [ ("StrongName", "True") ]
+    let suffix = properties |> List.map (fun (name, value) -> sprintf """ /p:%s="%s" /nr:false """ name value) |> String.concat ""
+    DotNet.exec id command suffix |> ignore<ProcessResult>
 
-let packWeak (solution:Solution) = dotnetWeak rootDir (sprintf "pack %s --configuration Release --no-restore --verbosity minimal" solution.SolutionFile)
-let packStrong (solution:Solution) = dotnetStrong rootDir (sprintf "pack %s --configuration Release --no-restore --verbosity minimal" solution.SolutionFile)
+
+let clean (solution:Solution) = dotnet (sprintf "clean %s --configuration Release --verbosity minimal" solution.SolutionFile)
+
+let restoreWeak (solution:Solution) = dotnetWeak (sprintf "restore %s --verbosity minimal" solution.SolutionFile)
+let restoreStrong (solution:Solution) = dotnetStrong (sprintf "restore %s --verbosity minimal" solution.SolutionFile)
+
+let buildWeak (solution:Solution) = dotnetWeak (sprintf "build %s --configuration Release --no-incremental --no-restore --verbosity minimal" solution.SolutionFile)
+let buildStrong (solution:Solution) = dotnetStrong (sprintf "build %s --configuration Release --no-incremental --no-restore --verbosity minimal" solution.SolutionFile)
+
+let packWeak (solution:Solution) = dotnetWeak (sprintf "pack %s --configuration Release --no-restore --verbosity minimal" solution.SolutionFile)
+let packStrong (solution:Solution) = dotnetStrong (sprintf "pack %s --configuration Release --no-restore --verbosity minimal" solution.SolutionFile)
 
 let packProjectWeak = function
-    | VisualStudio p -> dotnetWeak rootDir (sprintf "pack %s --configuration Release --no-restore --no-build" p.ProjectFile)
+    | VisualStudio p -> dotnetWeak (sprintf "pack %s --configuration Release --no-restore --no-build" p.ProjectFile)
     | _ -> failwith "Project type not supported"
 let packProjectStrong = function
-    | VisualStudio p -> dotnetStrong rootDir (sprintf "pack %s --configuration Release --no-restore --no-build" p.ProjectFile)
+    | VisualStudio p -> dotnetStrong (sprintf "pack %s --configuration Release --no-restore --no-build" p.ProjectFile)
     | _ -> failwith "Project type not supported"
 
 let buildVS2019x86 config isIncremental subject =
@@ -44,6 +56,3 @@ let buildVS2019x64 config isIncremental subject =
         [("Configuration", config); ("Platform","x64")]
         subject
         |> ignore<string list>
-
-let test testsDir testsProj framework =
-    dotnet testsDir (sprintf "run --project %s --configuration Release --framework %s --no-restore --no-build" testsProj framework)

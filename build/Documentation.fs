@@ -2,11 +2,13 @@
 
 open FSharp.Core
 open Fake.Core
+open Fake.DotNet
 open Fake.IO
 open Fake.IO.FileSystemOperators
 open System
 
 open Model
+open Dotnet
 
 let provideDocExtraFiles extraDocs (releases:Release list) =
     for (fileName, docName) in extraDocs do Shell.copyFile ("docs" </> docName) fileName
@@ -18,3 +20,6 @@ let provideDocExtraFiles extraDocs (releases:Release list) =
             ""
             File.readAsString release.ReleaseNotesFile ]
         |> File.replaceContent ("docs" </> (release.ReleaseNotesFile |> String.replace "RELEASENOTES" "ReleaseNotes"))
+
+let buildDocs outputDir = dotnet (sprintf "fsdocs build --noapidocs --output %s" outputDir)
+let watchDocs outputDir = dotnet (sprintf "fsdocs watch --noapidocs --output %s" outputDir)
