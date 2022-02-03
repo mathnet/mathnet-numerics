@@ -1,29 +1,16 @@
-//  __  __       _   _       _   _ ______ _______
-// |  \/  |     | | | |     | \ | |  ____|__   __|
-// | \  / | __ _| |_| |__   |  \| | |__     | |
-// | |\/| |/ _` | __| '_ \  | . ` |  __|    | |
-// | |  | | (_| | |_| | | |_| |\  | |____   | |
-// |_|  |_|\__,_|\__|_| |_(_)_| \_|______|  |_|
-//
-// Math.NET Numerics - https://numerics.mathdotnet.com
-// Copyright (c) Math.NET - Open Source MIT/X11 License
-//
-// FAKE build script, see https://fake.build/
-//
+let header ="""
+  __  __       _   _       _   _ ______ _______
+ |  \/  |     | | | |     | \ | |  ____|__   __|
+ | \  / | __ _| |_| |__   |  \| | |__     | |
+ | |\/| |/ _` | __| '_ \  | . ` |  __|    | |
+ | |  | | (_| | |_| | | |_| |\  | |____   | |
+ |_|  |_|\__,_|\__|_| |_(_)_| \_|______|  |_|
 
-#r "paket:
-nuget Fake.Core.Context
-nuget Fake.Core.Environment
-nuget Fake.Core.ReleaseNotes
-nuget Fake.Core.String
-nuget Fake.Core.Target
-nuget Fake.Core.Trace
-nuget Fake.DotNet.Cli
-nuget Fake.DotNet.NuGet
-nuget Fake.IO.FileSystem
-nuget Fake.IO.Zip
-nuget Fake.Tools.Git"
-#load "./.fake/build.fsx/intellisense.fsx"
+ Math.NET Numerics - https://numerics.mathdotnet.com
+ Copyright (c) Math.NET - Open Source MIT/X11 License
+
+ FAKE build script, see https://fake.build/
+"""
 
 open FSharp.Core
 open Fake.Core
@@ -37,38 +24,8 @@ open Fake.Tools.Git
 open System
 open System.IO
 
-let header = File.read (__SOURCE_DIRECTORY__ </> __SOURCE_FILE__) |> Seq.take 10 |> Seq.map (fun s -> s.Substring(2)) |> String.toLines
-let rootDir = Path.getFullName __SOURCE_DIRECTORY__
-Environment.CurrentDirectory <- rootDir
+let rootDir = Environment.CurrentDirectory
 Trace.log rootDir
-
-let args = Target.getArguments()
-let isStrongname, isSign, isIncremental =
-    match args with
-    | Some args ->
-        args |> Seq.contains "--strongname",
-        args |> Seq.contains "--sign" && Environment.isWindows,
-        args |> Seq.contains "--incremental"
-    | None -> false, false, false
-
-
-// --------------------------------------------------------------------------------------
-// .NET SDK
-// --------------------------------------------------------------------------------------
-
-
-let dotnet workingDir command =
-    DotNet.exec (fun c -> { c with WorkingDirectory = workingDir}) command "" |> ignore<ProcessResult>
-
-let dotnetWeak workingDir command =
-    let properties = [ ("StrongName", "False") ]
-    let suffix = properties |> List.map (fun (name, value) -> sprintf """ /p:%s="%s" /nr:false """ name value) |> String.concat ""
-    DotNet.exec (fun c -> { c with WorkingDirectory = workingDir }) command suffix |> ignore<ProcessResult>
-
-let dotnetStrong workingDir command =
-    let properties = [ ("StrongName", "True") ]
-    let suffix = properties |> List.map (fun (name, value) -> sprintf """ /p:%s="%s" /nr:false """ name value) |> String.concat ""
-    DotNet.exec (fun c -> { c with WorkingDirectory = workingDir}) command suffix |> ignore<ProcessResult>
 
 
 // --------------------------------------------------------------------------------------
@@ -211,14 +168,26 @@ let solution key solutionFile projects zipPackages =
       OutputZipDir = "out" </> key </> "Zip"
       OutputNuGetDir = "out" </> key </> "NuGet" }
 
-let traceHeader (releases:Release list) =
-    Trace.log header
-    let titleLength = releases |> List.map (fun r -> r.Title.Length) |> List.max
-    for release in releases do
-        Trace.log ([ " "; release.Title.PadRight titleLength; "  v"; release.PackageVersion ] |> String.concat "")
-    Trace.log ""
-    dotnet rootDir "--info"
-    Trace.log ""
+
+
+// --------------------------------------------------------------------------------------
+// .NET SDK
+// --------------------------------------------------------------------------------------
+
+
+let dotnet workingDir command =
+    DotNet.exec (fun c -> { c with WorkingDirectory = workingDir}) command "" |> ignore<ProcessResult>
+
+let dotnetWeak workingDir command =
+    let properties = [ ("StrongName", "False") ]
+    let suffix = properties |> List.map (fun (name, value) -> sprintf """ /p:%s="%s" /nr:false """ name value) |> String.concat ""
+    DotNet.exec (fun c -> { c with WorkingDirectory = workingDir }) command suffix |> ignore<ProcessResult>
+
+let dotnetStrong workingDir command =
+    let properties = [ ("StrongName", "True") ]
+    let suffix = properties |> List.map (fun (name, value) -> sprintf """ /p:%s="%s" /nr:false """ name value) |> String.concat ""
+    DotNet.exec (fun c -> { c with WorkingDirectory = workingDir}) command suffix |> ignore<ProcessResult>
+
 
 
 // --------------------------------------------------------------------------------------
@@ -279,7 +248,7 @@ let packProjectStrong = function
     | VisualStudio p -> dotnetStrong rootDir (sprintf "pack %s --configuration Release --no-restore --no-build" p.ProjectFile)
     | _ -> failwith "Project type not supported"
 
-let buildVS2019x86 config subject =
+let buildVS2019x86 config isIncremental subject =
     MSBuild.run
         (fun p -> {p with ToolPath = Environment.environVar "VS2019INSTALLDIR" </> @"MSBuild\Current\Bin\MSBuild.exe"})
         ""
@@ -287,7 +256,7 @@ let buildVS2019x86 config subject =
         [("Configuration", config); ("Platform","Win32")]
         subject
         |> ignore<string list>
-let buildVS2019x64 config subject =
+let buildVS2019x64 config isIncremental subject =
     MSBuild.run
         (fun p -> {p with ToolPath = Environment.environVar "VS2019INSTALLDIR" </> @"MSBuild\Current\Bin\MSBuild.exe"})
         ""
@@ -322,7 +291,7 @@ let collectNuGetPackages (solution:Solution) =
 // --------------------------------------------------------------------------------------
 
 let test testsDir testsProj framework =
-    dotnet testsDir (sprintf "run -p %s --configuration Release --framework %s --no-restore --no-build" testsProj framework)
+    dotnet testsDir (sprintf "run --project %s --configuration Release --framework %s --no-restore --no-build" testsProj framework)
 
 
 // --------------------------------------------------------------------------------------
@@ -512,13 +481,6 @@ let publishArchive (solution:Solution) =
 
 let publishArchives (solutions: Solution list) = solutions |> List.iter publishArchive
 
-
-
-
-
-
-
-
 // --------------------------------------------------------------------------------------
 // PROJECT INFO
 // --------------------------------------------------------------------------------------
@@ -530,7 +492,6 @@ let mklRelease = release "numerics" "MKL Provider" "RELEASENOTES-MKL.md"
 let cudaRelease = release "numerics" "CUDA Provider" "RELEASENOTES-CUDA.md"
 let openBlasRelease = release "numerics" "OpenBLAS Provider" "RELEASENOTES-OpenBLAS.md"
 let releases = [ numericsRelease; mklRelease; openBlasRelease ] // skip cuda
-traceHeader releases
 
 
 // NUMERICS PACKAGES
@@ -653,296 +614,339 @@ let allSolutions = [numericsSolution]
 let allProjects = allSolutions |> List.collect (fun s -> s.Projects) |> List.distinct
 
 
-// --------------------------------------------------------------------------------------
-// PREPARE
-// --------------------------------------------------------------------------------------
+let initTargets () =
 
-Target.create "Start" ignore
+    Trace.log header
+    let titleLength = releases |> List.map (fun r -> r.Title.Length) |> List.max
+    for release in releases do
+        Trace.log ([ " "; release.Title.PadRight titleLength; "  v"; release.PackageVersion ] |> String.concat "")
+    Trace.log ""
 
-Target.create "Clean" (fun _ ->
-    Shell.deleteDirs (!! "src/**/obj/" ++ "src/**/bin/" )
-    Shell.cleanDirs [ "out/api"; "out/docs" ]
-    Shell.cleanDirs [ "out/MKL"; "out/ATLAS"; "out/CUDA"; "out/OpenBLAS" ] // Native Providers
-    allSolutions |> List.iter (fun solution -> Shell.cleanDirs [ solution.OutputZipDir; solution.OutputNuGetDir; solution.OutputLibDir; solution.OutputLibStrongNameDir ]))
+    let args = Target.getArguments()
+    let isStrongname, isSign, isIncremental =
+        match args with
+        | Some args ->
+            args |> Seq.contains "--strongname",
+            args |> Seq.contains "--sign" && Environment.isWindows,
+            args |> Seq.contains "--incremental"
+        | None -> false, false, false
+        
+    if isStrongname then Trace.log " Option: Strongnamed"
+    if isSign then Trace.log " Option: Signed"
+    if isIncremental then Trace.log " Option: Incremental"
+    Trace.log ""
 
-Target.create "ApplyVersion" (fun _ ->
-    allProjects |> List.iter patchVersionInProjectFile
-    patchVersionInResource "src/NativeProviders/MKL/resource.rc" mklRelease
-    patchVersionInResource "src/NativeProviders/CUDA/resource.rc" cudaRelease
-    patchVersionInResource "src/NativeProviders/OpenBLAS/resource.rc" openBlasRelease)
+    dotnet rootDir "--info"
+    Trace.log ""
 
-Target.create "Restore" (fun _ -> allSolutions |> List.iter restoreWeak)
-"Start"
-  =?> ("Clean", not isIncremental)
-  ==> "Restore"
-
-Target.create "Prepare" ignore
-"Start"
-  =?> ("Clean", not isIncremental)
-  ==> "ApplyVersion"
-  ==> "Prepare"
-
-
-// --------------------------------------------------------------------------------------
-// BUILD, SIGN, COLLECT
-// --------------------------------------------------------------------------------------
-
-let fingerprint = "490408de3618bed0a28e68dc5face46e5a3a97dd"
-let timeserver = "http://time.certum.pl/"
-
-Target.create "Build" (fun _ ->
-
-    // Strong Name Build (with strong name, without certificate signature)
-    if isStrongname then
+    // --------------------------------------------------------------------------------------
+    // PREPARE
+    // --------------------------------------------------------------------------------------
+    
+    Target.create "Start" ignore
+    
+    Target.create "Clean" (fun _ ->
+        Shell.deleteDirs (!! "src/**/obj/" ++ "src/**/bin/" )
+        Shell.cleanDirs [ "out/api"; "out/docs" ]
+        Shell.cleanDirs [ "out/MKL"; "out/ATLAS"; "out/CUDA"; "out/OpenBLAS" ] // Native Providers
+        allSolutions |> List.iter (fun solution -> Shell.cleanDirs [ solution.OutputZipDir; solution.OutputNuGetDir; solution.OutputLibDir; solution.OutputLibStrongNameDir ]))
+    
+    Target.create "ApplyVersion" (fun _ ->
+        allProjects |> List.iter patchVersionInProjectFile
+        patchVersionInResource "src/NativeProviders/MKL/resource.rc" mklRelease
+        patchVersionInResource "src/NativeProviders/CUDA/resource.rc" cudaRelease
+        patchVersionInResource "src/NativeProviders/OpenBLAS/resource.rc" openBlasRelease)
+    
+    Target.create "Restore" (fun _ -> allSolutions |> List.iter restoreWeak)
+    "Start"
+      =?> ("Clean", not isIncremental)
+      ==> "Restore"
+      |> ignore
+    
+    Target.create "Prepare" ignore
+    "Start"
+      =?> ("Clean", not isIncremental)
+      ==> "ApplyVersion"
+      ==> "Prepare"
+      |> ignore
+    
+    
+    // --------------------------------------------------------------------------------------
+    // BUILD, SIGN, COLLECT
+    // --------------------------------------------------------------------------------------
+    
+    let fingerprint = "490408de3618bed0a28e68dc5face46e5a3a97dd"
+    let timeserver = "http://time.certum.pl/"
+    
+    Target.create "Build" (fun _ ->
+    
+        // Strong Name Build (with strong name, without certificate signature)
+        if isStrongname then
+            Shell.cleanDirs (!! "src/**/obj/" ++ "src/**/bin/" )
+            restoreStrong numericsSolution
+            buildStrong numericsSolution
+            if isSign then sign fingerprint timeserver numericsSolution
+            collectBinariesSN numericsSolution
+            zip numericsStrongNameZipPackage numericsSolution.OutputZipDir numericsSolution.OutputLibStrongNameDir (fun f -> f.Contains("MathNet.Numerics.") || f.Contains("System.Threading.") || f.Contains("FSharp.Core."))
+            packStrong numericsSolution
+            collectNuGetPackages numericsSolution
+    
+        // Normal Build (without strong name, with certificate signature)
         Shell.cleanDirs (!! "src/**/obj/" ++ "src/**/bin/" )
-        restoreStrong numericsSolution
-        buildStrong numericsSolution
+        restoreWeak numericsSolution
+        buildWeak numericsSolution
         if isSign then sign fingerprint timeserver numericsSolution
-        collectBinariesSN numericsSolution
-        zip numericsStrongNameZipPackage numericsSolution.OutputZipDir numericsSolution.OutputLibStrongNameDir (fun f -> f.Contains("MathNet.Numerics.") || f.Contains("System.Threading.") || f.Contains("FSharp.Core."))
-        packStrong numericsSolution
+        collectBinaries numericsSolution
+        zip numericsZipPackage numericsSolution.OutputZipDir numericsSolution.OutputLibDir (fun f -> f.Contains("MathNet.Numerics.") || f.Contains("System.Threading.") || f.Contains("FSharp.Core."))
+        packWeak numericsSolution
         collectNuGetPackages numericsSolution
-
-    // Normal Build (without strong name, with certificate signature)
-    Shell.cleanDirs (!! "src/**/obj/" ++ "src/**/bin/" )
-    restoreWeak numericsSolution
-    buildWeak numericsSolution
-    if isSign then sign fingerprint timeserver numericsSolution
-    collectBinaries numericsSolution
-    zip numericsZipPackage numericsSolution.OutputZipDir numericsSolution.OutputLibDir (fun f -> f.Contains("MathNet.Numerics.") || f.Contains("System.Threading.") || f.Contains("FSharp.Core."))
-    packWeak numericsSolution
-    collectNuGetPackages numericsSolution
-
-    // NuGet Sign (all or nothing)
-    if isSign then signNuGet fingerprint timeserver [numericsSolution]
-
-    )
-"Prepare" ==> "Build"
-
-Target.create "MklWinBuild" (fun _ ->
-
-    //let result =
-    //    CreateProcess.fromRawCommandLine "cmd.exe" "/c setvars.bat"
-    //    |> CreateProcess.withWorkingDirectory (Environment.GetEnvironmentVariable("ONEAPI_ROOT"))
-    //    |> CreateProcess.withTimeout (TimeSpan.FromMinutes 10.)
-    //    |> Proc.run
-    //if result.ExitCode <> 0 then failwith "Error while setting oneAPI environment variables."
-
-    restoreWeak mklSolution
-    buildVS2019x86 "Release-MKL" !! "MathNet.Numerics.MKL.sln"
-    buildVS2019x64 "Release-MKL" !! "MathNet.Numerics.MKL.sln"
-    Directory.create mklSolution.OutputZipDir
-    zip mklWinZipPackage mklSolution.OutputZipDir "out/MKL/Windows" (fun f -> f.Contains("MathNet.Numerics.Providers.MKL.") || f.Contains("MathNet.Numerics.MKL.") || f.Contains("libiomp5md.dll"))
-    Directory.create mklSolution.OutputNuGetDir
-    nugetPackManually mklSolution [ mklWinPack; mklWin32Pack; mklWin64Pack ]
-
-    // NuGet Sign (all or nothing)
-    if isSign then signNuGet fingerprint timeserver [mklSolution]
-
-    )
-"Prepare" ==> "MklWinBuild"
-
-Target.create "CudaWinBuild" (fun _ ->
-
-    restoreWeak cudaSolution
-    buildVS2019x64 "Release-CUDA" !! "MathNet.Numerics.CUDA.sln"
-    Directory.create cudaSolution.OutputZipDir
-    zip cudaWinZipPackage cudaSolution.OutputZipDir "out/CUDA/Windows" (fun f -> f.Contains("MathNet.Numerics.Providers.CUDA.") || f.Contains("MathNet.Numerics.CUDA.") || f.Contains("cublas") || f.Contains("cudart") || f.Contains("cusolver"))
-    Directory.create cudaSolution.OutputNuGetDir
-    nugetPackManually cudaSolution [ cudaWinPack ]
-
-    // NuGet Sign (all or nothing)
-    if isSign then signNuGet fingerprint timeserver [cudaSolution]
-
-    )
-"Prepare" ==> "CudaWinBuild"
-
-Target.create "OpenBlasWinBuild" (fun _ ->
-
-    restoreWeak openBlasSolution
-    buildVS2019x86 "Release-OpenBLAS" !! "MathNet.Numerics.OpenBLAS.sln"
-    buildVS2019x64 "Release-OpenBLAS" !! "MathNet.Numerics.OpenBLAS.sln"
-    Directory.create openBlasSolution.OutputZipDir
-    zip openBlasWinZipPackage openBlasSolution.OutputZipDir "out/OpenBLAS/Windows" (fun f -> f.Contains("MathNet.Numerics.Providers.OpenBLAS.") || f.Contains("MathNet.Numerics.OpenBLAS.") || f.Contains("libgcc") || f.Contains("libgfortran") || f.Contains("libopenblas") || f.Contains("libquadmath"))
-    Directory.create openBlasSolution.OutputNuGetDir
-    nugetPackManually openBlasSolution [ openBlasWinPack ]
-
-    // NuGet Sign (all or nothing)
-    if isSign then signNuGet fingerprint timeserver [openBlasSolution]
-
-    )
-"Prepare" ==> "OpenBlasWinBuild"
-
-
-// --------------------------------------------------------------------------------------
-// TEST
-// --------------------------------------------------------------------------------------
-
-let testNumerics framework = test "src/Numerics.Tests" "Numerics.Tests.csproj" framework
-Target.create "TestNumerics" ignore
-Target.create "TestNumericsNET50"  (fun _ -> testNumerics "net5.0")
-Target.create "TestNumericsNET48" (fun _ -> testNumerics "net48")
-"Build" ==> "TestNumericsNET50" ==> "TestNumerics"
-"Build" =?> ("TestNumericsNET48", Environment.isWindows) ==> "TestNumerics"
-let testFsharp framework = test "src/FSharp.Tests" "FSharp.Tests.fsproj" framework
-Target.create "TestFsharp" ignore
-Target.create "TestFsharpNET50" (fun _ -> testFsharp "net5.0")
-Target.create "TestFsharpNET48" (fun _ -> testFsharp "net48")
-"Build" ==> "TestFsharpNET50" ==> "TestFsharp"
-"Build" =?> ("TestFsharpNET48", Environment.isWindows) ==> "TestFsharp"
-let testData framework = test "src/Data.Tests" "Data.Tests.csproj" framework
-Target.create "TestData" ignore
-Target.create "TestDataNET50" (fun _ -> testData "net5.0")
-Target.create "TestDataNET48" (fun _ -> testData "net48")
-"Build" ==> "TestDataNET50" ==> "TestData"
-"Build" =?> ("TestDataNET48", Environment.isWindows) ==> "TestData"
-Target.create "Test" ignore
-"TestNumerics" ==> "Test"
-"TestFsharp" ==> "Test"
-"TestData" ==> "Test"
-
-let testMKL framework = test "src/Numerics.Tests" "Numerics.Tests.MKL.csproj" framework
-Target.create "MklTest" ignore
-Target.create "MklTestNET50" (fun _ -> testMKL "net5.0")
-Target.create "MklTestNET48" (fun _ -> testMKL "net48")
-"MklWinBuild" ==> "MklTestNET50" ==> "MklTest"
-"MklWinBuild" =?> ("MklTestNET48", Environment.isWindows) ==> "MklTest"
-
-let testOpenBLAS framework = test "src/Numerics.Tests" "Numerics.Tests.OpenBLAS.csproj" framework
-Target.create "OpenBlasTest" ignore
-Target.create "OpenBlasTestNET50" (fun _ -> testOpenBLAS "net5.0")
-Target.create "OpenBlasTestNET48" (fun _ -> testOpenBLAS "net48")
-"OpenBlasWinBuild" ==> "OpenBlasTestNET50" ==> "OpenBlasTest"
-"OpenBlasWinBuild" =?> ("OpenBlasTestNET48", Environment.isWindows) ==> "OpenBlasTest"
-
-let testCUDA framework = test "src/Numerics.Tests" "Numerics.Tests.CUDA.csproj" framework
-Target.create "CudaTest" ignore
-Target.create "CudaTestNET50" (fun _ -> testCUDA "net5.0")
-Target.create "CudaTestNET48" (fun _ -> testCUDA "net48")
-"CudaWinBuild" ==> "CudaTestNET50" ==> "CudaTest"
-"CudaWinBuild" =?> ("CudaTestNET48", Environment.isWindows) ==> "CudaTest"
+    
+        // NuGet Sign (all or nothing)
+        if isSign then signNuGet fingerprint timeserver [numericsSolution]
+    
+        )
+    "Prepare" ==> "Build" |> ignore
+    
+    Target.create "MklWinBuild" (fun _ ->
+    
+        //let result =
+        //    CreateProcess.fromRawCommandLine "cmd.exe" "/c setvars.bat"
+        //    |> CreateProcess.withWorkingDirectory (Environment.GetEnvironmentVariable("ONEAPI_ROOT"))
+        //    |> CreateProcess.withTimeout (TimeSpan.FromMinutes 10.)
+        //    |> Proc.run
+        //if result.ExitCode <> 0 then failwith "Error while setting oneAPI environment variables."
+    
+        restoreWeak mklSolution
+        buildVS2019x86 "Release-MKL" isIncremental !! "MathNet.Numerics.MKL.sln"
+        buildVS2019x64 "Release-MKL" isIncremental !! "MathNet.Numerics.MKL.sln"
+        Directory.create mklSolution.OutputZipDir
+        zip mklWinZipPackage mklSolution.OutputZipDir "out/MKL/Windows" (fun f -> f.Contains("MathNet.Numerics.Providers.MKL.") || f.Contains("MathNet.Numerics.MKL.") || f.Contains("libiomp5md.dll"))
+        Directory.create mklSolution.OutputNuGetDir
+        nugetPackManually mklSolution [ mklWinPack; mklWin32Pack; mklWin64Pack ]
+    
+        // NuGet Sign (all or nothing)
+        if isSign then signNuGet fingerprint timeserver [mklSolution]
+    
+        )
+    "Prepare" ==> "MklWinBuild" |> ignore
+    
+    Target.create "CudaWinBuild" (fun _ ->
+    
+        restoreWeak cudaSolution
+        buildVS2019x64 "Release-CUDA" isIncremental !! "MathNet.Numerics.CUDA.sln"
+        Directory.create cudaSolution.OutputZipDir
+        zip cudaWinZipPackage cudaSolution.OutputZipDir "out/CUDA/Windows" (fun f -> f.Contains("MathNet.Numerics.Providers.CUDA.") || f.Contains("MathNet.Numerics.CUDA.") || f.Contains("cublas") || f.Contains("cudart") || f.Contains("cusolver"))
+        Directory.create cudaSolution.OutputNuGetDir
+        nugetPackManually cudaSolution [ cudaWinPack ]
+    
+        // NuGet Sign (all or nothing)
+        if isSign then signNuGet fingerprint timeserver [cudaSolution]
+    
+        )
+    "Prepare" ==> "CudaWinBuild" |> ignore
+    
+    Target.create "OpenBlasWinBuild" (fun _ ->
+    
+        restoreWeak openBlasSolution
+        buildVS2019x86 "Release-OpenBLAS" isIncremental !! "MathNet.Numerics.OpenBLAS.sln"
+        buildVS2019x64 "Release-OpenBLAS" isIncremental !! "MathNet.Numerics.OpenBLAS.sln"
+        Directory.create openBlasSolution.OutputZipDir
+        zip openBlasWinZipPackage openBlasSolution.OutputZipDir "out/OpenBLAS/Windows" (fun f -> f.Contains("MathNet.Numerics.Providers.OpenBLAS.") || f.Contains("MathNet.Numerics.OpenBLAS.") || f.Contains("libgcc") || f.Contains("libgfortran") || f.Contains("libopenblas") || f.Contains("libquadmath"))
+        Directory.create openBlasSolution.OutputNuGetDir
+        nugetPackManually openBlasSolution [ openBlasWinPack ]
+    
+        // NuGet Sign (all or nothing)
+        if isSign then signNuGet fingerprint timeserver [openBlasSolution]
+    
+        )
+    "Prepare" ==> "OpenBlasWinBuild" |> ignore
+    
+    
+    // --------------------------------------------------------------------------------------
+    // TEST
+    // --------------------------------------------------------------------------------------
+    
+    let testNumerics framework = test "src/Numerics.Tests" "Numerics.Tests.csproj" framework
+    Target.create "TestNumerics" ignore
+    Target.create "TestNumericsNET50"  (fun _ -> testNumerics "net5.0")
+    Target.create "TestNumericsNET48" (fun _ -> testNumerics "net48")
+    "Build" ==> "TestNumericsNET50" ==> "TestNumerics" |> ignore
+    "Build" =?> ("TestNumericsNET48", Environment.isWindows) ==> "TestNumerics" |> ignore
+    let testFsharp framework = test "src/FSharp.Tests" "FSharp.Tests.fsproj" framework
+    Target.create "TestFsharp" ignore
+    Target.create "TestFsharpNET50" (fun _ -> testFsharp "net5.0")
+    Target.create "TestFsharpNET48" (fun _ -> testFsharp "net48")
+    "Build" ==> "TestFsharpNET50" ==> "TestFsharp" |> ignore
+    "Build" =?> ("TestFsharpNET48", Environment.isWindows) ==> "TestFsharp" |> ignore
+    let testData framework = test "src/Data.Tests" "Data.Tests.csproj" framework
+    Target.create "TestData" ignore
+    Target.create "TestDataNET50" (fun _ -> testData "net5.0")
+    Target.create "TestDataNET48" (fun _ -> testData "net48")
+    "Build" ==> "TestDataNET50" ==> "TestData" |> ignore
+    "Build" =?> ("TestDataNET48", Environment.isWindows) ==> "TestData" |> ignore
+    Target.create "Test" ignore
+    "TestNumerics" ==> "Test" |> ignore
+    "TestFsharp" ==> "Test" |> ignore
+    "TestData" ==> "Test" |> ignore
+    
+    let testMKL framework = test "src/Numerics.Tests" "Numerics.Tests.MKL.csproj" framework
+    Target.create "MklTest" ignore
+    Target.create "MklTestNET50" (fun _ -> testMKL "net5.0")
+    Target.create "MklTestNET48" (fun _ -> testMKL "net48")
+    "MklWinBuild" ==> "MklTestNET50" ==> "MklTest" |> ignore
+    "MklWinBuild" =?> ("MklTestNET48", Environment.isWindows) ==> "MklTest" |> ignore
+    
+    let testOpenBLAS framework = test "src/Numerics.Tests" "Numerics.Tests.OpenBLAS.csproj" framework
+    Target.create "OpenBlasTest" ignore
+    Target.create "OpenBlasTestNET50" (fun _ -> testOpenBLAS "net5.0")
+    Target.create "OpenBlasTestNET48" (fun _ -> testOpenBLAS "net48")
+    "OpenBlasWinBuild" ==> "OpenBlasTestNET50" ==> "OpenBlasTest" |> ignore
+    "OpenBlasWinBuild" =?> ("OpenBlasTestNET48", Environment.isWindows) ==> "OpenBlasTest" |> ignore
+    
+    let testCUDA framework = test "src/Numerics.Tests" "Numerics.Tests.CUDA.csproj" framework
+    Target.create "CudaTest" ignore
+    Target.create "CudaTestNET50" (fun _ -> testCUDA "net5.0")
+    Target.create "CudaTestNET48" (fun _ -> testCUDA "net48")
+    "CudaWinBuild" ==> "CudaTestNET50" ==> "CudaTest" |> ignore
+    "CudaWinBuild" =?> ("CudaTestNET48", Environment.isWindows) ==> "CudaTest" |> ignore
 
 
-// --------------------------------------------------------------------------------------
-// LINUX PACKAGES
-// --------------------------------------------------------------------------------------
-
-Target.create "MklLinuxPack" ignore
-
-Target.create "MklLinuxZip" (fun _ ->
-    Directory.create mklSolution.OutputZipDir
-    zip mklLinuxZipPackage mklSolution.OutputZipDir "out/MKL/Linux" (fun f -> f.Contains("MathNet.Numerics.Providers.MKL.") || f.Contains("MathNet.Numerics.MKL.") || f.Contains("libiomp5.so")))
-"MklLinuxZip" ==> "MklLinuxPack"
-
-Target.create "MklLinuxNuGet" (fun _ ->
-    Directory.create mklSolution.OutputNuGetDir
-    nugetPackManually mklSolution [ mklLinuxPack; mklLinux32Pack; mklLinux64Pack ])
-"MklLinuxNuGet" ==> "MklLinuxPack"
-
-
-// --------------------------------------------------------------------------------------
-// Documentation
-// --------------------------------------------------------------------------------------
-
-// DOCS
-
-Target.create "CleanDocs" (fun _ -> Shell.cleanDirs ["out/docs"])
-
-let extraDocs =
-    [ "LICENSE.md", "License.md"
-      "CONTRIBUTING.md", "Contributing.md"
-      "CONTRIBUTORS.md", "Contributors.md" ]
-
-Target.create "Docs" (fun _ ->
-    provideDocExtraFiles extraDocs releases
-    dotnet rootDir "fsdocs build --noapidocs --output out/docs")
-Target.create "DocsDev" (fun _ ->
-    provideDocExtraFiles extraDocs releases
-    dotnet rootDir "fsdocs build --noapidocs --output out/docs")
-Target.create "DocsWatch" (fun _ ->
-    provideDocExtraFiles extraDocs releases
-    dotnet rootDir "fsdocs build --noapidocs --output out/docs"
-    dotnet rootDir "fsdocs watch --noapidocs --output out/docs")
-
-"Build" ==> "CleanDocs" ==> "Docs"
-
-"Start"
-  =?> ("CleanDocs", not isIncremental)
-  ==> "DocsDev"
-  ==> "DocsWatch"
+    // --------------------------------------------------------------------------------------
+    // LINUX PACKAGES
+    // --------------------------------------------------------------------------------------
+    
+    Target.create "MklLinuxPack" ignore
+    
+    Target.create "MklLinuxZip" (fun _ ->
+        Directory.create mklSolution.OutputZipDir
+        zip mklLinuxZipPackage mklSolution.OutputZipDir "out/MKL/Linux" (fun f -> f.Contains("MathNet.Numerics.Providers.MKL.") || f.Contains("MathNet.Numerics.MKL.") || f.Contains("libiomp5.so")))
+    "MklLinuxZip" ==> "MklLinuxPack" |> ignore
+    
+    Target.create "MklLinuxNuGet" (fun _ ->
+        Directory.create mklSolution.OutputNuGetDir
+        nugetPackManually mklSolution [ mklLinuxPack; mklLinux32Pack; mklLinux64Pack ])
+    "MklLinuxNuGet" ==> "MklLinuxPack" |> ignore
+    
 
 
-// API REFERENCE
+    // --------------------------------------------------------------------------------------
+    // Documentation
+    // --------------------------------------------------------------------------------------
 
-Target.create "CleanApi" (fun _ -> Shell.cleanDirs ["out/api"])
+    // DOCS
 
-Target.create "Api" (fun _ ->
-    let result =
-        CreateProcess.fromRawCommandLine
-            "tools/docu/docu.exe"
-            ([
-                rootDir </> "src/Numerics/bin/Release/net461/MathNet.Numerics.dll" |> Path.getFullName
-                "--output=" + (rootDir </> "out/api/" |> Path.getFullName)
-                "--templates=" + (rootDir </> "tools/docu/templates/" |> Path.getFullName)
-             ] |> String.concat " ")
-        |> CreateProcess.withWorkingDirectory rootDir
-        |> CreateProcess.withTimeout (TimeSpan.FromMinutes 10.)
-        |> Proc.run
-    if result.ExitCode <> 0 then failwith "Error during API reference generation."    )
+    Target.create "CleanDocs" (fun _ -> Shell.cleanDirs ["out/docs"])
 
-"Build" ==> "CleanApi" ==> "Api"
+    let extraDocs =
+        [ "LICENSE.md", "License.md"
+          "CONTRIBUTING.md", "Contributing.md"
+          "CONTRIBUTORS.md", "Contributors.md" ]
 
+    Target.create "Docs" (fun _ ->
+        provideDocExtraFiles extraDocs releases
+        dotnet rootDir "fsdocs build --noapidocs --output out/docs")
+    Target.create "DocsDev" (fun _ ->
+        provideDocExtraFiles extraDocs releases
+        dotnet rootDir "fsdocs build --noapidocs --output out/docs")
+    Target.create "DocsWatch" (fun _ ->
+        provideDocExtraFiles extraDocs releases
+        dotnet rootDir "fsdocs build --noapidocs --output out/docs"
+        dotnet rootDir "fsdocs watch --noapidocs --output out/docs")
 
-// --------------------------------------------------------------------------------------
-// Publishing
-// Requires permissions; intended only for maintainers
-// --------------------------------------------------------------------------------------
+    "Build" ==> "CleanDocs" ==> "Docs" |> ignore
 
-Target.create "PublishTag" (fun _ -> publishReleaseTag "Math.NET Numerics" "" numericsRelease)
-Target.create "MklPublishTag" (fun _ -> publishReleaseTag "Math.NET Numerics MKL Provider" "mkl-" mklRelease)
-Target.create "CudaPublishTag" (fun _ -> publishReleaseTag "Math.NET Numerics CUDA Provider" "cuda-" cudaRelease)
-Target.create "OpenBlasPublishTag" (fun _ -> publishReleaseTag "Math.NET Numerics OpenBLAS Provider" "openblas-" openBlasRelease)
-
-Target.create "PublishDocs" (fun _ -> publishDocs numericsRelease)
-Target.create "PublishApi" (fun _ -> publishApi numericsRelease)
-
-Target.create "PublishArchive" (fun _ -> publishArchives [numericsSolution])
-Target.create "MklPublishArchive" (fun _ -> publishArchives [mklSolution])
-Target.create "CudaPublishArchive" (fun _ -> publishArchives [cudaSolution])
-Target.create "OpenBlasPublishArchive" (fun _ -> publishArchives [openBlasSolution])
-
-Target.create "PublishNuGet" (fun _ -> publishNuGet [numericsSolution])
-Target.create "MklPublishNuGet" (fun _ -> publishNuGet [mklSolution])
-Target.create "CudaPublishNuGet" (fun _ -> publishNuGet [cudaSolution])
-Target.create "OpenBlasPublishNuGet" (fun _ -> publishNuGet [openBlasSolution])
-
-Target.create "Publish" ignore
-"Publish" <== [ "PublishTag"; "PublishDocs"; "PublishApi"; "PublishArchive"; "PublishNuGet" ]
-
-Target.create "MklPublish" ignore
-"MklPublish" <== [ "MklPublishTag"; "PublishDocs"; "MklPublishArchive"; "MklPublishNuGet" ]
-
-Target.create "CudaPublish" ignore
-"CudaPublish" <== [ "CudaPublishTag"; "PublishDocs"; "CudaPublishArchive"; "CudaPublishNuGet" ]
-
-Target.create "OpenBlasPublish" ignore
-"OpenBlasPublish" <== [ "OpenBlasPublishTag"; "PublishDocs"; "OpenBlasPublishArchive"; "OpenBlasPublishNuGet" ]
+    "Start"
+      =?> ("CleanDocs", not isIncremental)
+      ==> "DocsDev"
+      ==> "DocsWatch"
+      |> ignore
 
 
-// --------------------------------------------------------------------------------------
-// Default Targets
-// --------------------------------------------------------------------------------------
+    // API REFERENCE
 
-Target.create "All" ignore
-"All" <== [ "Build"; "Docs"; "Api"; "Test" ]
+    Target.create "CleanApi" (fun _ -> Shell.cleanDirs ["out/api"])
 
-Target.create "MklWinAll" ignore
-"MklWinAll" <== [ "MklWinBuild"; "MklTest" ]
+    Target.create "Api" (fun _ ->
+        let result =
+            CreateProcess.fromRawCommandLine
+                "tools/docu/docu.exe"
+                ([
+                    rootDir </> "src/Numerics/bin/Release/net461/MathNet.Numerics.dll" |> Path.getFullName
+                    "--output=" + (rootDir </> "out/api/" |> Path.getFullName)
+                    "--templates=" + (rootDir </> "tools/docu/templates/" |> Path.getFullName)
+                 ] |> String.concat " ")
+            |> CreateProcess.withWorkingDirectory rootDir
+            |> CreateProcess.withTimeout (TimeSpan.FromMinutes 10.)
+            |> Proc.run
+        if result.ExitCode <> 0 then failwith "Error during API reference generation."    )
 
-Target.create "CudaWinAll" ignore
-"CudaWinAll" <== [ "CudaWinBuild"; "CudaTest" ]
+    "Build" ==> "CleanApi" ==> "Api" |> ignore
 
-Target.create "OpenBlasWinAll" ignore
-"OpenBlasWinAll" <== [ "OpenBlasWinBuild"; "OpenBlasTest" ]
 
-Target.runOrDefaultWithArguments "Test"
+    // --------------------------------------------------------------------------------------
+    // Publishing
+    // Requires permissions; intended only for maintainers
+    // --------------------------------------------------------------------------------------
+    
+    Target.create "PublishTag" (fun _ -> publishReleaseTag "Math.NET Numerics" "" numericsRelease)
+    Target.create "MklPublishTag" (fun _ -> publishReleaseTag "Math.NET Numerics MKL Provider" "mkl-" mklRelease)
+    Target.create "CudaPublishTag" (fun _ -> publishReleaseTag "Math.NET Numerics CUDA Provider" "cuda-" cudaRelease)
+    Target.create "OpenBlasPublishTag" (fun _ -> publishReleaseTag "Math.NET Numerics OpenBLAS Provider" "openblas-" openBlasRelease)
+    
+    Target.create "PublishDocs" (fun _ -> publishDocs numericsRelease)
+    Target.create "PublishApi" (fun _ -> publishApi numericsRelease)
+    
+    Target.create "PublishArchive" (fun _ -> publishArchives [numericsSolution])
+    Target.create "MklPublishArchive" (fun _ -> publishArchives [mklSolution])
+    Target.create "CudaPublishArchive" (fun _ -> publishArchives [cudaSolution])
+    Target.create "OpenBlasPublishArchive" (fun _ -> publishArchives [openBlasSolution])
+    
+    Target.create "PublishNuGet" (fun _ -> publishNuGet [numericsSolution])
+    Target.create "MklPublishNuGet" (fun _ -> publishNuGet [mklSolution])
+    Target.create "CudaPublishNuGet" (fun _ -> publishNuGet [cudaSolution])
+    Target.create "OpenBlasPublishNuGet" (fun _ -> publishNuGet [openBlasSolution])
+    
+    Target.create "Publish" ignore
+    "Publish" <== [ "PublishTag"; "PublishDocs"; "PublishApi"; "PublishArchive"; "PublishNuGet" ]
+    
+    Target.create "MklPublish" ignore
+    "MklPublish" <== [ "MklPublishTag"; "PublishDocs"; "MklPublishArchive"; "MklPublishNuGet" ]
+    
+    Target.create "CudaPublish" ignore
+    "CudaPublish" <== [ "CudaPublishTag"; "PublishDocs"; "CudaPublishArchive"; "CudaPublishNuGet" ]
+    
+    Target.create "OpenBlasPublish" ignore
+    "OpenBlasPublish" <== [ "OpenBlasPublishTag"; "PublishDocs"; "OpenBlasPublishArchive"; "OpenBlasPublishNuGet" ]
+
+
+    // --------------------------------------------------------------------------------------
+    // Default Targets
+    // --------------------------------------------------------------------------------------
+
+    Target.create "All" ignore
+    "All" <== [ "Build"; "Docs"; "Api"; "Test" ]
+    
+    Target.create "MklWinAll" ignore
+    "MklWinAll" <== [ "MklWinBuild"; "MklTest" ]
+    
+    Target.create "CudaWinAll" ignore
+    "CudaWinAll" <== [ "CudaWinBuild"; "CudaTest" ]
+    
+    Target.create "OpenBlasWinAll" ignore
+    "OpenBlasWinAll" <== [ "OpenBlasWinBuild"; "OpenBlasTest" ]
+
+
+[<EntryPoint>]
+let main argv =
+
+    argv
+    |> Array.toList
+    |> Context.FakeExecutionContext.Create false "build.fsx"
+    |> Context.RuntimeContext.Fake
+    |> Context.setExecutionContext
+
+    initTargets ()
+
+    Target.runOrDefaultWithArguments "Test"
+
+    0

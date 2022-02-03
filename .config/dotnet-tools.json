@@ -8,12 +8,6 @@
         "paket"
       ]
     },
-    "fake-cli": {
-      "version": "5.20.4",
-      "commands": [
-        "fake"
-      ]
-    },
     "fsharp.formatting.commandtool": {
       "version": "11.4.1",
       "commands": [

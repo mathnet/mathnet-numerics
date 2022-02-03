@@ -7,4 +7,4 @@ cd "$(dirname "$0")"
 
 dotnet tool restore
 dotnet paket restore
-dotnet fake run build.fsx -t "$@"
+FAKE_DETAILED_ERRORS=true dotnet run --project ./build/build.fsproj -- -t "$@"

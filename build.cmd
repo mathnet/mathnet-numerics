@@ -8,4 +8,4 @@ if errorlevel 1 (
   exit /b %errorlevel%
 )
 
-dotnet fake run build.fsx -t %*
+dotnet run --project ./build/build.fsproj -- -t %*
