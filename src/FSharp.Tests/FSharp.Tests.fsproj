@@ -38,7 +38,7 @@
         <PackageReference Include="System.ValueTuple" Version="4.5.0" Condition="'$(TargetFramework)' == 'net461'" />
         <PackageReference Include="NUnit" Version="3.13.2" />
         <PackageReference Include="NUnitLite" Version="3.13.2" />
-        <PackageReference Include="FsUnit" Version="4.1.0" />
+        <PackageReference Include="FsUnit" Version="4.2.0" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
         <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2">
             <PrivateAssets>all</PrivateAssets>
