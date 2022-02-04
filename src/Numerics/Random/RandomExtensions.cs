@@ -203,7 +203,7 @@ namespace MathNet.Numerics.Random
         public static IEnumerable<BigInteger> NextBigIntegerSequence(this System.Random rnd, BigInteger minInclusive, BigInteger maxExclusive)
         {
             BigInteger AbsoluteRange = maxExclusive - minInclusive;
-            int NumBytes = (int)Math.Ceiling(BigInteger.Log(AbsoluteRange, byte.MaxValue) * 2);
+            int NumBytes = (int)Math.Ceiling(BigInteger.Log(AbsoluteRange, byte.MaxValue) * 2) + 1;
             byte[] ByteSequence = Enumerable.Repeat(byte.MaxValue, NumBytes + 1).ToArray();
             ByteSequence[NumBytes] = 0;
             BigInteger RandomNumber = new BigInteger(ByteSequence);
