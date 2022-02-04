@@ -15,14 +15,13 @@ let header = """
 open FSharp.Core
 open Fake.Core
 open Fake.Core.TargetOperators
+open Fake.DotNet
 open Fake.IO
 open Fake.IO.FileSystemOperators
 open Fake.IO.Globbing.Operators
 open System
 
 open Model
-open Dotnet
-open Preparing
 open Building
 open Testing
 open Packaging
@@ -174,13 +173,13 @@ let ``Clean`` _ =
     allSolutions |> List.iter (fun solution -> Shell.cleanDirs [ solution.OutputZipDir; solution.OutputNuGetDir; solution.OutputLibDir; solution.OutputLibStrongNameDir ])
 
 let ``Apply Version`` _ =
-    allProjects |> List.iter patchVersionInProjectFile
-    patchVersionInResource "src/NativeProviders/MKL/resource.rc" mklRelease
-    patchVersionInResource "src/NativeProviders/CUDA/resource.rc" cudaRelease
-    patchVersionInResource "src/NativeProviders/OpenBLAS/resource.rc" openBlasRelease
+    allProjects |> List.iter Versioning.updateProject
+    Versioning.updateNativeResource "src/NativeProviders/MKL/resource.rc" mklRelease
+    Versioning.updateNativeResource "src/NativeProviders/CUDA/resource.rc" cudaRelease
+    Versioning.updateNativeResource "src/NativeProviders/OpenBLAS/resource.rc" openBlasRelease
 
 let ``Restore`` _ =
-    allSolutions |> List.iter restoreWeak
+    allSolutions |> List.iter restore
     
 let fingerprint = "490408de3618bed0a28e68dc5face46e5a3a97dd"
 let timeserver = "http://time.certum.pl/"
@@ -190,22 +189,22 @@ let ``Build`` isStrongname isSign _ =
     // Strong Name Build (with strong name, without certificate signature)
     if isStrongname then
         Shell.cleanDirs (!! "src/**/obj/" ++ "src/**/bin/" )
-        restoreStrong numericsSolution
-        buildStrong numericsSolution
+        restore numericsSolution
+        buildStrongNamed numericsSolution
         if isSign then sign fingerprint timeserver numericsSolution
         collectBinariesSN numericsSolution
         zip numericsStrongNameZipPackage header numericsSolution.OutputZipDir numericsSolution.OutputLibStrongNameDir (fun f -> f.Contains("MathNet.Numerics.") || f.Contains("System.Threading.") || f.Contains("FSharp.Core."))
-        packStrong numericsSolution
+        packStrongNamed numericsSolution
         collectNuGetPackages numericsSolution
     
     // Normal Build (without strong name, with certificate signature)
     Shell.cleanDirs (!! "src/**/obj/" ++ "src/**/bin/" )
-    restoreWeak numericsSolution
-    buildWeak numericsSolution
+    restore numericsSolution
+    build numericsSolution
     if isSign then sign fingerprint timeserver numericsSolution
     collectBinaries numericsSolution
     zip numericsZipPackage header numericsSolution.OutputZipDir numericsSolution.OutputLibDir (fun f -> f.Contains("MathNet.Numerics.") || f.Contains("System.Threading.") || f.Contains("FSharp.Core."))
-    packWeak numericsSolution
+    pack numericsSolution
     collectNuGetPackages numericsSolution
     
     // NuGet Sign (all or nothing)
@@ -220,7 +219,7 @@ let ``Build MKL Windows`` isIncremental isSign _ =
     //    |> Proc.run
     //if result.ExitCode <> 0 then failwith "Error while setting oneAPI environment variables."
     
-    restoreWeak mklSolution
+    restore mklSolution
     buildVS2019x86 "Release-MKL" isIncremental !! "MathNet.Numerics.MKL.sln"
     buildVS2019x64 "Release-MKL" isIncremental !! "MathNet.Numerics.MKL.sln"
     Directory.create mklSolution.OutputZipDir
@@ -233,7 +232,7 @@ let ``Build MKL Windows`` isIncremental isSign _ =
 
 let ``Build CUDA Windows`` isIncremental isSign _ =
 
-    restoreWeak cudaSolution
+    restore cudaSolution
     buildVS2019x64 "Release-CUDA" isIncremental !! "MathNet.Numerics.CUDA.sln"
     Directory.create cudaSolution.OutputZipDir
     zip cudaWinZipPackage header cudaSolution.OutputZipDir "out/CUDA/Windows" (fun f -> f.Contains("MathNet.Numerics.Providers.CUDA.") || f.Contains("MathNet.Numerics.CUDA.") || f.Contains("cublas") || f.Contains("cudart") || f.Contains("cusolver"))
@@ -245,7 +244,7 @@ let ``Build CUDA Windows`` isIncremental isSign _ =
 
 let ``Build OpenBLAS Windows`` isIncremental isSign _ =
     
-    restoreWeak openBlasSolution
+    restore openBlasSolution
     buildVS2019x86 "Release-OpenBLAS" isIncremental !! "MathNet.Numerics.OpenBLAS.sln"
     buildVS2019x64 "Release-OpenBLAS" isIncremental !! "MathNet.Numerics.OpenBLAS.sln"
     Directory.create openBlasSolution.OutputZipDir
@@ -277,7 +276,7 @@ let extraDocs =
       "CONTRIBUTORS.md", "Contributors.md" ]
 
 let ``Docs Clean`` _ =
-     Shell.cleanDirs ["out/docs"]
+    Shell.cleanDirs ["out/docs"]
 
 let ``Docs Build`` _ =
     provideDocExtraFiles extraDocs releases
@@ -438,6 +437,7 @@ let initTargets strongname sign incremental =
 [<EntryPoint>]
 let main argv =
 
+    Environment.CurrentDirectory <- Path.getFullName (__SOURCE_DIRECTORY__ </> "..")
     Trace.log Environment.CurrentDirectory
 
     argv
@@ -466,7 +466,7 @@ let main argv =
     if isIncremental then Trace.log " Option: Incremental"
     Trace.log ""
 
-    dotnet "--info"
+    DotNet.exec id "--info" "" |> ignore<ProcessResult>
     Trace.log ""
 
     initTargets isStrongname isSign isIncremental

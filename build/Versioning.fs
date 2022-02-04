@@ -1,4 +1,4 @@
-﻿module Preparing
+﻿module Versioning
 
 open FSharp.Core
 open Fake.Core
@@ -11,15 +11,15 @@ let private getRegexSingleLine pattern =
     match regexes_sl.TryGetValue pattern with
     | true, regex -> regex
     | _ -> (System.Text.RegularExpressions.Regex(pattern, System.Text.RegularExpressions.RegexOptions.Singleline))
-let regex_replace_singleline pattern (replacement : string) text = (getRegexSingleLine pattern).Replace(text, replacement)
+let private regex_replace_singleline pattern (replacement : string) text = (getRegexSingleLine pattern).Replace(text, replacement)
 
-let patchVersionInResource path (release:Release) =
+let updateNativeResource path (release:Release) =
     File.applyReplace
         (String.regex_replace @"\d+\.\d+\.\d+\.\d+" release.AssemblyVersion
          >> String.regex_replace @"\d+,\d+,\d+,\d+" (String.replace "." "," release.AssemblyVersion))
         path
 
-let patchVersionInProjectFile (project:Project) =
+let updateProject (project:Project) =
     match project with
     | VisualStudio p ->
         let semverSplit = p.Release.PackageVersion.IndexOf('-')

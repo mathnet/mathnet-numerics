@@ -8,8 +8,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Model.fs" />
-    <Compile Include="Dotnet.fs" />
-    <Compile Include="Preparing.fs" />
+    <Compile Include="Versioning.fs" />
     <Compile Include="Building.fs" />
     <Compile Include="Testing.fs" />
     <Compile Include="Packaging.fs" />

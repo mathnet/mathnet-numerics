@@ -3,42 +3,25 @@
 open FSharp.Core
 open Fake.Core
 open Fake.DotNet
+open Fake.DotNet.DotNet.Options
 open Fake.IO.FileSystemOperators
 
 open Model
 
+let inline private minimal p = withVerbosity (Some DotNet.Verbosity.Minimal) p
+let inline private buildOptions args (p:DotNet.BuildOptions) = { p with NoRestore = true; MSBuildParams = args }
+let inline private packOptions args (p:DotNet.PackOptions) = { p with NoRestore = true; MSBuildParams = args }
 
-let private dotnet command =
-    DotNet.exec id command "" |> ignore<ProcessResult>
+let private normal = { MSBuild.CliArguments.Create() with NodeReuse = false; Properties = [ ("StrongName", "False") ] }
+let private strongNamed = { MSBuild.CliArguments.Create() with NodeReuse = false; Properties = [ ("StrongName", "True") ] }
+   
+let restore (solution:Solution) = DotNet.restore minimal solution.SolutionFile
 
-let private dotnetWeak command =
-    let properties = [ ("StrongName", "False") ]
-    let suffix = properties |> List.map (fun (name, value) -> sprintf """ /p:%s="%s" /nr:false """ name value) |> String.concat ""
-    DotNet.exec id command suffix |> ignore<ProcessResult>
+let build (solution:Solution) = DotNet.build (minimal >> buildOptions normal) solution.SolutionFile
+let buildStrongNamed (solution:Solution) = DotNet.build (minimal >> buildOptions strongNamed) solution.SolutionFile
 
-let private dotnetStrong command =
-    let properties = [ ("StrongName", "True") ]
-    let suffix = properties |> List.map (fun (name, value) -> sprintf """ /p:%s="%s" /nr:false """ name value) |> String.concat ""
-    DotNet.exec id command suffix |> ignore<ProcessResult>
-
-
-let clean (solution:Solution) = dotnet (sprintf "clean %s --configuration Release --verbosity minimal" solution.SolutionFile)
-
-let restoreWeak (solution:Solution) = dotnetWeak (sprintf "restore %s --verbosity minimal" solution.SolutionFile)
-let restoreStrong (solution:Solution) = dotnetStrong (sprintf "restore %s --verbosity minimal" solution.SolutionFile)
-
-let buildWeak (solution:Solution) = dotnetWeak (sprintf "build %s --configuration Release --no-incremental --no-restore --verbosity minimal" solution.SolutionFile)
-let buildStrong (solution:Solution) = dotnetStrong (sprintf "build %s --configuration Release --no-incremental --no-restore --verbosity minimal" solution.SolutionFile)
-
-let packWeak (solution:Solution) = dotnetWeak (sprintf "pack %s --configuration Release --no-restore --verbosity minimal" solution.SolutionFile)
-let packStrong (solution:Solution) = dotnetStrong (sprintf "pack %s --configuration Release --no-restore --verbosity minimal" solution.SolutionFile)
-
-let packProjectWeak = function
-    | VisualStudio p -> dotnetWeak (sprintf "pack %s --configuration Release --no-restore --no-build" p.ProjectFile)
-    | _ -> failwith "Project type not supported"
-let packProjectStrong = function
-    | VisualStudio p -> dotnetStrong (sprintf "pack %s --configuration Release --no-restore --no-build" p.ProjectFile)
-    | _ -> failwith "Project type not supported"
+let pack (solution:Solution) = DotNet.pack (minimal >> packOptions normal) solution.SolutionFile
+let packStrongNamed (solution:Solution) =DotNet.pack (minimal >> packOptions strongNamed) solution.SolutionFile
 
 let buildVS2019x86 config isIncremental subject =
     MSBuild.run

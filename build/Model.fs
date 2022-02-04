@@ -113,12 +113,6 @@ let nativeBashScriptProject binaryName bashScriptFile nuGetPackages =
       Release = nuGetPackages |> List.map (fun p -> p.Release) |> List.distinct |> List.exactlyOne }
     |> Project.NativeBashScript
 
-
-let projectOutputDir = function
-    | VisualStudio p -> p.OutputDir
-    | NativeVisualStudio p -> p.OutputDir
-    | NativeBashScript p -> p.OutputDir
-
 let projectRelease = function
     | VisualStudio p -> p.Release
     | NativeVisualStudio p -> p.Release
