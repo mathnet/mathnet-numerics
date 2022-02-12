@@ -180,7 +180,7 @@ let ``Apply Version`` _ =
 
 let ``Restore`` _ =
     allSolutions |> List.iter restore
-    
+
 let fingerprint = "490408de3618bed0a28e68dc5face46e5a3a97dd"
 let timeserver = "http://time.certum.pl/"
 
@@ -196,7 +196,7 @@ let ``Build`` isStrongname isSign _ =
         zip numericsStrongNameZipPackage header numericsSolution.OutputZipDir numericsSolution.OutputLibStrongNameDir (fun f -> f.Contains("MathNet.Numerics.") || f.Contains("System.Threading.") || f.Contains("FSharp.Core."))
         packStrongNamed numericsSolution
         collectNuGetPackages numericsSolution
-    
+
     // Normal Build (without strong name, with certificate signature)
     Shell.cleanDirs (!! "src/**/obj/" ++ "src/**/bin/" )
     restore numericsSolution
@@ -206,7 +206,7 @@ let ``Build`` isStrongname isSign _ =
     zip numericsZipPackage header numericsSolution.OutputZipDir numericsSolution.OutputLibDir (fun f -> f.Contains("MathNet.Numerics.") || f.Contains("System.Threading.") || f.Contains("FSharp.Core."))
     pack numericsSolution
     collectNuGetPackages numericsSolution
-    
+
     // NuGet Sign (all or nothing)
     if isSign then signNuGet fingerprint timeserver [numericsSolution]
 
@@ -218,40 +218,40 @@ let ``Build MKL Windows`` isIncremental isSign _ =
     //    |> CreateProcess.withTimeout (TimeSpan.FromMinutes 10.)
     //    |> Proc.run
     //if result.ExitCode <> 0 then failwith "Error while setting oneAPI environment variables."
-    
+
     restore mklSolution
-    buildVS2019x86 "Release-MKL" isIncremental !! "MathNet.Numerics.MKL.sln"
-    buildVS2019x64 "Release-MKL" isIncremental !! "MathNet.Numerics.MKL.sln"
+    buildVS2022x86 "Release-MKL" isIncremental !! "MathNet.Numerics.MKL.sln"
+    buildVS2022x64 "Release-MKL" isIncremental !! "MathNet.Numerics.MKL.sln"
     Directory.create mklSolution.OutputZipDir
     zip mklWinZipPackage header mklSolution.OutputZipDir "out/MKL/Windows" (fun f -> f.Contains("MathNet.Numerics.Providers.MKL.") || f.Contains("MathNet.Numerics.MKL.") || f.Contains("libiomp5md.dll"))
     Directory.create mklSolution.OutputNuGetDir
     nugetPackManually mklSolution [ mklWinPack; mklWin32Pack; mklWin64Pack ] header
-    
+
     // NuGet Sign (all or nothing)
     if isSign then signNuGet fingerprint timeserver [mklSolution]
 
 let ``Build CUDA Windows`` isIncremental isSign _ =
 
     restore cudaSolution
-    buildVS2019x64 "Release-CUDA" isIncremental !! "MathNet.Numerics.CUDA.sln"
+    buildVS2022x64 "Release-CUDA" isIncremental !! "MathNet.Numerics.CUDA.sln"
     Directory.create cudaSolution.OutputZipDir
     zip cudaWinZipPackage header cudaSolution.OutputZipDir "out/CUDA/Windows" (fun f -> f.Contains("MathNet.Numerics.Providers.CUDA.") || f.Contains("MathNet.Numerics.CUDA.") || f.Contains("cublas") || f.Contains("cudart") || f.Contains("cusolver"))
     Directory.create cudaSolution.OutputNuGetDir
     nugetPackManually cudaSolution [ cudaWinPack ] header
-    
+
     // NuGet Sign (all or nothing)
     if isSign then signNuGet fingerprint timeserver [cudaSolution]
 
 let ``Build OpenBLAS Windows`` isIncremental isSign _ =
-    
+
     restore openBlasSolution
-    buildVS2019x86 "Release-OpenBLAS" isIncremental !! "MathNet.Numerics.OpenBLAS.sln"
-    buildVS2019x64 "Release-OpenBLAS" isIncremental !! "MathNet.Numerics.OpenBLAS.sln"
+    buildVS2022x86 "Release-OpenBLAS" isIncremental !! "MathNet.Numerics.OpenBLAS.sln"
+    buildVS2022x64 "Release-OpenBLAS" isIncremental !! "MathNet.Numerics.OpenBLAS.sln"
     Directory.create openBlasSolution.OutputZipDir
     zip openBlasWinZipPackage header openBlasSolution.OutputZipDir "out/OpenBLAS/Windows" (fun f -> f.Contains("MathNet.Numerics.Providers.OpenBLAS.") || f.Contains("MathNet.Numerics.OpenBLAS.") || f.Contains("libgcc") || f.Contains("libgfortran") || f.Contains("libopenblas") || f.Contains("libquadmath"))
     Directory.create openBlasSolution.OutputNuGetDir
     nugetPackManually openBlasSolution [ openBlasWinPack ] header
-    
+
     // NuGet Sign (all or nothing)
     if isSign then signNuGet fingerprint timeserver [openBlasSolution]
 
@@ -320,7 +320,7 @@ let initTargets strongname sign incremental =
     "Start" =?> ("Clean", not incremental) ==> "Restore" |> ignore
     Target.create "Prepare" ignore
     "Start" =?> ("Clean", not incremental) ==> "ApplyVersion" ==> "Prepare" |> ignore
-    
+
     // BUILD, SIGN, COLLECT
     Target.create "Build" (``Build`` strongname sign)
     "Prepare" ==> "Build" |> ignore
@@ -330,7 +330,7 @@ let initTargets strongname sign incremental =
     "Prepare" ==> "CudaWinBuild" |> ignore
     Target.create "OpenBlasWinBuild" (``Build OpenBLAS Windows`` incremental sign)
     "Prepare" ==> "OpenBlasWinBuild" |> ignore
-    
+
     // TEST
     Target.create "TestNumerics" ignore
     Target.create "TestNumericsNET50" (``Test Numerics`` "net5.0")
@@ -419,13 +419,13 @@ let initTargets strongname sign incremental =
 
     Target.create "All" ignore
     "All" <== [ "Build"; "Docs"; "Api"; "Test" ]
-    
+
     Target.create "MklWinAll" ignore
     "MklWinAll" <== [ "MklWinBuild"; "MklTest" ]
-    
+
     Target.create "CudaWinAll" ignore
     "CudaWinAll" <== [ "CudaWinBuild"; "CudaTest" ]
-    
+
     Target.create "OpenBlasWinAll" ignore
     "OpenBlasWinAll" <== [ "OpenBlasWinBuild"; "OpenBlasTest" ]
 
@@ -460,7 +460,7 @@ let main argv =
             args |> Seq.contains "--sign" && Environment.isWindows,
             args |> Seq.contains "--incremental"
         | None -> false, false, false
-        
+
     if isStrongname then Trace.log " Option: Strongnamed"
     if isSign then Trace.log " Option: Signed"
     if isIncremental then Trace.log " Option: Incremental"

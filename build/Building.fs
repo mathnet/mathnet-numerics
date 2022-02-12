@@ -14,7 +14,7 @@ let inline private packOptions args (p:DotNet.PackOptions) = { p with NoRestore 
 
 let private normal = { MSBuild.CliArguments.Create() with NodeReuse = false; Properties = [ ("StrongName", "False") ] }
 let private strongNamed = { MSBuild.CliArguments.Create() with NodeReuse = false; Properties = [ ("StrongName", "True") ] }
-   
+
 let restore (solution:Solution) = DotNet.restore minimal solution.SolutionFile
 
 let build (solution:Solution) = DotNet.build (minimal >> buildOptions normal) solution.SolutionFile
@@ -23,17 +23,17 @@ let buildStrongNamed (solution:Solution) = DotNet.build (minimal >> buildOptions
 let pack (solution:Solution) = DotNet.pack (minimal >> packOptions normal) solution.SolutionFile
 let packStrongNamed (solution:Solution) = DotNet.pack (minimal >> packOptions strongNamed) solution.SolutionFile
 
-let buildVS2019x86 config isIncremental subject =
+let buildVS2022x86 config isIncremental subject =
     MSBuild.run
-        (fun p -> {p with ToolPath = Environment.environVar "VS2019INSTALLDIR" </> @"MSBuild\Current\Bin\MSBuild.exe"})
+        (fun p -> {p with ToolPath = Environment.environVar "VS2022INSTALLDIR" </> @"MSBuild\Current\Bin\MSBuild.exe"})
         ""
         (if isIncremental then "Build" else "Rebuild")
         [("Configuration", config); ("Platform","Win32")]
         subject
         |> ignore<string list>
-let buildVS2019x64 config isIncremental subject =
+let buildVS2022x64 config isIncremental subject =
     MSBuild.run
-        (fun p -> {p with ToolPath = Environment.environVar "VS2019INSTALLDIR" </> @"MSBuild\Current\Bin\MSBuild.exe"})
+        (fun p -> {p with ToolPath = Environment.environVar "VS2022INSTALLDIR" </> @"MSBuild\Current\Bin\MSBuild.exe"})
         ""
         (if isIncremental then "Build" else "Rebuild")
         [("Configuration", config); ("Platform","x64")]

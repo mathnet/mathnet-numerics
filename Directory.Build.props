@@ -15,6 +15,11 @@
         <StrongName Condition="'$(StrongName)' == ''">False</StrongName>
         <PackageIdSuffix Condition="'$(PackageIdSuffix)' == ''"></PackageIdSuffix>
         <TitleSuffix Condition="'$(TitleSuffix)' == ''"></TitleSuffix>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+        <Nullable>disable</Nullable>
+        <EnableNETAnalyzers>True</EnableNETAnalyzers>
+        <AnalysisLevel>5.0</AnalysisLevel>
     </PropertyGroup>
     <PropertyGroup Condition="'$(StrongName)'=='True'">
         <SignAssembly>true</SignAssembly>

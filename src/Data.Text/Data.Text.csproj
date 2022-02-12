@@ -42,15 +42,17 @@ Control.Describe now includes CPU architecture and family identifier if know</Pa
         <NeutralLanguage>en</NeutralLanguage>
         <NoPackageAnalysis>false</NoPackageAnalysis>
         <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-        <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <EnableDefaultCompileItems>true</EnableDefaultCompileItems>
         <NoWarn>1701;1702;1705;1591;1573</NoWarn>
-        <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     </PropertyGroup>
     <ItemGroup>
         <ProjectReference Include="..\Numerics\Numerics.csproj" />
     </ItemGroup>
     <ItemGroup>
+      <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="6.0.0">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
       <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

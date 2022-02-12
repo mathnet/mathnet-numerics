@@ -37,12 +37,14 @@ Data: now released always together with Numerics (no longer separate versioning)
 Control.Describe now includes CPU architecture and family identifier if know</PackageReleaseNotes>
     <PackageTags>math numeric statistics probability integration interpolation regression solve fit linear algebra matrix fft</PackageTags>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <EnableDefaultCompileItems>true</EnableDefaultCompileItems>
     <NoWarn>1701;1702;1705;1591;1573</NoWarn>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
     <ItemGroup>
+      <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="6.0.0">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
       <PackageReference Include="System.ValueTuple" Version="4.4.0" Condition="'$(TargetFramework)' == 'net461'" />
       <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2">
           <PrivateAssets>all</PrivateAssets>

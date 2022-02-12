@@ -9,7 +9,7 @@
         <IsPackable>false</IsPackable>
         <VersionPrefix>5.0.0</VersionPrefix>
         <VersionSuffix>alpha02</VersionSuffix>
-        <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+        <GenerateDocumentationFile>false</GenerateDocumentationFile>
     </PropertyGroup>
     <ItemGroup>
         <ProjectReference Include="..\Numerics\Numerics.csproj" />

@@ -37,10 +37,8 @@ Data: now released always together with Numerics (no longer separate versioning)
 Control.Describe now includes CPU architecture and family identifier if know</PackageReleaseNotes>
         <PackageTags>fsharp F# math numeric statistics probability integration interpolation regression solve fit linear algebra matrix fft</PackageTags>
         <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-        <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
         <NoWarn>2003;NU1604</NoWarn>
-        <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     </PropertyGroup>
     <ItemGroup>
         <ProjectReference Include="..\Numerics\Numerics.csproj" />
