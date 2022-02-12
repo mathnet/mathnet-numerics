@@ -21,7 +21,7 @@ let build (solution:Solution) = DotNet.build (minimal >> buildOptions normal) so
 let buildStrongNamed (solution:Solution) = DotNet.build (minimal >> buildOptions strongNamed) solution.SolutionFile
 
 let pack (solution:Solution) = DotNet.pack (minimal >> packOptions normal) solution.SolutionFile
-let packStrongNamed (solution:Solution) =DotNet.pack (minimal >> packOptions strongNamed) solution.SolutionFile
+let packStrongNamed (solution:Solution) = DotNet.pack (minimal >> packOptions strongNamed) solution.SolutionFile
 
 let buildVS2019x86 config isIncremental subject =
     MSBuild.run
