@@ -1,4 +1,4 @@
-### 5.0.0-alpha08 - 2021-12-23
+### 5.0.0-alpha09 - 2022-02-13
 * COMPATIBILITY: net5.0, net48 better supported with explicit builds
 * COMPATIBILITY: netstandard1.x, net40, net45 no longer supported
 * BREAKING: drop all which was marked as obsolete
@@ -6,12 +6,15 @@
 * BREAKING: switch many usages of tuples to value tuples (experimental)
 * Distributions: Logistic *~Bobby Ingram*
 * Distributions: Perf: Cauchy avoid duplicate evaluation *~Febin*
+* Random: NextBigIngegerSequence *~Silver-Fang*
+* Random: xoshiro256StarStar fix out of range exception *~Charlie Turndorf*
 * Precision: Perf: pre-compute negative powers *~Febin*
 * Optimizations: Remove static properties in LevenbergMarquardtMinimizer *~Jong Hyun Kim*
 * Root Finding: Newton-Raphson better handling of zero-evaluations
 * Fit.Curve and FindMinimum extended to accept two more parameters
 * Fixed an index out of bounds issue when calculating BFGS minimizer with one variable *~Shiney*
-* Marcum-Q function *~CHUTORO*
+* Fixed Sparse COO NormalizeDuplicates *~Mohamed Moussa*
+* Marcum-Q and Log1p functions *~CHUTORO*
 * Series: stable series summation
 * Providers: binary names and loading changes to follow conventions and better x-plat
 * Providers: drop managed reference linear algebra provider
