@@ -175,6 +175,7 @@ pseudo-random distributed numbers for types other than double and int32.
 
 			<h3 class="section">Static Functions</h3>
 			<ul>
+				<li><a href="../MathNet.Numerics.Random/RandomExtensions.htm#NextBigIntegerSequence">NextBigIntegerSequence</a></li>
 				<li><a href="../MathNet.Numerics.Random/RandomExtensions.htm#NextBoolean">NextBoolean</a></li>
 				<li><a href="../MathNet.Numerics.Random/RandomExtensions.htm#NextBytes">NextBytes</a></li>
 				<li><a href="../MathNet.Numerics.Random/RandomExtensions.htm#NextDecimal">NextDecimal</a></li>
@@ -197,6 +198,18 @@ pseudo-random distributed numbers for types other than double and int32.
 	
 	<h3 class="section">Public Static Functions</h3>
 	
+	<div id="NextBigIntegerSequence" class="method">
+		<h4><span title="System.Collections.Generic.IEnumerable<BigInteger>">IEnumerable&lt;BigInteger&gt;</span> <strong>NextBigIntegerSequence</strong>(this <span title="System.Random">Random</span> rnd, <span title="System.Numerics.BigInteger">BigInteger</span> minInclusive, <span title="System.Numerics.BigInteger">BigInteger</span> maxExclusive)</h4>
+		<div class="content">Returns an infinite sequence of uniform random  <span title="System.Numerics.BigInteger">BigInteger</span>  within the specified range. <blockquote class="remarks">
+  This extension is thread-safe if and only if called on an random number
+generator provided by Math.NET Numerics or derived from the RandomSource class. 
+</blockquote>
+
+
+
+      
+    </div>
+	</div>
 	<div id="NextBoolean" class="method">
 		<h4><span title="System.bool">bool</span> <strong>NextBoolean</strong>(this <span title="System.Random">Random</span> rnd)</h4>
 		<div class="content">Returns a random boolean. <blockquote class="remarks">
@@ -403,7 +416,7 @@ generator provided by Math.NET Numerics or derived from the RandomSource class.
 	</div>
 	<div id="NextInt32Sequence" class="method">
 		<h4><span title="System.Collections.Generic.IEnumerable<int>">IEnumerable&lt;int&gt;</span> <strong>NextInt32Sequence</strong>(this <span title="System.Random">Random</span> rnd, <span title="System.int">int</span> minInclusive, <span title="System.int">int</span> maxExclusive)</h4>
-		<div class="content">Returns an infinite sequence of uniform random numbers greater than or equal to 0.0 and less than 1.0. <blockquote class="remarks">
+		<div class="content">Returns an infinite sequence of uniform random 32-bit signed integers within the specified range. <blockquote class="remarks">
   This extension is thread-safe if and only if called on an random number
 generator provided by Math.NET Numerics or derived from the RandomSource class. 
 </blockquote>
