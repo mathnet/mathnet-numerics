@@ -6,7 +6,7 @@
     <title>IF# Notebook
 </title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="author" content="">
+    <meta name="author" content="Christoph Ruegg, Marcus Cuda, Jurgen Van Gael">
 
     <link rel="stylesheet" id="theme_link" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.6.0/materia/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -15,10 +15,10 @@
     <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
-    <link type="text/css" rel="stylesheet" href="/mathnet-numerics/content/navbar-fixed-left.css" />
-    <link type="text/css" rel="stylesheet" href="/mathnet-numerics/content/fsdocs-default.css" />
-    <link type="text/css" rel="stylesheet" href="/mathnet-numerics/content/fsdocs-custom.css" />
-    <script type="text/javascript" src="/mathnet-numerics/content/fsdocs-tips.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://numerics.mathdotnet.com/content/navbar-fixed-left.css" />
+    <link type="text/css" rel="stylesheet" href="https://numerics.mathdotnet.com/content/fsdocs-default.css" />
+    <link type="text/css" rel="stylesheet" href="https://numerics.mathdotnet.com/content/fsdocs-custom.css" />
+    <script type="text/javascript" src="https://numerics.mathdotnet.com/content/fsdocs-tips.js"></script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -35,7 +35,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse navbar-nav-scroll" id="navbarsExampleDefault">
-            <a href="/mathnet-numerics/"><img id="fsdocs-logo" src="/mathnet-numerics/img/logo.png" /></a>
+            <a href="https://numerics.mathdotnet.com/"><img id="fsdocs-logo" src="/logo.png" /></a>
             <!-- BEGIN SEARCH BOX: this adds support for the search box -->
             <div id="header">
                 <div class="searchbox" id="fsdocs-searchbox">
@@ -200,8 +200,8 @@ type float = System.Double<br /><em>&lt;summary&gt;An abbreviation for the CLI t
  The unit of measure is erased in compiled code and when values of this type
  are analyzed using reflection. The type is representationally equivalent to 
  &lt;see cref=&quot;T:System.Double&quot; /&gt;.&lt;/summary&gt;<br />&lt;category index=&quot;6&quot;&gt;Basic Types with Units of Measure&lt;/category&gt;</em></div>
-<div class="fsdocs-tip" id="fs4">union case Option.Some: Value: &#39;T -&gt; Option&lt;&#39;T&gt;<br /><em>&lt;summary&gt;The representation of &quot;Value of type &#39;T&quot;&lt;/summary&gt;<br />&lt;param name=&quot;Value&quot;&gt;The input value.&lt;/param&gt;<br />&lt;returns&gt;An option representing the value.&lt;/returns&gt;</em></div>
-<div class="fsdocs-tip" id="fs5">union case Option.None: Option&lt;&#39;T&gt;<br /><em>&lt;summary&gt;The representation of &quot;No value&quot;&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs4">Union-Fall Option.Some: Value: &#39;T -&gt; Option&lt;&#39;T&gt;<br /><em>&lt;summary&gt;The representation of &quot;Value of type &#39;T&quot;&lt;/summary&gt;<br />&lt;param name=&quot;Value&quot;&gt;The input value.&lt;/param&gt;<br />&lt;returns&gt;An option representing the value.&lt;/returns&gt;</em></div>
+<div class="fsdocs-tip" id="fs5">Union-Fall Option.None: Option&lt;&#39;T&gt;<br /><em>&lt;summary&gt;The representation of &quot;No value&quot;&lt;/summary&gt;</em></div>
 <div class="fsdocs-tip" id="fs6">Multiple items<br />val float32 : value:&#39;T -&gt; float32 (requires member op_Explicit)<br /><em>&lt;summary&gt;Converts the argument to 32-bit float. This is a direct conversion for all 
  primitive numeric types. For strings, the input is converted using &lt;c&gt;Single.Parse()&lt;/c&gt;  
  with InvariantCulture settings. Otherwise the operation requires an appropriate
@@ -220,22 +220,22 @@ type bool = System.Boolean<br /><em>&lt;summary&gt;An abbreviation for the CLI t
 <div class="fsdocs-tip" id="fs11">val formatMathValue : floatFormat:string -&gt; _arg1:&#39;a -&gt; string (requires member IsNaN and member IsPositiveInfinity and member IsNegativeInfinity)</div>
 <div class="fsdocs-tip" id="fs12">val floatFormat : string</div>
 <div class="fsdocs-tip" id="fs13">Multiple items<br />val string : value:&#39;T -&gt; string<br /><em>&lt;summary&gt;Converts the argument to a string using &lt;c&gt;ToString&lt;/c&gt;.&lt;/summary&gt;<br />&lt;remarks&gt;For standard integer and floating point values the and any type that implements &lt;c&gt;IFormattable&lt;/c&gt;&lt;c&gt;ToString&lt;/c&gt; conversion uses &lt;c&gt;CultureInfo.InvariantCulture&lt;/c&gt;. &lt;/remarks&gt;<br />&lt;param name=&quot;value&quot;&gt;The input value.&lt;/param&gt;<br />&lt;returns&gt;The converted string.&lt;/returns&gt;</em><br /><br />--------------------<br />type string = System.String<br /><em>&lt;summary&gt;An abbreviation for the CLI type &lt;see cref=&quot;T:System.String&quot; /&gt;.&lt;/summary&gt;<br />&lt;category&gt;Basic Types&lt;/category&gt;</em></div>
-<div class="fsdocs-tip" id="fs14">active recognizer PositiveInfinity: &#39;T -&gt; unit option</div>
-<div class="fsdocs-tip" id="fs15">active recognizer NegativeInfinity: &#39;T -&gt; unit option</div>
-<div class="fsdocs-tip" id="fs16">active recognizer NaN: &#39;T -&gt; unit option</div>
-<div class="fsdocs-tip" id="fs17">active recognizer Float: obj -&gt; float option</div>
+<div class="fsdocs-tip" id="fs14">aktive Erkennung PositiveInfinity: &#39;T -&gt; unit option</div>
+<div class="fsdocs-tip" id="fs15">aktive Erkennung NegativeInfinity: &#39;T -&gt; unit option</div>
+<div class="fsdocs-tip" id="fs16">aktive Erkennung NaN: &#39;T -&gt; unit option</div>
+<div class="fsdocs-tip" id="fs17">aktive Erkennung Float: obj -&gt; float option</div>
 <div class="fsdocs-tip" id="fs18">val v : float</div>
 <div class="fsdocs-tip" id="fs19">System.Double.ToString() : string<br />System.Double.ToString(format: string) : string<br />System.Double.ToString(provider: System.IFormatProvider) : string<br />System.Double.ToString(format: string, provider: System.IFormatProvider) : string</div>
-<div class="fsdocs-tip" id="fs20">active recognizer Float32: obj -&gt; float32 option</div>
+<div class="fsdocs-tip" id="fs20">aktive Erkennung Float32: obj -&gt; float32 option</div>
 <div class="fsdocs-tip" id="fs21">val v : float32</div>
 <div class="fsdocs-tip" id="fs22">System.Single.ToString() : string<br />System.Single.ToString(format: string) : string<br />System.Single.ToString(provider: System.IFormatProvider) : string<br />System.Single.ToString(format: string, provider: System.IFormatProvider) : string</div>
 <div class="fsdocs-tip" id="fs23">val v : &#39;a (requires member IsNaN and member IsPositiveInfinity and member IsNegativeInfinity)</div>
 <div class="fsdocs-tip" id="fs24">System.Object.ToString() : string</div>
 <div class="fsdocs-tip" id="fs25">val formatMatrix : matrix:&#39;a -&gt; string</div>
 <div class="fsdocs-tip" id="fs26">val matrix : &#39;a</div>
-<div class="fsdocs-tip" id="fs27">module String
+<div class="fsdocs-tip" id="fs27">Modul String
 
-from Microsoft.FSharp.Core<br /><em>&lt;summary&gt;Functional programming operators for string processing.  Further string operations
+aus Microsoft.FSharp.Core<br /><em>&lt;summary&gt;Functional programming operators for string processing.  Further string operations
  are available via the member functions on strings and other functionality in
   &lt;a href=&quot;http://msdn2.microsoft.com/en-us/library/system.string.aspx&quot;&gt;System.String&lt;/a&gt; 
  and &lt;a href=&quot;http://msdn2.microsoft.com/library/system.text.regularexpressions.aspx&quot;&gt;System.Text.RegularExpressions&lt;/a&gt; types.
@@ -250,35 +250,35 @@ from Microsoft.FSharp.Core<br /><em>&lt;summary&gt;Functional programming operat
   static member Abs&lt;&#39;T (requires default constructor and value type and &#39;T :&gt; ValueType)&gt; : value: Vector&lt;&#39;T&gt; -&gt; Vector&lt;&#39;T&gt;
   static member Add&lt;&#39;T (requires default constructor and value type and &#39;T :&gt; ValueType)&gt; : left: Vector&lt;&#39;T&gt; * right: Vector&lt;&#39;T&gt; -&gt; Vector&lt;&#39;T&gt;
   static member AndNot&lt;&#39;T (requires default constructor and value type and &#39;T :&gt; ValueType)&gt; : left: Vector&lt;&#39;T&gt; * right: Vector&lt;&#39;T&gt; -&gt; Vector&lt;&#39;T&gt;
-  static member As&lt;&#39;TFrom,&#39;TTo (requires default constructor and value type and &#39;TFrom :&gt; ValueType and default constructor and value type and &#39;TTo :&gt; ValueType)&gt; : vector: Vector&lt;&#39;TFrom&gt; -&gt; Vector&lt;&#39;TTo&gt;
   static member AsVectorByte&lt;&#39;T (requires default constructor and value type and &#39;T :&gt; ValueType)&gt; : value: Vector&lt;&#39;T&gt; -&gt; Vector&lt;byte&gt;
   static member AsVectorDouble&lt;&#39;T (requires default constructor and value type and &#39;T :&gt; ValueType)&gt; : value: Vector&lt;&#39;T&gt; -&gt; Vector&lt;float&gt;
   static member AsVectorInt16&lt;&#39;T (requires default constructor and value type and &#39;T :&gt; ValueType)&gt; : value: Vector&lt;&#39;T&gt; -&gt; Vector&lt;int16&gt;
   static member AsVectorInt32&lt;&#39;T (requires default constructor and value type and &#39;T :&gt; ValueType)&gt; : value: Vector&lt;&#39;T&gt; -&gt; Vector&lt;int&gt;
   static member AsVectorInt64&lt;&#39;T (requires default constructor and value type and &#39;T :&gt; ValueType)&gt; : value: Vector&lt;&#39;T&gt; -&gt; Vector&lt;int64&gt;
-  static member AsVectorNInt&lt;&#39;T (requires default constructor and value type and &#39;T :&gt; ValueType)&gt; : value: Vector&lt;&#39;T&gt; -&gt; Vector&lt;nativeint&gt;
-  ...<br /><br />--------------------<br />[&lt;Struct&gt;]
+  static member AsVectorSByte&lt;&#39;T (requires default constructor and value type and &#39;T :&gt; ValueType)&gt; : value: Vector&lt;&#39;T&gt; -&gt; Vector&lt;sbyte&gt;
+  static member AsVectorSingle&lt;&#39;T (requires default constructor and value type and &#39;T :&gt; ValueType)&gt; : value: Vector&lt;&#39;T&gt; -&gt; Vector&lt;float32&gt;
+  ...<br /><em>&lt;summary&gt;Provides a collection of static convenience methods for creating, manipulating, combining, and converting generic vectors.&lt;/summary&gt;</em><br /><br />--------------------<br />[&lt;Struct&gt;]
 type Vector&lt;&#39;T (requires default constructor and value type and &#39;T :&gt; ValueType)&gt; =
-  new : values: ReadOnlySpan&lt;byte&gt; -&gt; unit + 5 overloads
-  member CopyTo : destination: Span&lt;byte&gt; -&gt; unit + 3 overloads
-  member Equals : other: Vector&lt;&#39;T&gt; -&gt; bool + 1 overload
+  new : values: ReadOnlySpan&lt;byte&gt; -&gt; unit + 5 &#220;berladungen
+  member CopyTo : destination: Span&lt;byte&gt; -&gt; unit + 3 &#220;berladungen
+  member Equals : other: Vector&lt;&#39;T&gt; -&gt; bool + 1 &#220;berladung
   member GetHashCode : unit -&gt; int
-  member ToString : unit -&gt; string + 2 overloads
-  member TryCopyTo : destination: Span&lt;byte&gt; -&gt; bool + 1 overload
+  member ToString : unit -&gt; string + 2 &#220;berladungen
+  member TryCopyTo : destination: Span&lt;byte&gt; -&gt; bool + 1 &#220;berladung
   static member op_Addition : left: Vector&lt;&#39;T&gt; * right: Vector&lt;&#39;T&gt; -&gt; Vector&lt;&#39;T&gt;
   static member op_BitwiseAnd : left: Vector&lt;&#39;T&gt; * right: Vector&lt;&#39;T&gt; -&gt; Vector&lt;&#39;T&gt;
   static member op_BitwiseOr : left: Vector&lt;&#39;T&gt; * right: Vector&lt;&#39;T&gt; -&gt; Vector&lt;&#39;T&gt;
   static member op_Division : left: Vector&lt;&#39;T&gt; * right: Vector&lt;&#39;T&gt; -&gt; Vector&lt;&#39;T&gt;
-  ...<br /><br />--------------------<br />Vector ()<br />Vector(values: System.ReadOnlySpan&lt;byte&gt;) : Vector&lt;&#39;T&gt;<br />Vector(values: System.ReadOnlySpan&lt;&#39;T&gt;) : Vector&lt;&#39;T&gt;<br />Vector(values: System.Span&lt;&#39;T&gt;) : Vector&lt;&#39;T&gt;<br />Vector(value: &#39;T) : Vector&lt;&#39;T&gt;<br />Vector(values: &#39;T []) : Vector&lt;&#39;T&gt;<br />Vector(values: &#39;T [], index: int) : Vector&lt;&#39;T&gt;</div>
-<div class="fsdocs-tip" id="fs32">namespace Microsoft.FSharp.Data</div>
+  ...<br /><em>&lt;summary&gt;Represents a single vector of a specified numeric type that is suitable for low-level optimization of parallel algorithms.&lt;/summary&gt;<br />&lt;typeparam name=&quot;T&quot;&gt;The vector type. &lt;c&gt;T&lt;/c&gt; can be any primitive numeric type.&lt;/typeparam&gt;</em><br /><br />--------------------<br />Vector ()<br />Vector(values: System.ReadOnlySpan&lt;byte&gt;) : Vector&lt;&#39;T&gt;<br />Vector(values: System.ReadOnlySpan&lt;&#39;T&gt;) : Vector&lt;&#39;T&gt;<br />Vector(values: System.Span&lt;&#39;T&gt;) : Vector&lt;&#39;T&gt;<br />Vector(value: &#39;T) : Vector&lt;&#39;T&gt;<br />Vector(values: &#39;T []) : Vector&lt;&#39;T&gt;<br />Vector(values: &#39;T [], index: int) : Vector&lt;&#39;T&gt;</div>
+<div class="fsdocs-tip" id="fs32">Namespace Microsoft.FSharp.Data</div>
 
         </div>
         <!-- BEGIN SEARCH BOX: this adds support for the search box -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
-        <script type="text/javascript">var fsdocs_search_baseurl = '/mathnet-numerics/';</script>
+        <script type="text/javascript">var fsdocs_search_baseurl = 'https://numerics.mathdotnet.com/';</script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.8/lunr.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.min.js"></script>
-        <script type="text/javascript" src="/mathnet-numerics/content/fsdocs-search.js"></script>
+        <script type="text/javascript" src="https://numerics.mathdotnet.com/content/fsdocs-search.js"></script>
         <!-- END SEARCH BOX: this adds support for the search box -->
     </div>
 </body>
