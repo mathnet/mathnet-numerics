@@ -6,7 +6,7 @@
     <title>Math.NET Numerics Release Notes
 </title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="author" content="Christoph Ruegg, Marcus Cuda, Jurgen Van Gael">
+    <meta name="author" content="">
 
     <link rel="stylesheet" id="theme_link" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.6.0/materia/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -15,10 +15,10 @@
     <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
-    <link type="text/css" rel="stylesheet" href="https://numerics.mathdotnet.com/content/navbar-fixed-left.css" />
-    <link type="text/css" rel="stylesheet" href="https://numerics.mathdotnet.com/content/fsdocs-default.css" />
-    <link type="text/css" rel="stylesheet" href="https://numerics.mathdotnet.com/content/fsdocs-custom.css" />
-    <script type="text/javascript" src="https://numerics.mathdotnet.com/content/fsdocs-tips.js"></script>
+    <link type="text/css" rel="stylesheet" href="/mathnet-numerics/content/navbar-fixed-left.css" />
+    <link type="text/css" rel="stylesheet" href="/mathnet-numerics/content/fsdocs-default.css" />
+    <link type="text/css" rel="stylesheet" href="/mathnet-numerics/content/fsdocs-custom.css" />
+    <script type="text/javascript" src="/mathnet-numerics/content/fsdocs-tips.js"></script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -35,7 +35,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse navbar-nav-scroll" id="navbarsExampleDefault">
-            <a href="https://numerics.mathdotnet.com/"><img id="fsdocs-logo" src="/logo.png" /></a>
+            <a href="/mathnet-numerics/"><img id="fsdocs-logo" src="/mathnet-numerics/img/logo.png" /></a>
             <!-- BEGIN SEARCH BOX: this adds support for the search box -->
             <div id="header">
                 <div class="searchbox" id="fsdocs-searchbox">
@@ -120,7 +120,7 @@
         <div class="container" id="fsdocs-content">
             <h1><a name="Math-NET-Numerics-Release-Notes" class="anchor" href="#Math-NET-Numerics-Release-Notes">Math.NET Numerics Release Notes</a></h1>
 <p><a href="ReleaseNotes.html">Math.NET Numerics</a> | <a href="ReleaseNotes-MKL.html">MKL Provider</a> | <a href="ReleaseNotes-OpenBLAS.html">OpenBLAS Provider</a></p>
-<h3><a name="5-0-0-alpha08-2021-12-23" class="anchor" href="#5-0-0-alpha08-2021-12-23">5.0.0-alpha08 - 2021-12-23</a></h3>
+<h3><a name="5-0-0-alpha09-2022-02-13" class="anchor" href="#5-0-0-alpha09-2022-02-13">5.0.0-alpha09 - 2022-02-13</a></h3>
 <ul>
 <li>COMPATIBILITY: net5.0, net48 better supported with explicit builds</li>
 <li>COMPATIBILITY: netstandard1.x, net40, net45 no longer supported</li>
@@ -129,12 +129,15 @@
 <li>BREAKING: switch many usages of tuples to value tuples (experimental)</li>
 <li>Distributions: Logistic <em>~Bobby Ingram</em></li>
 <li>Distributions: Perf: Cauchy avoid duplicate evaluation <em>~Febin</em></li>
+<li>Random: NextBigIngegerSequence <em>~Silver-Fang</em></li>
+<li>Random: xoshiro256StarStar fix out of range exception <em>~Charlie Turndorf</em></li>
 <li>Precision: Perf: pre-compute negative powers <em>~Febin</em></li>
 <li>Optimizations: Remove static properties in LevenbergMarquardtMinimizer <em>~Jong Hyun Kim</em></li>
 <li>Root Finding: Newton-Raphson better handling of zero-evaluations</li>
 <li>Fit.Curve and FindMinimum extended to accept two more parameters</li>
 <li>Fixed an index out of bounds issue when calculating BFGS minimizer with one variable <em>~Shiney</em></li>
-<li>Marcum-Q function <em>~CHUTORO</em></li>
+<li>Fixed Sparse COO NormalizeDuplicates <em>~Mohamed Moussa</em></li>
+<li>Marcum-Q and Log1p functions <em>~CHUTORO</em></li>
 <li>Series: stable series summation</li>
 <li>Providers: binary names and loading changes to follow conventions and better x-plat</li>
 <li>Providers: drop managed reference linear algebra provider</li>
@@ -262,7 +265,7 @@
 <li>Native Providers: All providers now support freeing resources without unloading the provider</li>
 <li>Native Providers: MKL provider sets consistency, precision and accuracy modes earlier to ensure they are applied</li>
 <li>Native Providers: If a provider has been loaded successfully, skip any future loading attempts (faster switching)</li>
-<li>Build: add .Net Framework 4.6.1 target (main package), switch to 4.6.1 for testing projects</li>
+<li>Build: add .NET Framework 4.6.1 target (main package), switch to 4.6.1 for testing projects</li>
 </ul>
 <h3><a name="4-1-0-2018-02-19" class="anchor" href="#4-1-0-2018-02-19">4.1.0 - 2018-02-19</a></h3>
 <ul>
@@ -270,11 +273,11 @@
 </ul>
 <h3><a name="4-0-0-2018-02-11" class="anchor" href="#4-0-0-2018-02-11">4.0.0 - 2018-02-11</a></h3>
 <ul>
-<li>Explicit builds for .Net Framework 4.0 and higher and for .Net Standard 1.3 and 2.0</li>
-<li>F#: explicit builds for .Net Framework 4.5 and higher and for .Net Standard 1.6 and 2.0</li>
+<li>Explicit builds for .NET Framework 4.0 and higher and for .Net Standard 1.3 and 2.0</li>
+<li>F#: explicit builds for .NET Framework 4.5 and higher and for .Net Standard 1.6 and 2.0</li>
 <li>BREAKING: drop obsolete functionality (which has been marked as obsolete for a while)</li>
-<li>BREAKING: drop support for .Net 3.5 and PCL profiles</li>
-<li>BREAKING: F#: drop support for .Net 4.0 and PCL profiles</li>
+<li>BREAKING: drop support for .NET 3.5 and PCL profiles</li>
+<li>BREAKING: F#: drop support for .NET 4.0 and PCL profiles</li>
 <li>BREAKING: F#: depends on FSharp.Core 4.3.3</li>
 <li>BREAKING: Native provider implementation types internal (but can be constructed explicitly)</li>
 <li>BREAKING: Native provider control API moved from Control to per-provider Control classes</li>
@@ -287,7 +290,7 @@
 <li>BUG: Trigonometry: Complex trigonometric functions behave better on large imput <em>~diluculo</em></li>
 <li>BUG: Trigonometry: Fix imaginary part sign of complex hyperbolic cotangent</li>
 <li>Control.Describe: human readable summary of the effective Math.NET Numerics configuration</li>
-<li>Providers: Native Provider support in .Net Standard 2.0 (but not in 1.x).</li>
+<li>Providers: Native Provider support in .NET Standard 2.0 (but not in 1.x).</li>
 <li>Linear Algebra: F# vector/matrix functions to accept all #seq instead of lists only</li>
 <li>Linear Algebra: Vector MapInplace implemented at storage level</li>
 <li>Curve Fitting: Fit.LineThroughOrigin shortcut</li>
@@ -308,7 +311,7 @@
 </ul>
 <h3><a name="4-0-0-beta06-2018-02-03" class="anchor" href="#4-0-0-beta06-2018-02-03">4.0.0-beta06 - 2018-02-03</a></h3>
 <ul>
-<li>Rework conditional compilation to simplify and increase the .Net Standard api surface</li>
+<li>Rework conditional compilation to simplify and increase the .NET Standard api surface</li>
 <li>BREAKING: Native provider implementation types internal (but can be constructed explicitly)</li>
 <li>BREAKING: Native provider control API moved from Control to per-provider Control classes</li>
 <li>Control.Describe: human readable summary of the effective Math.NET Numerics configuration</li>
@@ -342,11 +345,11 @@
 <h3><a name="4-0-0-beta01-2018-01-07" class="anchor" href="#4-0-0-beta01-2018-01-07">4.0.0-beta01 - 2018-01-07</a></h3>
 <ul>
 <li>BREAKING: drop obsolete functionality (which has been marked as obsolete for a while)</li>
-<li>BREAKING: drop support for .Net 3.5 and PCL profiles</li>
-<li>BREAKING: F#: drop support for .Net 4.0 and PCL profiles</li>
+<li>BREAKING: drop support for .NET 3.5 and PCL profiles</li>
+<li>BREAKING: F#: drop support for .NET 4.0 and PCL profiles</li>
 <li>BREAKING: F#: depends on FSharp.Core 4.2.3</li>
-<li>Explicit builds for .Net Framework 4.0 and higher and for .Net Standard 1.3 and 2.0</li>
-<li>F#: explicit builds for .Net Framework 4.5 and higher and for .Net Standard 1.6 and 2.0</li>
+<li>Explicit builds for .NET Framework 4.0 and higher and for .Net Standard 1.3 and 2.0</li>
+<li>F#: explicit builds for .NET Framework 4.5 and higher and for .Net Standard 1.6 and 2.0</li>
 <li>Assemblies are now code-signed with an X.509 certificate, using SHA2-256 hashes</li>
 <li>BUG: Ode Solver: fix typo in the Runge-Kutta solvers on time-step handling <em>~Ksero</em></li>
 <li>BUG: fix Matrix.GetHashCode for wide matrices <em>~mjmckp</em></li>
@@ -367,7 +370,7 @@
 <h3><a name="3-20-0-2017-07-15" class="anchor" href="#3-20-0-2017-07-15">3.20.0 - 2017-07-15</a></h3>
 <ul>
 <li>Optimization: non-linear optimization algorithms <em>~Scott Stephens, Erik Ovegard, bdodson, et al.</em></li>
-<li>Native Providers: from now on also supported in the .Net 3.5 build.</li>
+<li>Native Providers: from now on also supported in the .NET 3.5 build.</li>
 <li>BUG: Special Functions: allow more iterations in BetaRegularized <em>~Elias Abou Jaoude</em></li>
 </ul>
 <h3><a name="3-19-0-2017-04-29" class="anchor" href="#3-19-0-2017-04-29">3.19.0 - 2017-04-29</a></h3>
@@ -578,7 +581,7 @@
 </ul>
 <h3><a name="3-2-1-2014-08-05" class="anchor" href="#3-2-1-2014-08-05">3.2.1 - 2014-08-05</a></h3>
 <ul>
-<li>Package fix: make sure .Net 3.5-only dependencies are not installed on .Net 4 and newer.</li>
+<li>Package fix: make sure .NET 3.5-only dependencies are not installed on .Net 4 and newer.</li>
 </ul>
 <h3><a name="3-2-0-2014-08-05" class="anchor" href="#3-2-0-2014-08-05">3.2.0 - 2014-08-05</a></h3>
 <ul>
@@ -587,9 +590,9 @@
 <li>Statistics: Entropy <em>~Jeff Mastry</em></li>
 <li>Interpolation: use Array.BinarySearch instead of local implementation <em>~Candy Chiu</em></li>
 <li>Resources: fix a corrupted exception message string</li>
-<li>Portable Build: support .Net 4.0 as well by using profile 328 instead of 344.</li>
-<li>.Net 3.5: F# extensions now support .Net 3.5 as well</li>
-<li>.Net 3.5: NuGet package now contains proper 3.5-only TPL package dependency; also in Zip package</li>
+<li>Portable Build: support .NET 4.0 as well by using profile 328 instead of 344.</li>
+<li>.NET 3.5: F# extensions now support .Net 3.5 as well</li>
+<li>.NET 3.5: NuGet package now contains proper 3.5-only TPL package dependency; also in Zip package</li>
 </ul>
 <h3><a name="3-1-0-2014-07-20" class="anchor" href="#3-1-0-2014-07-20">3.1.0 - 2014-07-20</a></h3>
 <ul>
@@ -837,8 +840,8 @@ Build:
 <ul>
 <li>FAKE-based build (in addition to existing Visual Studio solutions) to clean, build, test, document and package independently of the CI server.</li>
 <li>Finally proper documentation using FSharp.Formatting with sources included in the repository so it is versioned and can be contributed to with pull requests.</li>
-<li>NuGet packages now also include the PCL portable profile 47 (.Net 4.5, Silverlight 5, Windows 8) in addition to the normal .Net 4.0 build and PCL profile 136 (.Net 4.0, WindowsPhone 8, Silverlight 5, Windows 8) as before. Profile 47 uses <code>System.Numerics</code> for complex numbers, among others, which is not available in profile 136.</li>
-<li>NuGet packages now also include a .Net 3.5 build of the core library.</li>
+<li>NuGet packages now also include the PCL portable profile 47 (.NET 4.5, Silverlight 5, Windows 8) in addition to the normal .Net 4.0 build and PCL profile 136 (.Net 4.0, WindowsPhone 8, Silverlight 5, Windows 8) as before. Profile 47 uses <code>System.Numerics</code> for complex numbers, among others, which is not available in profile 136.</li>
+<li>NuGet packages now also include a .NET 3.5 build of the core library.</li>
 <li>IO libraries have been removed, replaced with new <code>.Data</code> packages (see list on top).</li>
 <li>Alternative strong-named versions of more NuGet packages (mostly the F# extensions for now), with the <code>.Signed</code> suffix.</li>
 <li>Reworked solution structure so it works in both Visual Studio 11 (2012) and 12 (2013).</li>
@@ -856,7 +859,7 @@ Build:
 <li>Complex: routines to return all two square and three cubic roots of a complex number.</li>
 <li>Complex: More robust complex Asin/Acos for large real numbers.</li>
 <li>Evaluate: routine to evaluate complex polynomials, or real polynomials at a complex point.</li>
-<li>CommonParallel now also supported in .Net 3.5 and portable profiles; TaskScheduler can be replaced with custom implementation <em>~Thomas Ibel</em></li>
+<li>CommonParallel now also supported in .NET 3.5 and portable profiles; TaskScheduler can be replaced with custom implementation <em>~Thomas Ibel</em></li>
 <li>F# BigRational type cleaned up and optimized <em>~Jack Pappas</em></li>
 <li>F# BigRational IsZero, IsOne, IsInteger, create from fraction.</li>
 <li>F# BigRational Reciprocal, Power operator support (<em></em>), support for negative integer powers.</li>
@@ -938,7 +941,7 @@ Linear Algebra:
 <li>Performance: reworked and tuned common parallelization. Some operations are up to 3 magnitudes faster in some extreme cases. Replaced copy loops with native routines. More algorithms are storage-aware (and should thus perform better especially on sparse data). <em>~Thomas Ibel, Iain McDonald, Marcus Cuda</em></li>
 <li>Fixed range checks in the Thin-QR decomposition. <em>~Marcus Cuda</em></li>
 <li>BUG: Fixed bug in Gram Schmidt for solving tall matrices. <em>~Marcus Cuda</em></li>
-<li>Vectors now implement the BCL IList interfaces (fixed-length) for better integration with existing .Net code. <em>~Scott Stephens</em></li>
+<li>Vectors now implement the BCL IList interfaces (fixed-length) for better integration with existing .NET code. <em>~Scott Stephens</em></li>
 <li>Matrix/Vector parsing has been updated to be able to parse the new visual format as well (see ToMatrixString).</li>
 <li>DebuggerDisplay attributes for matrices and vectors.</li>
 <li>Map/IndexedMap combinators with storage-aware and partially parallelized implementations for both dense and sparse data.</li>
@@ -969,8 +972,8 @@ Linear Algebra:
 </ul>
 <h3><a name="2-3-0-2013-11-25" class="anchor" href="#2-3-0-2013-11-25">2.3.0 - 2013-11-25</a></h3>
 <ul>
-<li>Portable Library: Adds support for WP8 (.Net 4.0 and higher, SL5, WP8 and .NET for Windows Store apps)</li>
-<li>Portable Library: New: portable build also for F# extensions (.Net 4.5, SL5 and .NET for Windows Store apps)</li>
+<li>Portable Library: Adds support for WP8 (.NET 4.0 and higher, SL5, WP8 and .NET for Windows Store apps)</li>
+<li>Portable Library: New: portable build also for F# extensions (.NET 4.5, SL5 and .NET for Windows Store apps)</li>
 <li>Portable Library: NuGet: portable builds are now included in the main packages, no more need for special portable packages</li>
 <li>Linear Algebra: Continued major storage rework, in this release focusing on vectors (previous release was on matrices)</li>
 <li>Linear Algebra: Thin QR decomposition (in addition to existing full QR)</li>
@@ -987,10 +990,10 @@ Linear Algebra:
         </div>
         <!-- BEGIN SEARCH BOX: this adds support for the search box -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
-        <script type="text/javascript">var fsdocs_search_baseurl = 'https://numerics.mathdotnet.com/';</script>
+        <script type="text/javascript">var fsdocs_search_baseurl = '/mathnet-numerics/';</script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.8/lunr.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.min.js"></script>
-        <script type="text/javascript" src="https://numerics.mathdotnet.com/content/fsdocs-search.js"></script>
+        <script type="text/javascript" src="/mathnet-numerics/content/fsdocs-search.js"></script>
         <!-- END SEARCH BOX: this adds support for the search box -->
     </div>
 </body>

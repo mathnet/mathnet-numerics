@@ -6,7 +6,7 @@
     <title>Probability Distributions
 </title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="author" content="Christoph Ruegg, Marcus Cuda, Jurgen Van Gael">
+    <meta name="author" content="">
 
     <link rel="stylesheet" id="theme_link" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.6.0/materia/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -15,10 +15,10 @@
     <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
-    <link type="text/css" rel="stylesheet" href="https://numerics.mathdotnet.com/content/navbar-fixed-left.css" />
-    <link type="text/css" rel="stylesheet" href="https://numerics.mathdotnet.com/content/fsdocs-default.css" />
-    <link type="text/css" rel="stylesheet" href="https://numerics.mathdotnet.com/content/fsdocs-custom.css" />
-    <script type="text/javascript" src="https://numerics.mathdotnet.com/content/fsdocs-tips.js"></script>
+    <link type="text/css" rel="stylesheet" href="/mathnet-numerics/content/navbar-fixed-left.css" />
+    <link type="text/css" rel="stylesheet" href="/mathnet-numerics/content/fsdocs-default.css" />
+    <link type="text/css" rel="stylesheet" href="/mathnet-numerics/content/fsdocs-custom.css" />
+    <script type="text/javascript" src="/mathnet-numerics/content/fsdocs-tips.js"></script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -35,7 +35,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse navbar-nav-scroll" id="navbarsExampleDefault">
-            <a href="https://numerics.mathdotnet.com/"><img id="fsdocs-logo" src="/logo.png" /></a>
+            <a href="/mathnet-numerics/"><img id="fsdocs-logo" src="/mathnet-numerics/img/logo.png" /></a>
             <!-- BEGIN SEARCH BOX: this adds support for the search box -->
             <div id="header">
                 <div class="searchbox" id="fsdocs-searchbox">
@@ -340,9 +340,9 @@ This way they can be composed and transformed arbitrarily if curried:</p>
 <div class="fsdocs-tip" id="fs8">val mean : obj</div>
 <div class="fsdocs-tip" id="fs9">val variance : obj</div>
 <div class="fsdocs-tip" id="fs10">val moreSamples : obj []</div>
-<div class="fsdocs-tip" id="fs11">Modul Seq
+<div class="fsdocs-tip" id="fs11">module Seq
 
-aus Microsoft.FSharp.Collections<br /><em>&lt;summary&gt;Contains operations for working with values of type &lt;see cref=&quot;T:Microsoft.FSharp.Collections.seq`1&quot; /&gt;.&lt;/summary&gt;</em></div>
+from Microsoft.FSharp.Collections<br /><em>&lt;summary&gt;Contains operations for working with values of type &lt;see cref=&quot;T:Microsoft.FSharp.Collections.seq`1&quot; /&gt;.&lt;/summary&gt;</em></div>
 <div class="fsdocs-tip" id="fs12">val take : count:int -&gt; source:seq&lt;&#39;T&gt; -&gt; seq&lt;&#39;T&gt;<br /><em>&lt;summary&gt;Returns the first N elements of the sequence.&lt;/summary&gt;<br />&lt;remarks&gt;Throws &lt;c&gt;InvalidOperationException&lt;/c&gt;
  if the count exceeds the number of elements in the sequence. &lt;c&gt;Seq.truncate&lt;/c&gt;
  returns as many items as the sequence contains instead of throwing an exception.&lt;/remarks&gt;<br />&lt;param name=&quot;count&quot;&gt;The number of items to take.&lt;/param&gt;<br />&lt;param name=&quot;source&quot;&gt;The input sequence.&lt;/param&gt;<br />&lt;returns&gt;The result sequence.&lt;/returns&gt;<br />&lt;exception cref=&quot;T:System.ArgumentNullException&quot;&gt;Thrown when the input sequence is null.&lt;/exception&gt;<br />&lt;exception cref=&quot;T:System.ArgumentException&quot;&gt;Thrown when the input sequence is empty.&lt;/exception&gt;<br />&lt;exception cref=&quot;T:System.InvalidOperationException&quot;&gt;Thrown when count exceeds the number of elements
@@ -354,9 +354,9 @@ aus Microsoft.FSharp.Collections<br /><em>&lt;summary&gt;Contains operations for
 <div class="fsdocs-tip" id="fs17">val x : obj</div>
 <div class="fsdocs-tip" id="fs18">val u : obj</div>
 <div class="fsdocs-tip" id="fs19">val v : obj list</div>
-<div class="fsdocs-tip" id="fs20">Multiple items<br />Modul List
+<div class="fsdocs-tip" id="fs20">Multiple items<br />module List
 
-aus Microsoft.FSharp.Collections<br /><em>&lt;summary&gt;Contains operations for working with values of type &lt;see cref=&quot;T:Microsoft.FSharp.Collections.list`1&quot; /&gt;.&lt;/summary&gt;<br />&lt;namespacedoc&gt;&lt;summary&gt;Operations for collections such as lists, arrays, sets, maps and sequences. See also 
+from Microsoft.FSharp.Collections<br /><em>&lt;summary&gt;Contains operations for working with values of type &lt;see cref=&quot;T:Microsoft.FSharp.Collections.list`1&quot; /&gt;.&lt;/summary&gt;<br />&lt;namespacedoc&gt;&lt;summary&gt;Operations for collections such as lists, arrays, sets, maps and sequences. See also 
     &lt;a href=&quot;https://docs.microsoft.com/dotnet/fsharp/language-reference/fsharp-collection-types&quot;&gt;F# Collection Types&lt;/a&gt; in the F# Language Guide.
  &lt;/summary&gt;&lt;/namespacedoc&gt;</em><br /><br />--------------------<br />type List&lt;&#39;T&gt; =
   | ( [] )
@@ -399,10 +399,10 @@ aus Microsoft.FSharp.Collections<br /><em>&lt;summary&gt;Contains operations for
         </div>
         <!-- BEGIN SEARCH BOX: this adds support for the search box -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
-        <script type="text/javascript">var fsdocs_search_baseurl = 'https://numerics.mathdotnet.com/';</script>
+        <script type="text/javascript">var fsdocs_search_baseurl = '/mathnet-numerics/';</script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.8/lunr.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.min.js"></script>
-        <script type="text/javascript" src="https://numerics.mathdotnet.com/content/fsdocs-search.js"></script>
+        <script type="text/javascript" src="/mathnet-numerics/content/fsdocs-search.js"></script>
         <!-- END SEARCH BOX: this adds support for the search box -->
     </div>
 </body>
