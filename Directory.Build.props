@@ -33,9 +33,4 @@
     <ItemGroup>
         <None Include="$(MSBuildThisFileDirectory)build/icon.png" Pack="true" Visible="false" PackagePath="\" />
     </ItemGroup>
-    <PropertyGroup>
-        <FsDocsLogoSource>/logo.png</FsDocsLogoSource>
-        <FsDocsLogoLink>https://numerics.mathdotnet.com/</FsDocsLogoLink>
-        <FsDocsNavbarPosition>fixed-left</FsDocsNavbarPosition>
-    </PropertyGroup>
 </Project>

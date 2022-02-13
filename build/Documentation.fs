@@ -21,5 +21,5 @@ let provideDocExtraFiles extraDocs (releases:Release list) =
         |> File.replaceContent ("docs" </> (release.ReleaseNotesFile |> String.replace "RELEASENOTES" "ReleaseNotes"))
 
 let private dotnet command = DotNet.exec id command "" |> ignore<ProcessResult>
-let buildDocs outputDir = dotnet (sprintf "fsdocs build --noapidocs --output %s" outputDir)
-let watchDocs outputDir = dotnet (sprintf "fsdocs watch --noapidocs --output %s" outputDir)
+let buildDocs outputDir = dotnet (sprintf """fsdocs build --ignoreprojects --noapidocs --output %s --parameters root "https://numerics.mathdotnet.com/" fsdocs-authors "Christoph Ruegg, Marcus Cuda, Jurgen Van Gael" fsdocs-logo-src "/logo.png" """ outputDir)
+let watchDocs outputDir = dotnet (sprintf """fsdocs watch --ignoreprojects --noapidocs --output %s --parameters root "https://numerics.mathdotnet.com/" fsdocs-authors "Christoph Ruegg, Marcus Cuda, Jurgen Van Gael" fsdocs-logo-src "/logo.png" """ outputDir)
