@@ -470,6 +470,27 @@ namespace MathNet.Numerics.Random
             DoSampleBytes(buffer);
         }
 
+#if NETCOREAPP2_1_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+        /// <summary>
+        /// Fills the elements of a specified array of bytes with random numbers.
+        /// </summary>
+        /// <param name="buffer">An array of bytes to contain random numbers.</param>
+        public sealed override void NextBytes(Span<byte> buffer)
+        {
+            if (_threadSafe)
+            {
+                lock (_lock)
+                {
+                    DoSampleBytes(buffer);
+                }
+
+                return;
+            }
+
+            DoSampleBytes(buffer);
+        }
+#endif
+
         /// <summary>
         /// Returns a random number between 0.0 and 1.0.
         /// </summary>
@@ -510,6 +531,18 @@ namespace MathNet.Numerics.Random
                 buffer[i] = (byte)(DoSampleInteger() % 256);
             }
         }
+
+#if NETCOREAPP2_1_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+        /// <summary>
+        /// Fills the elements of a specified array of bytes with random numbers in full range, including zero and 255 (<see cref="F:System.Byte.MaxValue"/>).
+        /// </summary>
+        protected virtual void DoSampleBytes(Span<byte> buffer)
+        {
+            var temp = new byte[buffer.Length];
+            DoSampleBytes(temp);
+            temp.CopyTo(buffer);
+        }
+#endif
 
         /// <summary>
         /// Returns a random N-bit signed integer greater than or equal to zero and less than 2^N.
