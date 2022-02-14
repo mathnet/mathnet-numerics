@@ -36,41 +36,30 @@ namespace MathNet.Numerics.UnitTests
     public class DistanceTests
     {
         #region Test Data
-        double[] _dp0 = new double[] { 1, 0.5 };
-        double[] _dq0 = new double[] { 0.5, 1 };
-
-        double[] _dp1 = new double[] { 4.5, 1 };
-        double[] _dq1 = new double[] { 4, 2 };
-
-        double[] _dp2 = new double[] { 0, 0, 0 };
-        double[] _dq2 = new double[] { 0, 0, 0 };
-
-        double[] _dp3 = new double[] { 1, 1, 1 };
-        double[] _dq3 = new double[] { 1, 1, 1 };
-
-        double[] _dp4 = new double[] { 2.5, 3.5, 3.0, 3.5, 2.5, 3.0 };
-        double[] _dq4 = new double[] { 3.0, 3.5, 1.5, 5.0, 3.5, 3.0 };
-
-        double[] _dp5 = new double[] { 1, 3, 5, 6, 8, 9, 6, 4, 3, 2 };
-        double[] _dq5 = new double[] { 2, 5, 6, 6, 7, 7, 5, 3, 1, 1 };
-
-        float[] _fp0 = new float[] { 1, 0.5f };
-        float[] _fq0 = new float[] { 0.5f, 1 };
-
-        float[] _fp1 = new float[] { 4.5f, 1 };
-        float[] _fq1 = new float[] { 4, 2 };
-
-        float[] _fp2 = new float[] { 0, 0, 0 };
-        float[] _fq2 = new float[] { 0, 0, 0 };
-
-        float[] _fp3 = new float[] { 1, 1, 1 };
-        float[] _fq3 = new float[] { 1, 1, 1 };
-
-        float[] _fp4 = new float[] { 2.5f, 3.5f, 3.0f, 3.5f, 2.5f, 3.0f };
-        float[] _fq4 = new float[] { 3.0f, 3.5f, 1.5f, 5.0f, 3.5f, 3.0f };
-
-        float[] _fp5 = new float[] { 1, 3, 5, 6, 8, 9, 6, 4, 3, 2 };
-        float[] _fq5 = new float[] { 2, 5, 6, 6, 7, 7, 5, 3, 1, 1 };
+        readonly double[] _dp0 = new double[] { 1, 0.5 };
+        readonly double[] _dq0 = new double[] { 0.5, 1 };
+        readonly double[] _dp1 = new double[] { 4.5, 1 };
+        readonly double[] _dq1 = new double[] { 4, 2 };
+        readonly double[] _dp2 = new double[] { 0, 0, 0 };
+        readonly double[] _dq2 = new double[] { 0, 0, 0 };
+        readonly double[] _dp3 = new double[] { 1, 1, 1 };
+        readonly double[] _dq3 = new double[] { 1, 1, 1 };
+        readonly double[] _dp4 = new double[] { 2.5, 3.5, 3.0, 3.5, 2.5, 3.0 };
+        readonly double[] _dq4 = new double[] { 3.0, 3.5, 1.5, 5.0, 3.5, 3.0 };
+        readonly double[] _dp5 = new double[] { 1, 3, 5, 6, 8, 9, 6, 4, 3, 2 };
+        readonly double[] _dq5 = new double[] { 2, 5, 6, 6, 7, 7, 5, 3, 1, 1 };
+        readonly float[] _fp0 = new float[] { 1, 0.5f };
+        readonly float[] _fq0 = new float[] { 0.5f, 1 };
+        readonly float[] _fp1 = new float[] { 4.5f, 1 };
+        readonly float[] _fq1 = new float[] { 4, 2 };
+        readonly float[] _fp2 = new float[] { 0, 0, 0 };
+        readonly float[] _fq2 = new float[] { 0, 0, 0 };
+        readonly float[] _fp3 = new float[] { 1, 1, 1 };
+        readonly float[] _fq3 = new float[] { 1, 1, 1 };
+        readonly float[] _fp4 = new float[] { 2.5f, 3.5f, 3.0f, 3.5f, 2.5f, 3.0f };
+        readonly float[] _fq4 = new float[] { 3.0f, 3.5f, 1.5f, 5.0f, 3.5f, 3.0f };
+        readonly float[] _fp5 = new float[] { 1, 3, 5, 6, 8, 9, 6, 4, 3, 2 };
+        readonly float[] _fq5 = new float[] { 2, 5, 6, 6, 7, 7, 5, 3, 1, 1 };
         #endregion
 
         [Test]

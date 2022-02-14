@@ -439,8 +439,7 @@ namespace MathNet.Numerics
 
             while (b != 0)
             {
-                long rem;
-                long quot = Math.DivRem(a, b, out rem);
+                long quot = Math.DivRem(a, b, out long rem);
                 a = b;
                 b = rem;
 
@@ -588,8 +587,7 @@ namespace MathNet.Numerics
 
             while (!b.IsZero)
             {
-                BigInteger rem;
-                BigInteger quot = BigInteger.DivRem(a, b, out rem);
+                BigInteger quot = BigInteger.DivRem(a, b, out BigInteger rem);
                 a = b;
                 b = rem;
 

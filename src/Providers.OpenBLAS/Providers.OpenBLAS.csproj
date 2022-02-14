@@ -9,7 +9,7 @@
     <PackageId>MathNet.Numerics.Providers.OpenBLAS</PackageId>
     <PackageId Condition="'$(StrongName)'=='True'">MathNet.Numerics.Providers.OpenBLAS.Signed</PackageId>
     <VersionPrefix>5.0.0</VersionPrefix>
-    <VersionSuffix>alpha08</VersionSuffix>
+    <VersionSuffix>alpha09</VersionSuffix>
     <Title>Math.NET Numerics OpenBLAS Provider$(TitleSuffix)</Title>
     <Description>Math.NET Numerics is the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use.$(DescriptionSuffix)</Description>
     <PackageReleaseNotes>COMPATIBILITY: net5.0, net48 better supported with explicit builds
@@ -19,12 +19,15 @@ BREAKING: all native provider adapters moved out to separate NuGet packages
 BREAKING: switch many usages of tuples to value tuples (experimental)
 Distributions: Logistic ~Bobby Ingram
 Distributions: Perf: Cauchy avoid duplicate evaluation ~Febin
+Random: NextBigIngegerSequence ~Silver-Fang
+Random: xoshiro256StarStar fix out of range exception ~Charlie Turndorf
 Precision: Perf: pre-compute negative powers ~Febin
 Optimizations: Remove static properties in LevenbergMarquardtMinimizer ~Jong Hyun Kim
 Root Finding: Newton-Raphson better handling of zero-evaluations
 Fit.Curve and FindMinimum extended to accept two more parameters
 Fixed an index out of bounds issue when calculating BFGS minimizer with one variable ~Shiney
-Marcum-Q function ~CHUTORO
+Fixed Sparse COO NormalizeDuplicates ~Mohamed Moussa
+Marcum-Q and Log1p functions ~CHUTORO
 Series: stable series summation
 Providers: binary names and loading changes to follow conventions and better x-plat
 Providers: drop managed reference linear algebra provider
@@ -36,15 +39,17 @@ Lots of internal cleanup, leveraging newer language features
 Data: now released always together with Numerics (no longer separate versioning)
 Control.Describe now includes CPU architecture and family identifier if know</PackageReleaseNotes>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <EnableDefaultCompileItems>true</EnableDefaultCompileItems>
     <NoWarn>1701;1702;1705;1591;1573</NoWarn>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
     <ItemGroup>
     <ProjectReference Include="..\Numerics\Numerics.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="6.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

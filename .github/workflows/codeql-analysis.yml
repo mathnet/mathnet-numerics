@@ -11,13 +11,13 @@ on:
 jobs:
   analyze:
     name: Analyze
-    runs-on: windows-latest
+    runs-on: windows-2019
 
     strategy:
       fail-fast: false
       matrix:
         language: [ 'csharp' ]
-        dotnet: [ '5.0.100' ]
+        dotnet: [ '6.0.100' ]
         # https://docs.github.com/en/free-pro-team@latest/github/finding-security-vulnerabilities-and-errors-in-your-code/configuring-code-scanning#changing-the-languages-that-are-analyzed
 
     steps:

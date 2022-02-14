@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <WarnOn>3390;$(WarnOn)</WarnOn>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Model.fs" />
+    <Compile Include="Versioning.fs" />
+    <Compile Include="Building.fs" />
+    <Compile Include="Testing.fs" />
+    <Compile Include="Packaging.fs" />
+    <Compile Include="Documentation.fs" />
+    <Compile Include="Publishing.fs" />
+    <Compile Include="build.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Fake.Core.Context" Version="5.21.1" />
+    <PackageReference Include="Fake.Core.Environment" Version="5.21.1" />
+    <PackageReference Include="Fake.Core.ReleaseNotes" Version="5.21.1" />
+    <PackageReference Include="Fake.Core.String" Version="5.21.1" />
+    <PackageReference Include="Fake.Core.Target" Version="5.21.1" />
+    <PackageReference Include="Fake.Core.Trace" Version="5.21.1" />
+    <PackageReference Include="Fake.DotNet.Cli" Version="5.21.1" />
+    <PackageReference Include="Fake.DotNet.NuGet" Version="5.21.1" />
+    <PackageReference Include="Fake.IO.FileSystem" Version="5.21.1" />
+    <PackageReference Include="Fake.IO.Zip" Version="5.21.1" />
+    <PackageReference Include="Fake.Tools.Git" Version="5.21.1" />
+  </ItemGroup>
+</Project>
