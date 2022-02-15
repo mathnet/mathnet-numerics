@@ -42,7 +42,7 @@ namespace MathNet.Numerics
     {
         /// <summary>
         /// Least-Squares fitting the points (x,y) to a line y : x -> a+b*x,
-        /// returning its best fitting parameters as [a, b] array,
+        /// returning its best fitting parameters as (a, b) tuple,
         /// where a is the intercept and b the slope.
         /// </summary>
         public static (double A, double B) Line(double[] x, double[] y)
