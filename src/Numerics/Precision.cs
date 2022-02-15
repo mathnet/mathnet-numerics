@@ -319,7 +319,7 @@ namespace MathNet.Numerics
 
             if (count < 0)
             {
-                return Decrement(value, -count);
+                return Increment(value, -count);
             }
 
             // Translate the bit pattern of the double to an integer.

@@ -191,6 +191,32 @@ namespace MathNet.Numerics.UnitTests
         }
 
         /// <summary>
+        /// Increment at zero.
+        /// </summary>
+        [Test]
+        public void IncrementDecrementWithCount()
+        {
+            var x = -2 * double.Epsilon;
+            Assert.AreEqual(-2 * double.Epsilon, x);
+            x = x.Increment(2);
+            Assert.AreEqual(0.0, x);
+            x = x.Increment(2);
+            Assert.AreEqual(2 * double.Epsilon, x);
+            x = x.Decrement(2);
+            Assert.AreEqual(0.0, x);
+            x = x.Decrement(2);
+            Assert.AreEqual(-2 * double.Epsilon, x);
+            x = x.Decrement(-2);
+            Assert.AreEqual(0.0, x);
+            x = x.Decrement(-2);
+            Assert.AreEqual(2 * double.Epsilon, x);
+            x = x.Increment(-2);
+            Assert.AreEqual(0.0, x);
+            x = x.Increment(-2);
+            Assert.AreEqual(-2 * double.Epsilon, x);
+        }
+
+        /// <summary>
         /// Increment at min/max.
         /// </summary>
         [Test]
