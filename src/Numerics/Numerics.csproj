@@ -9,7 +9,7 @@
     <PackageId>MathNet.Numerics</PackageId>
     <PackageId Condition="'$(StrongName)'=='True'">MathNet.Numerics.Signed</PackageId>
     <VersionPrefix>5.0.0</VersionPrefix>
-    <VersionSuffix>alpha09</VersionSuffix>
+    <VersionSuffix>alpha10</VersionSuffix>
     <Title>Math.NET Numerics$(TitleSuffix)</Title>
     <Description>Math.NET Numerics is the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use. Supports .NET 5.0 or higher, .NET Standard 2.0 and .NET Framework 4.6.1 or higher, on Windows, Linux and Mac.$(DescriptionSuffix)</Description>
     <PackageReleaseNotes>COMPATIBILITY: net5.0, net48 better supported with explicit builds
