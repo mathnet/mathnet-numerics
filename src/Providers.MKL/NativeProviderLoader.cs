@@ -32,7 +32,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
+#if !NET5_0_OR_GREATER
 using System.Security;
+#endif
 using System.Threading;
 
 // ReSharper disable InconsistentNaming
@@ -59,11 +61,13 @@ namespace MathNet.Numerics.Providers.Common
         /// </summary>
         static readonly Lazy<Dictionary<string, IntPtr>> NativeHandles = new Lazy<Dictionary<string, IntPtr>>(LazyThreadSafetyMode.PublicationOnly);
 
+#if !NET5_0_OR_GREATER
         /// <summary>
         /// If the last native library failed to load then gets the corresponding exception
         /// which occurred or null if the library was successfully loaded.
         /// </summary>
         internal static Exception LastException { get; private set; }
+#endif
 
         static bool IsWindows { get; }
         static bool IsLinux { get; }

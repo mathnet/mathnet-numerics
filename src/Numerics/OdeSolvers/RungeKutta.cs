@@ -49,8 +49,8 @@ namespace MathNet.Numerics.OdeSolvers
         public static double[] SecondOrder(double y0, double start, double end, int N, Func<double, double, double> f)
         {
             double dt = (end - start) / (N - 1);
-            double k1 = 0;
-            double k2 = 0;
+            double k1;
+            double k2;
             double t = start;
             double[] y = new double[N];
             y[0] = y0;
@@ -77,10 +77,10 @@ namespace MathNet.Numerics.OdeSolvers
         public static double[] FourthOrder(double y0, double start, double end, int N, Func<double, double, double> f)
         {
             double dt = (end - start) / (N - 1);
-            double k1 = 0;
-            double k2 = 0;
-            double k3 = 0;
-            double k4 = 0;
+            double k1;
+            double k2;
+            double k3;
+            double k4;
             double t = start;
             double[] y = new double[N];
             y[0] = y0;

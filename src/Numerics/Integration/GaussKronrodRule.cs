@@ -225,7 +225,7 @@ namespace MathNet.Numerics.Integration
             int kronrodStart = 1;
             int gaussOrder = (gaussKronrodPoint.Order - 1) / 2;
 
-            double kronrodResult = 0d;
+            double kronrodResult;
             double gaussResult = 0d;
             double fp, fm;
 

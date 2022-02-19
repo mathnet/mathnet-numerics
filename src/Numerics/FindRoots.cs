@@ -139,7 +139,7 @@ namespace MathNet.Numerics
         {
             if (degree < 1)
             {
-                return new double[0];
+                return Array.Empty<double>();
             }
 
             // transform to map to [-1..1] interval
@@ -168,7 +168,7 @@ namespace MathNet.Numerics
         {
             if (degree < 1)
             {
-                return new double[0];
+                return Array.Empty<double>();
             }
 
             // transform to map to [-1..1] interval

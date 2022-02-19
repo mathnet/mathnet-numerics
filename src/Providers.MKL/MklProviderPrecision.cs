@@ -32,7 +32,7 @@ namespace MathNet.Numerics.Providers.MKL
     /// <summary>
     /// Consistency vs. performance trade-off between runs on different machines.
     /// </summary>
-    public enum MklConsistency : int
+    public enum MklConsistency
     {
         /// <summary>Consistent on the same CPU only (maximum performance)</summary>
         Auto = 2,

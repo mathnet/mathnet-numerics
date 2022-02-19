@@ -99,14 +99,14 @@ namespace MathNet.Numerics.Optimization
             var step = candidate.Point - initialGuess;
 
             // Subsequent steps
-            Matrix<double> I = CreateMatrix.DiagonalIdentity<double>(initialGuess.Count);
-            int iterations;
             int totalLineSearchSteps = lineSearchResult.Iterations;
             int iterationsWithNontrivialLineSearch = lineSearchResult.Iterations > 0 ? 0 : 1;
-            iterations = DoBfgsUpdate(ref currentExitCondition, lineSearcher, ref inversePseudoHessian, ref lineSearchDirection, ref previousPoint, ref lineSearchResult, ref candidate, ref step, ref totalLineSearchSteps, ref iterationsWithNontrivialLineSearch);
+            var iterations = DoBfgsUpdate(ref currentExitCondition, lineSearcher, ref inversePseudoHessian, ref lineSearchDirection, ref previousPoint, ref lineSearchResult, ref candidate, ref step, ref totalLineSearchSteps, ref iterationsWithNontrivialLineSearch);
 
             if (iterations == MaximumIterations && currentExitCondition == ExitCondition.None)
+            {
                 throw new MaximumIterationsException(FormattableString.Invariant($"Maximum iterations ({MaximumIterations}) reached."));
+            }
 
             return new MinimizationWithLineSearchResult(candidate, iterations, ExitCondition.AbsoluteGradient, totalLineSearchSteps, iterationsWithNontrivialLineSearch);
         }
@@ -121,12 +121,11 @@ namespace MathNet.Numerics.Optimization
             startingStepSize = 1.0;
             maxLineSearchStep = double.PositiveInfinity;
 
-            Vector<double> lineSearchDirection;
             var y = candidate.Gradient - previousPoint.Gradient;
 
             double sy = step * y;
             inversePseudoHessian = inversePseudoHessian + ((sy + y * inversePseudoHessian * y) / Math.Pow(sy, 2.0)) * step.OuterProduct(step) - ((inversePseudoHessian * y.ToColumnMatrix()) * step.ToRowMatrix() + step.ToColumnMatrix() * (y.ToRowMatrix() * inversePseudoHessian)) * (1.0 / sy);
-            lineSearchDirection = -inversePseudoHessian * candidate.Gradient;
+            var lineSearchDirection = -inversePseudoHessian * candidate.Gradient;
 
             if (lineSearchDirection * candidate.Gradient >= 0.0)
             {

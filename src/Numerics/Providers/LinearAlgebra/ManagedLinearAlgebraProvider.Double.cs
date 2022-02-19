@@ -1518,12 +1518,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             if (b == null)
             {
-                throw new ArgumentNullException(nameof(q));
+                throw new ArgumentNullException(nameof(b));
             }
 
             if (x == null)
             {
-                throw new ArgumentNullException(nameof(q));
+                throw new ArgumentNullException(nameof(x));
             }
 
             if (rowsA < columnsA)

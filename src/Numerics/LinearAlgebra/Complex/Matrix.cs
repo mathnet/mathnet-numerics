@@ -666,20 +666,20 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             var ret = new double[RowCount];
             if (norm == 2.0)
             {
-                Storage.FoldByRowUnchecked(ret, (s, x) => s + x.MagnitudeSquared(), (x, c) => Math.Sqrt(x), ret, Zeros.AllowSkip);
+                Storage.FoldByRowUnchecked(ret, (s, x) => s + x.MagnitudeSquared(), (x, _) => Math.Sqrt(x), ret, Zeros.AllowSkip);
             }
             else if (norm == 1.0)
             {
-                Storage.FoldByRowUnchecked(ret, (s, x) => s + x.Magnitude, (x, c) => x, ret, Zeros.AllowSkip);
+                Storage.FoldByRowUnchecked(ret, (s, x) => s + x.Magnitude, (x, _) => x, ret, Zeros.AllowSkip);
             }
             else if (double.IsPositiveInfinity(norm))
             {
-                Storage.FoldByRowUnchecked(ret, (s, x) => Math.Max(s, x.Magnitude), (x, c) => x, ret, Zeros.AllowSkip);
+                Storage.FoldByRowUnchecked(ret, (s, x) => Math.Max(s, x.Magnitude), (x, _) => x, ret, Zeros.AllowSkip);
             }
             else
             {
                 double invnorm = 1.0/norm;
-                Storage.FoldByRowUnchecked(ret, (s, x) => s + Math.Pow(x.Magnitude, norm), (x, c) => Math.Pow(x, invnorm), ret, Zeros.AllowSkip);
+                Storage.FoldByRowUnchecked(ret, (s, x) => s + Math.Pow(x.Magnitude, norm), (x, _) => Math.Pow(x, invnorm), ret, Zeros.AllowSkip);
             }
             return Vector<double>.Build.Dense(ret);
         }
@@ -698,20 +698,20 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             var ret = new double[ColumnCount];
             if (norm == 2.0)
             {
-                Storage.FoldByColumnUnchecked(ret, (s, x) => s + x.MagnitudeSquared(), (x, c) => Math.Sqrt(x), ret, Zeros.AllowSkip);
+                Storage.FoldByColumnUnchecked(ret, (s, x) => s + x.MagnitudeSquared(), (x, _) => Math.Sqrt(x), ret, Zeros.AllowSkip);
             }
             else if (norm == 1.0)
             {
-                Storage.FoldByColumnUnchecked(ret, (s, x) => s + x.Magnitude, (x, c) => x, ret, Zeros.AllowSkip);
+                Storage.FoldByColumnUnchecked(ret, (s, x) => s + x.Magnitude, (x, _) => x, ret, Zeros.AllowSkip);
             }
             else if (double.IsPositiveInfinity(norm))
             {
-                Storage.FoldByColumnUnchecked(ret, (s, x) => Math.Max(s, x.Magnitude), (x, c) => x, ret, Zeros.AllowSkip);
+                Storage.FoldByColumnUnchecked(ret, (s, x) => Math.Max(s, x.Magnitude), (x, _) => x, ret, Zeros.AllowSkip);
             }
             else
             {
                 double invnorm = 1.0/norm;
-                Storage.FoldByColumnUnchecked(ret, (s, x) => s + Math.Pow(x.Magnitude, norm), (x, c) => Math.Pow(x, invnorm), ret, Zeros.AllowSkip);
+                Storage.FoldByColumnUnchecked(ret, (s, x) => s + Math.Pow(x.Magnitude, norm), (x, _) => Math.Pow(x, invnorm), ret, Zeros.AllowSkip);
             }
             return Vector<double>.Build.Dense(ret);
         }
@@ -729,7 +729,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             }
 
             var result = Build.SameAs(this, RowCount, ColumnCount);
-            Storage.MapIndexedTo(result.Storage, (i, j, x) => norminv[i]*x, Zeros.AllowSkip, ExistingData.AssumeZeros);
+            Storage.MapIndexedTo(result.Storage, (i, _, x) => norminv[i]*x, Zeros.AllowSkip, ExistingData.AssumeZeros);
             return result;
         }
 
@@ -746,7 +746,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             }
 
             var result = Build.SameAs(this, RowCount, ColumnCount);
-            Storage.MapIndexedTo(result.Storage, (i, j, x) => norminv[j]*x, Zeros.AllowSkip, ExistingData.AssumeZeros);
+            Storage.MapIndexedTo(result.Storage, (_, j, x) => norminv[j]*x, Zeros.AllowSkip, ExistingData.AssumeZeros);
             return result;
         }
 
@@ -756,7 +756,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         public override Vector<Complex> RowSums()
         {
             var ret = new Complex[RowCount];
-            Storage.FoldByRowUnchecked(ret, (s, x) => s + x, (x, c) => x, ret, Zeros.AllowSkip);
+            Storage.FoldByRowUnchecked(ret, (s, x) => s + x, (x, _) => x, ret, Zeros.AllowSkip);
             return Vector<Complex>.Build.Dense(ret);
         }
 
@@ -766,7 +766,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         public override Vector<Complex> RowAbsoluteSums()
         {
             var ret = new Complex[RowCount];
-            Storage.FoldByRowUnchecked(ret, (s, x) => s + x.Magnitude, (x, c) => x, ret, Zeros.AllowSkip);
+            Storage.FoldByRowUnchecked(ret, (s, x) => s + x.Magnitude, (x, _) => x, ret, Zeros.AllowSkip);
             return Vector<Complex>.Build.Dense(ret);
         }
 
@@ -776,7 +776,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         public override Vector<Complex> ColumnSums()
         {
             var ret = new Complex[ColumnCount];
-            Storage.FoldByColumnUnchecked(ret, (s, x) => s + x, (x, c) => x, ret, Zeros.AllowSkip);
+            Storage.FoldByColumnUnchecked(ret, (s, x) => s + x, (x, _) => x, ret, Zeros.AllowSkip);
             return Vector<Complex>.Build.Dense(ret);
         }
 
@@ -786,7 +786,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         public override Vector<Complex> ColumnAbsoluteSums()
         {
             var ret = new Complex[ColumnCount];
-            Storage.FoldByColumnUnchecked(ret, (s, x) => s + x.Magnitude, (x, c) => x, ret, Zeros.AllowSkip);
+            Storage.FoldByColumnUnchecked(ret, (s, x) => s + x.Magnitude, (x, _) => x, ret, Zeros.AllowSkip);
             return Vector<Complex>.Build.Dense(ret);
         }
 

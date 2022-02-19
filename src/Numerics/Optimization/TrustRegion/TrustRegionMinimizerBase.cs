@@ -109,7 +109,7 @@ namespace MathNet.Numerics.Optimization.TrustRegion
 
             // First, calculate function values and setup variables
             var P = ProjectToInternalParameters(initialGuess); // current internal parameters
-            var Pstep = Vector<double>.Build.Dense(P.Count); // the change of parameters
+            Vector<double> Pstep; // the change of parameters
             var RSS = EvaluateFunction(objective, initialGuess); // Residual Sum of Squares
 
             if (maximumIterations < 0)
@@ -155,7 +155,7 @@ namespace MathNet.Numerics.Optimization.TrustRegion
             delta = Math.Max(1.0, Math.Min(delta, maxDelta));
 
             int iterations = 0;
-            bool hitBoundary = false;
+            bool hitBoundary;
             while (iterations < maximumIterations && exitCondition == ExitCondition.None)
             {
                 iterations++;

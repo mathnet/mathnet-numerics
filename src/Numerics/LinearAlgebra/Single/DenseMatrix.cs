@@ -370,7 +370,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         public static DenseMatrix CreateDiagonal(int rows, int columns, float value)
         {
             if (value == 0f) return new DenseMatrix(rows, columns);
-            return new DenseMatrix(DenseColumnMajorMatrixStorage<float>.OfDiagonalInit(rows, columns, i => value));
+            return new DenseMatrix(DenseColumnMajorMatrixStorage<float>.OfDiagonalInit(rows, columns, _ => value));
         }
 
         /// <summary>
@@ -386,7 +386,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </summary>
         public static DenseMatrix CreateIdentity(int order)
         {
-            return new DenseMatrix(DenseColumnMajorMatrixStorage<float>.OfDiagonalInit(order, order, i => One));
+            return new DenseMatrix(DenseColumnMajorMatrixStorage<float>.OfDiagonalInit(order, order, _ => One));
         }
 
         /// <summary>

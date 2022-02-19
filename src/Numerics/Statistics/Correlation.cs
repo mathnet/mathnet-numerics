@@ -119,8 +119,6 @@ namespace MathNet.Numerics.Statistics
                 throw new ArgumentOutOfRangeException(nameof(kLow), "kMin must be zero or positive and smaller than x.Length");
             if (kHigh < 0 || kHigh >= N)
                 throw new ArgumentOutOfRangeException(nameof(kHigh), "kMax must be positive and smaller than x.Length");
-            if (N < 1)
-                return new double[0];
 
             int nFFT = Euclid.CeilingToPowerOfTwo(N) * 2;
 
@@ -129,10 +127,10 @@ namespace MathNet.Numerics.Statistics
 
             double xDash = ArrayStatistics.Mean(x);
 
-            // copy values in range and substract mean - all the remaining parts are padded with zero.
+            // copy values in range and subtract mean - all the remaining parts are padded with zero.
             for (int i = 0; i < x.Length; i++)
             {
-                xFFT[i] = new Complex(x[i] - xDash, 0.0);    // copy values in range and substract mean
+                xFFT[i] = new Complex(x[i] - xDash, 0.0);    // copy values in range and subtract mean
             }
 
             Fourier.Forward(xFFT, FourierOptions.Matlab);
@@ -222,8 +220,6 @@ namespace MathNet.Numerics.Statistics
         /// <returns>The Weighted Pearson product-moment correlation coefficient.</returns>
         public static double WeightedPearson(IEnumerable<double> dataA, IEnumerable<double> dataB, IEnumerable<double> weights)
         {
-            int n = 0;
-
             double meanA = 0;
             double meanB = 0;
             double varA = 0;
@@ -246,7 +242,6 @@ namespace MathNet.Numerics.Statistics
                     {
                         throw new ArgumentOutOfRangeException(nameof(weights), "The array arguments must have the same length.");
                     }
-                    ++n;
 
                     double xi = ieA.Current;
                     double yi = ieB.Current;
@@ -345,7 +340,7 @@ namespace MathNet.Numerics.Statistics
         {
             if (series == null)
             {
-                return new double[0];
+                return Array.Empty<double>();
             }
 
             // WARNING: do not try to cast series to an array and use it directly,

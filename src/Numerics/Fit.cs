@@ -56,8 +56,8 @@ namespace MathNet.Numerics
         /// </summary>
         public static Func<double, double> LineFunc(double[] x, double[] y)
         {
-            (double Intercept, double Slope) = SimpleRegression.Fit(x, y);
-            return z => Intercept + Slope * z;
+            (double intercept, double slope) = SimpleRegression.Fit(x, y);
+            return z => intercept + slope * z;
         }
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace MathNet.Numerics
         {
             // Transformation: y_h := ln(y) ~> y_h : x -> ln(a) + r*x;
             double[] lny = Generate.Map(y, Math.Log);
-            double[] p = LinearCombination(x, lny, method, t => 1.0, t => t);
+            double[] p = LinearCombination(x, lny, method, _ => 1.0, t => t);
             return (Math.Exp(p[0]), p[1]);
         }
 
@@ -98,8 +98,8 @@ namespace MathNet.Numerics
         /// </summary>
         public static Func<double, double> ExponentialFunc(double[] x, double[] y, DirectRegressionMethod method = DirectRegressionMethod.QR)
         {
-            (double A, double R) = Exponential(x, y, method);
-            return z => A * Math.Exp(R * z);
+            (double a, double r) = Exponential(x, y, method);
+            return z => a * Math.Exp(r * z);
         }
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace MathNet.Numerics
         public static (double A, double B) Logarithm(double[] x, double[] y, DirectRegressionMethod method = DirectRegressionMethod.QR)
         {
             double[] lnx = Generate.Map(x, Math.Log);
-            double[] p = LinearCombination(lnx, y, method, t => 1.0, t => t);
+            double[] p = LinearCombination(lnx, y, method, _ => 1.0, t => t);
             return (p[0], p[1]);
         }
 
@@ -119,8 +119,8 @@ namespace MathNet.Numerics
         /// </summary>
         public static Func<double, double> LogarithmFunc(double[] x, double[] y, DirectRegressionMethod method = DirectRegressionMethod.QR)
         {
-            (double A, double B) = Logarithm(x, y, method);
-            return z => A + B * Math.Log(z);
+            (double a, double b) = Logarithm(x, y, method);
+            return z => a + b * Math.Log(z);
         }
 
         /// <summary>
@@ -131,7 +131,7 @@ namespace MathNet.Numerics
         {
             // Transformation: y_h := ln(y) ~> y_h : x -> ln(a) + b*ln(x);
             double[] lny = Generate.Map(y, Math.Log);
-            double[] p = LinearCombination(x, lny, method, t => 1.0, Math.Log);
+            double[] p = LinearCombination(x, lny, method, _ => 1.0, Math.Log);
             return (Math.Exp(p[0]), p[1]);
         }
 
@@ -141,8 +141,8 @@ namespace MathNet.Numerics
         /// </summary>
         public static Func<double, double> PowerFunc(double[] x, double[] y, DirectRegressionMethod method = DirectRegressionMethod.QR)
         {
-            (double A, double B) = Power(x, y, method);
-            return z => A * Math.Pow(z, B);
+            (double a, double b) = Power(x, y, method);
+            return z => a * Math.Pow(z, b);
         }
 
         /// <summary>
@@ -389,8 +389,8 @@ namespace MathNet.Numerics
         /// </summary>
         public static Func<double, double> CurveFunc(double[] x, double[] y, Func<double, double, double, double> f, double initialGuess0, double initialGuess1, double tolerance = 1e-8, int maxIterations = 1000)
         {
-            var (P0, P1) = Curve(x, y, f, initialGuess0, initialGuess1, tolerance, maxIterations);
-            return z => f(P0, P1, z);
+            var (p0, p1) = Curve(x, y, f, initialGuess0, initialGuess1, tolerance, maxIterations);
+            return z => f(p0, p1, z);
         }
 
         /// <summary>
@@ -399,8 +399,8 @@ namespace MathNet.Numerics
         /// </summary>
         public static Func<double, double> CurveFunc(double[] x, double[] y, Func<double, double, double, double, double> f, double initialGuess0, double initialGuess1, double initialGuess2, double tolerance = 1e-8, int maxIterations = 1000)
         {
-            var (P0, P1, P2) = Curve(x, y, f, initialGuess0, initialGuess1, initialGuess2, tolerance, maxIterations);
-            return z => f(P0, P1, P2, z);
+            var (p0, p1, p2) = Curve(x, y, f, initialGuess0, initialGuess1, initialGuess2, tolerance, maxIterations);
+            return z => f(p0, p1, p2, z);
         }
 
         /// <summary>
@@ -409,8 +409,8 @@ namespace MathNet.Numerics
         /// </summary>
         public static Func<double, double> CurveFunc(double[] x, double[] y, Func<double, double, double, double, double, double> f, double initialGuess0, double initialGuess1, double initialGuess2, double initialGuess3, double tolerance = 1e-8, int maxIterations = 1000)
         {
-            var (P0, P1, P2, P3) = Curve(x, y, f, initialGuess0, initialGuess1, initialGuess2, initialGuess3, tolerance, maxIterations);
-            return z => f(P0, P1, P2, P3, z);
+            var (p0, p1, p2, p3) = Curve(x, y, f, initialGuess0, initialGuess1, initialGuess2, initialGuess3, tolerance, maxIterations);
+            return z => f(p0, p1, p2, p3, z);
         }
 
         /// <summary>
@@ -419,8 +419,8 @@ namespace MathNet.Numerics
         /// </summary>
         public static Func<double, double> CurveFunc(double[] x, double[] y, Func<double, double, double, double, double, double, double> f, double initialGuess0, double initialGuess1, double initialGuess2, double initialGuess3, double initialGuess4, double tolerance = 1e-8, int maxIterations = 1000)
         {
-            (double P0, double P1, double P2, double P3, double P4) = Curve(x, y, f, initialGuess0, initialGuess1, initialGuess2, initialGuess3, initialGuess4, tolerance, maxIterations);
-            return z => f(P0, P1, P2, P3, P4, z);
+            (double p0, double p1, double p2, double p3, double p4) = Curve(x, y, f, initialGuess0, initialGuess1, initialGuess2, initialGuess3, initialGuess4, tolerance, maxIterations);
+            return z => f(p0, p1, p2, p3, p4, z);
         }
     }
 }

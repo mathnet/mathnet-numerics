@@ -358,7 +358,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         public static SparseMatrix CreateDiagonal(int rows, int columns, Complex value)
         {
             if (value == Complex.Zero) return new SparseMatrix(rows, columns);
-            return new SparseMatrix(SparseCompressedRowMatrixStorage<Complex>.OfDiagonalInit(rows, columns, i => value));
+            return new SparseMatrix(SparseCompressedRowMatrixStorage<Complex>.OfDiagonalInit(rows, columns, _ => value));
         }
 
         /// <summary>
@@ -374,7 +374,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </summary>
         public static SparseMatrix CreateIdentity(int order)
         {
-            return new SparseMatrix(SparseCompressedRowMatrixStorage<Complex>.OfDiagonalInit(order, order, i => One));
+            return new SparseMatrix(SparseCompressedRowMatrixStorage<Complex>.OfDiagonalInit(order, order, _ => One));
         }
 
         /// <summary>
@@ -899,12 +899,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 var diagonal = diagonalOther.Data;
                 if (other.ColumnCount == other.RowCount)
                 {
-                    Storage.MapIndexedTo(result.Storage, (i, j, x) => x*diagonal[j], Zeros.AllowSkip, ExistingData.Clear);
+                    Storage.MapIndexedTo(result.Storage, (_, j, x) => x*diagonal[j], Zeros.AllowSkip, ExistingData.Clear);
                 }
                 else
                 {
                     result.Storage.Clear();
-                    Storage.MapSubMatrixIndexedTo(result.Storage, (i, j, x) => x*diagonal[j], 0, 0, RowCount, 0, 0, Math.Min(ColumnCount, other.ColumnCount), Zeros.AllowSkip, ExistingData.AssumeZeros);
+                    Storage.MapSubMatrixIndexedTo(result.Storage, (_, j, x) => x*diagonal[j], 0, 0, RowCount, 0, 0, Math.Min(ColumnCount, other.ColumnCount), Zeros.AllowSkip, ExistingData.AssumeZeros);
                 }
                 return;
             }

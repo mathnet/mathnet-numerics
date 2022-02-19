@@ -98,7 +98,7 @@ namespace MathNet.Numerics
                 throw new ArgumentOutOfRangeException(nameof(length));
             }
 
-            if (length == 0) return new double[0];
+            if (length == 0) return Array.Empty<double>();
             if (length == 1) return new[] { stop };
 
             double step = (stop - start)/(length - 1);
@@ -122,7 +122,7 @@ namespace MathNet.Numerics
                 throw new ArgumentOutOfRangeException(nameof(length));
             }
 
-            if (length == 0) return new T[0];
+            if (length == 0) return Array.Empty<T>();
             if (length == 1) return new[] { map(stop) };
 
             double step = (stop - start)/(length - 1);
@@ -147,7 +147,7 @@ namespace MathNet.Numerics
                 throw new ArgumentOutOfRangeException(nameof(length));
             }
 
-            if (length == 0) return new double[0];
+            if (length == 0) return Array.Empty<double>();
             if (length == 1) return new[] { Math.Pow(10, stopExponent) };
 
             double step = (stopExponent - startExponent)/(length - 1);
@@ -171,7 +171,7 @@ namespace MathNet.Numerics
                 throw new ArgumentOutOfRangeException(nameof(length));
             }
 
-            if (length == 0) return new T[0];
+            if (length == 0) return Array.Empty<T>();
             if (length == 1) return new[] { map(Math.Pow(10, stopExponent)) };
 
             double step = (stopExponent - startExponent)/(length - 1);
@@ -218,7 +218,7 @@ namespace MathNet.Numerics
         /// </summary>
         public static int[] LinearRangeInt32(int start, int stop)
         {
-            if (start == stop) return new int[] { start };
+            if (start == stop) return new[] { start };
             if (start < stop)
             {
                 var data = new int[stop - start + 1];
@@ -249,7 +249,7 @@ namespace MathNet.Numerics
             if (start == stop) return new double[] { start };
             if (start < stop && step < 0 || start > stop && step > 0 || step == 0d)
             {
-                return new double[0];
+                return Array.Empty<double>();
             }
 
             var data = new double[(stop - start)/step + 1];
@@ -267,10 +267,10 @@ namespace MathNet.Numerics
         /// </summary>
         public static int[] LinearRangeInt32(int start, int step, int stop)
         {
-            if (start == stop) return new int[] { start };
+            if (start == stop) return new[] { start };
             if (start < stop && step < 0 || start > stop && step > 0 || step == 0d)
             {
-                return new int[0];
+                return Array.Empty<int>();
             }
 
             var data = new int[(stop - start) / step + 1];
@@ -291,7 +291,7 @@ namespace MathNet.Numerics
             if (start == stop) return new[] { start };
             if (start < stop && step < 0 || start > stop && step > 0 || step == 0d)
             {
-                return new double[0];
+                return Array.Empty<double>();
             }
 
             var data = new double[(int)Math.Floor((stop - start)/step + 1d)];
@@ -311,7 +311,7 @@ namespace MathNet.Numerics
             if (start == stop) return new[] { map(start) };
             if (start < stop && step < 0 || start > stop && step > 0 || step == 0d)
             {
-                return new T[0];
+                return Array.Empty<T>();
             }
 
             var data = new T[(int)Math.Floor((stop - start)/step + 1d)];

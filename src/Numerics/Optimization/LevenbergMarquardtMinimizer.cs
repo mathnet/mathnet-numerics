@@ -10,7 +10,7 @@ namespace MathNet.Numerics.Optimization
         /// <summary>
         /// The scale factor for initial mu
         /// </summary>
-        public double InitialMu { get; set; } = 1E-3;
+        public double InitialMu { get; set; }
 
         public LevenbergMarquardtMinimizer(double initialMu = 1E-3, double gradientTolerance = 1E-15, double stepTolerance = 1E-15, double functionTolerance = 1E-15, int maximumIterations = -1)
             : base(gradientTolerance, stepTolerance, functionTolerance, maximumIterations)
@@ -101,7 +101,7 @@ namespace MathNet.Numerics.Optimization
 
             // First, calculate function values and setup variables
             var P = ProjectToInternalParameters(initialGuess); // current internal parameters
-            var Pstep = Vector<double>.Build.Dense(P.Count); // the change of parameters
+            Vector<double> Pstep; // the change of parameters
             var RSS = EvaluateFunction(objective, P);  // Residual Sum of Squares = R'R
 
             if (maximumIterations < 0)

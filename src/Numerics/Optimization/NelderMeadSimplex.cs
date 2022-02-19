@@ -124,7 +124,7 @@ namespace MathNet.Numerics.Optimization
             Vector<double>[] vertices = InitializeVertices(simplexConstants);
 
             int evaluationCount = 0;
-            ExitCondition exitCondition = ExitCondition.None;
+            ExitCondition exitCondition;
             ErrorProfile errorProfile;
 
             double[] errorValues = InitializeErrorValues(vertices, objectiveFunction);
@@ -157,7 +157,7 @@ namespace MathNet.Numerics.Optimization
                 if (reflectionPointValue <= errorValues[errorProfile.LowestIndex])
                 {
                     // it's better than the best point, so attempt an expansion of the simplex
-                    double expansionPointValue = TryToScaleSimplex(2.0, ref errorProfile, vertices, errorValues, objectiveFunction);
+                    TryToScaleSimplex(2.0, ref errorProfile, vertices, errorValues, objectiveFunction);
                     ++evaluationCount;
                 }
                 else if (reflectionPointValue >= errorValues[errorProfile.NextHighestIndex])

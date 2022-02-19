@@ -44,7 +44,6 @@
 // </contribution>
 
 using System;
-using Complex = System.Numerics.Complex;
 
 // ReSharper disable once CheckNamespace
 namespace MathNet.Numerics

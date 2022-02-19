@@ -353,12 +353,12 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
             if (ColumnCount == RowCount)
             {
-                other.Storage.MapIndexedTo(result.Storage, (i, j, x) => x*_data[i], Zeros.AllowSkip, ExistingData.Clear);
+                other.Storage.MapIndexedTo(result.Storage, (i, _, x) => x*_data[i], Zeros.AllowSkip, ExistingData.Clear);
             }
             else
             {
                 result.Clear();
-                other.Storage.MapSubMatrixIndexedTo(result.Storage, (i, j, x) => x*_data[i], 0, 0, Math.Min(RowCount, other.RowCount), 0, 0, other.ColumnCount, Zeros.AllowSkip, ExistingData.AssumeZeros);
+                other.Storage.MapSubMatrixIndexedTo(result.Storage, (i, _, x) => x*_data[i], 0, 0, Math.Min(RowCount, other.RowCount), 0, 0, other.ColumnCount, Zeros.AllowSkip, ExistingData.AssumeZeros);
             }
         }
 
@@ -444,12 +444,12 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
             if (ColumnCount == RowCount)
             {
-                other.Storage.MapIndexedTo(result.Storage, (i, j, x) => x*_data[i], Zeros.AllowSkip, ExistingData.Clear);
+                other.Storage.MapIndexedTo(result.Storage, (i, _, x) => x*_data[i], Zeros.AllowSkip, ExistingData.Clear);
             }
             else
             {
                 result.Clear();
-                other.Storage.MapSubMatrixIndexedTo(result.Storage, (i, j, x) => x*_data[i], 0, 0, other.RowCount, 0, 0, other.ColumnCount, Zeros.AllowSkip, ExistingData.AssumeZeros);
+                other.Storage.MapSubMatrixIndexedTo(result.Storage, (i, _, x) => x*_data[i], 0, 0, other.RowCount, 0, 0, other.ColumnCount, Zeros.AllowSkip, ExistingData.AssumeZeros);
             }
         }
 

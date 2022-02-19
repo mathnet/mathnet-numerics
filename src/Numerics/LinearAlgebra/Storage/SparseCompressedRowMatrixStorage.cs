@@ -74,8 +74,8 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             : base(rows, columns)
         {
             RowPointers = new int[rows + 1];
-            ColumnIndices = new int[0];
-            Values = new T[0];
+            ColumnIndices = Array.Empty<int>();
+            Values = Array.Empty<T>();
         }
 
         internal SparseCompressedRowMatrixStorage(int rows, int columns, int[] rowPointers, int[] columnIndices, T[] values)
@@ -487,7 +487,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             {
                 rows[rowIndices[i]] = true;
             }
-            MapIndexedInplace((i, j, x) => rows[i] ? Zero : x, Zeros.AllowSkip);
+            MapIndexedInplace((i, _, x) => rows[i] ? Zero : x, Zeros.AllowSkip);
         }
 
         internal override void ClearColumnsUnchecked(int[] columnIndices)
@@ -497,7 +497,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             {
                 columns[columnIndices[i]] = true;
             }
-            MapIndexedInplace((i, j, x) => columns[j] ? Zero : x, Zeros.AllowSkip);
+            MapIndexedInplace((_, j, x) => columns[j] ? Zero : x, Zeros.AllowSkip);
         }
 
         // INITIALIZATION

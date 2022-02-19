@@ -44,7 +44,7 @@ namespace MathNet.Numerics.UnitTests.DifferentiationTests
             Func<double, double> f = x => Math.Pow(2 * x, 2);
             var J = new NumericalHessian();
             var jeval = J.Evaluate(f, 2);
-            Assert.AreEqual((double)8, jeval[0], 1e-7);
+            Assert.AreEqual(8.0, jeval[0], 1e-7);
         }
 
         [Test]

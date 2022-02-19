@@ -296,7 +296,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <remarks>
         /// The enumerator will include all values, even if they are zero.
         /// </remarks>
-        public IEnumerable<T> Enumerate(Zeros zeros = Zeros.Include)
+        public IEnumerable<T> Enumerate(Zeros zeros)
         {
             switch (zeros)
             {
@@ -328,7 +328,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// and the second value being the value of the element at that index.
         /// The enumerator will include all values, even if they are zero.
         /// </remarks>
-        public IEnumerable<(int, T)> EnumerateIndexed(Zeros zeros = Zeros.Include)
+        public IEnumerable<(int, T)> EnumerateIndexed(Zeros zeros)
         {
             switch (zeros)
             {

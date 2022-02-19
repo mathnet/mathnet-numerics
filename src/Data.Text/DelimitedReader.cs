@@ -80,7 +80,7 @@ namespace MathNet.Numerics.Data.Text
             var mvStr = mv.ToString("G", formatProvider);
 
             var regex = delimiter == @"\s" ?
-                RegexCache.GetOrAdd(delimiter, d => new Regex(WhiteSpaceRegexTemplate, RegexOptions.Compiled)) :
+                RegexCache.GetOrAdd(delimiter, _ => new Regex(WhiteSpaceRegexTemplate, RegexOptions.Compiled)) :
                 RegexCache.GetOrAdd(delimiter, d => new Regex(string.Format(RegexTemplate, d), RegexOptions.Compiled));
 
             var parse = CreateParser<T>(formatProvider);

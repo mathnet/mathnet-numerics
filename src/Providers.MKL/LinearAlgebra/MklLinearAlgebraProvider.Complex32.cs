@@ -784,12 +784,12 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
 
             if (b == null)
             {
-                throw new ArgumentNullException(nameof(q));
+                throw new ArgumentNullException(nameof(b));
             }
 
             if (x == null)
             {
-                throw new ArgumentNullException(nameof(q));
+                throw new ArgumentNullException(nameof(x));
             }
 
             int rowsQ, columnsQ, rowsR, columnsR;

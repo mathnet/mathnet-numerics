@@ -102,10 +102,10 @@ namespace MathNet.Numerics.OdeSolvers
             double t = start;
             double[] y = new double[N];
 
-            double k1 = 0;
-            double k2 = 0;
-            double k3 = 0;
-            double k4 = 0;
+            double k1;
+            double k2;
+            double k3;
+            double k4;
             y[0] = y0;
             for (int i = 1; i < 3; i++)
             {
@@ -140,10 +140,10 @@ namespace MathNet.Numerics.OdeSolvers
             double t = start;
             double[] y = new double[N];
 
-            double k1 = 0;
-            double k2 = 0;
-            double k3 = 0;
-            double k4 = 0;
+            double k1;
+            double k2;
+            double k3;
+            double k4;
             y[0] = y0;
             for (int i = 1; i < 4; i++)
             {

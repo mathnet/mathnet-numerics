@@ -372,7 +372,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         public static DenseMatrix CreateDiagonal(int rows, int columns, Complex value)
         {
             if (value == Complex.Zero) return new DenseMatrix(rows, columns);
-            return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex>.OfDiagonalInit(rows, columns, i => value));
+            return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex>.OfDiagonalInit(rows, columns, _ => value));
         }
 
         /// <summary>
@@ -388,7 +388,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </summary>
         public static DenseMatrix CreateIdentity(int order)
         {
-            return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex>.OfDiagonalInit(order, order, i => One));
+            return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex>.OfDiagonalInit(order, order, _ => One));
         }
 
         /// <summary>

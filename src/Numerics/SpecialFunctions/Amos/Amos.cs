@@ -540,7 +540,7 @@ namespace MathNet.Numerics
 
                 if (sign == -1)
                 {
-                    if (!ReflectI(cyi, v))
+                    if (!ReflectI(v))
                     {
                         double[] cykr = new double[n];
                         double[] cyki = new double[n];
@@ -587,7 +587,7 @@ namespace MathNet.Numerics
 
                 if (sign == -1)
                 {
-                    if (!ReflectI(cyi, v))
+                    if (!ReflectI(v))
                     {
                         double[] cykr = new double[n];
                         double[] cyki = new double[n];
@@ -994,7 +994,7 @@ namespace MathNet.Numerics
                 return true;
             }
 
-            static bool ReflectI(Complex ik, double v)
+            static bool ReflectI(double v)
             {
                 if (v != Math.Floor(v))
                 {

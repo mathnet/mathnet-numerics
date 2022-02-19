@@ -656,7 +656,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>The maximum absolute value.</returns>
         public override double InfinityNorm()
         {
-            return CommonParallel.Aggregate(_values, (i, v) => Math.Abs(v), Math.Max, 0d);
+            return CommonParallel.Aggregate(_values, (_, v) => Math.Abs(v), Math.Max, 0d);
         }
 
         /// <summary>

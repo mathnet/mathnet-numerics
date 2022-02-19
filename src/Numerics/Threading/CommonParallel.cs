@@ -171,7 +171,7 @@ namespace MathNet.Numerics.Threading
             // Special case: no action
             if (fromInclusive >= toExclusive)
             {
-                return reduce(new T[0]);
+                return reduce(Array.Empty<T>());
             }
 
             // Special case: single action, inline
@@ -199,7 +199,7 @@ namespace MathNet.Numerics.Threading
                 Partitioner.Create(fromInclusive, toExclusive),
                 CreateParallelOptions(),
                 () => new List<T>(),
-                (range, loop, localData) =>
+                (range, _, localData) =>
                 {
                     var mapped = new T[range.Item2 - range.Item1];
                     for (int k = 0; k < mapped.Length; k++)
@@ -242,7 +242,7 @@ namespace MathNet.Numerics.Threading
             // Special case: no action
             if (array == null || array.Length == 0)
             {
-                return reduce(new TOut[0]);
+                return reduce(Array.Empty<TOut>());
             }
 
             // Special case: single action, inline
@@ -270,7 +270,7 @@ namespace MathNet.Numerics.Threading
                 Partitioner.Create(0, array.Length),
                 CreateParallelOptions(),
                 () => new List<TOut>(),
-                (range, loop, localData) =>
+                (range, _, localData) =>
                 {
                     var mapped = new TOut[range.Item2 - range.Item1];
                     for (int k = 0; k < mapped.Length; k++)

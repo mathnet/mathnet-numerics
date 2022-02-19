@@ -398,7 +398,7 @@ namespace MathNet.Numerics.Integration.GaussRule
             for (int k = 1; k <= gaussOrder + 1; k = k + 2)
             {
                 var x0 = (1.0 - (1.0 - 1.0 / gaussOrder) / (8 * gaussOrder * gaussOrder)) * Math.Cos((k - 0.5) * Math.PI / (2.0 * gaussOrder + 1.0));
-                var dx = 0d;
+                double dx;
                 var j = 1; // iterations
 
                 // Newton iterations
@@ -474,15 +474,15 @@ namespace MathNet.Numerics.Integration.GaussRule
             // The added n + 1 Kronrod abscissae is the roots of the Kronrod polynomial.
 
             if (order == 1)         // P(1, x)
-                return new double[] { 0, 1 };
+                return new[] { 0.0, 1.0 };
             if (order == 2)    // -2/5 * P(0, x) +  P(2, x)
-                return new double[] { -0.4, 0, 1 };
+                return new[] { -0.4, 0.0, 1.0 };
             if (order == 3)    // -9/14 * P(1, x) + P(3, x)
-                return new double[] { 0, -0.642857142857142857142857142857, 0, 1 };
+                return new[] { 0, -0.642857142857142857142857142857, 0.0, 1.0 };
             if (order == 4)    // 14/891 * P(0, x) - 20/27 * P(2, x) + P(4, x)
-                return new double[] { 0.0157126823793490460157126823793, 0, -0.740740740740740740740740740741, 0, 1 };
+                return new[] { 0.0157126823793490460157126823793, 0, -0.740740740740740740740740740741, 0.0, 1.0 };
             if (order == 5)    // 135/12584 * P(1, x) - 35/44 * P(3, x) + P(5, x)
-                return new double[] { 0, 0.0107279084551811824539097266370, 0, -0.795454545454545454545454545455, 0, 1 };
+                return new[] { 0, 0.0107279084551811824539097266370, 0, -0.795454545454545454545454545455, 0.0, 1.0 };
 
             int n = order - 1;
             int q = n.IsOdd() ? 1 : 0;
@@ -552,8 +552,8 @@ namespace MathNet.Numerics.Integration.GaussRule
             if (a.Length == 2)
                 return (a[0] + a[1] * x, a[1]);
 
-            double b0 = 0.0, b1 = 0.0, b2 = 0.0;
-            double p0 = 0.0, p1 = 0.0, p2 = 0.0;
+            double b0, b1 = 0.0, b2 = 0.0;
+            double p0, p1 = 0.0, p2 = 0.0;
 
             for (int k = a.Length - 1; k >= 1; k--)
             {

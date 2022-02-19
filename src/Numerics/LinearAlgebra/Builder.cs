@@ -498,7 +498,7 @@ namespace MathNet.Numerics.LinearAlgebra
         public Matrix<T> DenseDiagonal(int rows, int columns, T value)
         {
             if (Zero.Equals(value)) return Dense(rows, columns);
-            return Dense(DenseColumnMajorMatrixStorage<T>.OfDiagonalInit(rows, columns, i => value));
+            return Dense(DenseColumnMajorMatrixStorage<T>.OfDiagonalInit(rows, columns, _ => value));
         }
 
         /// <summary>
@@ -507,7 +507,7 @@ namespace MathNet.Numerics.LinearAlgebra
         public Matrix<T> DenseDiagonal(int order, T value)
         {
             if (Zero.Equals(value)) return Dense(order, order);
-            return Dense(DenseColumnMajorMatrixStorage<T>.OfDiagonalInit(order, order, i => value));
+            return Dense(DenseColumnMajorMatrixStorage<T>.OfDiagonalInit(order, order, _ => value));
         }
 
         /// <summary>
@@ -523,7 +523,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         public Matrix<T> DenseIdentity(int rows, int columns)
         {
-            return Dense(DenseColumnMajorMatrixStorage<T>.OfDiagonalInit(rows, columns, i => One));
+            return Dense(DenseColumnMajorMatrixStorage<T>.OfDiagonalInit(rows, columns, _ => One));
         }
 
         /// <summary>
@@ -531,7 +531,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         public Matrix<T> DenseIdentity(int order)
         {
-            return Dense(DenseColumnMajorMatrixStorage<T>.OfDiagonalInit(order, order, i => One));
+            return Dense(DenseColumnMajorMatrixStorage<T>.OfDiagonalInit(order, order, _ => One));
         }
 
         /// <summary>
@@ -855,7 +855,7 @@ namespace MathNet.Numerics.LinearAlgebra
         public Matrix<T> SparseDiagonal(int rows, int columns, T value)
         {
             if (Zero.Equals(value)) return Sparse(rows, columns);
-            return Sparse(SparseCompressedRowMatrixStorage<T>.OfDiagonalInit(rows, columns, i => value));
+            return Sparse(SparseCompressedRowMatrixStorage<T>.OfDiagonalInit(rows, columns, _ => value));
         }
 
         /// <summary>
@@ -864,7 +864,7 @@ namespace MathNet.Numerics.LinearAlgebra
         public Matrix<T> SparseDiagonal(int order, T value)
         {
             if (Zero.Equals(value)) return Sparse(order, order);
-            return Sparse(SparseCompressedRowMatrixStorage<T>.OfDiagonalInit(order, order, i => value));
+            return Sparse(SparseCompressedRowMatrixStorage<T>.OfDiagonalInit(order, order, _ => value));
         }
 
         /// <summary>
@@ -880,7 +880,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         public Matrix<T> SparseIdentity(int rows, int columns)
         {
-            return Sparse(SparseCompressedRowMatrixStorage<T>.OfDiagonalInit(rows, columns, i => One));
+            return Sparse(SparseCompressedRowMatrixStorage<T>.OfDiagonalInit(rows, columns, _ => One));
         }
 
         /// <summary>
@@ -888,7 +888,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         public Matrix<T> SparseIdentity(int order)
         {
-            return Sparse(SparseCompressedRowMatrixStorage<T>.OfDiagonalInit(order, order, i => One));
+            return Sparse(SparseCompressedRowMatrixStorage<T>.OfDiagonalInit(order, order, _ => One));
         }
 
         /// <summary>

@@ -1444,7 +1444,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// The enumerator will include all values, even if they are zero.
         /// The ordering of the values is unspecified (not necessarily column-wise or row-wise).
         /// </remarks>
-        public IEnumerable<T> Enumerate(Zeros zeros = Zeros.Include)
+        public IEnumerable<T> Enumerate(Zeros zeros)
         {
             switch (zeros)
             {
@@ -1476,7 +1476,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// and the third value being the value of the element at that index.
         /// The enumerator will include all values, even if they are zero.
         /// </remarks>
-        public IEnumerable<(int, int, T)> EnumerateIndexed(Zeros zeros = Zeros.Include)
+        public IEnumerable<(int, int, T)> EnumerateIndexed(Zeros zeros)
         {
             switch (zeros)
             {
@@ -1726,7 +1726,7 @@ namespace MathNet.Numerics.LinearAlgebra
                     }
                 });
             }
-            Storage.FoldByRowUnchecked(result, f, (x, c) => x, result, zeros);
+            Storage.FoldByRowUnchecked(result, f, (x, _) => x, result, zeros);
             return result;
         }
 
@@ -1747,7 +1747,7 @@ namespace MathNet.Numerics.LinearAlgebra
                     }
                 });
             }
-            Storage.FoldByColumnUnchecked(result, f, (x, c) => x, result, zeros);
+            Storage.FoldByColumnUnchecked(result, f, (x, _) => x, result, zeros);
             return result;
         }
 

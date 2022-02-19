@@ -64,8 +64,8 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         internal SparseVectorStorage(int length)
             : base(length)
         {
-            Indices = new int[0];
-            Values = new T[0];
+            Indices = Array.Empty<int>();
+            Values = Array.Empty<T>();
             ValueCount = 0;
         }
 
