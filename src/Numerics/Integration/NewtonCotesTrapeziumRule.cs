@@ -268,8 +268,8 @@ namespace MathNet.Numerics.Integration
                 // First Level
                 abcissasIterator.MoveNext();
                 weightsIterator.MoveNext();
-                double[] abcissasL1 = abcissasIterator.Current;
-                double[] weightsL1 = weightsIterator.Current;
+                double[] abcissasL1 = abcissasIterator.Current ?? throw new ArgumentNullException(nameof(levelAbscissas));
+                double[] weightsL1 = weightsIterator.Current ?? throw new ArgumentNullException(nameof(levelWeights));
 
                 double sum = f(linearOffset)*weightsL1[0];
                 for (int i = 1; i < abcissasL1.Length; i++)
@@ -283,8 +283,8 @@ namespace MathNet.Numerics.Integration
                 double previousDelta = double.MaxValue;
                 for (int level = 1; abcissasIterator.MoveNext() && weightsIterator.MoveNext(); level++)
                 {
-                    double[] abcissas = abcissasIterator.Current;
-                    double[] weights = weightsIterator.Current;
+                    double[] abcissas = abcissasIterator.Current ?? throw new ArgumentNullException(nameof(levelAbscissas));
+                    double[] weights = weightsIterator.Current ?? throw new ArgumentNullException(nameof(levelWeights));
 
                     double midpointsum = 0;
                     for (int i = 0; i < abcissas.Length; i++)
@@ -367,8 +367,8 @@ namespace MathNet.Numerics.Integration
                 // First Level
                 abcissasIterator.MoveNext();
                 weightsIterator.MoveNext();
-                double[] abcissasL1 = abcissasIterator.Current;
-                double[] weightsL1 = weightsIterator.Current;
+                double[] abcissasL1 = abcissasIterator.Current ?? throw new ArgumentNullException(nameof(levelAbscissas));
+                double[] weightsL1 = weightsIterator.Current ?? throw new ArgumentNullException(nameof(levelWeights));
 
                 Complex sum = f(linearOffset) * weightsL1[0];
                 for (int i = 1; i < abcissasL1.Length; i++)
@@ -382,8 +382,8 @@ namespace MathNet.Numerics.Integration
                 double previousDelta = double.MaxValue;
                 for (int level = 1; abcissasIterator.MoveNext() && weightsIterator.MoveNext(); level++)
                 {
-                    double[] abcissas = abcissasIterator.Current;
-                    double[] weights = weightsIterator.Current;
+                    double[] abcissas = abcissasIterator.Current ?? throw new ArgumentNullException(nameof(levelAbscissas));
+                    double[] weights = weightsIterator.Current ?? throw new ArgumentNullException(nameof(levelWeights));
 
                     Complex midpointsum = 0;
                     for (int i = 0; i < abcissas.Length; i++)
