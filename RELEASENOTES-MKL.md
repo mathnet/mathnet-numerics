@@ -1,3 +1,6 @@
+### 3.0.0-beta3 - 2022-02-19
+* Fix typo in the binary file name
+
 ### 3.0.0-beta2 - 2021-12-29
 * New binary names and package structure with runtime folders
 
