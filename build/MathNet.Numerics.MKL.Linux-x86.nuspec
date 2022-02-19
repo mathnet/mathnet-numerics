@@ -19,7 +19,7 @@
     </metadata>
     <files>
         <file src="..\..\out\MKL\Linux\x86\libiomp5.so" target="runtimes\linux-x86\native\libiomp5.so" />
-        <file src="..\..\out\MKL\Linux\x86\libMathNetNumercisMKL.so" target="runtimes\linux-x86\native\libMathNetNumercisMKL.so" />
+        <file src="..\..\out\MKL\Linux\x86\libMathNetNumericsMKL.so" target="runtimes\linux-x86\native\libMathNetNumericsMKL.so" />
         <file src="..\..\build\NativeProvider.targets" target="build\net461\MathNet.Numerics.MKL.Linux-x86.targets" />
         <file src="..\..\build\NativeProvider.targets" target="build\net48\MathNet.Numerics.MKL.Linux-x86.targets" />
         <file src="..\..\build\NativeProvider.targets" target="buildTransitive\net461\MathNet.Numerics.MKL.Linux-x86.targets" />

@@ -19,7 +19,7 @@
     </metadata>
     <files>
         <file src="..\..\out\MKL\Windows\x64\libiomp5md.dll" target="runtimes\win-x64\native\libiomp5md.dll" />
-        <file src="..\..\out\MKL\Windows\x64\libMathNetNumercisMKL.dll" target="runtimes\win-x64\native\libMathNetNumercisMKL.dll" />
+        <file src="..\..\out\MKL\Windows\x64\libMathNetNumericsMKL.dll" target="runtimes\win-x64\native\libMathNetNumericsMKL.dll" />
         <file src="..\..\build\NativeProvider.targets" target="build\net461\MathNet.Numerics.MKL.Win-x64.targets" />
         <file src="..\..\build\NativeProvider.targets" target="build\net48\MathNet.Numerics.MKL.Win-x64.targets" />
         <file src="..\..\build\NativeProvider.targets" target="buildTransitive\net461\MathNet.Numerics.MKL.Win-x64.targets" />

@@ -75,7 +75,7 @@ Default Behavior on Windows
 
 On Windows it is usually enough to make sure the native libraries are in the
 same folder as the executable. Reference the appropriate NuGet package and set
-"Copy to Output Directory" for both libMathNetNumercisMKL.dll and libiomp5md.dll
+"Copy to Output Directory" for both libMathNetNumericsMKL.dll and libiomp5md.dll
 to "Copy always", or place the two native DLLs manually into the same directory
 as your application's executable. There is no need to set the native provider
 path explicitly.
@@ -119,7 +119,7 @@ To build the MKL native provider for OSX:
     mkl_build.sh
     lionel:OSX Lionel$ sh mkl_build.sh
 
-Check the /x86 and /x64 folders in mathnet-numerics/out/MKL: you should now find the `libiomp5.dylib` and `libMathNetNumercisMKL.dll` libaries.
+Check the /x86 and /x64 folders in mathnet-numerics/out/MKL: you should now find the `libiomp5.dylib` and `libMathNetNumericsMKL.dll` libaries.
 You need to add the path to the generated libraries in your `DYLD_LIBRARY_PATH` environment variable (which you can move to the folder of you choice before).
 To do that, open your /Users/Lionel/.bas_profile.sh file with a text editor and add the following statements.
 
@@ -190,7 +190,7 @@ and use `ldconfig` to tell where to look for the libraries, but for now we'll ju
 
     [lang=sh]
     sudo cp packages/MathNet.Numerics.MKL.Linux-x64.1.3.0/content/libiomp5.so /usr/lib/
-    sudo cp packages/MathNet.Numerics.MKL.Linux-x64.1.3.0/content/libMathNetNumercisMKL.dll /usr/lib/
+    sudo cp packages/MathNet.Numerics.MKL.Linux-x64.1.3.0/content/libMathNetNumericsMKL.dll /usr/lib/
 
 Then we're all set and can just call `Control.UseNativeMKL()` if we want to use the native provider.
 Let's create the following C# file `Example.cs`:
