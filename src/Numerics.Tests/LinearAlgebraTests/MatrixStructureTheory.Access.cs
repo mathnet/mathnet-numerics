@@ -31,7 +31,7 @@ using MathNet.Numerics.LinearAlgebra;
 using NUnit.Framework;
 using System;
 
-namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
+namespace MathNet.Numerics.Tests.LinearAlgebraTests
 {
     partial class MatrixStructureTheory<T>
     {

@@ -32,7 +32,7 @@ using System.IO;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 
-namespace MathNet.Numerics.UnitTests
+namespace MathNet.Numerics.Tests
 {
     [AttributeUsage(AttributeTargets.Assembly)]
     public class UseLinearAlgebraProvider : Attribute, ITestAction

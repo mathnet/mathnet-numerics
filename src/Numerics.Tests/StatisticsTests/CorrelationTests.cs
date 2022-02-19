@@ -35,7 +35,7 @@ using MathNet.Numerics.Statistics;
 using MathNet.Numerics.TestData;
 using System.Globalization;
 
-namespace MathNet.Numerics.UnitTests.StatisticsTests
+namespace MathNet.Numerics.Tests.StatisticsTests
 {
     /// <summary>
     /// Correlation tests

@@ -35,7 +35,7 @@ using MathNet.Numerics.LinearAlgebra.Double.Solvers;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Preconditioners
+namespace MathNet.Numerics.Tests.LinearAlgebraTests.Double.Solvers.Preconditioners
 {
     /// <summary>
     /// Incomplete LU with tpPreconditioner test with drop tolerance and partial pivoting.

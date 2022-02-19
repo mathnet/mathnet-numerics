@@ -37,7 +37,7 @@ using MathNet.Numerics.LinearAlgebra.Storage;
 using NUnit.Framework;
 using MathNet.Numerics.Data.Text;
 
-namespace MathNet.Numerics.Data.UnitTests.Text
+namespace MathNet.Numerics.Data.Tests.Text
 {
     /// <summary>
     /// Delimited reader tests.

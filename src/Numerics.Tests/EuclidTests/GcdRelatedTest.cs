@@ -30,7 +30,7 @@
 using System;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.EuclidTests
+namespace MathNet.Numerics.Tests.EuclidTests
 {
     /// <summary>
     /// GreatestCommonDivisor related test.

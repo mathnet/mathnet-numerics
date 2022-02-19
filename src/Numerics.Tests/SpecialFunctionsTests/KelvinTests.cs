@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using System;
 
-namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
+namespace MathNet.Numerics.Tests.SpecialFunctionsTests
 {
     /// <summary>
     /// Kelvin functions tests.

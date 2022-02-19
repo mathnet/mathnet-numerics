@@ -28,7 +28,7 @@ using System.Numerics;
 using MathNet.Numerics.Data.Matlab;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.Data.UnitTests.Matlab
+namespace MathNet.Numerics.Data.Tests.Matlab
 {
     /// <summary>
     /// Matlab matrix reader test.

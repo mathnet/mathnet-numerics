@@ -29,10 +29,10 @@
 
 using MathNet.Numerics.Optimization;
 using MathNet.Numerics.Optimization.ObjectiveFunctions;
-using MathNet.Numerics.UnitTests.OptimizationTests.TestFunctions;
+using MathNet.Numerics.Tests.OptimizationTests.TestFunctions;
 using MathNet.Numerics.LinearAlgebra.Double;
 
-namespace MathNet.Numerics.UnitTests.OptimizationTests
+namespace MathNet.Numerics.Tests.OptimizationTests
 {
     public class MghObjectiveFunction : LazyObjectiveFunctionBase
     {

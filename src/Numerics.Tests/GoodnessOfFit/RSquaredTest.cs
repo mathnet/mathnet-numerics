@@ -31,7 +31,7 @@ using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.GoodnessOfFit
+namespace MathNet.Numerics.Tests.GoodnessOfFit
 {
     [TestFixture, Category("Regression")]
     public class RSquaredTest

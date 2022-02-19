@@ -53,7 +53,7 @@
 using System;
 using System.Linq.Expressions;
 
-namespace MathNet.Numerics.UnitTests
+namespace MathNet.Numerics.Tests
 {
     /// <summary>
     /// The Operator class provides easy access to the standard operators

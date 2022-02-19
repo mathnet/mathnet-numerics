@@ -34,7 +34,7 @@ using MathNet.Numerics.Distributions;
 using MathNet.Numerics.LinearAlgebra;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
+namespace MathNet.Numerics.Tests.LinearAlgebraTests.Double
 {
     /// <summary>
     /// Abstract class with the common set of vector tests.

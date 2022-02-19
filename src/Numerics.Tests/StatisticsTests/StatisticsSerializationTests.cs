@@ -32,7 +32,7 @@ using System.Runtime.Serialization;
 using MathNet.Numerics.Statistics;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.StatisticsTests
+namespace MathNet.Numerics.Tests.StatisticsTests
 {
     [TestFixture]
     public class StatisticsSerializationTests

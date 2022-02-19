@@ -34,7 +34,7 @@ using MathNet.Numerics.IntegralTransforms;
 using MathNet.Numerics.Statistics;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
+namespace MathNet.Numerics.Tests.IntegralTransformsTests
 {
     /// <summary>
     /// Parseval's theorem verification tests.

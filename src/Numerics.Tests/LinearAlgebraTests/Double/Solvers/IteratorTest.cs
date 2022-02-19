@@ -33,7 +33,7 @@ using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers
+namespace MathNet.Numerics.Tests.LinearAlgebraTests.Double.Solvers
 {
     /// <summary>
     /// Iterator tests

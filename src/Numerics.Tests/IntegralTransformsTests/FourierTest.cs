@@ -32,7 +32,7 @@ using Complex = System.Numerics.Complex;
 using MathNet.Numerics.IntegralTransforms;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
+namespace MathNet.Numerics.Tests.IntegralTransformsTests
 {
     /// <summary>
     /// Fourier test.

@@ -31,13 +31,13 @@ using System;
 using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.Optimization;
 using NUnit.Framework;
-using MathNet.Numerics.UnitTests.OptimizationTests.TestFunctions;
+using MathNet.Numerics.Tests.OptimizationTests.TestFunctions;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework.Interfaces;
 
-namespace MathNet.Numerics.UnitTests.OptimizationTests
+namespace MathNet.Numerics.Tests.OptimizationTests
 {
     [TestFixture]
     public class ConjugateGradientMinimizerTests

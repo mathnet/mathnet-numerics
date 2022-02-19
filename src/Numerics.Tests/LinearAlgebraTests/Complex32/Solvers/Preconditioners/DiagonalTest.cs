@@ -33,7 +33,7 @@ using MathNet.Numerics.LinearAlgebra.Complex32.Solvers;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Preconditioners
+namespace MathNet.Numerics.Tests.LinearAlgebraTests.Complex32.Solvers.Preconditioners
 {
     using Numerics;
 

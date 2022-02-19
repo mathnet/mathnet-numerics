@@ -32,7 +32,7 @@ using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Single;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
+namespace MathNet.Numerics.Tests.LinearAlgebraTests.Single.Factorization
 {
     /// <summary>
     /// Svd factorization tests for a dense matrix.

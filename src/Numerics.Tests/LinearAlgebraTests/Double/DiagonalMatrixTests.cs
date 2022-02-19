@@ -35,7 +35,7 @@ using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.Random;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
+namespace MathNet.Numerics.Tests.LinearAlgebraTests.Double
 {
     /// <summary>
     /// Diagonal matrix tests.

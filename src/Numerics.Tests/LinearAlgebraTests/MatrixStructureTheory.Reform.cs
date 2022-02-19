@@ -32,7 +32,7 @@ using System.Linq;
 using MathNet.Numerics.LinearAlgebra;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
+namespace MathNet.Numerics.Tests.LinearAlgebraTests
 {
     partial class MatrixStructureTheory<T>
     {

@@ -33,7 +33,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 
-namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
+namespace MathNet.Numerics.Tests.LinearAlgebraTests.Single
 {
     /// <summary>
     /// Dense vector tests.

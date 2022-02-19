@@ -30,7 +30,7 @@
 using NUnitLite;
 using System.Reflection;
 
-namespace MathNet.Numerics.Data.UnitTests
+namespace MathNet.Numerics.Data.Tests
 {
     class Program
     {

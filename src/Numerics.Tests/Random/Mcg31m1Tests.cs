@@ -30,7 +30,7 @@
 using MathNet.Numerics.Random;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.Random
+namespace MathNet.Numerics.Tests.Random
 {
     /// <summary>
     /// Tests for Multiplicative congruential generator using a modulus of 2^31-1 and a multiplier of 1132489760.

@@ -30,7 +30,7 @@
 using MathNet.Numerics.Differentiation;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.DifferentiationTests
+namespace MathNet.Numerics.Tests.DifferentiationTests
 {
 
     [TestFixture, Category("Differentiation")]

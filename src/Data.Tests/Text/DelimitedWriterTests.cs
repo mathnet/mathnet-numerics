@@ -36,7 +36,7 @@ using MathNet.Numerics.Data.Text;
 using MathNet.Numerics.LinearAlgebra.Double;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.Data.UnitTests.Text
+namespace MathNet.Numerics.Data.Tests.Text
 {
     /// <summary>
     /// Delimited writer tests.

@@ -30,7 +30,7 @@
 using MathNet.Numerics.Interpolation;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.InterpolationTests
+namespace MathNet.Numerics.Tests.InterpolationTests
 {
     /// <summary>
     /// BulirschStoerRational test case.

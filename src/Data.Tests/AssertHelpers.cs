@@ -28,7 +28,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.Data.UnitTests
+namespace MathNet.Numerics.Data.Tests
 {
     /// <summary>
     /// A class which includes some assertion helper methods particularly for numerical code.

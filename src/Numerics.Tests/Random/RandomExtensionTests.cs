@@ -33,7 +33,7 @@ using System.Numerics;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MathNet.Numerics.UnitTests.Random
+namespace MathNet.Numerics.Tests.Random
 {
     /// <summary>
     /// Tests for extension methods of the System.Random.

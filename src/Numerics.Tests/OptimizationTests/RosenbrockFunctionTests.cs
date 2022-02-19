@@ -29,10 +29,10 @@
 
 using System;
 using MathNet.Numerics.LinearAlgebra.Double;
-using MathNet.Numerics.UnitTests.OptimizationTests.TestFunctions;
+using MathNet.Numerics.Tests.OptimizationTests.TestFunctions;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.OptimizationTests
+namespace MathNet.Numerics.Tests.OptimizationTests
 {
     [TestFixture]
     class RosenbrockFunctionTests

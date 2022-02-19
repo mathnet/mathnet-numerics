@@ -29,7 +29,7 @@
 
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.CombinatoricsTests
+namespace MathNet.Numerics.Tests.CombinatoricsTests
 {
 
     /// <summary>

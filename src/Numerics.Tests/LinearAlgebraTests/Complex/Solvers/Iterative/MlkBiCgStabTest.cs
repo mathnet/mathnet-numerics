@@ -34,7 +34,7 @@ using MathNet.Numerics.LinearAlgebra.Complex.Solvers;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterative
+namespace MathNet.Numerics.Tests.LinearAlgebraTests.Complex.Solvers.Iterative
 {
     using Complex = System.Numerics.Complex;
 

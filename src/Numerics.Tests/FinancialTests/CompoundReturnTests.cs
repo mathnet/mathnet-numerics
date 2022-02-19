@@ -32,7 +32,7 @@ using System.Collections.Generic;
 using MathNet.Numerics.Financial;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.FinancialTests
+namespace MathNet.Numerics.Tests.FinancialTests
 {
     [TestFixture, Category("Financial")]
     public class CompoundReturnTests

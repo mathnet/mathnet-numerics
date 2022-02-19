@@ -32,7 +32,7 @@ using System.Linq;
 using MathNet.Numerics.Distributions;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
+namespace MathNet.Numerics.Tests.DistributionTests.Multivariate
 {
     /// <summary>
     /// <c>NormalGamma</c> distribution tests.

@@ -32,7 +32,7 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using MathNet.Numerics.Statistics;
 
-namespace MathNet.Numerics.UnitTests.StatisticsTests
+namespace MathNet.Numerics.Tests.StatisticsTests
 {
     /// <summary>
     /// Histogram tests.

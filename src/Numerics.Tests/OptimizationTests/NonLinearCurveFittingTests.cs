@@ -5,7 +5,7 @@ using MathNet.Numerics.Optimization.TrustRegion;
 using NUnit.Framework;
 using System;
 
-namespace MathNet.Numerics.UnitTests.OptimizationTests
+namespace MathNet.Numerics.Tests.OptimizationTests
 {
     [TestFixture]
     public class NonLinearCurveFittingTests

@@ -30,7 +30,7 @@
 using MathNet.Numerics.LinearAlgebra;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
+namespace MathNet.Numerics.Tests.LinearAlgebraTests.Complex32.Factorization
 {
     using Numerics;
     using Complex = System.Numerics.Complex;

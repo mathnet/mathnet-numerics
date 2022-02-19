@@ -32,7 +32,7 @@ using System.Globalization;
 using NUnit.Framework;
 using Complex = System.Numerics.Complex;
 
-namespace MathNet.Numerics.UnitTests.ComplexTests
+namespace MathNet.Numerics.Tests.ComplexTests
 {
     /// <summary>
     /// Complex text handling tests

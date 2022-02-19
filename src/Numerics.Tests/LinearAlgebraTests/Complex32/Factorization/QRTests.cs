@@ -33,7 +33,7 @@ using MathNet.Numerics.LinearAlgebra.Complex32.Factorization;
 using MathNet.Numerics.LinearAlgebra.Factorization;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
+namespace MathNet.Numerics.Tests.LinearAlgebraTests.Complex32.Factorization
 {
     using Numerics;
 

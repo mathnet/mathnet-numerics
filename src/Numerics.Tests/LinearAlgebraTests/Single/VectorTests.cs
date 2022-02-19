@@ -35,7 +35,7 @@ using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Single;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
+namespace MathNet.Numerics.Tests.LinearAlgebraTests.Single
 {
     /// <summary>
     /// Abstract class with the common set of vector tests.

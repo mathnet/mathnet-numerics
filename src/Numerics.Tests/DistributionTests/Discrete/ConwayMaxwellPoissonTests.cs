@@ -32,7 +32,7 @@ using System.Linq;
 using MathNet.Numerics.Distributions;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
+namespace MathNet.Numerics.Tests.DistributionTests.Discrete
 {
     /// <summary>
     /// Conway-Maxwell-Poisson tests.

@@ -34,7 +34,7 @@ using System.Numerics;
 using MathNet.Numerics.Data.Text;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.Data.UnitTests.Text
+namespace MathNet.Numerics.Data.Tests.Text
 {
     [TestFixture]
     public class MatrixMarketWriterTests

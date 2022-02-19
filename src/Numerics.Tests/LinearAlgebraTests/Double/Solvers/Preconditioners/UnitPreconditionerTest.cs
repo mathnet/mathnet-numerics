@@ -32,7 +32,7 @@ using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Preconditioners
+namespace MathNet.Numerics.Tests.LinearAlgebraTests.Double.Solvers.Preconditioners
 {
     /// <summary>
     /// Unit precondition tests

@@ -34,7 +34,7 @@ using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.LinearAlgebra.Storage;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
+namespace MathNet.Numerics.Tests.LinearAlgebraTests
 {
     [TestFixture, Category("LA")]
     public class MatrixTests

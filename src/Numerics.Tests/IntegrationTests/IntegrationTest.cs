@@ -32,7 +32,7 @@ using NUnit.Framework;
 using System;
 using System.Numerics;
 
-namespace MathNet.Numerics.UnitTests.IntegrationTests
+namespace MathNet.Numerics.Tests.IntegrationTests
 {
     /// <summary>
     /// Integration tests.

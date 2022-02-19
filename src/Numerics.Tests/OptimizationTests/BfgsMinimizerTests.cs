@@ -32,14 +32,14 @@ using System.Linq;
 using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.Optimization;
 using NUnit.Framework;
-using MathNet.Numerics.UnitTests.OptimizationTests.TestFunctions;
+using MathNet.Numerics.Tests.OptimizationTests.TestFunctions;
 using System.Collections.Generic;
 using System.Collections;
 using NUnit.Framework.Interfaces;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.Optimization.ObjectiveFunctions;
 
-namespace MathNet.Numerics.UnitTests.OptimizationTests
+namespace MathNet.Numerics.Tests.OptimizationTests
 {
     [TestFixture]
     public class BfgsMinimizerTests

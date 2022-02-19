@@ -32,7 +32,7 @@ using System.Linq;
 using MathNet.Numerics.Distributions;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
+namespace MathNet.Numerics.Tests.DistributionTests.Continuous
 {
     using Random = System.Random;
 

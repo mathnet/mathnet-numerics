@@ -30,7 +30,7 @@
 using MathNet.Numerics.Random;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.Random
+namespace MathNet.Numerics.Tests.Random
 {
     /// <summary>
     /// Tests for a multiply-with-carry Xorshift pseudo random number generator (RNG) specified in Marsaglia, George. (2003). Xorshift RNGs.

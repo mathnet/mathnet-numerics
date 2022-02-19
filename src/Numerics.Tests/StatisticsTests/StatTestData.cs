@@ -32,7 +32,7 @@ using System.Globalization;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MathNet.Numerics.UnitTests.StatisticsTests
+namespace MathNet.Numerics.Tests.StatisticsTests
 {
 
     /// <summary>

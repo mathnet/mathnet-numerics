@@ -30,7 +30,7 @@
 using NUnit.Framework;
 using System;
 
-namespace MathNet.Numerics.UnitTests
+namespace MathNet.Numerics.Tests
 {
     [TestFixture]
     public class DistanceTests

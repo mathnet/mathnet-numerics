@@ -32,7 +32,7 @@ using NUnit.Framework;
 
 // ReSharper disable InconsistentNaming
 
-namespace MathNet.Numerics.UnitTests
+namespace MathNet.Numerics.Tests
 {
     [TestFixture, Category("Functions")]
     public class ExcelTests

@@ -36,7 +36,7 @@ using MathNet.Numerics.LinearAlgebra.Single;
 using MathNet.Numerics.Providers.LinearAlgebra;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Single
+namespace MathNet.Numerics.Tests.Providers.LinearAlgebra.Single
 {
     /// <summary>
     /// Base class for linear algebra provider tests.

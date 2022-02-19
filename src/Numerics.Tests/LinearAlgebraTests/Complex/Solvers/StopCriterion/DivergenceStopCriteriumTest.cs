@@ -33,7 +33,7 @@ using MathNet.Numerics.LinearAlgebra.Complex;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCriterion
+namespace MathNet.Numerics.Tests.LinearAlgebraTests.Complex.Solvers.StopCriterion
 {
     using Complex = System.Numerics.Complex;
 

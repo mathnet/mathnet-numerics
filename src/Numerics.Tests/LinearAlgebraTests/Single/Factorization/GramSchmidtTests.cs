@@ -32,7 +32,7 @@ using MathNet.Numerics.LinearAlgebra.Single;
 using MathNet.Numerics.LinearAlgebra.Single.Factorization;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
+namespace MathNet.Numerics.Tests.LinearAlgebraTests.Single.Factorization
 {
     /// <summary>
     /// GramSchmidt factorization tests for a dense matrix.

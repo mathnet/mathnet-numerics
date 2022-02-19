@@ -1,7 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
+namespace MathNet.Numerics.Tests.SpecialFunctionsTests
 {
     /// <summary>
     /// Marcum Q functions tests.

@@ -31,7 +31,7 @@ using System;
 using MathNet.Numerics.Optimization;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.OptimizationTests
+namespace MathNet.Numerics.Tests.OptimizationTests
 {
     [TestFixture]
     public class GoldenSectionMinimizerTests

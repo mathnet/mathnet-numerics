@@ -30,7 +30,7 @@
 using System;
 using MathNet.Numerics.LinearAlgebra;
 
-namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
+namespace MathNet.Numerics.Tests.LinearAlgebraTests.Complex
 {
     using Complex = System.Numerics.Complex;
 

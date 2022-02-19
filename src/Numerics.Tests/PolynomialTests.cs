@@ -35,7 +35,7 @@ using Complex = System.Numerics.Complex;
 using System.Runtime.Serialization;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests
+namespace MathNet.Numerics.Tests
 {
     /// <Note>
     /// some of these tests were inspired by numpys tests in python for the Polynomial functions.

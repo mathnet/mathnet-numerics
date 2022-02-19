@@ -30,7 +30,7 @@
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.Random;
 
-namespace MathNet.Numerics.UnitTests.InterpolationTests
+namespace MathNet.Numerics.Tests.InterpolationTests
 {
     /// <summary>
     /// LinearInterpolation test case.

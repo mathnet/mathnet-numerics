@@ -30,7 +30,7 @@
 using MathNet.Numerics.Random;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.Random
+namespace MathNet.Numerics.Tests.Random
 {
     /// <summary>
     /// Test for a Wichmann-Hill’s 2006 combined multiplicative congruential generator.

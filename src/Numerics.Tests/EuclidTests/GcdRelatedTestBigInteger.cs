@@ -31,7 +31,7 @@ using System;
 using NUnit.Framework;
 using BigInteger = System.Numerics.BigInteger;
 
-namespace MathNet.Numerics.UnitTests.EuclidTests
+namespace MathNet.Numerics.Tests.EuclidTests
 {
     /// <summary>
     /// GreatestCommonDivisor related test for <c>BigInteger</c>.

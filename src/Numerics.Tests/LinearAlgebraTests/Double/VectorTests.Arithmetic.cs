@@ -31,7 +31,7 @@ using MathNet.Numerics.LinearAlgebra;
 using NUnit.Framework;
 using System;
 
-namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
+namespace MathNet.Numerics.Tests.LinearAlgebraTests.Double
 {
     /// <summary>
     /// Abstract class with the common arithmetic set of vector tests.

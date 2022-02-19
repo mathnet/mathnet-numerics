@@ -34,7 +34,7 @@ using MathNet.Numerics.LinearAlgebra.Double.Factorization;
 using MathNet.Numerics.LinearAlgebra.Factorization;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
+namespace MathNet.Numerics.Tests.LinearAlgebraTests.Double.Factorization
 {
     /// <summary>
     /// QR factorization tests for a dense matrix.

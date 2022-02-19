@@ -31,7 +31,7 @@ using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double.Factorization;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
+namespace MathNet.Numerics.Tests.LinearAlgebraTests.Double.Factorization
 {
     /// <summary>
     /// GramSchmidt factorization tests for a user matrix.

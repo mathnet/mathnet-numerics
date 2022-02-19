@@ -34,7 +34,7 @@ using MathNet.Numerics.Statistics;
 using MathNet.Numerics.Statistics.Mcmc;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
+namespace MathNet.Numerics.Tests.StatisticsTests.McmcTests
 {
     /// <summary>
     /// Tests for the HybridMC class.

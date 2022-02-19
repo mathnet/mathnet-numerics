@@ -31,7 +31,7 @@ using MathNet.Numerics.RootFinding;
 using NUnit.Framework;
 using System;
 
-namespace MathNet.Numerics.UnitTests.RootFindingTests
+namespace MathNet.Numerics.Tests.RootFindingTests
 {
     [TestFixture, Category("RootFinding")]
     internal class BroydenTest

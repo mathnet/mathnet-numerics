@@ -34,7 +34,7 @@ using MathNet.Numerics.Interpolation;
 using MathNet.Numerics.TestData;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.InterpolationTests
+namespace MathNet.Numerics.Tests.InterpolationTests
 {
     /// <summary>
     /// NevillePolynomial test case.

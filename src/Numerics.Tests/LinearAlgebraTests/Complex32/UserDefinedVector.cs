@@ -26,7 +26,7 @@
 using MathNet.Numerics.LinearAlgebra.Complex32;
 using MathNet.Numerics.LinearAlgebra.Storage;
 
-namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
+namespace MathNet.Numerics.Tests.LinearAlgebraTests.Complex32
 {
     using Numerics;
 

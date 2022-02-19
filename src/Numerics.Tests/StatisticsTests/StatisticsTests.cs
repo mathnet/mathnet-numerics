@@ -37,7 +37,7 @@ using NUnit.Framework;
 
 // ReSharper disable InvokeAsExtensionMethod
 
-namespace MathNet.Numerics.UnitTests.StatisticsTests
+namespace MathNet.Numerics.Tests.StatisticsTests
 {
     using Statistics;
 

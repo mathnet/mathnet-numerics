@@ -33,7 +33,7 @@ using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCriterion
+namespace MathNet.Numerics.Tests.LinearAlgebraTests.Double.Solvers.StopCriterion
 {
     /// <summary>
     /// Failure stop criterion tests.

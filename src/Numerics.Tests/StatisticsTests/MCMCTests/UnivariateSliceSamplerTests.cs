@@ -31,7 +31,7 @@ using System;
 using NUnit.Framework;
 using MathNet.Numerics.Statistics.Mcmc;
 
-namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
+namespace MathNet.Numerics.Tests.StatisticsTests.McmcTests
 {
     /// <summary>
     /// Univariate slice sampler tests.

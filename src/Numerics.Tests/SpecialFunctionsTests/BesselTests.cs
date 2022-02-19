@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using Complex = System.Numerics.Complex;
 
-namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
+namespace MathNet.Numerics.Tests.SpecialFunctionsTests
 {
     /// <summary>
     /// Bessel functions tests.

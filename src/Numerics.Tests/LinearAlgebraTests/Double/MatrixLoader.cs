@@ -31,7 +31,7 @@ using System.Collections.Generic;
 using MathNet.Numerics.LinearAlgebra;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
+namespace MathNet.Numerics.Tests.LinearAlgebraTests.Double
 {
     /// <summary>
     /// Base class for matrix tests.

@@ -34,7 +34,7 @@ using MathNet.Numerics.Providers.FourierTransform;
 using MathNet.Numerics.Statistics;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.Providers.FourierTransform
+namespace MathNet.Numerics.Tests.Providers.FourierTransform
 {
     /// <summary>
     /// Fourier transform provider tests.

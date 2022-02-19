@@ -30,7 +30,7 @@
 using MathNet.Numerics.RootFinding;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.RootFindingTests
+namespace MathNet.Numerics.Tests.RootFindingTests
 {
     [TestFixture, Category("RootFinding")]
     internal class CubicTest

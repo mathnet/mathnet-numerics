@@ -33,12 +33,12 @@ using MathNet.Numerics.Optimization;
 using NUnit.Framework;
 using System.Linq;
 using System.Collections.Generic;
-using MathNet.Numerics.UnitTests.OptimizationTests.TestFunctions;
+using MathNet.Numerics.Tests.OptimizationTests.TestFunctions;
 using System.Collections;
 using MathNet.Numerics.Optimization.ObjectiveFunctions;
 using NUnit.Framework.Interfaces;
 
-namespace MathNet.Numerics.UnitTests.OptimizationTests
+namespace MathNet.Numerics.Tests.OptimizationTests
 {
     [TestFixture]
     public class BfgsBMinimizerTests

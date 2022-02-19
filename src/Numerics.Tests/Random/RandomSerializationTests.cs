@@ -38,7 +38,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using MathNet.Numerics.Random;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.Random
+namespace MathNet.Numerics.Tests.Random
 {
     [TestFixture]
     public class RandomSerializationTests

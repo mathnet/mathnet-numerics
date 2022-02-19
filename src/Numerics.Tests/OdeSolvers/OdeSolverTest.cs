@@ -32,7 +32,7 @@ using NUnit.Framework;
 using System;
 using System.Linq;
 
-namespace MathNet.Numerics.UnitTests.OdeSolvers
+namespace MathNet.Numerics.Tests.OdeSolvers
 {
     /// <summary>
     /// ODE Solver tests.

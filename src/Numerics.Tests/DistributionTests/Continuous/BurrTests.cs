@@ -32,7 +32,7 @@ using NUnit.Framework;
 using System;
 using System.Linq;
 
-namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
+namespace MathNet.Numerics.Tests.DistributionTests.Continuous
 {
     /// <summary>
     /// <c>Burr</c> distribution tests.

@@ -30,12 +30,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MathNet.Numerics.UnitTests.OptimizationTests.TestFunctions;
+using MathNet.Numerics.Tests.OptimizationTests.TestFunctions;
 using NUnit.Framework;
 using MathNet.Numerics.LinearAlgebra;
 using System.Collections;
 
-namespace MathNet.Numerics.UnitTests.OptimizationTests
+namespace MathNet.Numerics.Tests.OptimizationTests
 {
     [TestFixture]
     public class TestFunctionTests

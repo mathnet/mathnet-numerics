@@ -29,7 +29,7 @@
 
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
+namespace MathNet.Numerics.Tests.SpecialFunctionsTests
 {
     /// <summary>
     /// Modified Struve functions tests.

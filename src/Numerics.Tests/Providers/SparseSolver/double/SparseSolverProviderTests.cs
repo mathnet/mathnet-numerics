@@ -6,7 +6,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 
-namespace MathNet.Numerics.UnitTests.Providers.SparseSolver.Double
+namespace MathNet.Numerics.Tests.Providers.SparseSolver.Double
 {
 
 #if MKL

@@ -33,7 +33,7 @@ using MathNet.Numerics.Random;
 using MathNet.Numerics.Statistics.Mcmc;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
+namespace MathNet.Numerics.Tests.StatisticsTests.McmcTests
 {
     /// <summary>
     /// Rejection sampler tests.

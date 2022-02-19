@@ -33,7 +33,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
+namespace MathNet.Numerics.Tests.LinearAlgebraTests
 {
     [TestFixture, Category("LA")]
     public abstract partial class MatrixStructureTheory<T>

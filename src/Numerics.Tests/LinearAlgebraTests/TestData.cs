@@ -31,7 +31,7 @@ using System;
 using System.Collections.Generic;
 using MathNet.Numerics.LinearAlgebra.Storage;
 
-namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
+namespace MathNet.Numerics.Tests.LinearAlgebraTests
 {
     public enum TestMatrix
     {

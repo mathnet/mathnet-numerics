@@ -34,7 +34,7 @@ using MathNet.Numerics.Financial;
 using MathNet.Numerics.Statistics;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.FinancialTests
+namespace MathNet.Numerics.Tests.FinancialTests
 {
     [TestFixture, Category("Financial")]
     public class GainStandardDeviationTests

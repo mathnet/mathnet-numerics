@@ -32,7 +32,7 @@ using MathNet.Numerics.Distributions;
 using MathNet.Numerics.LinearAlgebra;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
+namespace MathNet.Numerics.Tests.DistributionTests.Multivariate
 {
     /// <summary>
     /// Matrix Normal tests.

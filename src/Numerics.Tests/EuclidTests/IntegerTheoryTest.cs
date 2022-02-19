@@ -31,7 +31,7 @@ using System;
 using System.Globalization;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.EuclidTests
+namespace MathNet.Numerics.Tests.EuclidTests
 {
     /// <summary>
     /// Integer theory tests.

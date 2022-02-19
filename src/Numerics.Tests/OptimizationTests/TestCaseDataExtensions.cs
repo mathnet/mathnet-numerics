@@ -29,7 +29,7 @@
 
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.OptimizationTests
+namespace MathNet.Numerics.Tests.OptimizationTests
 {
     internal static class TestCaseDataExtensions
     {

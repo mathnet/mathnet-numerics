@@ -30,7 +30,7 @@
 using System;
 using MathNet.Numerics.LinearAlgebra;
 
-namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
+namespace MathNet.Numerics.Tests.LinearAlgebraTests.Single
 {
     public static class TestData
     {

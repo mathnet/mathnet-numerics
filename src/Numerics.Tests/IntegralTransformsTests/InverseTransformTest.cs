@@ -32,7 +32,7 @@ using MathNet.Numerics.Distributions;
 using MathNet.Numerics.IntegralTransforms;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
+namespace MathNet.Numerics.Tests.IntegralTransformsTests
 {
     /// <summary>
     /// Inverse Transform test.

@@ -30,7 +30,7 @@
 using System;
 using MathNet.Numerics.LinearAlgebra;
 
-namespace MathNet.Numerics.UnitTests.OptimizationTests.TestFunctions
+namespace MathNet.Numerics.Tests.OptimizationTests.TestFunctions
 {
     public abstract class BaseTestFunction : ITestFunction
     {

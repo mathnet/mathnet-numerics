@@ -3,7 +3,7 @@ using Complex = System.Numerics.Complex;
 using MathNet.Numerics.IntegralTransforms;
 using MathNet.Numerics.Threading;
 
-namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
+namespace MathNet.Numerics.Tests.IntegralTransformsTests
 {
     static class ReferenceDiscreteFourierTransform
     {

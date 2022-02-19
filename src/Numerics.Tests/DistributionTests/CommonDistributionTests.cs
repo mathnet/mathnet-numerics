@@ -34,7 +34,7 @@ using MathNet.Numerics.Random;
 using MathNet.Numerics.Statistics;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.DistributionTests
+namespace MathNet.Numerics.Tests.DistributionTests
 {
     /// <summary>
     /// This class will perform various tests on discrete and continuous univariate distributions.

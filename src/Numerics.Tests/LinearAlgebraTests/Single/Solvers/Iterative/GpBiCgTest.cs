@@ -34,7 +34,7 @@ using MathNet.Numerics.LinearAlgebra.Single.Solvers;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
+namespace MathNet.Numerics.Tests.LinearAlgebraTests.Single.Solvers.Iterative
 {
     /// <summary>
     /// Tests for Generalized Product Bi-Conjugate Gradient iterative matrix solver.

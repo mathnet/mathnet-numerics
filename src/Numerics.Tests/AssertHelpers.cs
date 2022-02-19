@@ -32,7 +32,7 @@ using Complex = System.Numerics.Complex;
 using MathNet.Numerics.LinearAlgebra;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests
+namespace MathNet.Numerics.Tests
 {
     /// <summary>
     /// A class which includes some assertion helper methods particularly for numerical code.

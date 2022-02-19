@@ -26,7 +26,7 @@
 using MathNet.Numerics.LinearAlgebra.Single;
 using MathNet.Numerics.LinearAlgebra.Storage;
 
-namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
+namespace MathNet.Numerics.Tests.LinearAlgebraTests.Single
 {
     /// <summary>
     /// User-defined matrix implementation (internal class for testing purposes)

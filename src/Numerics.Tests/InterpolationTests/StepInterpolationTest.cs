@@ -31,7 +31,7 @@ using System;
 using MathNet.Numerics.Interpolation;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.InterpolationTests
+namespace MathNet.Numerics.Tests.InterpolationTests
 {
     [TestFixture, Category("Interpolation")]
     public class StepInterpolationTest

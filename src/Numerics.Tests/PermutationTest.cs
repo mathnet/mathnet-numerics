@@ -30,7 +30,7 @@
 using System;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests
+namespace MathNet.Numerics.Tests
 {
 
     /// <summary>

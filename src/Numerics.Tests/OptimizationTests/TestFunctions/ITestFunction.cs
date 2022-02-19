@@ -30,7 +30,7 @@
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 
-namespace MathNet.Numerics.UnitTests.OptimizationTests.TestFunctions
+namespace MathNet.Numerics.Tests.OptimizationTests.TestFunctions
 {
     public class TestCase
     {

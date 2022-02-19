@@ -31,7 +31,7 @@ using MathNet.Numerics.LinearAlgebra.Complex32;
 using MathNet.Numerics.LinearAlgebra.Complex32.Solvers;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Preconditioners
+namespace MathNet.Numerics.Tests.LinearAlgebraTests.Complex32.Solvers.Preconditioners
 {
     /// <summary>
     /// Test for element sort algorithm of Ilupt class.

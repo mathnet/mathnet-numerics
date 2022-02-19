@@ -32,7 +32,7 @@ using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.StopCriterion
+namespace MathNet.Numerics.Tests.LinearAlgebraTests.Single.Solvers.StopCriterion
 {
     /// <summary>
     /// Iteration count stop criterion tests.

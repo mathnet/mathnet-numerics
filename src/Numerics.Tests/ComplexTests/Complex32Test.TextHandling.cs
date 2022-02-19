@@ -31,7 +31,7 @@ using System;
 using System.Globalization;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.ComplexTests
+namespace MathNet.Numerics.Tests.ComplexTests
 {
     /// <summary>
     /// Complex32 text handling tests.

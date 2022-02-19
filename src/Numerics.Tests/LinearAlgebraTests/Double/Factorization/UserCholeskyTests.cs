@@ -30,7 +30,7 @@
 using MathNet.Numerics.LinearAlgebra;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
+namespace MathNet.Numerics.Tests.LinearAlgebraTests.Double.Factorization
 {
     /// <summary>
     /// Cholesky factorization tests for a user matrix.

@@ -32,7 +32,7 @@ using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Storage;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.Data.UnitTests.Matlab
+namespace MathNet.Numerics.Data.Tests.Matlab
 {
     /// <summary>
     /// MATLAB matrix writer tests.

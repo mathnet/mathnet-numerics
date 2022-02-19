@@ -32,7 +32,7 @@ using System.Linq;
 using NUnit.Framework;
 using BigInteger = System.Numerics.BigInteger;
 
-namespace MathNet.Numerics.UnitTests
+namespace MathNet.Numerics.Tests
 {
     [TestFixture]
     public class GenerateTests

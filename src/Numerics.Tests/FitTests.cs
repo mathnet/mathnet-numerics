@@ -34,7 +34,7 @@ using MathNet.Numerics.LinearRegression;
 using MathNet.Numerics.Statistics;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests
+namespace MathNet.Numerics.Tests
 {
     [TestFixture, Category("Regression")]
     public class FitTests

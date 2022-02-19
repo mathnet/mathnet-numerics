@@ -30,7 +30,7 @@
 using Complex = System.Numerics.Complex;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.ComplexTests
+namespace MathNet.Numerics.Tests.ComplexTests
 {
     /// <summary>
     /// Complex extension methods tests.
