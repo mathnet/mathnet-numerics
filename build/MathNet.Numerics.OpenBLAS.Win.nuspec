@@ -22,7 +22,7 @@
         <file src="..\..\out\OpenBLAS\Windows\x64\libgfortran-3.dll" target="runtimes\win-x64\native\libgfortran-3.dll" />
         <file src="..\..\out\OpenBLAS\Windows\x64\libopenblas.dll" target="runtimes\win-x64\native\libopenblas.dll" />
         <file src="..\..\out\OpenBLAS\Windows\x64\libquadmath-0.dll" target="runtimes\win-x64\native\libquadmath-0.dll" />
-        <file src="..\..\out\OpenBLAS\Windows\x64\MathNet.Numerics.OpenBLAS.dll" target="runtimes\win-x64\native\MathNet.Numerics.OpenBLAS.dll" />
+        <file src="..\..\out\OpenBLAS\Windows\x64\libMathNetNumericsOpenBLAS.dll" target="runtimes\win-x64\native\libMathNetNumericsOpenBLAS.dll" />
         <file src="..\..\out\OpenBLAS\Windows\x86\libgcc_s_sjlj-1.dll" target="runtimes\win-x86\native\libgcc_s_sjlj-1.dll" />
         <file src="..\..\out\OpenBLAS\Windows\x86\libgfortran-3.dll" target="runtimes\win-x86\native\libgfortran-3.dll" />
         <file src="..\..\out\OpenBLAS\Windows\x86\libopenblas.dll" target="runtimes\win-x86\native\libopenblas.dll" />

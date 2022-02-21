@@ -223,7 +223,7 @@ let ``Build MKL Windows`` isIncremental isSign _ =
     buildVS2022x86 "Release-MKL" isIncremental !! "MathNet.Numerics.MKL.sln"
     buildVS2022x64 "Release-MKL" isIncremental !! "MathNet.Numerics.MKL.sln"
     Directory.create mklSolution.OutputZipDir
-    zip mklWinZipPackage header mklSolution.OutputZipDir "out/MKL/Windows" (fun f -> f.Contains("MathNet.Numerics.Providers.MKL.") || f.Contains("MathNet.Numerics.MKL.") || f.Contains("libiomp5md.dll"))
+    zip mklWinZipPackage header mklSolution.OutputZipDir "out/MKL/Windows" (fun f -> f.Contains("MathNet.Numerics.Providers.MKL.") || f.Contains("libMathNetNumerics") || f.Contains("libiomp5md.dll"))
     Directory.create mklSolution.OutputNuGetDir
     nugetPackManually mklSolution [ mklWinPack; mklWin32Pack; mklWin64Pack ] header
 
@@ -235,7 +235,7 @@ let ``Build CUDA Windows`` isIncremental isSign _ =
     restore cudaSolution
     buildVS2022x64 "Release-CUDA" isIncremental !! "MathNet.Numerics.CUDA.sln"
     Directory.create cudaSolution.OutputZipDir
-    zip cudaWinZipPackage header cudaSolution.OutputZipDir "out/CUDA/Windows" (fun f -> f.Contains("MathNet.Numerics.Providers.CUDA.") || f.Contains("MathNet.Numerics.CUDA.") || f.Contains("cublas") || f.Contains("cudart") || f.Contains("cusolver"))
+    zip cudaWinZipPackage header cudaSolution.OutputZipDir "out/CUDA/Windows" (fun f -> f.Contains("MathNet.Numerics.Providers.CUDA.") || f.Contains("libMathNetNumerics") || f.Contains("cublas") || f.Contains("cudart") || f.Contains("cusolver"))
     Directory.create cudaSolution.OutputNuGetDir
     nugetPackManually cudaSolution [ cudaWinPack ] header
 
@@ -248,7 +248,7 @@ let ``Build OpenBLAS Windows`` isIncremental isSign _ =
     buildVS2022x86 "Release-OpenBLAS" isIncremental !! "MathNet.Numerics.OpenBLAS.sln"
     buildVS2022x64 "Release-OpenBLAS" isIncremental !! "MathNet.Numerics.OpenBLAS.sln"
     Directory.create openBlasSolution.OutputZipDir
-    zip openBlasWinZipPackage header openBlasSolution.OutputZipDir "out/OpenBLAS/Windows" (fun f -> f.Contains("MathNet.Numerics.Providers.OpenBLAS.") || f.Contains("MathNet.Numerics.OpenBLAS.") || f.Contains("libgcc") || f.Contains("libgfortran") || f.Contains("libopenblas") || f.Contains("libquadmath"))
+    zip openBlasWinZipPackage header openBlasSolution.OutputZipDir "out/OpenBLAS/Windows" (fun f -> f.Contains("MathNet.Numerics.Providers.OpenBLAS.") || f.Contains("libMathNetNumerics") || f.Contains("libgcc") || f.Contains("libgfortran") || f.Contains("libopenblas") || f.Contains("libquadmath"))
     Directory.create openBlasSolution.OutputNuGetDir
     nugetPackManually openBlasSolution [ openBlasWinPack ] header
 
@@ -264,11 +264,23 @@ let ``Test CUDA`` framework _ = test "src/Numerics.Tests" "Numerics.Tests.CUDA.c
 
 let ``Pack MKL Linux Zip`` _ =
     Directory.create mklSolution.OutputZipDir
-    zip mklLinuxZipPackage header mklSolution.OutputZipDir "out/MKL/Linux" (fun f -> f.Contains("MathNet.Numerics.Providers.MKL.") || f.Contains("MathNet.Numerics.MKL.") || f.Contains("libiomp5.so"))
+    zip mklLinuxZipPackage header mklSolution.OutputZipDir "out/MKL/Linux" (fun f -> f.Contains("MathNet.Numerics.Providers.MKL.") || f.Contains("libMathNetNumerics") || f.Contains("libiomp5.so"))
 
 let ``Pack MKL Linux NuGet`` _ =
     Directory.create mklSolution.OutputNuGetDir
     nugetPackManually mklSolution [ mklLinuxPack; mklLinux32Pack; mklLinux64Pack ] header
+
+let ``Pack MKL Windows`` _ =
+    Directory.create mklSolution.OutputZipDir
+    zip mklWinZipPackage header mklSolution.OutputZipDir "out/MKL/Windows" (fun f -> f.Contains("MathNet.Numerics.Providers.MKL.") || f.Contains("libMathNetNumerics") || f.Contains("libiomp5md.dll"))
+    Directory.create mklSolution.OutputNuGetDir
+    nugetPackManually mklSolution [ mklWinPack; mklWin32Pack; mklWin64Pack ] header
+
+let ``Pack OpenBLAS Windows`` _ =
+    Directory.create openBlasSolution.OutputZipDir
+    zip openBlasWinZipPackage header openBlasSolution.OutputZipDir "out/OpenBLAS/Windows" (fun f -> f.Contains("MathNet.Numerics.Providers.OpenBLAS.") || f.Contains("libMathNetNumerics") || f.Contains("libgcc") || f.Contains("libgfortran") || f.Contains("libopenblas") || f.Contains("libquadmath"))
+    Directory.create openBlasSolution.OutputNuGetDir
+    nugetPackManually openBlasSolution [ openBlasWinPack ] header
 
 let extraDocs =
     [ "LICENSE.md", "License.md"
@@ -367,12 +379,14 @@ let initTargets strongname sign incremental =
     "CudaWinBuild" ==> "CudaTestNET50" ==> "CudaTest" |> ignore
     "CudaWinBuild" =?> ("CudaTestNET48", Environment.isWindows) ==> "CudaTest" |> ignore
 
-    // LINUX PACKAGES
+    // PACKAGING ONLY WITHOUT BUILD
     Target.create "MklLinuxPack" ignore
     Target.create "MklLinuxZip" ``Pack MKL Linux Zip``
     "MklLinuxZip" ==> "MklLinuxPack" |> ignore
     Target.create "MklLinuxNuGet" ``Pack MKL Linux NuGet``
     "MklLinuxNuGet" ==> "MklLinuxPack" |> ignore
+    Target.create "MklWinPack" ``Pack MKL Windows``
+    Target.create "OpenBlasWinPack" ``Pack OpenBLAS Windows``
 
     // DOCS
     Target.create "CleanDocs" ``Docs Clean``

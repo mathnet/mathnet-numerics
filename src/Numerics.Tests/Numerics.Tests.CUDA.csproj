@@ -9,6 +9,7 @@
     <IsPackable>false</IsPackable>
     <VersionPrefix>5.0.0</VersionPrefix>
     <VersionSuffix>alpha02</VersionSuffix>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
     <DefineConstants>CUDA</DefineConstants>
   </PropertyGroup>
 	<ItemGroup>

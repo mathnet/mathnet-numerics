@@ -57,29 +57,29 @@ DLLEXPORT blas_complex_double z_dot_product(const blas_int n, const blas_complex
 }
 
 DLLEXPORT void s_matrix_multiply(CBLAS_TRANSPOSE transA, CBLAS_TRANSPOSE transB, const blas_int m, const blas_int n, const blas_int k, const float alpha, const float x[], const float y[], const float beta, float c[]){
-	blas_int lda = transA == CblasNoTrans ? m : k;
-	blas_int ldb = transB == CblasNoTrans ? k : n;
+	const blas_int lda = transA == CblasNoTrans ? m : k;
+    const blas_int ldb = transB == CblasNoTrans ? k : n;
 
 	cblas_sgemm(CblasColMajor, transA, transB, m, n, k, alpha, x, lda, y, ldb, beta, c, m);
 }
 
 DLLEXPORT void d_matrix_multiply(CBLAS_TRANSPOSE transA, CBLAS_TRANSPOSE transB, const blas_int m, const blas_int n, const blas_int k, const double alpha, const double x[], const double y[], const double beta, double c[]){
-	blas_int lda = transA == CblasNoTrans ? m : k;
-	blas_int ldb = transB == CblasNoTrans ? k : n;
+    const blas_int lda = transA == CblasNoTrans ? m : k;
+    const blas_int ldb = transB == CblasNoTrans ? k : n;
 
 	cblas_dgemm(CblasColMajor, transA, transB, m, n, k, alpha, x, lda, y, ldb, beta, c, m);
 }
 
 DLLEXPORT void c_matrix_multiply(CBLAS_TRANSPOSE transA, CBLAS_TRANSPOSE transB, const blas_int m, const blas_int n, const blas_int k, const blas_complex_float alpha, const blas_complex_float x[], const blas_complex_float y[], const blas_complex_float beta, blas_complex_float c[]){
-	blas_int lda = transA == CblasNoTrans ? m : k;
-	blas_int ldb = transB == CblasNoTrans ? k : n;
+    const blas_int lda = transA == CblasNoTrans ? m : k;
+    const blas_int ldb = transB == CblasNoTrans ? k : n;
 
 	cblas_cgemm(CblasColMajor, transA, transB, m, n, k, (float*)&alpha, (float*)x, lda, (float*)y, ldb, (float*)&beta, (float*)c, m);
 }
 
 DLLEXPORT void z_matrix_multiply(CBLAS_TRANSPOSE transA, CBLAS_TRANSPOSE transB, const blas_int m, const blas_int n, const blas_int k, const blas_complex_double alpha, const blas_complex_double x[], const blas_complex_double y[], const blas_complex_double beta, blas_complex_double c[]){
-	blas_int lda = transA == CblasNoTrans ? m : k;
-	blas_int ldb = transB == CblasNoTrans ? k : n;
+    const blas_int lda = transA == CblasNoTrans ? m : k;
+    const blas_int ldb = transB == CblasNoTrans ? k : n;
 
 	cblas_zgemm(CblasColMajor, transA, transB, m, n, k, (double*)&alpha, (double*)x, lda, (double*)y, ldb, (double*)&beta, (double*)c, m);
 }
