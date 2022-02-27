@@ -135,6 +135,11 @@ namespace MathNet.Numerics.Providers.Common
                 return true;
             }
 
+            if (!IsWindows && fileName.StartsWith("lib") && TryLoadDirect(fileName.Substring(3)))
+            {
+                return true;
+            }
+
             // If we have hint path provided by the user, look there next
             if (hintPath != null && TryLoadFromDirectory(fileName, hintPath))
             {
@@ -297,10 +302,26 @@ namespace MathNet.Numerics.Providers.Common
                 }
 
 #if NET5_0_OR_GREATER
-                return NativeLibrary.TryLoad(fileName, out libraryHandle);
+                try
+                {
+                    return NativeLibrary.TryLoad(fileName, out libraryHandle);
+                }
+                catch
+                {
+                    return false;
+                }
 #else
-                // If successful this will return a handle to the library
-                libraryHandle = IsUnix ? UnixLoader.LoadLibrary(fileName) : WindowsLoader.LoadLibrary(fileName);
+                try
+                {
+                    // If successful this will return a handle to the library
+                    libraryHandle = IsUnix ? UnixLoader.LoadLibrary(fileName) : WindowsLoader.LoadLibrary(fileName);
+                }
+                catch (Exception e)
+                {
+                    LastException = e;
+                    return false;
+                }
+
                 if (libraryHandle == IntPtr.Zero)
                 {
                     int lastError = Marshal.GetLastWin32Error();
@@ -340,10 +361,26 @@ namespace MathNet.Numerics.Providers.Common
                 }
 
 #if NET5_0_OR_GREATER
-                return NativeLibrary.TryLoad(fullPath, out libraryHandle);
+                try
+                {
+                    return NativeLibrary.TryLoad(fullPath, out libraryHandle);
+                }
+                catch
+                {
+                    return false;
+                }
 #else
-                // If successful this will return a handle to the library
-                libraryHandle = IsUnix ? UnixLoader.LoadLibrary(fullPath) : WindowsLoader.LoadLibrary(fullPath);
+                try
+                {
+                    // If successful this will return a handle to the library
+                    libraryHandle = IsUnix ? UnixLoader.LoadLibrary(fullPath) : WindowsLoader.LoadLibrary(fullPath);
+                }
+                catch (Exception e)
+                {
+                    LastException = e;
+                    return false;
+                }
+
                 if (libraryHandle == IntPtr.Zero)
                 {
                     int lastError = Marshal.GetLastWin32Error();

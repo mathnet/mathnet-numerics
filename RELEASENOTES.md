@@ -1,4 +1,4 @@
-### 5.0.0-alpha11 - 2022-02-27
+### 5.0.0-alpha12 - 2022-02-27
 * COMPATIBILITY: net5.0, net48 better supported with explicit builds
 * COMPATIBILITY: netstandard1.x, net40, net45 no longer supported
 * BREAKING: drop all which was marked as obsolete
