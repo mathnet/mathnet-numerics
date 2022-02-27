@@ -129,7 +129,13 @@ namespace MathNet.Numerics.Providers.Common
                 fileName = Path.ChangeExtension(fileName, Extension);
             }
 
-            // If we have hint path provided by the user, look there first
+            // First just try to load it with the file name only
+            if (TryLoadDirect(fileName))
+            {
+                return true;
+            }
+
+            // If we have hint path provided by the user, look there next
             if (hintPath != null && TryLoadFromDirectory(fileName, hintPath))
             {
                 return true;
@@ -274,6 +280,41 @@ namespace MathNet.Numerics.Providers.Common
                         || TryLoadFile(directory, string.Empty, fileName);
                 default:
                     return TryLoadFile(directory, string.Empty, fileName);
+            }
+        }
+
+        /// <summary>
+        /// Try to load a native library by only the file name of the library.
+        /// </summary>
+        /// <returns>True if the library was successfully loaded or if it has already been loaded.</returns>
+        static bool TryLoadDirect(string fileName)
+        {
+            lock (StaticLock)
+            {
+                if (NativeHandles.Value.TryGetValue(fileName, out IntPtr libraryHandle))
+                {
+                    return true;
+                }
+
+#if NET5_0_OR_GREATER
+                return NativeLibrary.TryLoad(fileName, out libraryHandle);
+#else
+                // If successful this will return a handle to the library
+                libraryHandle = IsUnix ? UnixLoader.LoadLibrary(fileName) : WindowsLoader.LoadLibrary(fileName);
+                if (libraryHandle == IntPtr.Zero)
+                {
+                    int lastError = Marshal.GetLastWin32Error();
+                    var exception = new System.ComponentModel.Win32Exception(lastError);
+                    LastException = exception;
+                }
+                else
+                {
+                    LastException = null;
+                    NativeHandles.Value[fileName] = libraryHandle;
+                }
+
+                return libraryHandle != IntPtr.Zero;
+#endif
             }
         }
 
