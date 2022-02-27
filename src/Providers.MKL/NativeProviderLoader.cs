@@ -322,7 +322,7 @@ namespace MathNet.Numerics.Providers.Common
                 try
                 {
                     // If successful this will return a handle to the library
-                    libraryHandle = IsUnix ? UnixLoader.LoadLibrary(fileName) : WindowsLoader.LoadLibrary(fileName);
+                    libraryHandle = IsWindows ? WindowsLoader.LoadLibrary(fileName) : IsMac ? MacLoader.LoadLibrary(fileName) : LinuxLoader.LoadLibrary(fileName);
                 }
                 catch (Exception e)
                 {
@@ -386,7 +386,7 @@ namespace MathNet.Numerics.Providers.Common
                 try
                 {
                     // If successful this will return a handle to the library
-                    libraryHandle = IsUnix ? UnixLoader.LoadLibrary(fullPath) : WindowsLoader.LoadLibrary(fullPath);
+                    libraryHandle = IsWindows ? WindowsLoader.LoadLibrary(fullPath) : IsMac ? MacLoader.LoadLibrary(fullPath) : LinuxLoader.LoadLibrary(fullPath);
                 }
                 catch (Exception e)
                 {
@@ -428,7 +428,7 @@ namespace MathNet.Numerics.Providers.Common
 
         [SuppressUnmanagedCodeSecurity]
         [SecurityCritical]
-        static class UnixLoader
+        static class LinuxLoader
         {
             public static IntPtr LoadLibrary(string fileName)
             {
@@ -437,7 +437,22 @@ namespace MathNet.Numerics.Providers.Common
 
             const int RTLD_NOW = 2;
 
-            [DllImport("libdl", SetLastError = true)]
+            [DllImport("libdl.so.2", SetLastError = true)]
+            static extern IntPtr dlopen(String fileName, int flags);
+        }
+
+        [SuppressUnmanagedCodeSecurity]
+        [SecurityCritical]
+        static class MacLoader
+        {
+            public static IntPtr LoadLibrary(string fileName)
+            {
+                return dlopen(fileName, RTLD_NOW);
+            }
+
+            const int RTLD_NOW = 2;
+
+            [DllImport("libdl.dylib", SetLastError = true)]
             static extern IntPtr dlopen(String fileName, int flags);
         }
 #endif
