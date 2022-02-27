@@ -135,10 +135,11 @@ namespace MathNet.Numerics.Providers.Common
                 return true;
             }
 
-            if (!IsWindows && fileName.StartsWith("lib") && TryLoadDirect(fileName.Substring(3)))
-            {
-                return true;
-            }
+            // NOTE: doesn't actually work since the p/invoke is then wrong
+            //if (!IsWindows && fileName.StartsWith("lib") && TryLoadDirect(fileName.Substring(3)))
+            //{
+            //    return true;
+            //}
 
             // If we have hint path provided by the user, look there next
             if (hintPath != null && TryLoadFromDirectory(fileName, hintPath))
@@ -304,12 +305,19 @@ namespace MathNet.Numerics.Providers.Common
 #if NET5_0_OR_GREATER
                 try
                 {
-                    return NativeLibrary.TryLoad(fileName, out libraryHandle);
+                    if (!NativeLibrary.TryLoad(fileName, out libraryHandle) || libraryHandle == IntPtr.Zero)
+                    {
+                        return false;
+                    }
                 }
                 catch
                 {
                     return false;
                 }
+
+                NativeHandles.Value[fileName] = libraryHandle;
+                return true;
+
 #else
                 try
                 {
@@ -327,14 +335,12 @@ namespace MathNet.Numerics.Providers.Common
                     int lastError = Marshal.GetLastWin32Error();
                     var exception = new System.ComponentModel.Win32Exception(lastError);
                     LastException = exception;
-                }
-                else
-                {
-                    LastException = null;
-                    NativeHandles.Value[fileName] = libraryHandle;
+                    return false;
                 }
 
-                return libraryHandle != IntPtr.Zero;
+                LastException = null;
+                NativeHandles.Value[fileName] = libraryHandle;
+                return true;
 #endif
             }
         }
@@ -363,12 +369,19 @@ namespace MathNet.Numerics.Providers.Common
 #if NET5_0_OR_GREATER
                 try
                 {
-                    return NativeLibrary.TryLoad(fullPath, out libraryHandle);
+                    if (!NativeLibrary.TryLoad(fullPath, out libraryHandle) || libraryHandle == IntPtr.Zero)
+                    {
+                        return false;
+                    }
                 }
                 catch
                 {
                     return false;
                 }
+
+                NativeHandles.Value[fileName] = libraryHandle;
+                return true;
+
 #else
                 try
                 {
@@ -386,14 +399,12 @@ namespace MathNet.Numerics.Providers.Common
                     int lastError = Marshal.GetLastWin32Error();
                     var exception = new System.ComponentModel.Win32Exception(lastError);
                     LastException = exception;
-                }
-                else
-                {
-                    LastException = null;
-                    NativeHandles.Value[fileName] = libraryHandle;
+                    return false;
                 }
 
-                return libraryHandle != IntPtr.Zero;
+                LastException = null;
+                NativeHandles.Value[fileName] = libraryHandle;
+                return true;
 #endif
             }
         }
