@@ -124,11 +124,6 @@ namespace MathNet.Numerics.Providers.Common
                 throw new ArgumentNullException(nameof(fileName));
             }
 
-            if (string.IsNullOrEmpty(Path.GetExtension(fileName)))
-            {
-                fileName = Path.ChangeExtension(fileName, Extension);
-            }
-
             // First just try to load it with the file name only
             if (TryLoadDirect(fileName))
             {
@@ -140,6 +135,11 @@ namespace MathNet.Numerics.Providers.Common
             //{
             //    return true;
             //}
+
+            if (string.IsNullOrEmpty(Path.GetExtension(fileName)))
+            {
+                fileName = Path.ChangeExtension(fileName, Extension);
+            }
 
             // If we have hint path provided by the user, look there next
             if (hintPath != null && TryLoadFromDirectory(fileName, hintPath))
@@ -437,7 +437,7 @@ namespace MathNet.Numerics.Providers.Common
 
             const int RTLD_NOW = 2;
 
-            [DllImport("dl", SetLastError = true)]
+            [DllImport("libdl", SetLastError = true)]
             static extern IntPtr dlopen(String fileName, int flags);
         }
 #endif
