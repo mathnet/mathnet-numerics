@@ -139,6 +139,12 @@ namespace MathNet.Numerics.Providers.Common
             if (string.IsNullOrEmpty(Path.GetExtension(fileName)))
             {
                 fileName = Path.ChangeExtension(fileName, Extension);
+
+                // Try it also with the proper file extension
+                if (TryLoadDirect(fileName))
+                {
+                    return true;
+                }
             }
 
             // If we have hint path provided by the user, look there next
