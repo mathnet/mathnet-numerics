@@ -241,4 +241,4 @@ Compile and run:
 Licensing Restrictions
 ----------------------
 
-The MKL Provder is available for free under the terms of the [Intel Simplified Software License](License-MKL.html).
+The MKL Provider is available for free under the terms of the [Intel Simplified Software License](License-MKL.html).
