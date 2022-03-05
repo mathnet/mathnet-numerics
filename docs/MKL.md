@@ -241,12 +241,4 @@ Compile and run:
 Licensing Restrictions
 ----------------------
 
-Be aware that unlike the core of Math.NET Numerics including the native wrapper, which are both
-open source under the terms of the MIT/X11 license, the Intel MKL binaries themselves are closed
-source and non-free.
-
-The Math.NET Numerics project does own an Intel MKL license (for Windows, no longer for Linux) and
-thus does have the right to distribute it along Math.NET Numerics. You can therefore use the Math.NET
-Numerics MKL native provider for free for your own use. However, it does *not* give you any right to
-redistribute it again yourself to customers of your own product. **If you need to redistribute,
-buy a license from Intel. If unsure, contact the Intel sales team to clarify.**
+The MKL Provder is available for free under the terms of the [Intel Simplified Software License](License-MKL.html).

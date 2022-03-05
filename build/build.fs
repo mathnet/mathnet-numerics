@@ -284,6 +284,7 @@ let ``Pack OpenBLAS Windows`` _ =
 
 let extraDocs =
     [ "LICENSE.md", "License.md"
+      "LICENSE-MKL.md", "License-MKL.md"
       "CONTRIBUTING.md", "Contributing.md"
       "CONTRIBUTORS.md", "Contributors.md" ]
 

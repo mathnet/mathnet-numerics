@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30114.105
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{5A0892FF-82CE-40FC-BCE1-73810C615F52}"
 	ProjectSection(SolutionItems) = preProject
@@ -20,6 +20,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestData", "src\TestData\Te
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Readme", "Readme", "{77CF160D-3AE0-45A2-8224-6322C28C2685}"
 	ProjectSection(SolutionItems) = preProject
+		LICENSE-MKL.md = LICENSE-MKL.md
+		LICENSE.md = LICENSE.md
 		README.md = README.md
 		RELEASENOTES-MKL.md = RELEASENOTES-MKL.md
 		RELEASENOTES.md = RELEASENOTES.md
