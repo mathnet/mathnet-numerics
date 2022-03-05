@@ -160,9 +160,7 @@ namespace MathNet.Numerics
             for (int i = data.Length - 1; i > 0; i--)
             {
                 int swapIndex = random.Next(i + 1);
-                T swap = data[i];
-                data[i] = data[swapIndex];
-                data[swapIndex] = swap;
+                (data[i], data[swapIndex]) = (data[swapIndex], data[i]);
             }
         }
 
@@ -372,30 +370,36 @@ namespace MathNet.Numerics
             if (k > n) throw new ArgumentOutOfRangeException(nameof(k), $"k must be smaller than or equal to n.");
 
             var random = randomSource ?? SystemRandomSource.Default;
+
             BigInteger[] selection = new BigInteger[k];
             if (n == 0 || k == 0)
+            {
                 return selection;
-            selection[0] = random.NextBigIntegerSequence(0, n).First();
-            bool[] CompareCache;
-            bool KeepLooping;
-            BigInteger RandomNumber;
+            }
+
+            selection[0] = random.NextBigIntegerSequence(BigInteger.Zero, n).First();
+            bool[] compareCache;
+            bool keepLooping;
+            BigInteger randomNumber;
+
             for (int a = 1; a < k; a++)
             {
-                RandomNumber = random.NextBigIntegerSequence(0, n - a).First();
-                CompareCache = Enumerable.Repeat(true, a).ToArray();
+                randomNumber = random.NextBigIntegerSequence(BigInteger.Zero, n - a).First();
+                compareCache = Generate.Repeat(a, true);
                 do
                 {
-                    KeepLooping = false;
+                    keepLooping = false;
                     for (int b = 0; b < a; ++b)
-                        if (CompareCache[b] && RandomNumber >= selection[b])
+                        if (compareCache[b] && randomNumber >= selection[b])
                         {
-                            CompareCache[b] = false;
-                            KeepLooping = true;
-                            RandomNumber++;
+                            compareCache[b] = false;
+                            keepLooping = true;
+                            randomNumber++;
                         }
-                } while (KeepLooping);
-                selection[a] = RandomNumber;
+                } while (keepLooping);
+                selection[a] = randomNumber;
             }
+
             return selection;
         }
 

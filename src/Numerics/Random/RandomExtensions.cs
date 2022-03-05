@@ -202,22 +202,23 @@ namespace MathNet.Numerics.Random
         /// </remarks>
         public static IEnumerable<BigInteger> NextBigIntegerSequence(this System.Random rnd, BigInteger minInclusive, BigInteger maxExclusive)
         {
-            BigInteger AbsoluteRange = maxExclusive - minInclusive;
-            int NumBytes = (int)Math.Ceiling(BigInteger.Log(AbsoluteRange, byte.MaxValue) * 2) + 1;
-            byte[] ByteSequence = Enumerable.Repeat(byte.MaxValue, NumBytes + 1).ToArray();
-            ByteSequence[NumBytes] = 0;
-            BigInteger RandomNumber = new BigInteger(ByteSequence);
-            BigInteger ValidRange = RandomNumber - RandomNumber % AbsoluteRange;
+            BigInteger absoluteRange = maxExclusive - minInclusive;
+            int numBytes = (int)Math.Ceiling(BigInteger.Log(absoluteRange, byte.MaxValue) * 2) + 1;
+            byte[] byteSequence = Generate.Repeat(numBytes + 1, byte.MaxValue);
+            byteSequence[numBytes] = 0;
+            BigInteger randomNumber = new BigInteger(byteSequence);
+            BigInteger validRange = randomNumber - randomNumber % absoluteRange;
+
             while(true)
             {
                 do
                 {
-                    rnd.NextBytes(ByteSequence);
-                    ByteSequence[NumBytes] = 0;
-                    RandomNumber = new BigInteger(ByteSequence);
+                    rnd.NextBytes(byteSequence);
+                    byteSequence[numBytes] = 0;
+                    randomNumber = new BigInteger(byteSequence);
                 }
-                while (RandomNumber >= ValidRange);
-                yield return RandomNumber % AbsoluteRange + minInclusive;
+                while (randomNumber >= validRange);
+                yield return randomNumber % absoluteRange + minInclusive;
             }
         }
 
