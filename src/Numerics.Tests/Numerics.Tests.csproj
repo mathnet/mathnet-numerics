@@ -3,7 +3,7 @@
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <GenerateProgramFile>false</GenerateProgramFile>
-        <TargetFrameworks>net5.0;net48</TargetFrameworks>
+        <TargetFrameworks>net6.0;net48</TargetFrameworks>
         <AssemblyName>MathNet.Numerics.Tests</AssemblyName>
         <RootNamespace>MathNet.Numerics.Tests</RootNamespace>
         <IsPackable>false</IsPackable>
