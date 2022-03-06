@@ -1,4 +1,4 @@
-﻿// <copyright file="Log1p.cs" company="Math.NET">
+// <copyright file="Expm1.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -32,43 +32,48 @@ using System;
 // ReSharper disable once CheckNamespace
 namespace MathNet.Numerics
 {
-    /// <summary>
-    /// This partial implementation of the SpecialFunctions class contains all methods related to the log1p function.
-    /// </summary>
-    public static partial class SpecialFunctions
+    public partial class SpecialFunctions
     {
         /// <summary>
-        /// Computes ln(1+x) with good relative precision when |x| is small
+        /// Numerically stable exponential minus one, i.e. <code>x -> exp(x)-1</code>
         /// </summary>
-        /// <param name="x">The parameter for which to compute the log1p function. Range: x > 0.</param>
-        public static double Log1p(double x)
+        /// <param name="power">A number specifying a power.</param>
+        /// <returns>Returns <code>exp(power)-1</code>.</returns>
+        public static double Expm1(double power)
         {
-            double y0 = Math.Log(1.0 + x);
-
-            if ((-0.2928 < x) && (x < 0.4142))
+            double x = Math.Abs(power);
+            if (x > 0.1)
             {
-                double y = y0;
-
-                if (y == 0.0)
-                {
-                    y = 1.0;
-                }
-                else if ((y < -0.69) || (y > 0.4))
-                {
-                    y = (Math.Exp(y) - 1.0) / y;
-                }
-                else
-                {
-                    double t = y / 2.0;
-                    y = Math.Exp(t) * Math.Sinh(t) / t;
-                }
-
-                double s = y0 * y;
-                double r = (s - x) / (s + 1.0);
-                y0 = y0 - r * (6 - r) / (6 - 4 * r);
+                return Math.Exp(power) - 1.0;
             }
 
-            return y0;
+            if (x < x.PositiveEpsilonOf())
+            {
+                return x;
+            }
+
+            // Series Expansion to x^k / k!
+            int k = 0;
+            double term = 1.0;
+            return Series.Evaluate(
+                () =>
+                {
+                    k++;
+                    term *= power;
+                    term /= k;
+                    return term;
+                });
+        }
+
+        /// <summary>
+        /// Numerically stable exponential minus one, i.e. <code>x -> exp(x)-1</code>
+        /// </summary>
+        /// <param name="power">A number specifying a power.</param>
+        /// <returns>Returns <code>exp(power)-1</code>.</returns>
+        [Obsolete("Use Expm1 instead")]
+        public static double ExponentialMinusOne(double power)
+        {
+            return Expm1(power);
         }
     }
 }

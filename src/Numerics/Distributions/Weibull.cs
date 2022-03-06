@@ -252,7 +252,7 @@ namespace MathNet.Numerics.Distributions
                 return 0.0;
             }
 
-            return -SpecialFunctions.ExponentialMinusOne(-Math.Pow(x, _shape)*_scalePowShapeInv);
+            return -SpecialFunctions.Expm1(-Math.Pow(x, _shape)*_scalePowShapeInv);
         }
 
         /// <summary>
@@ -388,7 +388,7 @@ namespace MathNet.Numerics.Distributions
                 return 0.0;
             }
 
-            return -SpecialFunctions.ExponentialMinusOne(-Math.Pow(x, shape)*Math.Pow(scale, -shape));
+            return -SpecialFunctions.Expm1(-Math.Pow(x, shape)*Math.Pow(scale, -shape));
         }
 
         /// <summary>

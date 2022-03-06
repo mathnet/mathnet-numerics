@@ -36,37 +36,6 @@ namespace MathNet.Numerics
     public partial class SpecialFunctions
     {
         /// <summary>
-        /// Numerically stable exponential minus one, i.e. <code>x -> exp(x)-1</code>
-        /// </summary>
-        /// <param name="power">A number specifying a power.</param>
-        /// <returns>Returns <code>exp(power)-1</code>.</returns>
-        public static double ExponentialMinusOne(double power)
-        {
-            double x = Math.Abs(power);
-            if (x > 0.1)
-            {
-                return Math.Exp(power) - 1.0;
-            }
-
-            if (x < x.PositiveEpsilonOf())
-            {
-                return x;
-            }
-
-            // Series Expansion to x^k / k!
-            int k = 0;
-            double term = 1.0;
-            return Series.Evaluate(
-                () =>
-                {
-                    k++;
-                    term *= power;
-                    term /= k;
-                    return term;
-                });
-        }
-
-        /// <summary>
         /// Numerically stable hypotenuse of a right angle triangle, i.e. <code>(a,b) -> sqrt(a^2 + b^2)</code>
         /// </summary>
         /// <param name="a">The length of side a of the triangle.</param>
