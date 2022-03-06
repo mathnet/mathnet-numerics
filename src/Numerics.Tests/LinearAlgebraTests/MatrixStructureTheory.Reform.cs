@@ -116,7 +116,7 @@ namespace MathNet.Numerics.Tests.LinearAlgebraTests
             }
 
             // Invalid
-            Assert.That(() => matrix.InsertRow(0, default(Vector<T>)), Throws.Exception);
+            Assert.That(() => matrix.InsertRow(0, default), Throws.Exception);
             Assert.That(() => matrix.InsertRow(-1, Vector<T>.Build.Dense(matrix.ColumnCount)), Throws.InstanceOf<ArgumentOutOfRangeException>());
             Assert.That(() => matrix.InsertRow(matrix.RowCount + 1, Vector<T>.Build.Dense(matrix.ColumnCount)), Throws.InstanceOf<ArgumentOutOfRangeException>());
             Assert.That(() => matrix.InsertRow(0, Vector<T>.Build.Dense(matrix.ColumnCount - 1)), Throws.ArgumentException);
@@ -178,7 +178,7 @@ namespace MathNet.Numerics.Tests.LinearAlgebraTests
             }
 
             // Invalid
-            Assert.That(() => matrix.InsertColumn(0, default(Vector<T>)), Throws.Exception);
+            Assert.That(() => matrix.InsertColumn(0, default), Throws.Exception);
             Assert.That(() => matrix.InsertColumn(-1, Vector<T>.Build.Dense(matrix.RowCount)), Throws.InstanceOf<ArgumentOutOfRangeException>());
             Assert.That(() => matrix.InsertColumn(matrix.ColumnCount + 1, Vector<T>.Build.Dense(matrix.RowCount)), Throws.InstanceOf<ArgumentOutOfRangeException>());
             Assert.That(() => matrix.InsertColumn(0, Vector<T>.Build.Dense(matrix.RowCount - 1)), Throws.ArgumentException);
@@ -231,7 +231,7 @@ namespace MathNet.Numerics.Tests.LinearAlgebraTests
             }
 
             // Invalid
-            Assert.That(() => left.Append(default(Matrix<T>)), Throws.InstanceOf<ArgumentNullException>());
+            Assert.That(() => left.Append(default), Throws.InstanceOf<ArgumentNullException>());
         }
 
         [Theory]
@@ -255,7 +255,7 @@ namespace MathNet.Numerics.Tests.LinearAlgebraTests
             }
 
             // Invalid
-            Assert.That(() => left.Append(right, default(Matrix<T>)), Throws.InstanceOf<ArgumentNullException>());
+            Assert.That(() => left.Append(right, default), Throws.InstanceOf<ArgumentNullException>());
             Assert.That(() => left.Append(right, Matrix<T>.Build.Dense(left.RowCount + 1, left.ColumnCount + right.ColumnCount)), Throws.ArgumentException);
             Assert.That(() => left.Append(right, Matrix<T>.Build.Dense(left.RowCount - 1, left.ColumnCount + right.ColumnCount)), Throws.ArgumentException);
             Assert.That(() => left.Append(right, Matrix<T>.Build.Dense(left.RowCount, left.ColumnCount + right.ColumnCount + 1)), Throws.ArgumentException);
@@ -284,7 +284,7 @@ namespace MathNet.Numerics.Tests.LinearAlgebraTests
             }
 
             // Invalid
-            Assert.That(() => top.Stack(default(Matrix<T>)), Throws.InstanceOf<ArgumentNullException>());
+            Assert.That(() => top.Stack(default), Throws.InstanceOf<ArgumentNullException>());
         }
 
         [Theory]
@@ -308,7 +308,7 @@ namespace MathNet.Numerics.Tests.LinearAlgebraTests
             }
 
             // Invalid
-            Assert.That(() => top.Stack(bottom, default(Matrix<T>)), Throws.InstanceOf<ArgumentNullException>());
+            Assert.That(() => top.Stack(bottom, default), Throws.InstanceOf<ArgumentNullException>());
             Assert.That(() => top.Stack(bottom, Matrix<T>.Build.Dense(top.RowCount + bottom.RowCount + 1, top.ColumnCount)), Throws.ArgumentException);
             Assert.That(() => top.Stack(bottom, Matrix<T>.Build.Dense(top.RowCount + bottom.RowCount - 1, top.ColumnCount)), Throws.ArgumentException);
             Assert.That(() => top.Stack(bottom, Matrix<T>.Build.Dense(top.RowCount + bottom.RowCount, top.ColumnCount + 1)), Throws.ArgumentException);
@@ -341,7 +341,7 @@ namespace MathNet.Numerics.Tests.LinearAlgebraTests
             }
 
             // Invalid
-            Assert.That(() => left.DiagonalStack(default(Matrix<T>)), Throws.InstanceOf<ArgumentNullException>(), "{0}+{1}->{2}", left.GetType(), right.GetType(), result.GetType());
+            Assert.That<Matrix<T>>(() => left.DiagonalStack(default), Throws.InstanceOf<ArgumentNullException>(), "{0}+{1}->{2}", left.GetType(), right.GetType(), result.GetType());
         }
 
         [Theory]
@@ -371,7 +371,7 @@ namespace MathNet.Numerics.Tests.LinearAlgebraTests
             }
 
             // Invalid
-            Assert.That(() => left.DiagonalStack(right, default(Matrix<T>)), Throws.InstanceOf<ArgumentNullException>());
+            Assert.That(() => left.DiagonalStack(right, default), Throws.InstanceOf<ArgumentNullException>());
             Assert.That(() => left.DiagonalStack(right, Matrix<T>.Build.Dense(left.RowCount + right.RowCount + 1, left.ColumnCount + right.ColumnCount)), Throws.ArgumentException);
             Assert.That(() => left.DiagonalStack(right, Matrix<T>.Build.Dense(left.RowCount + right.RowCount - 1, left.ColumnCount + right.ColumnCount)), Throws.ArgumentException);
             Assert.That(() => left.DiagonalStack(right, Matrix<T>.Build.Dense(left.RowCount + right.RowCount, left.ColumnCount + right.ColumnCount + 1)), Throws.ArgumentException);

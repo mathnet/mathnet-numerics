@@ -589,7 +589,7 @@ namespace MathNet.Numerics.Tests
             }
             else
             {
-                zero = default(T);
+                zero = default;
                 if (typeT.IsValueType)
                 {
                     nullOp = (INullOp<T>)Activator.CreateInstance(

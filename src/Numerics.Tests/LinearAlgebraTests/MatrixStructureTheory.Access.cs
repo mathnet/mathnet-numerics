@@ -700,7 +700,7 @@ namespace MathNet.Numerics.Tests.LinearAlgebraTests
 
             // Invalid
             m = matrix.Clone();
-            Assert.That(() => m.SetSubMatrix(0, 1, 0, 1, default(Matrix<T>)), Throws.InstanceOf<NullReferenceException>());
+            Assert.That(() => m.SetSubMatrix(0, 1, 0, 1, default), Throws.InstanceOf<NullReferenceException>());
             Assert.That(() => m.SetSubMatrix(-1, 1, 0, 1, Matrix<T>.Build.Dense(1, 1)), Throws.InstanceOf<ArgumentOutOfRangeException>());
             Assert.That(() => m.SetSubMatrix(matrix.RowCount, 1, 0, 1, Matrix<T>.Build.Dense(1, 1)), Throws.InstanceOf<ArgumentOutOfRangeException>());
             Assert.That(() => m.SetSubMatrix(0, 1, -1, 1, Matrix<T>.Build.Dense(1, 1)), Throws.InstanceOf<ArgumentOutOfRangeException>());

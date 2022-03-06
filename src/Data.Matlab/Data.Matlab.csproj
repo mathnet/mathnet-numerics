@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <OutputType>Library</OutputType>
-        <TargetFrameworks>net5.0;net461;net48;netstandard2.0</TargetFrameworks>
+        <TargetFrameworks>net6.0;net5.0;net461;net48;netstandard2.0</TargetFrameworks>
         <AssemblyName>MathNet.Numerics.Data.Matlab</AssemblyName>
         <RootNamespace>MathNet.Numerics.Data.Matlab</RootNamespace>
         <IsPackable>true</IsPackable>
