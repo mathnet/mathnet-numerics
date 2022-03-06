@@ -1,4 +1,4 @@
-### 5.0.0-alpha16 - 2022-02-27
+### 5.0.0-beta01 - 2022-03-06
 * COMPATIBILITY: net5.0, net48 better supported with explicit builds
 * COMPATIBILITY: netstandard1.x, net40, net45 no longer supported
 * BREAKING: drop all which was marked as obsolete
@@ -16,6 +16,8 @@
 * Fixed Sparse COO NormalizeDuplicates *~Mohamed Moussa*
 * Marcum-Q and Log1p functions *~CHUTORO*
 * Series: stable series summation
+* Cubic Spline: Extrema and Stationary Points *~Eduardo Rojas*
+* Statistics: Weighted Descriptive and Running Statistics *~Richard Allen*
 * Providers: binary names and loading changes to follow conventions and better x-plat
 * Providers: drop managed reference linear algebra provider
 * Providers: native providers no longer inherit managed providers, managed now sealed
