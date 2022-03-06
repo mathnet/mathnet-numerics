@@ -1,4 +1,4 @@
-﻿// <copyright file="CubicSpline.cs" company="Math.NET">
+// <copyright file="CubicSpline.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -622,6 +622,91 @@ namespace MathNet.Numerics.Interpolation
             }
 
             return Math.Min(Math.Max(index, 0), _x.Length - 2);
+        }
+
+        /// <summary>
+        /// Gets all the t values where the derivative is 0
+        /// see: https://mathworld.wolfram.com/StationaryPoint.html
+        /// </summary>
+        /// <returns>An array of t values (in the domain of the function) where the derivative of the spline is 0</returns>
+        public double[] StationaryPoints()
+        {
+            List<double> points = new List<double>();
+            for (int index = 0; index < _x.Length - 1; index++)
+            {
+                double a = 6 * _c3[index]; //derive ax^3 and multiply by 2
+                double b = 2 * _c2[index]; //derive bx^2
+                double c = _c1[index];//derive cx
+                double d = b * b - 2 * a * c;
+                //first check if a is 0, if so its a linear function, this happens with quadratic condition
+                if (a.AlmostEqual(0))
+                {
+                    double x = _x[index] - c / b;
+                    //check if the result is in the domain
+                    if (_x[index] <= x && x <= _x[index + 1]) points.Add(x);
+                }
+                else if (d.AlmostEqual(0))//its a quadratic with a single solution
+                {
+                    double x = _x[index] - b / a;
+                    if (_x[index] <= x && x <= _x[index + 1]) points.Add(x);
+                }
+                else if (d > 0)//only has a solution if d is greater than 0
+                {
+                    d = (double)System.Math.Sqrt(d);
+                    //apply quadratic equation
+                    double x1 = _x[index] + (-b + d) / a;
+                    double x2 = _x[index] + (-b - d) / a;
+                    //Add any solution points that fall within the domain to the list
+                    if ((_x[index] <= x1) && (x1 <= _x[index + 1])) points.Add(x1);
+                    if ((_x[index] <= x2) && (x2 <= _x[index + 1])) points.Add(x2);
+                }
+            }
+            return points.ToArray();
+        }
+
+        /// <summary>
+        /// Returns the t values in the domain of the spline for which it takes the minimum and maximum value.
+        /// </summary>
+        /// <returns>A tuple containing the t value for which the spline is minimum in the first component and maximum in the second component </returns>
+        public Tuple<double, double> Extrema()
+        {
+            //Check the edges of the domain
+            //set the initial values to the leftmost domain point
+            double t = _x[0];
+            double max = Interpolate(t);
+            double min = max;
+            double minT = t;
+            double maxT = t;
+            //check the rightmost domain point
+            t = _x[_x.Length-1];
+            var ty = Interpolate(t);
+            if (ty > max)
+            {
+                max = ty;
+                maxT = t;
+            }
+            if (ty < min)
+            {
+                min = ty;
+                minT = t;
+            }
+            //check the the inflexion, local minimums and local maximums
+            double[] pointsToCheck = StationaryPoints();
+            foreach (double p in pointsToCheck)
+            {
+                double y = Interpolate(p);
+                if (y > max)
+                {
+                    max = y;
+                    maxT = p;
+                }
+                if (y < min)
+                {
+                    min = y;
+                    minT = p;
+                }
+            }
+            return new Tuple<double, double>(minT, maxT);
         }
     }
 }

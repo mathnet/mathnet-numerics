@@ -39,7 +39,10 @@ namespace MathNet.Numerics.Tests.InterpolationTests
     {
         readonly double[] _t = { -2.0, -1.0, 0.0, 1.0, 2.0 };
         readonly double[] _y = { 1.0, 2.0, -1.0, 0.0, 1.0 };
-
+        //test data for min max values
+        readonly double[] _x = { -4, -3, -2, -1, 0, 1, 2, 3, 4 };
+        readonly double[] _z = { -7, 2, 5, 0, -3, -1, -4, 0, 6 }; 
+                                                                  
         /// <summary>
         /// Verifies that the interpolation matches the given value at all the provided sample points.
         /// </summary>
@@ -202,5 +205,96 @@ namespace MathNet.Numerics.Tests.InterpolationTests
 
             CollectionAssert.DoesNotContain(yipol, Double.NaN);
         }
+
+        /// <summary>
+        /// Tests that the cubic spline returns the correct t values where the derivative is 0
+        /// </summary>
+        [Test]
+        public void NaturalSplineGetHorizontalDerivativeTValues()
+        {
+            CubicSpline it = CubicSpline.InterpolateBoundaries(_x, _z, SplineBoundaryCondition.SecondDerivative, -4.0, SplineBoundaryCondition.SecondDerivative, 4.0);
+            var horizontalDerivatives = it.StationaryPoints();
+            //readonly double[] _x = { -4, -3, -2, -1,  0,  1,  2, 3, 4 };
+            //readonly double[] _z = { -7,  2,  5,  0, -3, -1, -4, 0, 6 };
+            Assert.AreEqual(4, horizontalDerivatives.Length, "Incorrect number of points with derivative value equal to 0");
+            Assert.IsTrue(horizontalDerivatives[0]>=-3 && horizontalDerivatives[0] <= -2,"Spline returns wrong t value: "+horizontalDerivatives[0]+" for first point");
+            Assert.IsTrue(horizontalDerivatives[1] >= -1 && horizontalDerivatives[1] <= 0, "Spline returns wrong t value: " + horizontalDerivatives[1] + " for second point");
+            Assert.IsTrue(horizontalDerivatives[2] >= 0 && horizontalDerivatives[2] <= 1, "Spline returns wrong t value: " + horizontalDerivatives[2] + " for third point");
+            Assert.IsTrue(horizontalDerivatives[3] >= 2 && horizontalDerivatives[3] <= 3, "Spline returns wrong t value: " + horizontalDerivatives[3] + " for fourth point");
+            Console.WriteLine("GetHorizontalDerivativeTValues checked out ok for cubic spline.");
+         }
+
+        /// <summary>
+        /// Tests that the min and max values for the natural spline are correct
+        /// </summary>
+        [Test]
+        public void NaturalSplineGetMinMaxTvalues()
+        {
+            CubicSpline it = CubicSpline.InterpolateBoundaries(_x, _z, SplineBoundaryCondition.SecondDerivative, -4.0, SplineBoundaryCondition.SecondDerivative, 4.0);
+            var minMax = it.Extrema();
+            Assert.AreEqual(-4, minMax.Item1, "Spline returns wrong t value for global minimum");
+            Assert.AreEqual(4, minMax.Item2, "Spline returns wrong t value for global maximum");
+            Console.WriteLine("GetMinMaxTValues checked out ok for cubic spline.");
+        }
+
+        /// <summary>
+        /// This tests that the min and max values for a natural spline interpolated on an oscilating decaying function are correct and
+        /// spints out the time it takes to do the calculation for 100 thousand points
+        /// </summary>
+        [Test]
+        public void CheckNaturalSplineMinMaxValuesPerformance()
+        {
+            //first generate the test data and spline
+            double amplitude = 100;
+            double ofset = 0;
+            double period = 10;
+            double decay = 0.1;
+            double minX = -50;
+            double maxX = 50;
+            int points = 100000;
+            var data = GenerateSplineData(amplitude, period, decay, minX, maxX, ofset, points);
+            CubicSpline it = CubicSpline.InterpolateBoundaries(data.Item1, data.Item2, SplineBoundaryCondition.Natural, 0, SplineBoundaryCondition.Natural, 0);
+            //start the time and calculate the min max values
+            var t = DateTime.Now;
+            var minMax = it.Extrema();
+            Assert.IsTrue(minMax.Item2.AlmostEqual(ofset, 0.3), "Expexted max value near ofset.");
+            Assert.IsTrue(minMax.Item1.AlmostEqual(ofset+period/2, 0.3) || minMax.Item1.AlmostEqual(ofset - period / 2, 0.3), "Expexted min value near ofset +- period/2.");
+            //spit out the time it took to calculate
+            Console.WriteLine("Extrema took: " + (DateTime.Now - t).TotalMilliseconds.ToString("000.00")+" ms for "+points.ToString()+" points.");
+            //determine if the values are correct
+            var sp = it.StationaryPoints();
+            foreach (var x in sp)
+            {
+                //check that the stationary point falls roughly at a half period
+                Assert.IsTrue(Math.Abs((Math.Abs((x - ofset) * 2 / period) - Math.Round(Math.Abs(x - ofset) * 2 / period, 0))).AlmostEqual(0,0.3), "Stationary point found outside of period/2 for x="+x.ToString());
+            }
+        }
+
+        /// <summary>
+        /// Generates a set of points representing an oscilating decaying function 
+        /// </summary>
+        /// <param name="amplitude">The max amplitude</param>
+        /// <param name="period">The period of oscilation</param>
+        /// <param name="decay">The decaying exponent, the larger the value the faster the functioon decays</param>
+        /// <param name="minX">The min value for X</param>
+        /// <param name="maxX">The max value for X</param>
+        /// <param name="ofset">The x - ofset of the max value of the function</param>
+        /// <param name="points">The number of points to generate, must be greater than 1</param>
+        /// <returns></returns>
+        private Tuple<double[],double[]> GenerateSplineData(double amplitude, double period, double decay, double minX, double maxX,  double ofset, int points)
+        {
+            double delta = (maxX-minX)/(points-1);
+            double[] _x = new double[points];
+            double[] _y = new double[points];   
+            for (int i = 0; i < points; i++)
+            {
+                double x = i * delta + minX;
+                double y = amplitude * Math.Cos((x - ofset) * 2 * Math.PI / period) * Math.Exp(-Math.Abs((x - ofset) * decay));
+                _x[i] = x;
+                _y[i] = y;
+            }
+            return Tuple.Create(_x, _y);
+        }
+
     }
 }
