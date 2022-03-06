@@ -40,18 +40,18 @@ namespace MathNet.Numerics.Providers.OpenBLAS.LinearAlgebra
 
         static string GetCombinedHintPath()
         {
-            if (!String.IsNullOrEmpty(OpenBlasControl.HintPath))
+            if (!string.IsNullOrEmpty(OpenBlasControl.HintPath))
             {
                 return OpenBlasControl.HintPath;
             }
 
-            if (!String.IsNullOrEmpty(LinearAlgebraControl.HintPath))
+            if (!string.IsNullOrEmpty(LinearAlgebraControl.HintPath))
             {
                 return LinearAlgebraControl.HintPath;
             }
 
             var value = Environment.GetEnvironmentVariable(OpenBlasControl.EnvVarOpenBLASProviderPath);
-            if (!String.IsNullOrEmpty(value))
+            if (!string.IsNullOrEmpty(value))
             {
                 return value;
             }

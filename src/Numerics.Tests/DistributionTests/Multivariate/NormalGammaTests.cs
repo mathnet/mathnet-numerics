@@ -157,7 +157,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Multivariate
         /// <param name="meanMarginalDoF">Mean marginal degrees of freedom.</param>
         [TestCase(0.0, 1.0, 1.0, 1.0, 0.0, 1.0, 2.0)]
         [TestCase(10.0, 1.0, 2.0, 2.0, 10.0, 1.0, 4.0)]
-        [TestCase(10.0, 1.0, 2.0, Double.PositiveInfinity, 10.0, 0.5, Double.PositiveInfinity)]
+        [TestCase(10.0, 1.0, 2.0, double.PositiveInfinity, 10.0, 0.5, double.PositiveInfinity)]
         public void CanGetMeanMarginal(double meanLocation, double meanScale, double precShape, double precInvScale, double meanMarginalMean, double meanMarginalScale, double meanMarginalDoF)
         {
             var ng = new NormalGamma(meanLocation, meanScale, precShape, precInvScale);
@@ -176,7 +176,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Multivariate
         /// <param name="precInvScale">Precision inverse scale.</param>
         [TestCase(0.0, 1.0, 1.0, 1.0)]
         [TestCase(10.0, 2.0, 2.0, 2.0)]
-        [TestCase(10.0, 2.0, 2.0, Double.PositiveInfinity)]
+        [TestCase(10.0, 2.0, 2.0, double.PositiveInfinity)]
         public void CanGetPrecisionMarginal(double meanLocation, double meanScale, double precShape, double precInvScale)
         {
             var ng = new NormalGamma(meanLocation, meanScale, precShape, precInvScale);
@@ -196,7 +196,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Multivariate
         /// <param name="meanPrecision">Mean precision.</param>
         [TestCase(0.0, 1.0, 1.0, 1.0, 0.0, 1.0)]
         [TestCase(10.0, 1.0, 2.0, 2.0, 10.0, 1.0)]
-        [TestCase(10.0, 1.0, 2.0, Double.PositiveInfinity, 10.0, 2.0)]
+        [TestCase(10.0, 1.0, 2.0, double.PositiveInfinity, 10.0, 2.0)]
         public void CanGetMean(double meanLocation, double meanScale, double precShape, double precInvScale, double meanMean, double meanPrecision)
         {
             var ng = new NormalGamma(meanLocation, meanScale, precShape, precInvScale);
@@ -235,7 +235,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Multivariate
         /// <param name="precInvScale">Precision inverse scale.</param>
         [TestCase(0.0, 1.0, 1.0, 1.0)]
         [TestCase(10.0, 2.0, 2.0, 2.0)]
-        [TestCase(10.9, 2.0, 2.0, Double.PositiveInfinity)]
+        [TestCase(10.9, 2.0, 2.0, double.PositiveInfinity)]
         public void ValidateVariance(double meanLocation, double meanScale, double precShape, double precInvScale)
         {
             var ng = new NormalGamma(meanLocation, meanScale, precShape, precInvScale);

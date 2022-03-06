@@ -29,7 +29,6 @@
 
 namespace MathNet.Numerics.Tests.LinearAlgebraTests.Single
 {
-    using System;
     using NUnit.Framework;
 
     /// <summary>
@@ -93,7 +92,7 @@ namespace MathNet.Numerics.Tests.LinearAlgebraTests.Single
         {
             var vector = CreateVector(Data);
             AssertHelpers.AlmostEqualRelative(5.0f, vector.InfinityNorm(), 7);
-            AssertHelpers.AlmostEqualRelative(5.0f, vector.Norm(Single.PositiveInfinity), 7);
+            AssertHelpers.AlmostEqualRelative(5.0f, vector.Norm(float.PositiveInfinity), 7);
         }
 
         /// <summary>

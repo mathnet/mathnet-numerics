@@ -43,7 +43,7 @@ namespace MathNet.Numerics.Tests.SpecialFunctionsTests
         /// </summary>
         /// <param name="x">Input X value.</param>
         /// <param name="f">Function result.</param>
-        [TestCase(Double.NaN, Double.NaN)]
+        [TestCase(double.NaN, double.NaN)]
         [TestCase(-1.5, 0.70315664064524318722569033366791109947350706200623256)]
         [TestCase(-0.5, 0.036489973978576520559023667001244432806840395339565891)]
         [TestCase(0.1, -10.423754940411076232100295314502760886768558023951363)]
@@ -70,8 +70,8 @@ namespace MathNet.Numerics.Tests.SpecialFunctionsTests
         /// </summary>
         /// <param name="x">Input X value.</param>
         /// <param name="f">Function result.</param>
-        [TestCase(Double.NaN, Double.NaN)]
-        [TestCase(0.0, Double.NegativeInfinity)]
+        [TestCase(double.NaN, double.NaN)]
+        [TestCase(0.0, double.NegativeInfinity)]
         [TestCase(0.1, -10.423754940411076232100295314502760886768558023951363)]
         [TestCase(1.0, -0.57721566490153286060651209008240243104215933593992359)]
         [TestCase(1.5, 0.036489973978576520559023667001244432806840395339565888)]
@@ -279,7 +279,7 @@ namespace MathNet.Numerics.Tests.SpecialFunctionsTests
         /// </summary>
         /// <param name="p">Input value.</param>
         /// <param name="x">Expected X value.</param>
-        [TestCase(0.000000, Double.NegativeInfinity)]
+        [TestCase(0.000000, double.NegativeInfinity)]
         [TestCase(0.000010, -11.512915464920228103874353849992239636376994324587)]
         [TestCase(0.001000, -6.9067547786485535272274487616830597875179908939086)]
         [TestCase(0.100000, -2.1972245773362193134015514347727700402304323440139)]
@@ -287,7 +287,7 @@ namespace MathNet.Numerics.Tests.SpecialFunctionsTests
         [TestCase(0.900000, 2.1972245773362195801634726294284168954491240598975)]
         [TestCase(0.999000, 6.9067547786485526081487245019905638981131702804661)]
         [TestCase(0.999990, 11.512915464924779098232747799811946290419057060965)]
-        [TestCase(1.000000, Double.PositiveInfinity)]
+        [TestCase(1.000000, double.PositiveInfinity)]
         public void Logit(double p, double x)
         {
             AssertHelpers.AlmostEqualRelative(x, SpecialFunctions.Logit(p), 15);
@@ -298,7 +298,7 @@ namespace MathNet.Numerics.Tests.SpecialFunctionsTests
         /// </summary>
         /// <param name="p">Expected value.</param>
         /// <param name="x">Input X value.</param>
-        [TestCase(Double.NegativeInfinity, 0.000000)]
+        [TestCase(double.NegativeInfinity, 0.000000)]
         [TestCase(-11.512915464920228103874353849992239636376994324587, 0.000010)]
         [TestCase(-6.9067547786485535272274487616830597875179908939086, 0.001000)]
         [TestCase(-2.1972245773362193134015514347727700402304323440139, 0.100000)]
@@ -306,7 +306,7 @@ namespace MathNet.Numerics.Tests.SpecialFunctionsTests
         [TestCase(2.1972245773362195801634726294284168954491240598975, 0.900000)]
         [TestCase(6.9067547786485526081487245019905638981131702804661, 0.999000)]
         [TestCase(11.512915464924779098232747799811946290419057060965, 0.999990)]
-        [TestCase(Double.PositiveInfinity, 1.000000)]
+        [TestCase(double.PositiveInfinity, 1.000000)]
         public void Logistic(double p, double x)
         {
             AssertHelpers.AlmostEqualRelative(x, SpecialFunctions.Logistic(p), 14);

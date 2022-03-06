@@ -155,8 +155,7 @@ namespace MathNet.Numerics
                 list.Remove(token.Next);
             }
 
-            double value;
-            if (!double.TryParse(token.Value, NumberStyles.Any, culture, out value))
+            if (!double.TryParse(token.Value, NumberStyles.Any, culture, out var value))
             {
                 throw new FormatException();
             }
@@ -189,8 +188,7 @@ namespace MathNet.Numerics
                 list.Remove(token.Next);
             }
 
-            float value;
-            if (!Single.TryParse(token.Value, NumberStyles.Any, culture, out value))
+            if (!float.TryParse(token.Value, NumberStyles.Any, culture, out var value))
             {
                 throw new FormatException();
             }

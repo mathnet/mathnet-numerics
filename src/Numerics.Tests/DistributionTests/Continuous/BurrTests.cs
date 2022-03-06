@@ -82,10 +82,10 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(5.0, 1.0, -1.0)]
         [TestCase(-1.0, 1.0, 2.05)]
         [TestCase(1.0, -1.0, 2.05)]
-        [TestCase(Double.NaN, Double.NaN, Double.NaN)]
-        [TestCase(Double.NaN, 1.0, 2.4)]
+        [TestCase(double.NaN, double.NaN, double.NaN)]
+        [TestCase(double.NaN, 1.0, 2.4)]
         [TestCase(1.0, 1.0, double.PositiveInfinity)]
-        [TestCase(1.0, -1.0, Double.NegativeInfinity)]
+        [TestCase(1.0, -1.0, double.NegativeInfinity)]
         public void BurrCreateFailsWithBadParameters(double a, double c, double k)
         {
             Assert.That(() => new Burr(a, c, k), Throws.ArgumentException);
@@ -213,7 +213,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         public void ValidateMaximum()
         {
             var n = new Burr(1.0, 2.0, 1.0);
-            Assert.AreEqual(Double.PositiveInfinity, n.Maximum);
+            Assert.AreEqual(double.PositiveInfinity, n.Maximum);
         }
 
         /// <summary>

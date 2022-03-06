@@ -68,7 +68,7 @@ namespace MathNet.Numerics.Tests.SpecialFunctionsTests
         [Test]
         public void ThrowsOnNegativeArgument()
         {
-            Assert.That(() => SpecialFunctions.Factorial(Int32.MinValue), Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => SpecialFunctions.Factorial(int.MinValue), Throws.TypeOf<ArgumentOutOfRangeException>());
             Assert.That(() => SpecialFunctions.Factorial(-1), Throws.TypeOf<ArgumentOutOfRangeException>());
             Assert.That(() => SpecialFunctions.FactorialLn(-1), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
@@ -79,8 +79,8 @@ namespace MathNet.Numerics.Tests.SpecialFunctionsTests
         [Test]
         public void FactorialOverflowsToInfinity()
         {
-            Assert.AreEqual(Double.PositiveInfinity, SpecialFunctions.Factorial(172));
-            Assert.AreEqual(Double.PositiveInfinity, SpecialFunctions.Factorial(Int32.MaxValue));
+            Assert.AreEqual(double.PositiveInfinity, SpecialFunctions.Factorial(172));
+            Assert.AreEqual(double.PositiveInfinity, SpecialFunctions.Factorial(int.MaxValue));
         }
 
         /// <summary>

@@ -62,7 +62,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(-5.0, 1.0)]
         [TestCase(0.0, 10.0)]
         [TestCase(10.0, 100.0)]
-        [TestCase(-5.0, Double.PositiveInfinity)]
+        [TestCase(-5.0, double.PositiveInfinity)]
         public void CanCreateLogistic(double mean, double scale)
         {
             var n = new Logistic(mean, scale);
@@ -75,9 +75,9 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// </summary>
         /// <param name="mean">Mean value.</param>
         /// <param name="scale">Scale parameter value.</param>
-        [TestCase(Double.NaN, 1.0)]
-        [TestCase(1.0, Double.NaN)]
-        [TestCase(Double.NaN, Double.NaN)]
+        [TestCase(double.NaN, 1.0)]
+        [TestCase(1.0, double.NaN)]
+        [TestCase(double.NaN, double.NaN)]
         [TestCase(1.0, -1.0)]
         public void LogisticCreateFailsWithBadParameters(double mean, double scale)
         {
@@ -93,7 +93,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(-5.0, 1.0)]
         [TestCase(0.0, 10.0)]
         [TestCase(10.0, 100.0)]
-        [TestCase(-5.0, Double.PositiveInfinity)]
+        [TestCase(-5.0, double.PositiveInfinity)]
         public void CanCreateLogisticFromMeanAndScale(double mean, double scale)
         {
             var n = Logistic.WithMeanScale(mean, scale);
@@ -110,7 +110,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(-5.0, 1.0)]
         [TestCase(0.0, 10.0)]
         [TestCase(10.0, 100.0)]
-        [TestCase(-5.0, Double.PositiveInfinity)]
+        [TestCase(-5.0, double.PositiveInfinity)]
         public void CanCreateLogisticFromMeanAndStdDev(double mean, double sdev)
         {
             var n = Logistic.WithMeanStdDev(mean, sdev);
@@ -127,7 +127,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(-5.0, 1.0)]
         [TestCase(0.0, 10.0)]
         [TestCase(10.0, 100.0)]
-        [TestCase(-5.0, Double.PositiveInfinity)]
+        [TestCase(-5.0, double.PositiveInfinity)]
         public void CanCreateLogisticFromMeanAndVariance(double mean, double var)
         {
             var n = Logistic.WithMeanVariance(mean, var);
@@ -169,7 +169,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.1)]
         [TestCase(1.0)]
         [TestCase(10.0)]
-        [TestCase(Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity)]
         public void ValidateEntropy(double scale)
         {
             var n = new Logistic(1.0, scale);
@@ -183,7 +183,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.1)]
         [TestCase(1.0)]
         [TestCase(10.0)]
-        [TestCase(Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity)]
         public void ValidateSkewness(double scale)
         {
             var n = new Logistic(1.0, scale);
@@ -194,13 +194,13 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// Validate mean.
         /// </summary>
         /// <param name="mean">Mean value.</param>
-        [TestCase(Double.NegativeInfinity)]
+        [TestCase(double.NegativeInfinity)]
         [TestCase(-0.0)]
         [TestCase(0.0)]
         [TestCase(0.1)]
         [TestCase(1.0)]
         [TestCase(10.0)]
-        [TestCase(Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity)]
         public void ValidateMode(double mean)
         {
             var n = new Logistic(mean, 1.0);
@@ -211,13 +211,13 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// Validate median.
         /// </summary>
         /// <param name="mean">Mean value.</param>
-        [TestCase(Double.NegativeInfinity)]
+        [TestCase(double.NegativeInfinity)]
         [TestCase(-0.0)]
         [TestCase(0.0)]
         [TestCase(0.1)]
         [TestCase(1.0)]
         [TestCase(10.0)]
-        [TestCase(Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity)]
         public void ValidateMedian(double mean)
         {
             var n = new Logistic(mean, 1.0);
@@ -231,7 +231,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         public void ValidateMinimum()
         {
             var n = new Logistic();
-            Assert.AreEqual(Double.NegativeInfinity, n.Minimum);
+            Assert.AreEqual(double.NegativeInfinity, n.Minimum);
         }
 
         /// <summary>
@@ -241,7 +241,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         public void ValidateMaximum()
         {
             var n = new Logistic();
-            Assert.AreEqual(Double.PositiveInfinity, n.Maximum);
+            Assert.AreEqual(double.PositiveInfinity, n.Maximum);
         }
 
         /// <summary>
@@ -307,7 +307,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// </summary>
         /// <param name="x">Input X value.</param>
         /// <param name="d">Expected value.</param>
-        [TestCase(Double.NegativeInfinity, double.NaN)]
+        [TestCase(double.NegativeInfinity, double.NaN)]
         [TestCase(-5.0, 0.00332402833539508)]
         [TestCase(-2.0, 0.01422651193986778)]
         [TestCase(0.0, 0.03505185827255409)]
@@ -315,7 +315,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(5.0, 0.12500000000000000)]
         [TestCase(6.0, 0.11750185610079725)]
         [TestCase(10.0, 0.03505185827255409)]
-        [TestCase(Double.PositiveInfinity, 0)]
+        [TestCase(double.PositiveInfinity, 0)]
         public void ValidateDensity(double x, double d)
         {
             var n = Logistic.WithMeanScale(5.0, 2.0);
@@ -328,7 +328,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// </summary>
         /// <param name="x">Input X value.</param>
         /// <param name="d">Expected value.</param>
-        [TestCase(Double.NegativeInfinity, double.NaN)]
+        [TestCase(double.NegativeInfinity, double.NaN)]
         [TestCase(-5.0, -5.70657787753818)]
         [TestCase(-2.0, -4.25264801710519)]
         [TestCase(0.0, -3.35092664914504)]
@@ -336,7 +336,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(5.0, -2.07944154167984)]
         [TestCase(6.0, -2.14130114892016)]
         [TestCase(10.0, -3.35092664914504)]
-        [TestCase(Double.PositiveInfinity, Double.NegativeInfinity)]
+        [TestCase(double.PositiveInfinity, double.NegativeInfinity)]
         public void ValidateLogDensity(double x, double d)
         {
             var n = Logistic.WithMeanScale(5.0, 2.0);
@@ -349,7 +349,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// </summary>
         /// <param name="x">Input X value.</param>
         /// <param name="p">Expected value.</param>
-        [TestCase(Double.NegativeInfinity, 0.0)]
+        [TestCase(double.NegativeInfinity, 0.0)]
         [TestCase(-5.0, 0.00669285092428486)]
         [TestCase(-2.0, 0.0293122307513563)]
         [TestCase(0.0, 0.0758581800212435)]
@@ -357,7 +357,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(5.0, 0.5)]
         [TestCase(6.0, 0.622459331201855)]
         [TestCase(10.0, 0.924141819978757)]
-        [TestCase(Double.PositiveInfinity, 1.0)]
+        [TestCase(double.PositiveInfinity, 1.0)]
         public void ValidateCumulativeDistribution(double x, double p)
         {
             var n = Logistic.WithMeanScale(5.0, 2.0);
@@ -370,7 +370,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// </summary>
         /// <param name="x">Input X value.</param>
         /// <param name="p">Expected value.</param>
-        [TestCase(Double.NegativeInfinity, 0.0)]
+        [TestCase(double.NegativeInfinity, 0.0)]
         [TestCase(-5.0, 0.00669285092428486)]
         [TestCase(-2.0, 0.0293122307513563)]
         [TestCase(0.0, 0.0758581800212435)]
@@ -378,7 +378,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(5.0, 0.5)]
         [TestCase(6.0, 0.622459331201855)]
         [TestCase(10.0, 0.924141819978757)]
-        [TestCase(Double.PositiveInfinity, 1.0)]
+        [TestCase(double.PositiveInfinity, 1.0)]
         public void ValidateInverseCumulativeDistribution(double x, double p)
         {
             var n = Logistic.WithMeanScale(5.0, 2.0);

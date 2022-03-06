@@ -27,16 +27,15 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System.Linq;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.Random;
 using MathNet.Numerics.Statistics;
-using MathNet.Numerics.Tests;
-using MathNet.Numerics.Tests.StatisticsTests;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.StatisticsTests
+namespace MathNet.Numerics.Tests.StatisticsTests
 {
     /// <summary>
     /// Running statistics tests.
@@ -141,7 +140,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         public void NegativeWeightsThrow()
         {
             Assert.That(() => new RunningWeightedStatistics(new[] { System.Tuple.Create(-1.0, 1.0) }), Throws.TypeOf<System.ArgumentOutOfRangeException>());
-            var stats0 = new RunningWeightedStatistics(new System.Tuple<double, double>[0]);
+            var stats0 = new RunningWeightedStatistics(Array.Empty<Tuple<double, double>>());
             Assert.That(() => stats0.Push(-1.0, 1.0), Throws.TypeOf<System.ArgumentOutOfRangeException>());
             Assert.That(() => stats0.PushRange(new[] { System.Tuple.Create(-1.0, 1.0) }), Throws.TypeOf<System.ArgumentOutOfRangeException>());
         }
@@ -149,7 +148,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         [Test]
         public void ShortSequences()
         {
-            var stats0 = new RunningWeightedStatistics(new System.Tuple<double, double>[0]);
+            var stats0 = new RunningWeightedStatistics(Array.Empty<Tuple<double, double>>());
             Assert.That(stats0.Skewness, Is.NaN);
             Assert.That(stats0.Kurtosis, Is.NaN);
 

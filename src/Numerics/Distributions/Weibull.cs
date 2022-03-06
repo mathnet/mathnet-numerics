@@ -400,7 +400,7 @@ namespace MathNet.Numerics.Distributions
         public static Weibull Estimate(IEnumerable<double> samples, System.Random randomSource = null)
         {
             var samp = samples as double[] ?? samples.ToArray();
-            double n = samp.Length, s1, s2, s3, previousC = Int32.MinValue, QofC;
+            double n = samp.Length, s1, s2, s3, previousC = int.MinValue, QofC;
 
             if (n <= 1) throw new Exception("Observations not sufficient");
 

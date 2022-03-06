@@ -124,7 +124,7 @@ namespace MathNet.Numerics.Optimization.LineSearch
                 }
             }
 
-            if (ii == MaximumIterations && Double.IsPositiveInfinity(upperBound))
+            if (ii == MaximumIterations && double.IsPositiveInfinity(upperBound))
             {
                 throw new MaximumIterationsException(Invariant($"Maximum iterations ({MaximumIterations}) reached. Function appears to be unbounded in search direction."));
             }

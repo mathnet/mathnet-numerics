@@ -100,8 +100,7 @@ namespace MathNet.Numerics.Tests.InterpolationTests
         [TestCase(12)]
         public void SupportsLinearCase(int samples)
         {
-            double[] x, y, xtest, ytest;
-            LinearInterpolationCase.Build(out x, out y, out xtest, out ytest, samples);
+            LinearInterpolationCase.Build(out var x, out var y, out var xtest, out var ytest, samples);
             IInterpolation interpolation = new NevillePolynomialInterpolation(x, y);
             for (int i = 0; i < xtest.Length; i++)
             {
@@ -137,8 +136,8 @@ namespace MathNet.Numerics.Tests.InterpolationTests
                     var vals = line.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                     return new Tuple<string, string>(vals[2], vals[3]);
                 }).ToArray();
-            var x = data.Select(tuple => Double.Parse(tuple.Item1, CultureInfo.InvariantCulture)).ToArray();
-            var y = data.Select(tuple => Double.Parse(tuple.Item2, CultureInfo.InvariantCulture)).ToArray();
+            var x = data.Select(tuple => double.Parse(tuple.Item1, CultureInfo.InvariantCulture)).ToArray();
+            var y = data.Select(tuple => double.Parse(tuple.Item2, CultureInfo.InvariantCulture)).ToArray();
             IInterpolation interpolation = new NevillePolynomialInterpolation(x, y);
 
             var actual = interpolation.Interpolate(Math.Log(value));
@@ -148,7 +147,7 @@ namespace MathNet.Numerics.Tests.InterpolationTests
         [Test]
         public void FewSamples()
         {
-            Assert.That(() => NevillePolynomialInterpolation.Interpolate(new double[0], new double[0]), Throws.ArgumentException);
+            Assert.That(() => NevillePolynomialInterpolation.Interpolate(Array.Empty<double>(), Array.Empty<double>()), Throws.ArgumentException);
             Assert.That(NevillePolynomialInterpolation.Interpolate(new[] { 1.0 }, new[] { 2.0 }).Interpolate(1.0), Is.EqualTo(2.0));
         }
     }

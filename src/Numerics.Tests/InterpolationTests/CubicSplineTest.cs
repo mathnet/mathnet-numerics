@@ -41,8 +41,8 @@ namespace MathNet.Numerics.Tests.InterpolationTests
         readonly double[] _y = { 1.0, 2.0, -1.0, 0.0, 1.0 };
         //test data for min max values
         readonly double[] _x = { -4, -3, -2, -1, 0, 1, 2, 3, 4 };
-        readonly double[] _z = { -7, 2, 5, 0, -3, -1, -4, 0, 6 }; 
-                                                                  
+        readonly double[] _z = { -7, 2, 5, 0, -3, -1, -4, 0, 6 };
+
         /// <summary>
         /// Verifies that the interpolation matches the given value at all the provided sample points.
         /// </summary>
@@ -169,8 +169,7 @@ namespace MathNet.Numerics.Tests.InterpolationTests
         [TestCase(12)]
         public void NaturalSupportsLinearCase(int samples)
         {
-            double[] x, y, xtest, ytest;
-            LinearInterpolationCase.Build(out x, out y, out xtest, out ytest, samples);
+            LinearInterpolationCase.Build(out var x, out var y, out var xtest, out var ytest, samples);
             IInterpolation it = CubicSpline.InterpolateNatural(x, y);
             for (int i = 0; i < xtest.Length; i++)
             {
@@ -181,7 +180,7 @@ namespace MathNet.Numerics.Tests.InterpolationTests
         [Test]
         public void FewSamples()
         {
-            Assert.That(() => CubicSpline.InterpolateNatural(new double[0], new double[0]), Throws.ArgumentException);
+            Assert.That(() => CubicSpline.InterpolateNatural(Array.Empty<double>(), Array.Empty<double>()), Throws.ArgumentException);
             Assert.That(() => CubicSpline.InterpolateNatural(new double[1], new double[1]), Throws.ArgumentException);
             Assert.That(CubicSpline.InterpolateNatural(new[] { 1.0, 2.0 }, new[] { 2.0, 2.0 }).Interpolate(1.0), Is.EqualTo(2.0));
         }
@@ -203,7 +202,7 @@ namespace MathNet.Numerics.Tests.InterpolationTests
                 yipol[i] = spline.Interpolate(1.0);
             });
 
-            CollectionAssert.DoesNotContain(yipol, Double.NaN);
+            CollectionAssert.DoesNotContain(yipol, double.NaN);
         }
 
         /// <summary>
@@ -271,7 +270,7 @@ namespace MathNet.Numerics.Tests.InterpolationTests
         }
 
         /// <summary>
-        /// Generates a set of points representing an oscilating decaying function 
+        /// Generates a set of points representing an oscilating decaying function
         /// </summary>
         /// <param name="amplitude">The max amplitude</param>
         /// <param name="period">The period of oscilation</param>
@@ -285,7 +284,7 @@ namespace MathNet.Numerics.Tests.InterpolationTests
         {
             double delta = (maxX-minX)/(points-1);
             double[] _x = new double[points];
-            double[] _y = new double[points];   
+            double[] _y = new double[points];
             for (int i = 0; i < points; i++)
             {
                 double x = i * delta + minX;

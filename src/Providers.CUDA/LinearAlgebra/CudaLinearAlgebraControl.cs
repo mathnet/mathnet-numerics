@@ -40,18 +40,18 @@ namespace MathNet.Numerics.Providers.CUDA.LinearAlgebra
 
         static string GetCombinedHintPath()
         {
-            if (!String.IsNullOrEmpty(CudaControl.HintPath))
+            if (!string.IsNullOrEmpty(CudaControl.HintPath))
             {
                 return CudaControl.HintPath;
             }
 
-            if (!String.IsNullOrEmpty(LinearAlgebraControl.HintPath))
+            if (!string.IsNullOrEmpty(LinearAlgebraControl.HintPath))
             {
                 return LinearAlgebraControl.HintPath;
             }
 
             var value = Environment.GetEnvironmentVariable(CudaControl.EnvVarCUDAProviderPath);
-            if (!String.IsNullOrEmpty(value))
+            if (!string.IsNullOrEmpty(value))
             {
                 return value;
             }

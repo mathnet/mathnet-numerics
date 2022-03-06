@@ -40,18 +40,18 @@ namespace MathNet.Numerics.Providers.MKL.FourierTransform
 
         static string GetCombinedHintPath()
         {
-            if (!String.IsNullOrEmpty(MklControl.HintPath))
+            if (!string.IsNullOrEmpty(MklControl.HintPath))
             {
                 return MklControl.HintPath;
             }
 
-            if (!String.IsNullOrEmpty(FourierTransformControl.HintPath))
+            if (!string.IsNullOrEmpty(FourierTransformControl.HintPath))
             {
                 return FourierTransformControl.HintPath;
             }
 
             var value = Environment.GetEnvironmentVariable(MklControl.EnvVarMKLProviderPath);
-            if (!String.IsNullOrEmpty(value))
+            if (!string.IsNullOrEmpty(value))
             {
                 return value;
             }

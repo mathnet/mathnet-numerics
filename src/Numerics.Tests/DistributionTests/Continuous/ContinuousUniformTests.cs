@@ -64,7 +64,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(10.0, 10.0)]
         [TestCase(-5.0, 11.0)]
         [TestCase(-5.0, 100.0)]
-        [TestCase(Double.NegativeInfinity, Double.PositiveInfinity)]
+        [TestCase(double.NegativeInfinity, double.PositiveInfinity)]
         public void CanCreateContinuousUniform(double lower, double upper)
         {
             var n = new ContinuousUniform(lower, upper);
@@ -77,9 +77,9 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// </summary>
         /// <param name="lower">Lower bound.</param>
         /// <param name="upper">Upper bound.</param>
-        [TestCase(Double.NaN, 1.0)]
-        [TestCase(1.0, Double.NaN)]
-        [TestCase(Double.NaN, Double.NaN)]
+        [TestCase(double.NaN, 1.0)]
+        [TestCase(1.0, double.NaN)]
+        [TestCase(double.NaN, double.NaN)]
         [TestCase(1.0, 0.0)]
         public void ContinuousUniformCreateFailsWithBadParameters(double lower, double upper)
         {
@@ -107,7 +107,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.1, 4.0)]
         [TestCase(1.0, 10.0)]
         [TestCase(10.0, 11.0)]
-        [TestCase(0.0, Double.PositiveInfinity)]
+        [TestCase(0.0, double.PositiveInfinity)]
         public void ValidateEntropy(double lower, double upper)
         {
             var n = new ContinuousUniform(lower, upper);
@@ -124,7 +124,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.1, 4.0)]
         [TestCase(1.0, 10.0)]
         [TestCase(10.0, 11.0)]
-        [TestCase(0.0, Double.PositiveInfinity)]
+        [TestCase(0.0, double.PositiveInfinity)]
         public void ValidateSkewness(double lower, double upper)
         {
             var n = new ContinuousUniform(lower, upper);
@@ -141,7 +141,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.1, 4.0)]
         [TestCase(1.0, 10.0)]
         [TestCase(10.0, 11.0)]
-        [TestCase(0.0, Double.PositiveInfinity)]
+        [TestCase(0.0, double.PositiveInfinity)]
         public void ValidateMode(double lower, double upper)
         {
             var n = new ContinuousUniform(lower, upper);
@@ -158,7 +158,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.1, 4.0)]
         [TestCase(1.0, 10.0)]
         [TestCase(10.0, 11.0)]
-        [TestCase(0.0, Double.PositiveInfinity)]
+        [TestCase(0.0, double.PositiveInfinity)]
         public void ValidateMedian(double lower, double upper)
         {
             var n = new ContinuousUniform(lower, upper);
@@ -175,7 +175,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.1, 4.0)]
         [TestCase(1.0, 10.0)]
         [TestCase(10.0, 11.0)]
-        [TestCase(0.0, Double.PositiveInfinity)]
+        [TestCase(0.0, double.PositiveInfinity)]
         public void ValidateMinimum(double lower, double upper)
         {
             var n = new ContinuousUniform(lower, upper);
@@ -192,7 +192,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.1, 4.0)]
         [TestCase(1.0, 10.0)]
         [TestCase(10.0, 11.0)]
-        [TestCase(0.0, Double.PositiveInfinity)]
+        [TestCase(0.0, double.PositiveInfinity)]
         public void ValidateMaximum(double lower, double upper)
         {
             var n = new ContinuousUniform(lower, upper);
@@ -209,7 +209,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.0, 1.0)]
         [TestCase(0.0, 10.0)]
         [TestCase(-5.0, 100.0)]
-        [TestCase(0.0, Double.PositiveInfinity)]
+        [TestCase(0.0, double.PositiveInfinity)]
         public void ValidateDensity(double lower, double upper)
         {
             var n = new ContinuousUniform(lower, upper);
@@ -239,7 +239,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.0, 1.0)]
         [TestCase(0.0, 10.0)]
         [TestCase(-5.0, 100.0)]
-        [TestCase(0.0, Double.PositiveInfinity)]
+        [TestCase(0.0, double.PositiveInfinity)]
         public void ValidateDensityLn(double lower, double upper)
         {
             var n = new ContinuousUniform(lower, upper);
@@ -327,7 +327,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.0, 1.0)]
         [TestCase(0.0, 10.0)]
         [TestCase(-5.0, 100.0)]
-        [TestCase(0.0, Double.PositiveInfinity)]
+        [TestCase(0.0, double.PositiveInfinity)]
         public void ValidateCumulativeDistribution(double lower, double upper)
         {
             var n = new ContinuousUniform(lower, upper);

@@ -48,10 +48,10 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(1.0, 1.0, -1.0, 1.0)]
         [TestCase(9.0, 1.0, 0.0, 1.0)]
         [TestCase(5.0, 100.0, 0.0, 1.0)]
-        [TestCase(1.0, Double.PositiveInfinity, 0.0, 1.0)]
-        [TestCase(Double.PositiveInfinity, 1.0, 0.0, 1.0)]
-        [TestCase(1.0, Double.PositiveInfinity, 0.0, Double.PositiveInfinity)]
-        [TestCase(Double.PositiveInfinity, 1.0, Double.PositiveInfinity, 1.0)]
+        [TestCase(1.0, double.PositiveInfinity, 0.0, 1.0)]
+        [TestCase(double.PositiveInfinity, 1.0, 0.0, 1.0)]
+        [TestCase(1.0, double.PositiveInfinity, 0.0, double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity, 1.0, double.PositiveInfinity, 1.0)]
         public void CanCreateBetaScaled(double a, double b, double location, double scale)
         {
             var n = new BetaScaled(a, b, location, scale);
@@ -67,11 +67,11 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [Test]
         public void BetaScaledCreateFailsWithBadParameters()
         {
-            Assert.That(() => new BetaScaled(Double.NaN, 1.0, 0.0, 1.0), Throws.ArgumentException);
-            Assert.That(() => new BetaScaled(1.0, Double.NaN, 0.0, 1.0), Throws.ArgumentException);
-            Assert.That(() => new BetaScaled(Double.NaN, Double.NaN, 0.0, 1.0), Throws.ArgumentException);
-            Assert.That(() => new BetaScaled(1.0, 1.0, Double.NaN, 1.0), Throws.ArgumentException);
-            Assert.That(() => new BetaScaled(1.0, 1.0, 1.0, Double.NaN), Throws.ArgumentException);
+            Assert.That(() => new BetaScaled(double.NaN, 1.0, 0.0, 1.0), Throws.ArgumentException);
+            Assert.That(() => new BetaScaled(1.0, double.NaN, 0.0, 1.0), Throws.ArgumentException);
+            Assert.That(() => new BetaScaled(double.NaN, double.NaN, 0.0, 1.0), Throws.ArgumentException);
+            Assert.That(() => new BetaScaled(1.0, 1.0, double.NaN, 1.0), Throws.ArgumentException);
+            Assert.That(() => new BetaScaled(1.0, 1.0, 1.0, double.NaN), Throws.ArgumentException);
             Assert.That(() => new BetaScaled(1.0, 0.0, 0.0, 1.0), Throws.ArgumentException);
             Assert.That(() => new BetaScaled(0.0, 1.0, 0.0, 1.0), Throws.ArgumentException);
             Assert.That(() => new BetaScaled(-1.0, -1.0, 0.0, 1.0), Throws.ArgumentException);
@@ -95,8 +95,8 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(1.0, 1.0, 0.0, 1.0, 0.5)]
         [TestCase(9.0, 1.0, 0.0, 1.0, 0.9)]
         [TestCase(5.0, 100.0, 0.0, 1.0, 0.047619047619047619047616)]
-        [TestCase(1.0, Double.PositiveInfinity, 0.0, 1.0, 0.0)]
-        [TestCase(Double.PositiveInfinity, 1.0, 0.0, 1.0, 1.0)]
+        [TestCase(1.0, double.PositiveInfinity, 0.0, 1.0, 0.0)]
+        [TestCase(double.PositiveInfinity, 1.0, 0.0, 1.0, 1.0)]
         public void ValidateMean(double a, double b, double location, double scale, double mean)
         {
             var n = new BetaScaled(a, b, location, scale);
@@ -109,8 +109,8 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(1.0, 1.0, 0.0, 1.0, 0.0)]
         [TestCase(9.0, 1.0, 0.0, 1.0, -1.4740554623801777107177478829647496373009282424841579)]
         [TestCase(5.0, 100.0, 0.0, 1.0, 0.81759410927553430354583159143895018978562196953345572)]
-        [TestCase(1.0, Double.PositiveInfinity, 0.0, 1.0, 2.0)]
-        [TestCase(Double.PositiveInfinity, 1.0, 0.0, 1.0, -2.0)]
+        [TestCase(1.0, double.PositiveInfinity, 0.0, 1.0, 2.0)]
+        [TestCase(double.PositiveInfinity, 1.0, 0.0, 1.0, -2.0)]
         public void ValidateSkewness(double a, double b, double location, double scale, double skewness)
         {
             var n = new BetaScaled(a, b, location, scale);
@@ -123,8 +123,8 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(1.0, 1.0, 0.0, 1.0, 0.5)]
         [TestCase(9.0, 1.0, 0.0, 1.0, 1.0)]
         [TestCase(5.0, 100.0, 0.0, 1.0, 0.038834951456310676243255386452801758423447608947753906)]
-        [TestCase(1.0, Double.PositiveInfinity, 0.0, 1.0, 0.0)]
-        [TestCase(Double.PositiveInfinity, 1.0, 0.0, 1.0, 1.0)]
+        [TestCase(1.0, double.PositiveInfinity, 0.0, 1.0, 0.0)]
+        [TestCase(double.PositiveInfinity, 1.0, 0.0, 1.0, 1.0)]
         public void ValidateMode(double a, double b, double location, double scale, double mode)
         {
             var n = new BetaScaled(a, b, location, scale);
@@ -232,12 +232,12 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(5.0, 100, 0.0, 1.0, 0.0, 0.0)]
         [TestCase(5.0, 100, 0.0, 1.0, 0.5, 1.0881845516040810386311829462908430145307026037926335e-21)]
         [TestCase(5.0, 100, 0.0, 1.0, 1.0, 0.0)]
-        [TestCase(1.0, Double.PositiveInfinity, 0.0, 1.0, 0.0, Double.PositiveInfinity)]
-        [TestCase(1.0, Double.PositiveInfinity, 0.0, 1.0, 0.5, 0.0)]
-        [TestCase(1.0, Double.PositiveInfinity, 0.0, 1.0, 1.0, 0.0)]
-        [TestCase(Double.PositiveInfinity, 1.0, 0.0, 1.0, 0.0, 0.0)]
-        [TestCase(Double.PositiveInfinity, 1.0, 0.0, 1.0, 0.5, 0.0)]
-        [TestCase(Double.PositiveInfinity, 1.0, 0.0, 1.0, 1.0, Double.PositiveInfinity)]
+        [TestCase(1.0, double.PositiveInfinity, 0.0, 1.0, 0.0, double.PositiveInfinity)]
+        [TestCase(1.0, double.PositiveInfinity, 0.0, 1.0, 0.5, 0.0)]
+        [TestCase(1.0, double.PositiveInfinity, 0.0, 1.0, 1.0, 0.0)]
+        [TestCase(double.PositiveInfinity, 1.0, 0.0, 1.0, 0.0, 0.0)]
+        [TestCase(double.PositiveInfinity, 1.0, 0.0, 1.0, 0.5, 0.0)]
+        [TestCase(double.PositiveInfinity, 1.0, 0.0, 1.0, 1.0, double.PositiveInfinity)]
         public void ValidateDensity(double a, double b, double location, double scale, double x, double pdf)
         {
             var n = new BetaScaled(a, b, location, scale);
@@ -249,21 +249,21 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(1.0, 1.0, 0.0, 1.0, 0.0, 0.0)]
         [TestCase(1.0, 1.0, 0.0, 1.0, 0.5, 0.0)]
         [TestCase(1.0, 1.0, 0.0, 1.0, 1.0, 0.0)]
-        [TestCase(9.0, 1.0, 0.0, 1.0, 0.0, Double.NegativeInfinity)]
+        [TestCase(9.0, 1.0, 0.0, 1.0, 0.0, double.NegativeInfinity)]
         [TestCase(9.0, 1.0, 0.0, 1.0, 0.5, -3.3479528671433430925473664978203611353090199592365458)]
         [TestCase(9.0, 1.0, 0.0, 1.0, 1.0, 2.1972245773362193827904904738450514092949811156454996)]
-        [TestCase(9.0, 1.0, 0.0, 1.0, -1.0, Double.NegativeInfinity)]
-        [TestCase(9.0, 1.0, 0.0, 1.0, 2.0, Double.NegativeInfinity)]
+        [TestCase(9.0, 1.0, 0.0, 1.0, -1.0, double.NegativeInfinity)]
+        [TestCase(9.0, 1.0, 0.0, 1.0, 2.0, double.NegativeInfinity)]
         [TestCase(9.0, 1.0, -2.0, 2.0, -0.5, -0.797379)]
-        [TestCase(5.0, 100, 0.0, 1.0, 0.0, Double.NegativeInfinity)]
+        [TestCase(5.0, 100, 0.0, 1.0, 0.0, double.NegativeInfinity)]
         [TestCase(5.0, 100, 0.0, 1.0, 0.5, -51.447830024537682154565870837960406410586196074573801)]
-        [TestCase(5.0, 100, 0.0, 1.0, 1.0, Double.NegativeInfinity)]
-        [TestCase(1.0, Double.PositiveInfinity, 0.0, 1.0, 0.0, Double.PositiveInfinity)]
-        [TestCase(1.0, Double.PositiveInfinity, 0.0, 1.0, 0.5, Double.NegativeInfinity)]
-        [TestCase(1.0, Double.PositiveInfinity, 0.0, 1.0, 1.0, Double.NegativeInfinity)]
-        [TestCase(Double.PositiveInfinity, 1.0, 0.0, 1.0, 0.0, Double.NegativeInfinity)]
-        [TestCase(Double.PositiveInfinity, 1.0, 0.0, 1.0, 0.5, Double.NegativeInfinity)]
-        [TestCase(Double.PositiveInfinity, 1.0, 0.0, 1.0, 1.0, Double.PositiveInfinity)]
+        [TestCase(5.0, 100, 0.0, 1.0, 1.0, double.NegativeInfinity)]
+        [TestCase(1.0, double.PositiveInfinity, 0.0, 1.0, 0.0, double.PositiveInfinity)]
+        [TestCase(1.0, double.PositiveInfinity, 0.0, 1.0, 0.5, double.NegativeInfinity)]
+        [TestCase(1.0, double.PositiveInfinity, 0.0, 1.0, 1.0, double.NegativeInfinity)]
+        [TestCase(double.PositiveInfinity, 1.0, 0.0, 1.0, 0.0, double.NegativeInfinity)]
+        [TestCase(double.PositiveInfinity, 1.0, 0.0, 1.0, 0.5, double.NegativeInfinity)]
+        [TestCase(double.PositiveInfinity, 1.0, 0.0, 1.0, 1.0, double.PositiveInfinity)]
         public void ValidateDensityLn(double a, double b, double location, double scale, double x, double pdfln)
         {
             var n = new BetaScaled(a, b, location, scale);
@@ -282,12 +282,12 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(5.0, 100, 0.0, 1.0, 0.0, 0.0)]
         [TestCase(5.0, 100, 0.0, 1.0, 0.5, 1.0)]
         [TestCase(5.0, 100, 0.0, 1.0, 1.0, 1.0)]
-        [TestCase(1.0, Double.PositiveInfinity, 0.0, 1.0, 0.0, 1.0)]
-        [TestCase(1.0, Double.PositiveInfinity, 0.0, 1.0, 0.5, 1.0)]
-        [TestCase(1.0, Double.PositiveInfinity, 0.0, 1.0, 1.0, 1.0)]
-        [TestCase(Double.PositiveInfinity, 1.0, 0.0, 1.0, 0.0, 0.0)]
-        [TestCase(Double.PositiveInfinity, 1.0, 0.0, 1.0, 0.5, 0.0)]
-        [TestCase(Double.PositiveInfinity, 1.0, 0.0, 1.0, 1.0, 1.0)]
+        [TestCase(1.0, double.PositiveInfinity, 0.0, 1.0, 0.0, 1.0)]
+        [TestCase(1.0, double.PositiveInfinity, 0.0, 1.0, 0.5, 1.0)]
+        [TestCase(1.0, double.PositiveInfinity, 0.0, 1.0, 1.0, 1.0)]
+        [TestCase(double.PositiveInfinity, 1.0, 0.0, 1.0, 0.0, 0.0)]
+        [TestCase(double.PositiveInfinity, 1.0, 0.0, 1.0, 0.5, 0.0)]
+        [TestCase(double.PositiveInfinity, 1.0, 0.0, 1.0, 1.0, 1.0)]
         public void ValidateCumulativeDistribution(double a, double b, double location, double scale, double x, double p)
         {
             var dist = new BetaScaled(a, b, location, scale);

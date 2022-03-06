@@ -129,7 +129,7 @@ namespace MathNet.Numerics.Optimization
         {
             foreach (var x in eval.Gradient)
             {
-                if (Double.IsNaN(x) || Double.IsInfinity(x))
+                if (double.IsNaN(x) || double.IsInfinity(x))
                 {
                     throw new EvaluationException("Non-finite gradient returned.", eval);
                 }
@@ -142,7 +142,7 @@ namespace MathNet.Numerics.Optimization
             {
                 for (int jj = 0; jj < eval.Hessian.ColumnCount; ++jj)
                 {
-                    if (Double.IsNaN(eval.Hessian[ii, jj]) || Double.IsInfinity(eval.Hessian[ii, jj]))
+                    if (double.IsNaN(eval.Hessian[ii, jj]) || double.IsInfinity(eval.Hessian[ii, jj]))
                     {
                         throw new EvaluationException("Non-finite Hessian returned.", eval);
                     }

@@ -47,7 +47,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.1)]
         [TestCase(1.0)]
         [TestCase(10.0)]
-        [TestCase(Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity)]
         public void CanCreateRayleigh(double scale)
         {
             var n = new Rayleigh(scale);
@@ -58,8 +58,8 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// Rayleigh create fails with bad parameters.
         /// </summary>
         /// <param name="scale">Scale value.</param>
-        [TestCase(Double.NaN)]
-        [TestCase(Double.NegativeInfinity)]
+        [TestCase(double.NaN)]
+        [TestCase(double.NegativeInfinity)]
         [TestCase(-1.0)]
         [TestCase(0.0)]
         public void RayleighCreateFailsWithBadParameters(double scale)
@@ -85,7 +85,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.1)]
         [TestCase(1.0)]
         [TestCase(10.0)]
-        [TestCase(Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity)]
         public void ValidateMean(double scale)
         {
             var n = new Rayleigh(scale);
@@ -99,7 +99,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.1)]
         [TestCase(1.0)]
         [TestCase(10.0)]
-        [TestCase(Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity)]
         public void ValidateVariance(double scale)
         {
             var n = new Rayleigh(scale);
@@ -113,7 +113,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.1)]
         [TestCase(1.0)]
         [TestCase(10.0)]
-        [TestCase(Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity)]
         public void ValidateStdDev(double scale)
         {
             var n = new Rayleigh(scale);
@@ -127,7 +127,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.1)]
         [TestCase(1.0)]
         [TestCase(10.0)]
-        [TestCase(Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity)]
         public void ValidateEntropy(double scale)
         {
             var n = new Rayleigh(scale);
@@ -142,7 +142,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.1, 0.63111065781893638)]
         [TestCase(1.0, 0.63111065781893638)]
         [TestCase(10.0, 0.63111065781893638)]
-        [TestCase(Double.PositiveInfinity, 0.63111065781893638)]
+        [TestCase(double.PositiveInfinity, 0.63111065781893638)]
         public void ValidateSkewness(double scale, double skn)
         {
             var n = new Rayleigh(scale);
@@ -156,7 +156,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.1)]
         [TestCase(1.0)]
         [TestCase(10.0)]
-        [TestCase(Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity)]
         public void ValidateMode(double scale)
         {
             var n = new Rayleigh(scale);
@@ -170,7 +170,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.1)]
         [TestCase(1.0)]
         [TestCase(10.0)]
-        [TestCase(Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity)]
         public void ValidateMedian(double scale)
         {
             var n = new Rayleigh(scale);
@@ -184,7 +184,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.1)]
         [TestCase(1.0)]
         [TestCase(10.0)]
-        [TestCase(Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity)]
         public void ValidateMinimum(double scale)
         {
             var n = new Rayleigh(scale);
@@ -198,17 +198,17 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.1)]
         [TestCase(1.0)]
         [TestCase(10.0)]
-        [TestCase(Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity)]
         public void ValidateMaximum(double scale)
         {
             var n = new Rayleigh(scale);
-            Assert.AreEqual(Double.PositiveInfinity, n.Maximum);
+            Assert.AreEqual(double.PositiveInfinity, n.Maximum);
         }
 
         [TestCase(0.1, 0.1)]
         [TestCase(1.0, 1.0)]
         [TestCase(10.0, 10.0)]
-        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity, double.PositiveInfinity)]
         public void ValidateDensity(double scale, double x)
         {
             var n = new Rayleigh(scale);
@@ -220,7 +220,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.1, 0.1)]
         [TestCase(1.0, 1.0)]
         [TestCase(10.0, 10.0)]
-        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity, double.PositiveInfinity)]
         public void ValidateDensityLn(double scale, double x)
         {
             var n = new Rayleigh(scale);

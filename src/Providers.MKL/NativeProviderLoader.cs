@@ -54,7 +54,7 @@ namespace MathNet.Numerics.Providers.Common
     /// </summary>
     internal static class NativeProviderLoader
     {
-        static readonly object StaticLock = new Object();
+        static readonly object StaticLock = new object();
 
         /// <summary>
         /// Dictionary of handles to previously loaded libraries,
@@ -444,7 +444,7 @@ namespace MathNet.Numerics.Providers.Common
             const int RTLD_NOW = 2;
 
             [DllImport("libdl.so.2", SetLastError = true)]
-            static extern IntPtr dlopen(String fileName, int flags);
+            static extern IntPtr dlopen(string fileName, int flags);
         }
 
         [SuppressUnmanagedCodeSecurity]
@@ -459,7 +459,7 @@ namespace MathNet.Numerics.Providers.Common
             const int RTLD_NOW = 2;
 
             [DllImport("libdl.dylib", SetLastError = true)]
-            static extern IntPtr dlopen(String fileName, int flags);
+            static extern IntPtr dlopen(string fileName, int flags);
         }
 #endif
     }

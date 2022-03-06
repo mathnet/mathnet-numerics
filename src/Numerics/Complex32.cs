@@ -863,7 +863,7 @@ namespace MathNet.Numerics
         /// </param>
         public override bool Equals(object obj)
         {
-            return (obj is Complex32) && Equals((Complex32)obj);
+            return obj is Complex32 complex32 && Equals(complex32);
         }
 
         #endregion
@@ -1006,8 +1006,8 @@ namespace MathNet.Numerics
             }
 
             // handle prefix imaginary symbol
-            if (String.Compare(token.Value, "i", StringComparison.OrdinalIgnoreCase) == 0
-                || String.Compare(token.Value, "j", StringComparison.OrdinalIgnoreCase) == 0)
+            if (string.Compare(token.Value, "i", StringComparison.OrdinalIgnoreCase) == 0
+                || string.Compare(token.Value, "j", StringComparison.OrdinalIgnoreCase) == 0)
             {
                 imaginary = true;
                 token = token.Next;
@@ -1021,8 +1021,8 @@ namespace MathNet.Numerics
             var value = GlobalizationHelper.ParseSingle(ref token, format.GetCultureInfo());
 
             // handle suffix imaginary symbol
-            if (token != null && (String.Compare(token.Value, "i", StringComparison.OrdinalIgnoreCase) == 0
-                                  || String.Compare(token.Value, "j", StringComparison.OrdinalIgnoreCase) == 0))
+            if (token != null && (string.Compare(token.Value, "i", StringComparison.OrdinalIgnoreCase) == 0
+                                  || string.Compare(token.Value, "j", StringComparison.OrdinalIgnoreCase) == 0))
             {
                 if (imaginary)
                 {

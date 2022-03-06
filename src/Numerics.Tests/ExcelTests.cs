@@ -27,7 +27,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
 using NUnit.Framework;
 
 // ReSharper disable InconsistentNaming
@@ -196,7 +195,7 @@ namespace MathNet.Numerics.Tests
         [Test]
         public void Percentile()
         {
-            var array = new Double[] { 1, 8, 12, 7, 2, 9, 10, 4 };
+            var array = new double[] { 1, 8, 12, 7, 2, 9, 10, 4 };
             Assert.That(ExcelFunctions.Percentile(array, 0.00), Is.EqualTo(1.00000000000).Within(1e-8));
             Assert.That(ExcelFunctions.Percentile(array, 0.01), Is.EqualTo(1.07000000000).Within(1e-8));
             Assert.That(ExcelFunctions.Percentile(array, 0.10), Is.EqualTo(1.70000000000).Within(1e-8));
@@ -206,7 +205,7 @@ namespace MathNet.Numerics.Tests
             Assert.That(ExcelFunctions.Percentile(array, 0.99), Is.EqualTo(11.86000000000).Within(1e-8));
             Assert.That(ExcelFunctions.Percentile(array, 1.00), Is.EqualTo(12.00000000000).Within(1e-8));
 
-            array = new Double[] { 1, 9, 12, 7, 2, 9, 10, 2 };
+            array = new double[] { 1, 9, 12, 7, 2, 9, 10, 2 };
             Assert.That(ExcelFunctions.Percentile(array, 0.00), Is.EqualTo(1.00000000000).Within(1e-8));
             Assert.That(ExcelFunctions.Percentile(array, 0.01), Is.EqualTo(1.07000000000).Within(1e-8));
             Assert.That(ExcelFunctions.Percentile(array, 0.10), Is.EqualTo(1.70000000000).Within(1e-8));
@@ -220,14 +219,14 @@ namespace MathNet.Numerics.Tests
         [Test]
         public void Quartile()
         {
-            var array = new Double[] { 1, 8, 12, 7, 2, 9, 10, 4 };
+            var array = new double[] { 1, 8, 12, 7, 2, 9, 10, 4 };
             Assert.That(ExcelFunctions.Quartile(array, 0), Is.EqualTo(1.00000000000).Within(1e-8));
             Assert.That(ExcelFunctions.Quartile(array, 1), Is.EqualTo(3.50000000000).Within(1e-8));
             Assert.That(ExcelFunctions.Quartile(array, 2), Is.EqualTo(7.50000000000).Within(1e-8));
             Assert.That(ExcelFunctions.Quartile(array, 3), Is.EqualTo(9.25000000000).Within(1e-8));
             Assert.That(ExcelFunctions.Quartile(array, 4), Is.EqualTo(12.00000000000).Within(1e-8));
 
-            array = new Double[] { 1, 9, 12, 7, 2, 9, 10, 2 };
+            array = new double[] { 1, 9, 12, 7, 2, 9, 10, 2 };
             Assert.That(ExcelFunctions.Quartile(array, 0), Is.EqualTo(1.00000000000).Within(1e-8));
             Assert.That(ExcelFunctions.Quartile(array, 1), Is.EqualTo(2.00000000000).Within(1e-8));
             Assert.That(ExcelFunctions.Quartile(array, 2), Is.EqualTo(8.00000000000).Within(1e-8));
@@ -238,7 +237,7 @@ namespace MathNet.Numerics.Tests
         [Test]
         public void PercentRank()
         {
-            var array = new Double[] { 1, 8, 12, 7, 2, 9, 10, 4 };
+            var array = new double[] { 1, 8, 12, 7, 2, 9, 10, 4 };
             Assert.That(ExcelFunctions.PercentRank(array, 1.0), Is.EqualTo(0.00000000000).Within(1e-8), "A1");
             Assert.That(ExcelFunctions.PercentRank(array, 2.0), Is.EqualTo(0.14285714280).Within(1e-8), "A2");
             Assert.That(ExcelFunctions.PercentRank(array, 3.0), Is.EqualTo(0.21428571420).Within(1e-8), "A3");
@@ -252,7 +251,7 @@ namespace MathNet.Numerics.Tests
             Assert.That(ExcelFunctions.PercentRank(array, 11.0), Is.EqualTo(0.92857142850).Within(1e-8), "A11");
             Assert.That(ExcelFunctions.PercentRank(array, 12.0), Is.EqualTo(1.00000000000).Within(1e-8), "A12");
 
-            array = new Double[] { 1, 9, 12, 7, 2, 9, 10, 2 };
+            array = new double[] { 1, 9, 12, 7, 2, 9, 10, 2 };
             Assert.That(ExcelFunctions.PercentRank(array, 1.0), Is.EqualTo(0.00000000000).Within(1e-8), "B1");
             Assert.That(ExcelFunctions.PercentRank(array, 2.0), Is.EqualTo(0.14285714280).Within(1e-8), "B2");
             Assert.That(ExcelFunctions.PercentRank(array, 3.0), Is.EqualTo(0.31428571420).Within(1e-8), "B3");

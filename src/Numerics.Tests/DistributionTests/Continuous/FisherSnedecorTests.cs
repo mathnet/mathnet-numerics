@@ -48,15 +48,15 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.1, 0.1)]
         [TestCase(1.0, 0.1)]
         [TestCase(10.0, 0.1)]
-        [TestCase(Double.PositiveInfinity, 0.1)]
+        [TestCase(double.PositiveInfinity, 0.1)]
         [TestCase(0.1, 1.0)]
         [TestCase(1.0, 1.0)]
         [TestCase(10.0, 1.0)]
-        [TestCase(Double.PositiveInfinity, 1.0)]
-        [TestCase(0.1, Double.PositiveInfinity)]
-        [TestCase(1.0, Double.PositiveInfinity)]
-        [TestCase(10.0, Double.PositiveInfinity)]
-        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity, 1.0)]
+        [TestCase(0.1, double.PositiveInfinity)]
+        [TestCase(1.0, double.PositiveInfinity)]
+        [TestCase(10.0, double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity, double.PositiveInfinity)]
         public void CanCreateFisherSnedecor(double d1, double d2)
         {
             var n = new FisherSnedecor(d1, d2);
@@ -69,19 +69,19 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// </summary>
         /// <param name="d1">Degrees of freedom 1</param>
         /// <param name="d2">Degrees of freedom 2</param>
-        [TestCase(Double.NaN, Double.NaN)]
-        [TestCase(0.0, Double.NaN)]
-        [TestCase(-1.0, Double.NaN)]
-        [TestCase(-10.0, Double.NaN)]
-        [TestCase(Double.NaN, 0.0)]
+        [TestCase(double.NaN, double.NaN)]
+        [TestCase(0.0, double.NaN)]
+        [TestCase(-1.0, double.NaN)]
+        [TestCase(-10.0, double.NaN)]
+        [TestCase(double.NaN, 0.0)]
         [TestCase(0.0, 0.0)]
         [TestCase(-1.0, 0.0)]
         [TestCase(-10.0, 0.0)]
-        [TestCase(Double.NaN, -1.0)]
+        [TestCase(double.NaN, -1.0)]
         [TestCase(0.0, -1.0)]
         [TestCase(-1.0, -1.0)]
         [TestCase(-10.0, -1.0)]
-        [TestCase(Double.NaN, -10.0)]
+        [TestCase(double.NaN, -10.0)]
         [TestCase(0.0, -10.0)]
         [TestCase(-1.0, -10.0)]
         [TestCase(-10.0, -10.0)]
@@ -109,15 +109,15 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.1, 0.1)]
         [TestCase(1.0, 0.1)]
         [TestCase(10.0, 0.1)]
-        [TestCase(Double.PositiveInfinity, 0.1)]
+        [TestCase(double.PositiveInfinity, 0.1)]
         [TestCase(0.1, 1.0)]
         [TestCase(1.0, 1.0)]
         [TestCase(10.0, 1.0)]
-        [TestCase(Double.PositiveInfinity, 1.0)]
-        [TestCase(0.1, Double.PositiveInfinity)]
-        [TestCase(1.0, Double.PositiveInfinity)]
-        [TestCase(10.0, Double.PositiveInfinity)]
-        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity, 1.0)]
+        [TestCase(0.1, double.PositiveInfinity)]
+        [TestCase(1.0, double.PositiveInfinity)]
+        [TestCase(10.0, double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity, double.PositiveInfinity)]
         public void ValidateMean(double d1, double d2)
         {
             var n = new FisherSnedecor(d1, d2);
@@ -135,15 +135,15 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.1, 0.1)]
         [TestCase(1.0, 0.1)]
         [TestCase(10.0, 0.1)]
-        [TestCase(Double.PositiveInfinity, 0.1)]
+        [TestCase(double.PositiveInfinity, 0.1)]
         [TestCase(0.1, 1.0)]
         [TestCase(1.0, 1.0)]
         [TestCase(10.0, 1.0)]
-        [TestCase(Double.PositiveInfinity, 1.0)]
-        [TestCase(0.1, Double.PositiveInfinity)]
-        [TestCase(1.0, Double.PositiveInfinity)]
-        [TestCase(10.0, Double.PositiveInfinity)]
-        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity, 1.0)]
+        [TestCase(0.1, double.PositiveInfinity)]
+        [TestCase(1.0, double.PositiveInfinity)]
+        [TestCase(10.0, double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity, double.PositiveInfinity)]
         public void ValidateVariance(double d1, double d2)
         {
             var n = new FisherSnedecor(d1, d2);
@@ -161,15 +161,15 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.1, 0.1)]
         [TestCase(1.0, 0.1)]
         [TestCase(10.0, 0.1)]
-        [TestCase(Double.PositiveInfinity, 0.1)]
+        [TestCase(double.PositiveInfinity, 0.1)]
         [TestCase(0.1, 1.0)]
         [TestCase(1.0, 1.0)]
         [TestCase(10.0, 1.0)]
-        [TestCase(Double.PositiveInfinity, 1.0)]
-        [TestCase(0.1, Double.PositiveInfinity)]
-        [TestCase(1.0, Double.PositiveInfinity)]
-        [TestCase(10.0, Double.PositiveInfinity)]
-        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity, 1.0)]
+        [TestCase(0.1, double.PositiveInfinity)]
+        [TestCase(1.0, double.PositiveInfinity)]
+        [TestCase(10.0, double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity, double.PositiveInfinity)]
         public void ValidateStdDev(double d1, double d2)
         {
             var n = new FisherSnedecor(d1, d2);
@@ -197,15 +197,15 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.1, 0.1)]
         [TestCase(1.0, 0.1)]
         [TestCase(10.0, 0.1)]
-        [TestCase(Double.PositiveInfinity, 0.1)]
+        [TestCase(double.PositiveInfinity, 0.1)]
         [TestCase(0.1, 1.0)]
         [TestCase(1.0, 1.0)]
         [TestCase(10.0, 1.0)]
-        [TestCase(Double.PositiveInfinity, 1.0)]
-        [TestCase(0.1, Double.PositiveInfinity)]
-        [TestCase(1.0, Double.PositiveInfinity)]
-        [TestCase(10.0, Double.PositiveInfinity)]
-        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity, 1.0)]
+        [TestCase(0.1, double.PositiveInfinity)]
+        [TestCase(1.0, double.PositiveInfinity)]
+        [TestCase(10.0, double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity, double.PositiveInfinity)]
         public void ValidateSkewness(double d1, double d2)
         {
             var n = new FisherSnedecor(d1, d2);
@@ -268,7 +268,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         public void ValidateMaximum()
         {
             var n = new FisherSnedecor(1.0, 2.0);
-            Assert.AreEqual(Double.PositiveInfinity, n.Maximum);
+            Assert.AreEqual(double.PositiveInfinity, n.Maximum);
         }
 
         /// <summary>

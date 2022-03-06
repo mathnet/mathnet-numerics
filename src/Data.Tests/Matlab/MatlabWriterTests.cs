@@ -43,7 +43,7 @@ namespace MathNet.Numerics.Data.Tests.Matlab
         [Test]
         public void WriteBadMatricesThrowsArgumentException()
         {
-            Matrix<float> matrix = Matrix<float>.Build.Dense(1, 1);
+            var matrix = Matrix<float>.Build.Dense(1, 1);
             var filePath = Path.GetTempFileName();
             try
             {
@@ -64,24 +64,24 @@ namespace MathNet.Numerics.Data.Tests.Matlab
         [Test]
         public void CanWriteDoubleMatrices()
         {
-            Matrix<double> mat1 = Matrix<double>.Build.Dense(5, 5);
+            var mat1 = Matrix<double>.Build.Dense(5, 5);
             for (var i = 0; i < mat1.ColumnCount; i++)
             {
                 mat1[i, i] = i + .1;
             }
 
-            Matrix<double> mat2 = Matrix<double>.Build.Dense(4, 5);
+            var mat2 = Matrix<double>.Build.Dense(4, 5);
             for (var i = 0; i < mat2.RowCount; i++)
             {
                 mat2[i, i] = i + .1;
             }
 
-            Matrix<double> mat3 = Matrix<double>.Build.Sparse(5, 4);
+            var mat3 = Matrix<double>.Build.Sparse(5, 4);
             mat3[0, 0] = 1.1;
             mat3[0, 2] = 2.2;
             mat3[4, 3] = 3.3;
 
-            Matrix<double> mat4 = Matrix<double>.Build.Sparse(3, 5);
+            var mat4 = Matrix<double>.Build.Sparse(3, 5);
             mat4[0, 0] = 1.1;
             mat4[0, 2] = 2.2;
             mat4[2, 4] = 3.3;
@@ -114,24 +114,24 @@ namespace MathNet.Numerics.Data.Tests.Matlab
         [Test]
         public void CanWriteFloatMatrices()
         {
-            Matrix<float> mat1 = Matrix<float>.Build.Dense(5, 3);
+            var mat1 = Matrix<float>.Build.Dense(5, 3);
             for (var i = 0; i < mat1.ColumnCount; i++)
             {
                 mat1[i, i] = i + .1f;
             }
 
-            Matrix<float> mat2 = Matrix<float>.Build.Dense(4, 5);
+            var mat2 = Matrix<float>.Build.Dense(4, 5);
             for (var i = 0; i < mat2.RowCount; i++)
             {
                 mat2[i, i] = i + .1f;
             }
 
-            Matrix<float> mat3 = Matrix<float>.Build.Sparse(5, 4);
+            var mat3 = Matrix<float>.Build.Sparse(5, 4);
             mat3[0, 0] = 1.1f;
             mat3[0, 2] = 2.2f;
             mat3[4, 3] = 3.3f;
 
-            Matrix<float> mat4 = Matrix<float>.Build.Sparse(3, 5);
+            var mat4 = Matrix<float>.Build.Sparse(3, 5);
             mat4[0, 0] = 1.1f;
             mat4[0, 2] = 2.2f;
             mat4[2, 4] = 3.3f;
@@ -167,24 +167,24 @@ namespace MathNet.Numerics.Data.Tests.Matlab
         [Test]
         public void CanWriteComplex32Matrices()
         {
-            Matrix<Complex32> mat1 = Matrix<Complex32>.Build.Dense(5, 3);
+            var mat1 = Matrix<Complex32>.Build.Dense(5, 3);
             for (var i = 0; i < mat1.ColumnCount; i++)
             {
                 mat1[i, i] = new Complex32(i + .1f, i + .1f);
             }
 
-            Matrix<Complex32> mat2 = Matrix<Complex32>.Build.Dense(4, 5);
+            var mat2 = Matrix<Complex32>.Build.Dense(4, 5);
             for (var i = 0; i < mat2.RowCount; i++)
             {
                 mat2[i, i] = new Complex32(i + .1f, i + .1f);
             }
 
-            Matrix<Complex32> mat3 = Matrix<Complex32>.Build.Sparse(5, 4);
+            var mat3 = Matrix<Complex32>.Build.Sparse(5, 4);
             mat3[0, 0] = new Complex32(1.1f, 1.1f);
             mat3[0, 2] = new Complex32(2.2f, 2.2f);
             mat3[4, 3] = new Complex32(3.3f, 3.3f);
 
-            Matrix<Complex32> mat4 = Matrix<Complex32>.Build.Sparse(3, 5);
+            var mat4 = Matrix<Complex32>.Build.Sparse(3, 5);
             mat4[0, 0] = new Complex32(1.1f, 1.1f);
             mat4[0, 2] = new Complex32(2.2f, 2.2f);
             mat4[2, 4] = new Complex32(3.3f, 3.3f);
@@ -220,24 +220,24 @@ namespace MathNet.Numerics.Data.Tests.Matlab
         [Test]
         public void CanWriteComplexMatrices()
         {
-            Matrix<Complex> mat1 = Matrix<Complex>.Build.Dense(5, 3);
+            var mat1 = Matrix<Complex>.Build.Dense(5, 3);
             for (var i = 0; i < mat1.ColumnCount; i++)
             {
                 mat1[i, i] = new Complex(i + .1, i + .1);
             }
 
-            Matrix<Complex> mat2 = Matrix<Complex>.Build.Dense(4, 5);
+            var mat2 = Matrix<Complex>.Build.Dense(4, 5);
             for (var i = 0; i < mat2.RowCount; i++)
             {
                 mat2[i, i] = new Complex(i + .1, i + .1);
             }
 
-            Matrix<Complex> mat3 = Matrix<Complex>.Build.Sparse(5, 4);
+            var mat3 = Matrix<Complex>.Build.Sparse(5, 4);
             mat3[0, 0] = new Complex(1.1, 1.1);
             mat3[0, 2] = new Complex(2.2, 2.2);
             mat3[4, 3] = new Complex(3.3, 3.3);
 
-            Matrix<Complex> mat4 = Matrix<Complex>.Build.Sparse(3, 5);
+            var mat4 = Matrix<Complex>.Build.Sparse(3, 5);
             mat4[0, 0] = new Complex(1.1, 1.1);
             mat4[0, 2] = new Complex(2.2, 2.2);
             mat4[2, 4] = new Complex(3.3, 3.3);

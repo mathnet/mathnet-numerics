@@ -47,11 +47,11 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// <param name="beta">Beta value.</param>
         /// <param name="scale">Scale value.</param>
         /// <param name="location">Location value.</param>
-        [TestCase(0.1, -1.0, 0.1, Double.NegativeInfinity)]
-        [TestCase(2.0, 1.0, Double.PositiveInfinity, -1.0)]
+        [TestCase(0.1, -1.0, 0.1, double.NegativeInfinity)]
+        [TestCase(2.0, 1.0, double.PositiveInfinity, -1.0)]
         [TestCase(0.1, -1.0, 0.1, 0.0)]
-        [TestCase(2.0, 1.0, Double.PositiveInfinity, 1.0)]
-        [TestCase(0.1, -1.0, 0.1, Double.PositiveInfinity)]
+        [TestCase(2.0, 1.0, double.PositiveInfinity, 1.0)]
+        [TestCase(0.1, -1.0, 0.1, double.PositiveInfinity)]
         public void CanCreateStable(double alpha, double beta, double scale, double location)
         {
             var n = new Stable(alpha, beta, scale, location);
@@ -68,19 +68,19 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// <param name="beta">Beta value.</param>
         /// <param name="location">Location value.</param>
         /// <param name="scale">Scale value.</param>
-        [TestCase(Double.NaN, Double.NaN, Double.NaN, Double.NaN)]
-        [TestCase(1.0, Double.NaN, Double.NaN, Double.NaN)]
-        [TestCase(Double.NaN, 1.0, Double.NaN, Double.NaN)]
-        [TestCase(Double.NaN, Double.NaN, 1.0, Double.NaN)]
-        [TestCase(Double.NaN, Double.NaN, Double.NaN, 1.0)]
-        [TestCase(1.0, 1.0, Double.NaN, Double.NaN)]
-        [TestCase(1.0, Double.NaN, 1.0, Double.NaN)]
-        [TestCase(1.0, Double.NaN, Double.NaN, 1.0)]
-        [TestCase(Double.NaN, 1.0, 1.0, Double.NaN)]
-        [TestCase(1.0, 1.0, 1.0, Double.NaN)]
-        [TestCase(1.0, 1.0, Double.NaN, 1.0)]
-        [TestCase(1.0, Double.NaN, 1.0, 1.0)]
-        [TestCase(Double.NaN, 1.0, 1.0, 1.0)]
+        [TestCase(double.NaN, double.NaN, double.NaN, double.NaN)]
+        [TestCase(1.0, double.NaN, double.NaN, double.NaN)]
+        [TestCase(double.NaN, 1.0, double.NaN, double.NaN)]
+        [TestCase(double.NaN, double.NaN, 1.0, double.NaN)]
+        [TestCase(double.NaN, double.NaN, double.NaN, 1.0)]
+        [TestCase(1.0, 1.0, double.NaN, double.NaN)]
+        [TestCase(1.0, double.NaN, 1.0, double.NaN)]
+        [TestCase(1.0, double.NaN, double.NaN, 1.0)]
+        [TestCase(double.NaN, 1.0, 1.0, double.NaN)]
+        [TestCase(1.0, 1.0, 1.0, double.NaN)]
+        [TestCase(1.0, 1.0, double.NaN, 1.0)]
+        [TestCase(1.0, double.NaN, 1.0, 1.0)]
+        [TestCase(double.NaN, 1.0, 1.0, 1.0)]
         [TestCase(1.0, 1.0, 0.0, 1.0)]
         [TestCase(1.0, -1.1, 1.0, 1.0)]
         [TestCase(1.0, 1.1, 1.0, 1.0)]
@@ -129,14 +129,14 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// Validate mode.
         /// </summary>
         /// <param name="location">Location value.</param>
-        [TestCase(Double.NegativeInfinity)]
+        [TestCase(double.NegativeInfinity)]
         [TestCase(-10.0)]
         [TestCase(-1.0)]
         [TestCase(-0.1)]
         [TestCase(0.1)]
         [TestCase(1.0)]
         [TestCase(10.0)]
-        [TestCase(Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity)]
         public void ValidateMode(double location)
         {
             var n = new Stable(1.0, 0.0, 1.0, location);
@@ -150,14 +150,14 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// Validate mean.
         /// </summary>
         /// <param name="location">Location value.</param>
-        [TestCase(Double.NegativeInfinity)]
+        [TestCase(double.NegativeInfinity)]
         [TestCase(-10.0)]
         [TestCase(-1.0)]
         [TestCase(-0.1)]
         [TestCase(0.1)]
         [TestCase(1.0)]
         [TestCase(10.0)]
-        [TestCase(Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity)]
         public void ValidateMedian(double location)
         {
             var n = new Stable(1.0, 0.0, 1.0, location);
@@ -180,7 +180,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         public void ValidateMinimum(double beta)
         {
             var n = new Stable(1.0, beta, 1.0, 1.0);
-            Assert.AreEqual(Math.Abs(beta) != 1 ? Double.NegativeInfinity : 0.0, n.Minimum);
+            Assert.AreEqual(Math.Abs(beta) != 1 ? double.NegativeInfinity : 0.0, n.Minimum);
         }
 
         /// <summary>
@@ -190,7 +190,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         public void ValidateMaximum()
         {
             var n = new Stable(1.0, 1.0, 1.0, 1.0);
-            Assert.AreEqual(Double.PositiveInfinity, n.Maximum);
+            Assert.AreEqual(double.PositiveInfinity, n.Maximum);
         }
 
         /// <summary>

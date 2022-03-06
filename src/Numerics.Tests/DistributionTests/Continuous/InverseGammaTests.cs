@@ -48,7 +48,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// <param name="b">B parameter.</param>
         [TestCase(0.1, 0.1)]
         [TestCase(1.0, 1.0)]
-        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity, double.PositiveInfinity)]
         public void CanCreateInverseGamma(double a, double b)
         {
             var n = new InverseGamma(a, b);
@@ -64,13 +64,13 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.0, 1.0)]
         [TestCase(-1.0, 1.0)]
         [TestCase(-100.0, 1.0)]
-        [TestCase(Double.NegativeInfinity, 1.0)]
-        [TestCase(Double.NaN, 1.0)]
+        [TestCase(double.NegativeInfinity, 1.0)]
+        [TestCase(double.NaN, 1.0)]
         [TestCase(1.0, 0.0)]
         [TestCase(1.0, -1.0)]
         [TestCase(1.0, -100.0)]
-        [TestCase(1.0, Double.NegativeInfinity)]
-        [TestCase(1.0, Double.NaN)]
+        [TestCase(1.0, double.NegativeInfinity)]
+        [TestCase(1.0, double.NaN)]
         public void InverseGammaCreateFailsWithBadParameters(double a, double b)
         {
             Assert.That(() => new InverseGamma(a, b), Throws.ArgumentException);
@@ -94,7 +94,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// <param name="b">B parameter.</param>
         [TestCase(0.1, 0.1)]
         [TestCase(1.0, 1.0)]
-        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity, double.PositiveInfinity)]
         public void ValidateMean(double a, double b)
         {
             var n = new InverseGamma(a, b);
@@ -111,7 +111,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// <param name="b">B parameter.</param>
         [TestCase(0.1, 0.1)]
         [TestCase(1.0, 1.0)]
-        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity, double.PositiveInfinity)]
         public void ValidateVariance(double a, double b)
         {
             var n = new InverseGamma(a, b);
@@ -128,7 +128,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// <param name="b">B parameter.</param>
         [TestCase(0.1, 0.1)]
         [TestCase(1.0, 1.0)]
-        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity, double.PositiveInfinity)]
         public void ValidateStdDev(double a, double b)
         {
             var n = new InverseGamma(a, b);
@@ -145,7 +145,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// <param name="b">B parameter.</param>
         [TestCase(0.1, 0.1)]
         [TestCase(1.0, 1.0)]
-        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity, double.PositiveInfinity)]
         public void ValidateMode(double a, double b)
         {
             var n = new InverseGamma(a, b);
@@ -179,7 +179,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         public void ValidateMaximum()
         {
             var n = new InverseGamma(1.0, 1.0);
-            Assert.AreEqual(Double.PositiveInfinity, n.Maximum);
+            Assert.AreEqual(double.PositiveInfinity, n.Maximum);
         }
 
         /// <summary>
@@ -190,13 +190,13 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// <param name="x">Input X valuer.</param>
         [TestCase(0.1, 0.1, 1.2)]
         [TestCase(0.1, 1.0, 2.0)]
-        [TestCase(0.1, Double.PositiveInfinity, 1.1)]
+        [TestCase(0.1, double.PositiveInfinity, 1.1)]
         [TestCase(1.0, 0.1, 1.5)]
         [TestCase(1.0, 1.0, 1.2)]
-        [TestCase(1.0, Double.PositiveInfinity, 1.5)]
-        [TestCase(Double.PositiveInfinity, 0.1, 5.0)]
-        [TestCase(Double.PositiveInfinity, 1.0, 2.5)]
-        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity, 1.0)]
+        [TestCase(1.0, double.PositiveInfinity, 1.5)]
+        [TestCase(double.PositiveInfinity, 0.1, 5.0)]
+        [TestCase(double.PositiveInfinity, 1.0, 2.5)]
+        [TestCase(double.PositiveInfinity, double.PositiveInfinity, 1.0)]
         public void ValidateDensity(double a, double b, double x)
         {
             var n = new InverseGamma(a, b);
@@ -213,13 +213,13 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// <param name="x">Input X valuer.</param>
         [TestCase(0.1, 0.1, 1.2)]
         [TestCase(0.1, 1.0, 2.0)]
-        [TestCase(0.1, Double.PositiveInfinity, 1.1)]
+        [TestCase(0.1, double.PositiveInfinity, 1.1)]
         [TestCase(1.0, 0.1, 1.5)]
         [TestCase(1.0, 1.0, 1.2)]
-        [TestCase(1.0, Double.PositiveInfinity, 1.5)]
-        [TestCase(Double.PositiveInfinity, 0.1, 5.0)]
-        [TestCase(Double.PositiveInfinity, 1.0, 2.5)]
-        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity, 1.0)]
+        [TestCase(1.0, double.PositiveInfinity, 1.5)]
+        [TestCase(double.PositiveInfinity, 0.1, 5.0)]
+        [TestCase(double.PositiveInfinity, 1.0, 2.5)]
+        [TestCase(double.PositiveInfinity, double.PositiveInfinity, 1.0)]
         public void ValidateDensityLn(double a, double b, double x)
         {
             var n = new InverseGamma(a, b);
@@ -257,13 +257,13 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// <param name="x">Input X valuer.</param>
         [TestCase(0.1, 0.1, 1.2)]
         [TestCase(0.1, 1.0, 2.0)]
-        [TestCase(0.1, Double.PositiveInfinity, 1.1)]
+        [TestCase(0.1, double.PositiveInfinity, 1.1)]
         [TestCase(1.0, 0.1, 1.5)]
         [TestCase(1.0, 1.0, 1.2)]
-        [TestCase(1.0, Double.PositiveInfinity, 1.5)]
-        [TestCase(Double.PositiveInfinity, 0.1, 5.0)]
-        [TestCase(Double.PositiveInfinity, 1.0, 2.5)]
-        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity, 1.0)]
+        [TestCase(1.0, double.PositiveInfinity, 1.5)]
+        [TestCase(double.PositiveInfinity, 0.1, 5.0)]
+        [TestCase(double.PositiveInfinity, 1.0, 2.5)]
+        [TestCase(double.PositiveInfinity, double.PositiveInfinity, 1.0)]
         public void ValidateCumulativeDistribution(double a, double b, double x)
         {
             var n = new InverseGamma(a, b);

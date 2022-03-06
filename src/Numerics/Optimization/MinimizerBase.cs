@@ -28,8 +28,6 @@
 // </copyright>
 
 using System;
-using MathNet.Numerics.LinearAlgebra;
-using MathNet.Numerics.LinearAlgebra.Double;
 
 namespace MathNet.Numerics.Optimization
 {
@@ -107,10 +105,10 @@ namespace MathNet.Numerics.Optimization
         {
             foreach (var x in eval.Gradient)
             {
-                if (Double.IsNaN(x) || Double.IsInfinity(x))
+                if (double.IsNaN(x) || double.IsInfinity(x))
                     throw new EvaluationException("Non-finite gradient returned.", eval);
             }
-            if (Double.IsNaN(eval.Value) || Double.IsInfinity(eval.Value))
+            if (double.IsNaN(eval.Value) || double.IsInfinity(eval.Value))
                 throw new EvaluationException("Non-finite objective function returned.", eval);
         }
     }

@@ -52,7 +52,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(-5.0, 1.0)]
         [TestCase(0.0, 10.0)]
         [TestCase(10.0, 100.0)]
-        [TestCase(-5.0, Double.PositiveInfinity)]
+        [TestCase(-5.0, double.PositiveInfinity)]
         public void CanCreateLogNormal(double mu, double sigma)
         {
             var n = new LogNormal(mu, sigma);
@@ -65,9 +65,9 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// </summary>
         /// <param name="mu">Mu parameter.</param>
         /// <param name="sigma">Sigma value.</param>
-        [TestCase(Double.NaN, 1.0)]
-        [TestCase(1.0, Double.NaN)]
-        [TestCase(Double.NaN, Double.NaN)]
+        [TestCase(double.NaN, 1.0)]
+        [TestCase(1.0, double.NaN)]
+        [TestCase(double.NaN, double.NaN)]
         [TestCase(1.0, -1.0)]
         public void LogNormalCreateFailsWithBadParameters(double mu, double sigma)
         {
@@ -115,7 +115,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(5.500000, 1.500000, 7.3244036413128371237583428518699667764333878971003)]
         [TestCase(5.500000, 2.500000, 7.835229265078827806963856948173628711311498693546)]
         [TestCase(5.500000, 5.500000, 8.6236866254430979764250411929125703716076041932149)]
-        [TestCase(3.0, 0.0, Double.NegativeInfinity)]
+        [TestCase(3.0, 0.0, double.NegativeInfinity)]
         public void ValidateEntropy(double mu, double sigma, double entropy)
         {
             var n = new LogNormal(mu, sigma);
@@ -283,7 +283,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         public void ValidateMaximum()
         {
             var n = new LogNormal(1.0, 2.0);
-            Assert.AreEqual(Double.PositiveInfinity, n.Maximum);
+            Assert.AreEqual(double.PositiveInfinity, n.Maximum);
         }
 
         /// <summary>
@@ -335,7 +335,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// <param name="sigma">Sigma value.</param>
         /// <param name="x">Input X value.</param>
         /// <param name="p">Expected value.</param>
-        [TestCase(-0.100000, 0.100000, -0.100000, Double.NegativeInfinity)]
+        [TestCase(-0.100000, 0.100000, -0.100000, double.NegativeInfinity)]
         [TestCase(-0.100000, 0.100000, 0.100000, -238.88282294119596467794686179588610665317241097599)]
         [TestCase(-0.100000, 0.100000, 0.500000, -15.514385149961296196003163062199569075052113039686)]
         [TestCase(-0.100000, 0.100000, 0.800000, 0.84857339958981283964373051826407417105725729082041)]

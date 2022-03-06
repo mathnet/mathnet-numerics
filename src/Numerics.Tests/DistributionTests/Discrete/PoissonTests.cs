@@ -57,7 +57,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Discrete
         /// Poisson create fails with bad parameters.
         /// </summary>
         /// <param name="lambda">Lambda value.</param>
-        [TestCase(Double.NaN)]
+        [TestCase(double.NaN)]
         [TestCase(-1.5)]
         [TestCase(0.0)]
         public void PoissonCreateFailsWithBadParameters(double lambda)
@@ -73,7 +73,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Discrete
         {
             System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
             var d = new Poisson(0.3);
-            Assert.AreEqual(String.Format("Poisson(λ = {0})", 0.3), d.ToString());
+            Assert.AreEqual(string.Format("Poisson(λ = {0})", 0.3), d.ToString());
         }
 
         /// <summary>

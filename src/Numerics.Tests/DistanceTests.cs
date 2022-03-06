@@ -28,7 +28,6 @@
 // </copyright>
 
 using NUnit.Framework;
-using System;
 
 namespace MathNet.Numerics.Tests
 {
@@ -82,7 +81,7 @@ namespace MathNet.Numerics.Tests
 
             Assert.That(Distance.Jaccard(_dp0, _dq0), Is.EqualTo(1));
             Assert.That(Distance.Jaccard(_dp1, _dq1), Is.EqualTo(1));
-            Assert.That(Distance.Jaccard(_dp2, _dq2), Is.EqualTo(Double.NaN));
+            Assert.That(Distance.Jaccard(_dp2, _dq2), Is.EqualTo(double.NaN));
             Assert.That(Distance.Jaccard(_dp3, _dq3), Is.EqualTo(0));
             Assert.That(Distance.Jaccard(_dp4, _dq4), Is.EqualTo(0.66666).Within(0.00001));
             Assert.That(Distance.Jaccard(_dp5, _dq5), Is.EqualTo(0.9).Within(0.1));
@@ -150,7 +149,7 @@ namespace MathNet.Numerics.Tests
 
             Assert.That(Distance.Cosine(_dp0, _dq0), Is.EqualTo(0.2).Within(0.00001));
             Assert.That(Distance.Cosine(_dp1, _dq1), Is.EqualTo(0.029857).Within(0.00001));
-            Assert.That(Distance.Cosine(_dp2, _dq2), Is.EqualTo(Double.NaN));
+            Assert.That(Distance.Cosine(_dp2, _dq2), Is.EqualTo(double.NaN));
             Assert.That(Distance.Cosine(_dp3, _dq3), Is.EqualTo(0).Within(0.00001));
             Assert.That(Distance.Cosine(_dp4, _dq4), Is.EqualTo(0.039354).Within(0.00001));
             Assert.That(Distance.Cosine(_dp5, _dq5), Is.EqualTo(0.031026).Within(0.00001));

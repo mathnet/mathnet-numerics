@@ -149,11 +149,11 @@ namespace MathNet.Numerics.Tests.EuclidTests
             Assert.IsFalse((-1).IsEven(), "-1 is not even");
             Assert.IsTrue((-1).IsOdd(), "-1 is odd");
 
-            Assert.IsFalse(Int32.MaxValue.IsEven(), "Int32.Max is not even");
-            Assert.IsTrue(Int32.MaxValue.IsOdd(), "Int32.Max is odd");
+            Assert.IsFalse(int.MaxValue.IsEven(), "Int32.Max is not even");
+            Assert.IsTrue(int.MaxValue.IsOdd(), "Int32.Max is odd");
 
-            Assert.IsTrue(Int32.MinValue.IsEven(), "Int32.Min is even");
-            Assert.IsFalse(Int32.MinValue.IsOdd(), "Int32.Min is not odd");
+            Assert.IsTrue(int.MinValue.IsEven(), "Int32.Min is even");
+            Assert.IsFalse(int.MinValue.IsOdd(), "Int32.Min is not odd");
         }
 
         /// <summary>
@@ -171,11 +171,11 @@ namespace MathNet.Numerics.Tests.EuclidTests
             Assert.IsFalse(((long)-1).IsEven(), "-1 is not even");
             Assert.IsTrue(((long)-1).IsOdd(), "-1 is odd");
 
-            Assert.IsFalse(Int64.MaxValue.IsEven(), "Int64.Max is not even");
-            Assert.IsTrue(Int64.MaxValue.IsOdd(), "Int64.Max is odd");
+            Assert.IsFalse(long.MaxValue.IsEven(), "Int64.Max is not even");
+            Assert.IsTrue(long.MaxValue.IsOdd(), "Int64.Max is odd");
 
-            Assert.IsTrue(Int64.MinValue.IsEven(), "Int64.Min is even");
-            Assert.IsFalse(Int64.MinValue.IsOdd(), "Int64.Min is not odd");
+            Assert.IsTrue(long.MinValue.IsEven(), "Int64.Min is even");
+            Assert.IsFalse(long.MinValue.IsOdd(), "Int64.Min is not odd");
         }
 
         /// <summary>
@@ -204,10 +204,10 @@ namespace MathNet.Numerics.Tests.EuclidTests
             Assert.IsFalse((-2).IsPowerOfTwo(), "-2 (-)");
             Assert.IsFalse((-3).IsPowerOfTwo(), "-3 (-)");
             Assert.IsFalse((-4).IsPowerOfTwo(), "-4 (-)");
-            Assert.IsFalse(Int32.MinValue.IsPowerOfTwo(), "Int32.MinValue (-)");
-            Assert.IsFalse((Int32.MinValue + 1).IsPowerOfTwo(), "Int32.MinValue+1 (-)");
-            Assert.IsFalse(Int32.MaxValue.IsPowerOfTwo(), "Int32.MaxValue (-)");
-            Assert.IsFalse((Int32.MaxValue - 1).IsPowerOfTwo(), "Int32.MaxValue-1 (-)");
+            Assert.IsFalse(int.MinValue.IsPowerOfTwo(), "Int32.MinValue (-)");
+            Assert.IsFalse((int.MinValue + 1).IsPowerOfTwo(), "Int32.MinValue+1 (-)");
+            Assert.IsFalse(int.MaxValue.IsPowerOfTwo(), "Int32.MaxValue (-)");
+            Assert.IsFalse((int.MaxValue - 1).IsPowerOfTwo(), "Int32.MaxValue-1 (-)");
         }
 
         /// <summary>
@@ -236,10 +236,10 @@ namespace MathNet.Numerics.Tests.EuclidTests
             Assert.IsFalse(((long)-2).IsPowerOfTwo(), "-2 (-)");
             Assert.IsFalse(((long)-3).IsPowerOfTwo(), "-3 (-)");
             Assert.IsFalse(((long)-4).IsPowerOfTwo(), "-4 (-)");
-            Assert.IsFalse(Int64.MinValue.IsPowerOfTwo(), "Int32.MinValue (-)");
-            Assert.IsFalse((Int64.MinValue + 1).IsPowerOfTwo(), "Int32.MinValue+1 (-)");
-            Assert.IsFalse(Int64.MaxValue.IsPowerOfTwo(), "Int32.MaxValue (-)");
-            Assert.IsFalse((Int64.MaxValue - 1).IsPowerOfTwo(), "Int32.MaxValue-1 (-)");
+            Assert.IsFalse(long.MinValue.IsPowerOfTwo(), "Int32.MinValue (-)");
+            Assert.IsFalse((long.MinValue + 1).IsPowerOfTwo(), "Int32.MinValue+1 (-)");
+            Assert.IsFalse(long.MaxValue.IsPowerOfTwo(), "Int32.MaxValue (-)");
+            Assert.IsFalse((long.MaxValue - 1).IsPowerOfTwo(), "Int32.MaxValue-1 (-)");
         }
 
         /// <summary>
@@ -304,8 +304,8 @@ namespace MathNet.Numerics.Tests.EuclidTests
             Assert.AreEqual(0, (-2).CeilingToPowerOfTwo(), "-2");
             Assert.AreEqual(0, (-3).CeilingToPowerOfTwo(), "-3");
             Assert.AreEqual(0, (-4).CeilingToPowerOfTwo(), "-4");
-            Assert.AreEqual(0, Int32.MinValue.CeilingToPowerOfTwo(), "Int32.MinValue");
-            Assert.AreEqual(0, (Int32.MinValue + 1).CeilingToPowerOfTwo(), "Int32.MinValue+1");
+            Assert.AreEqual(0, int.MinValue.CeilingToPowerOfTwo(), "Int32.MinValue");
+            Assert.AreEqual(0, (int.MinValue + 1).CeilingToPowerOfTwo(), "Int32.MinValue+1");
         }
 
         /// <summary>
@@ -318,8 +318,8 @@ namespace MathNet.Numerics.Tests.EuclidTests
             Assert.AreEqual(0, ((long)-2).CeilingToPowerOfTwo(), "-2");
             Assert.AreEqual(0, ((long)-3).CeilingToPowerOfTwo(), "-3");
             Assert.AreEqual(0, ((long)-4).CeilingToPowerOfTwo(), "-4");
-            Assert.AreEqual(0, Int64.MinValue.CeilingToPowerOfTwo(), "Int64.MinValue");
-            Assert.AreEqual(0, (Int64.MinValue + 1).CeilingToPowerOfTwo(), "Int64.MinValue+1");
+            Assert.AreEqual(0, long.MinValue.CeilingToPowerOfTwo(), "Int64.MinValue");
+            Assert.AreEqual(0, (long.MinValue + 1).CeilingToPowerOfTwo(), "Int64.MinValue+1");
         }
 
         /// <summary>
@@ -330,7 +330,7 @@ namespace MathNet.Numerics.Tests.EuclidTests
         {
             Assert.Throws(
                 typeof(ArgumentOutOfRangeException),
-                () => Int32.MaxValue.CeilingToPowerOfTwo());
+                () => int.MaxValue.CeilingToPowerOfTwo());
 
             const int MaxPowerOfTwo = 0x40000000;
             Assert.Throws(
@@ -349,7 +349,7 @@ namespace MathNet.Numerics.Tests.EuclidTests
         {
             Assert.Throws(
                 typeof(ArgumentOutOfRangeException),
-                () => Int64.MaxValue.CeilingToPowerOfTwo());
+                () => long.MaxValue.CeilingToPowerOfTwo());
 
             const long MaxPowerOfTwo = 0x4000000000000000;
             Assert.Throws(
@@ -400,11 +400,11 @@ namespace MathNet.Numerics.Tests.EuclidTests
 
             Assert.Throws(
                 typeof(ArgumentOutOfRangeException),
-                () => Int32.MinValue.PowerOfTwo());
+                () => int.MinValue.PowerOfTwo());
 
             Assert.Throws(
                 typeof(ArgumentOutOfRangeException),
-                () => Int32.MaxValue.PowerOfTwo());
+                () => int.MaxValue.PowerOfTwo());
 
             Assert.DoesNotThrow(
                 () => 30.PowerOfTwo());
@@ -429,11 +429,11 @@ namespace MathNet.Numerics.Tests.EuclidTests
 
             Assert.Throws(
                 typeof(ArgumentOutOfRangeException),
-                () => Int64.MinValue.PowerOfTwo());
+                () => long.MinValue.PowerOfTwo());
 
             Assert.Throws(
                 typeof(ArgumentOutOfRangeException),
-                () => Int64.MaxValue.PowerOfTwo());
+                () => long.MaxValue.PowerOfTwo());
 
             Assert.DoesNotThrow(
                 () => ((long)62).PowerOfTwo());
@@ -467,7 +467,7 @@ namespace MathNet.Numerics.Tests.EuclidTests
         public void TestIsPerfectSquare32()
         {
             // Test all known suares
-            var lastRadix = (int)Math.Floor(Math.Sqrt(Int32.MaxValue));
+            var lastRadix = (int)Math.Floor(Math.Sqrt(int.MaxValue));
             for (var i = 0; i <= lastRadix; i++)
             {
                 Assert.IsTrue((i * i).IsPerfectSquare(), i + "^2 (+)");
@@ -485,8 +485,8 @@ namespace MathNet.Numerics.Tests.EuclidTests
             Assert.IsFalse(100000001.IsPerfectSquare(), "100000001 (-)");
             Assert.IsFalse(99999999.IsPerfectSquare(), "99999999 (-)");
             Assert.IsFalse((-4).IsPerfectSquare(), "-4 (-)");
-            Assert.IsFalse(Int32.MinValue.IsPerfectSquare(), "Int32.MinValue (-)");
-            Assert.IsFalse(Int32.MaxValue.IsPerfectSquare(), "Int32.MaxValue (-)");
+            Assert.IsFalse(int.MinValue.IsPerfectSquare(), "Int32.MinValue (-)");
+            Assert.IsFalse(int.MaxValue.IsPerfectSquare(), "Int32.MaxValue (-)");
             Assert.IsTrue(1.IsPerfectSquare(), "1 (+)");
             Assert.IsTrue(0.IsPerfectSquare(), "0 (+)");
             Assert.IsFalse((-1).IsPerfectSquare(), "-1 (-)");
@@ -519,8 +519,8 @@ namespace MathNet.Numerics.Tests.EuclidTests
             Assert.IsFalse(999999999999999999.IsPerfectSquare(), "999999999999999999 (-)");
             Assert.IsFalse(999999999999999993.IsPerfectSquare(), "999999999999999993 (-)");
             Assert.IsFalse(((long)-4).IsPerfectSquare(), "-4 (-)");
-            Assert.IsFalse(Int64.MinValue.IsPerfectSquare(), "Int32.MinValue (-)");
-            Assert.IsFalse(Int64.MaxValue.IsPerfectSquare(), "Int32.MaxValue (-)");
+            Assert.IsFalse(long.MinValue.IsPerfectSquare(), "Int32.MinValue (-)");
+            Assert.IsFalse(long.MaxValue.IsPerfectSquare(), "Int32.MaxValue (-)");
             Assert.IsTrue(((long)1).IsPerfectSquare(), "1 (+)");
             Assert.IsTrue(((long)0).IsPerfectSquare(), "0 (+)");
             Assert.IsFalse(((long)-1).IsPerfectSquare(), "-1 (-)");

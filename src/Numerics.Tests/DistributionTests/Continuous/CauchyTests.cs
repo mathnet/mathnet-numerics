@@ -61,7 +61,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.0, 10.0)]
         [TestCase(10.0, 11.0)]
         [TestCase(-5.0, 100.0)]
-        [TestCase(0.0, Double.PositiveInfinity)]
+        [TestCase(0.0, double.PositiveInfinity)]
         public void CanCreateCauchy(double location, double scale)
         {
             var n = new Cauchy(location, scale);
@@ -74,9 +74,9 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// </summary>
         /// <param name="location">Location value.</param>
         /// <param name="scale">Scale value.</param>
-        [TestCase(Double.NaN, 1.0)]
-        [TestCase(1.0, Double.NaN)]
-        [TestCase(Double.NaN, Double.NaN)]
+        [TestCase(double.NaN, 1.0)]
+        [TestCase(1.0, double.NaN)]
+        [TestCase(double.NaN, double.NaN)]
         [TestCase(1.0, 0.0)]
         public void CauchyCreateFailsWithBadParameters(double location, double scale)
         {
@@ -130,7 +130,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.1, 4.0)]
         [TestCase(1.0, 10.0)]
         [TestCase(10.0, 11.0)]
-        [TestCase(0.0, Double.PositiveInfinity)]
+        [TestCase(0.0, double.PositiveInfinity)]
         public void ValidateMode(double location, double scale)
         {
             var n = new Cauchy(location, scale);
@@ -147,7 +147,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.1, 4.0)]
         [TestCase(1.0, 10.0)]
         [TestCase(10.0, 11.0)]
-        [TestCase(0.0, Double.PositiveInfinity)]
+        [TestCase(0.0, double.PositiveInfinity)]
         public void ValidateMedian(double location, double scale)
         {
             var n = new Cauchy(location, scale);
@@ -164,11 +164,11 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.1, 4.0)]
         [TestCase(1.0, 10.0)]
         [TestCase(10.0, 11.0)]
-        [TestCase(0.0, Double.PositiveInfinity)]
+        [TestCase(0.0, double.PositiveInfinity)]
         public void ValidateMinimum(double location, double scale)
         {
             var n = new Cauchy(location, scale);
-            Assert.AreEqual(Double.NegativeInfinity, n.Minimum);
+            Assert.AreEqual(double.NegativeInfinity, n.Minimum);
         }
 
         /// <summary>
@@ -181,11 +181,11 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.1, 4.0)]
         [TestCase(1.0, 10.0)]
         [TestCase(10.0, 11.0)]
-        [TestCase(0.0, Double.PositiveInfinity)]
+        [TestCase(0.0, double.PositiveInfinity)]
         public void ValidateMaximum(double location, double scale)
         {
             var n = new Cauchy(location, scale);
-            Assert.AreEqual(Double.PositiveInfinity, n.Maximum);
+            Assert.AreEqual(double.PositiveInfinity, n.Maximum);
         }
 
         /// <summary>
@@ -197,8 +197,8 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.0, 1.0)]
         [TestCase(0.0, 10.0)]
         [TestCase(-5.0, 100.0)]
-        [TestCase(0.0, Double.PositiveInfinity)]
-        [TestCase(Double.PositiveInfinity, 1.0)]
+        [TestCase(0.0, double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity, 1.0)]
         public void ValidateDensity(double location, double scale)
         {
             var n = new Cauchy(location, scale);
@@ -220,8 +220,8 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.0, 1.0)]
         [TestCase(0.0, 10.0)]
         [TestCase(-5.0, 100.0)]
-        [TestCase(0.0, Double.PositiveInfinity)]
-        [TestCase(Double.PositiveInfinity, 1.0)]
+        [TestCase(0.0, double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity, 1.0)]
         public void ValidateDensityLn(double location, double scale)
         {
             var n = new Cauchy(location, scale);
@@ -264,7 +264,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.0, 1.0)]
         [TestCase(0.0, 10.0)]
         [TestCase(-5.0, 100.0)]
-        [TestCase(0.0, Double.PositiveInfinity)]
+        [TestCase(0.0, double.PositiveInfinity)]
         public void ValidateCumulativeDistribution(double location, double scale)
         {
             var n = new Cauchy(location, scale);

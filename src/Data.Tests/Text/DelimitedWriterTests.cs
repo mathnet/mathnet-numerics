@@ -177,9 +177,9 @@ namespace MathNet.Numerics.Data.Tests.Text
         [Test]
         public void CanWriteTabDelimitedDataWithMissingValues()
         {
-            var matrix = DenseMatrix.OfArray(new[,] { { 1.1, Double.NaN, 0 }, { 0, 5.5, 0 }, { Double.NaN, Double.NaN, 9.9 } });
+            var matrix = DenseMatrix.OfArray(new[,] { { 1.1, double.NaN, 0 }, { 0, 5.5, 0 }, { double.NaN, double.NaN, 9.9 } });
             var stream = new MemoryStream();
-            DelimitedWriter.Write(stream, matrix, "\t", missingValue: Double.NaN);
+            DelimitedWriter.Write(stream, matrix, "\t", missingValue: double.NaN);
             var data = stream.ToArray();
             var reader = new StreamReader(new MemoryStream(data));
             var text = reader.ReadToEnd();

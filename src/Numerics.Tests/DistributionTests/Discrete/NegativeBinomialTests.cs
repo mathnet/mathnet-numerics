@@ -60,14 +60,14 @@ namespace MathNet.Numerics.Tests.DistributionTests.Discrete
         /// </summary>
         /// <param name="r">Number of trials.</param>
         /// <param name="p">Probability of success.</param>
-        [TestCase(0.0, Double.NaN)]
+        [TestCase(0.0, double.NaN)]
         [TestCase(0.0, -1.0)]
         [TestCase(0.0, 2.0)]
-        [TestCase(Double.NegativeInfinity, 0.0)]
+        [TestCase(double.NegativeInfinity, 0.0)]
         [TestCase(-1.0, 0.3)]
-        [TestCase(Double.NaN, 1.0)]
-        [TestCase(Double.NegativeInfinity, Double.NaN)]
-        [TestCase(Double.NaN, Double.NaN)]
+        [TestCase(double.NaN, 1.0)]
+        [TestCase(double.NegativeInfinity, double.NaN)]
+        [TestCase(double.NaN, double.NaN)]
         public void NegativeBinomialCreateFailsWithBadParameters(double r, double p)
         {
             Assert.That(() => new NegativeBinomial(r, p), Throws.ArgumentException);
@@ -81,7 +81,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Discrete
         {
             System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
             var d = new NegativeBinomial(1.0, 0.3);
-            Assert.AreEqual(String.Format("NegativeBinomial(R = {0}, P = {1})", d.R, d.P), d.ToString());
+            Assert.AreEqual(string.Format("NegativeBinomial(R = {0}, P = {1})", d.R, d.P), d.ToString());
         }
 
         /// <summary>

@@ -70,9 +70,9 @@ namespace MathNet.Numerics.Tests.EuclidTests
         [Test]
         public void GcdSupportsLargeInput()
         {
-            Assert.AreEqual(Int32.MaxValue, Euclid.GreatestCommonDivisor(0, Int32.MaxValue), "Gcd(0,Int32Max)");
-            Assert.AreEqual(Int64.MaxValue, Euclid.GreatestCommonDivisor(0, Int64.MaxValue), "Gcd(0,Int64Max)");
-            Assert.AreEqual(1, Euclid.GreatestCommonDivisor(Int32.MaxValue, Int64.MaxValue), "Gcd(Int32Max,Int64Max)");
+            Assert.AreEqual(int.MaxValue, Euclid.GreatestCommonDivisor(0, int.MaxValue), "Gcd(0,Int32Max)");
+            Assert.AreEqual(long.MaxValue, Euclid.GreatestCommonDivisor(0, long.MaxValue), "Gcd(0,Int64Max)");
+            Assert.AreEqual(1, Euclid.GreatestCommonDivisor(int.MaxValue, long.MaxValue), "Gcd(Int32Max,Int64Max)");
             Assert.AreEqual(1 << 18, Euclid.GreatestCommonDivisor(1 << 18, 1 << 20), "Gcd(1>>18,1<<20)");
         }
 
@@ -82,9 +82,7 @@ namespace MathNet.Numerics.Tests.EuclidTests
         [Test]
         public void ExtendedGcdHandlesNormalInputCorrectly()
         {
-            long x, y;
-
-            Assert.AreEqual(3, Euclid.ExtendedGreatestCommonDivisor(6, 15, out x, out y), "Egcd(6,15)");
+            Assert.AreEqual(3, Euclid.ExtendedGreatestCommonDivisor(6, 15, out var x, out var y), "Egcd(6,15)");
             Assert.AreEqual(3, (6*x) + (15*y), "Egcd(6,15) -> a*x+b*y");
 
             Assert.AreEqual(3, Euclid.ExtendedGreatestCommonDivisor(-6, 15, out x, out y), "Egcd(-6,15)");
@@ -103,7 +101,7 @@ namespace MathNet.Numerics.Tests.EuclidTests
             Assert.AreEqual(2, Euclid.GreatestCommonDivisor(-10, 6, -8), "Gcd(-10,6,-8)");
             Assert.AreEqual(1, Euclid.GreatestCommonDivisor(-10, 6, -8, 5, 9, 13), "Gcd(-10,6,-8,5,9,13)");
             Assert.AreEqual(5, Euclid.GreatestCommonDivisor(-10, 20, 120, 60, -15, 1000), "Gcd(-10,20,120,60,-15,1000)");
-            Assert.AreEqual(3, Euclid.GreatestCommonDivisor(Int64.MaxValue - 1, Int64.MaxValue - 4, Int64.MaxValue - 7), "Gcd(Int64Max-1,Int64Max-4,Int64Max-7)");
+            Assert.AreEqual(3, Euclid.GreatestCommonDivisor(long.MaxValue - 1, long.MaxValue - 4, long.MaxValue - 7), "Gcd(Int64Max-1,Int64Max-4,Int64Max-7)");
             Assert.AreEqual(123, Euclid.GreatestCommonDivisor(492, -2*492, 492/4), "Gcd(492, -984, 123)");
         }
 
@@ -113,7 +111,7 @@ namespace MathNet.Numerics.Tests.EuclidTests
         [Test]
         public void ListGcdHandlesSpecialInputCorrectly()
         {
-            Assert.AreEqual(0, Euclid.GreatestCommonDivisor(new long[0]), "Gcd()");
+            Assert.AreEqual(0, Euclid.GreatestCommonDivisor(Array.Empty<long>()), "Gcd()");
             Assert.AreEqual(100, Euclid.GreatestCommonDivisor(-100), "Gcd(-100)");
         }
 
@@ -161,10 +159,10 @@ namespace MathNet.Numerics.Tests.EuclidTests
         [Test]
         public void LcmSupportsLargeInput()
         {
-            Assert.AreEqual(Int32.MaxValue, Euclid.LeastCommonMultiple(Int32.MaxValue, Int32.MaxValue), "Lcm(Int32Max,Int32Max)");
-            Assert.AreEqual(Int64.MaxValue, Euclid.LeastCommonMultiple(Int64.MaxValue, Int64.MaxValue), "Lcm(Int64Max,Int64Max)");
-            Assert.AreEqual(Int64.MaxValue, Euclid.LeastCommonMultiple(-Int64.MaxValue, -Int64.MaxValue), "Lcm(-Int64Max,-Int64Max)");
-            Assert.AreEqual(Int64.MaxValue, Euclid.LeastCommonMultiple(-Int64.MaxValue, Int64.MaxValue), "Lcm(-Int64Max,Int64Max)");
+            Assert.AreEqual(int.MaxValue, Euclid.LeastCommonMultiple(int.MaxValue, int.MaxValue), "Lcm(Int32Max,Int32Max)");
+            Assert.AreEqual(long.MaxValue, Euclid.LeastCommonMultiple(long.MaxValue, long.MaxValue), "Lcm(Int64Max,Int64Max)");
+            Assert.AreEqual(long.MaxValue, Euclid.LeastCommonMultiple(-long.MaxValue, -long.MaxValue), "Lcm(-Int64Max,-Int64Max)");
+            Assert.AreEqual(long.MaxValue, Euclid.LeastCommonMultiple(-long.MaxValue, long.MaxValue), "Lcm(-Int64Max,Int64Max)");
         }
 
         /// <summary>
@@ -186,7 +184,7 @@ namespace MathNet.Numerics.Tests.EuclidTests
         [Test]
         public void ListLcmHandlesSpecialInputCorrectly()
         {
-            Assert.AreEqual(1, Euclid.LeastCommonMultiple(new long[0]), "Lcm()");
+            Assert.AreEqual(1, Euclid.LeastCommonMultiple(Array.Empty<long>()), "Lcm()");
             Assert.AreEqual(100, Euclid.LeastCommonMultiple(-100), "Lcm(-100)");
         }
 

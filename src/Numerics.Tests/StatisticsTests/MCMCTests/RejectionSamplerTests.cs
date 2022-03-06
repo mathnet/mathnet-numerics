@@ -94,7 +94,7 @@ namespace MathNet.Numerics.Tests.StatisticsTests.McmcTests
         public void NoUpperBound()
         {
             var uniform = new ContinuousUniform(0.0, 1.0, new SystemRandomSource(1));
-            var rs = new RejectionSampler<double>(x => Math.Pow(x, 1.7)*Math.Pow(1.0 - x, 5.3), x => Double.NegativeInfinity, uniform.Sample);
+            var rs = new RejectionSampler<double>(x => Math.Pow(x, 1.7)*Math.Pow(1.0 - x, 5.3), x => double.NegativeInfinity, uniform.Sample);
             Assert.That(() => rs.Sample(), Throws.ArgumentException);
         }
     }

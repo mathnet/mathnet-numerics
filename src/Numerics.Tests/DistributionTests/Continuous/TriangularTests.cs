@@ -71,12 +71,12 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.0, 1.0, 1.1)]
         [TestCase(0.0, -1.0, 0.5)]
         [TestCase(2.0, 1.0, 1.5)]
-        [TestCase(Double.NaN, 1.0, 0.5)]
-        [TestCase(0.2, Double.NaN, 0.5)]
-        [TestCase(0.5, 1.0, Double.NaN)]
-        [TestCase(Double.NaN, Double.NaN, Double.NaN)]
-        [TestCase(Double.NegativeInfinity, 1.0, 0.5)]
-        [TestCase(0.0, Double.PositiveInfinity, 0.5)]
+        [TestCase(double.NaN, 1.0, 0.5)]
+        [TestCase(0.2, double.NaN, 0.5)]
+        [TestCase(0.5, 1.0, double.NaN)]
+        [TestCase(double.NaN, double.NaN, double.NaN)]
+        [TestCase(double.NegativeInfinity, 1.0, 0.5)]
+        [TestCase(0.0, double.PositiveInfinity, 0.5)]
         public void TriangularCreateFailsWithBadParameters(double lower, double upper, double mode)
         {
             Assert.That(() => new Triangular(lower, upper, mode), Throws.ArgumentException);

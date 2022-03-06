@@ -56,12 +56,12 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// </summary>
         /// <param name="location">Location value.</param>
         /// <param name="scale">Scale value.</param>
-        [TestCase(Double.NegativeInfinity, 0.1)]
+        [TestCase(double.NegativeInfinity, 0.1)]
         [TestCase(-5.0 - 1.0, 1.0)]
         [TestCase(0.0, 5.0)]
         [TestCase(1.0, 7.0)]
         [TestCase(5.0, 10.0)]
-        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity, double.PositiveInfinity)]
         public void CanCreateLaplace(double location, double scale)
         {
             var n = new Laplace(location, scale);
@@ -85,12 +85,12 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// </summary>
         /// <param name="location">Location value.</param>
         /// <param name="scale">Scale value.</param>
-        [TestCase(Double.NegativeInfinity, 0.1)]
+        [TestCase(double.NegativeInfinity, 0.1)]
         [TestCase(-5.0 - 1.0, 1.0)]
         [TestCase(0.0, 5.0)]
         [TestCase(1.0, 7.0)]
         [TestCase(5.0, 10.0)]
-        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity, double.PositiveInfinity)]
         public void ValidateMean(double location, double scale)
         {
             var n = new Laplace(location, scale);
@@ -102,12 +102,12 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// </summary>
         /// <param name="location">Location value.</param>
         /// <param name="scale">Scale value.</param>
-        [TestCase(Double.NegativeInfinity, 0.1)]
+        [TestCase(double.NegativeInfinity, 0.1)]
         [TestCase(-5.0 - 1.0, 1.0)]
         [TestCase(0.0, 5.0)]
         [TestCase(1.0, 7.0)]
         [TestCase(5.0, 10.0)]
-        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity, double.PositiveInfinity)]
         public void ValidateVariance(double location, double scale)
         {
             var n = new Laplace(location, scale);
@@ -119,12 +119,12 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// </summary>
         /// <param name="location">Location value.</param>
         /// <param name="scale">Scale value.</param>
-        [TestCase(Double.NegativeInfinity, 0.1)]
+        [TestCase(double.NegativeInfinity, 0.1)]
         [TestCase(-5.0 - 1.0, 1.0)]
         [TestCase(0.0, 5.0)]
         [TestCase(1.0, 7.0)]
         [TestCase(5.0, 10.0)]
-        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity, double.PositiveInfinity)]
         public void ValidateStdDev(double location, double scale)
         {
             var n = new Laplace(location, scale);
@@ -136,12 +136,12 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// </summary>
         /// <param name="location">Location value.</param>
         /// <param name="scale">Scale value.</param>
-        [TestCase(Double.NegativeInfinity, 0.1)]
+        [TestCase(double.NegativeInfinity, 0.1)]
         [TestCase(-5.0 - 1.0, 1.0)]
         [TestCase(0.0, 5.0)]
         [TestCase(1.0, 7.0)]
         [TestCase(5.0, 10.0)]
-        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity, double.PositiveInfinity)]
         public void ValidateEntropy(double location, double scale)
         {
             var n = new Laplace(location, scale);
@@ -153,12 +153,12 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// </summary>
         /// <param name="location">Location value.</param>
         /// <param name="scale">Scale value.</param>
-        [TestCase(Double.NegativeInfinity, 0.1)]
+        [TestCase(double.NegativeInfinity, 0.1)]
         [TestCase(-5.0 - 1.0, 1.0)]
         [TestCase(0.0, 5.0)]
         [TestCase(1.0, 7.0)]
         [TestCase(5.0, 10.0)]
-        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity, double.PositiveInfinity)]
         public void ValidateSkewness(double location, double scale)
         {
             var n = new Laplace(location, scale);
@@ -170,12 +170,12 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// </summary>
         /// <param name="location">Location value.</param>
         /// <param name="scale">Scale value.</param>
-        [TestCase(Double.NegativeInfinity, 0.1)]
+        [TestCase(double.NegativeInfinity, 0.1)]
         [TestCase(-5.0 - 1.0, 1.0)]
         [TestCase(0.0, 5.0)]
         [TestCase(1.0, 7.0)]
         [TestCase(5.0, 10.0)]
-        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity, double.PositiveInfinity)]
         public void ValidateMode(double location, double scale)
         {
             var n = new Laplace(location, scale);
@@ -187,12 +187,12 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// </summary>
         /// <param name="location">Location value.</param>
         /// <param name="scale">Scale value.</param>
-        [TestCase(Double.NegativeInfinity, 0.1)]
+        [TestCase(double.NegativeInfinity, 0.1)]
         [TestCase(-5.0 - 1.0, 1.0)]
         [TestCase(0.0, 5.0)]
         [TestCase(1.0, 7.0)]
         [TestCase(5.0, 10.0)]
-        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity, double.PositiveInfinity)]
         public void ValidateMedian(double location, double scale)
         {
             var n = new Laplace(location, scale);
@@ -206,7 +206,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         public void ValidateMinimum()
         {
             var n = new Laplace();
-            Assert.AreEqual(Double.NegativeInfinity, n.Minimum);
+            Assert.AreEqual(double.NegativeInfinity, n.Minimum);
         }
 
         /// <summary>
@@ -216,7 +216,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         public void ValidateMaximum()
         {
             var n = new Laplace();
-            Assert.AreEqual(Double.PositiveInfinity, n.Maximum);
+            Assert.AreEqual(double.PositiveInfinity, n.Maximum);
         }
 
         /// <summary>
@@ -230,22 +230,22 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(-1.0, 0.1, -5.4)]
         [TestCase(5.0, 0.1, -4.9)]
         [TestCase(-5.0, 0.1, 2.0)]
-        [TestCase(Double.PositiveInfinity, 0.1, 5.5)]
-        [TestCase(Double.NegativeInfinity, 0.1, -0.0)]
-        [TestCase(0.0, 1.0, Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity, 0.1, 5.5)]
+        [TestCase(double.NegativeInfinity, 0.1, -0.0)]
+        [TestCase(0.0, 1.0, double.PositiveInfinity)]
         [TestCase(1.0, 1.0, 5.0)]
         [TestCase(-1.0, 1.0, -1.0)]
         [TestCase(5.0, 1.0, -1.0)]
         [TestCase(-5.0, 1.0, 2.5)]
-        [TestCase(Double.PositiveInfinity, 1.0, 2.0)]
-        [TestCase(Double.NegativeInfinity, 1.0, 15.0)]
-        [TestCase(0.0, Double.PositiveInfinity, 89.3)]
-        [TestCase(1.0, Double.PositiveInfinity, -0.1)]
-        [TestCase(-1.0, Double.PositiveInfinity, 0.1)]
-        [TestCase(5.0, Double.PositiveInfinity, -6.1)]
-        [TestCase(-5.0, Double.PositiveInfinity, -10.0)]
-        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity, 2.0)]
-        [TestCase(Double.NegativeInfinity, Double.PositiveInfinity, -5.1)]
+        [TestCase(double.PositiveInfinity, 1.0, 2.0)]
+        [TestCase(double.NegativeInfinity, 1.0, 15.0)]
+        [TestCase(0.0, double.PositiveInfinity, 89.3)]
+        [TestCase(1.0, double.PositiveInfinity, -0.1)]
+        [TestCase(-1.0, double.PositiveInfinity, 0.1)]
+        [TestCase(5.0, double.PositiveInfinity, -6.1)]
+        [TestCase(-5.0, double.PositiveInfinity, -10.0)]
+        [TestCase(double.PositiveInfinity, double.PositiveInfinity, 2.0)]
+        [TestCase(double.NegativeInfinity, double.PositiveInfinity, -5.1)]
         public void ValidateDensity(double location, double scale, double x)
         {
             var n = new Laplace(location, scale);
@@ -265,22 +265,22 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(-1.0, 0.1, -5.4)]
         [TestCase(5.0, 0.1, -4.9)]
         [TestCase(-5.0, 0.1, 2.0)]
-        [TestCase(Double.PositiveInfinity, 0.1, 5.5)]
-        [TestCase(Double.NegativeInfinity, 0.1, -0.0)]
-        [TestCase(0.0, 1.0, Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity, 0.1, 5.5)]
+        [TestCase(double.NegativeInfinity, 0.1, -0.0)]
+        [TestCase(0.0, 1.0, double.PositiveInfinity)]
         [TestCase(1.0, 1.0, 5.0)]
         [TestCase(-1.0, 1.0, -1.0)]
         [TestCase(5.0, 1.0, -1.0)]
         [TestCase(-5.0, 1.0, 2.5)]
-        [TestCase(Double.PositiveInfinity, 1.0, 2.0)]
-        [TestCase(Double.NegativeInfinity, 1.0, 15.0)]
-        [TestCase(0.0, Double.PositiveInfinity, 89.3)]
-        [TestCase(1.0, Double.PositiveInfinity, -0.1)]
-        [TestCase(-1.0, Double.PositiveInfinity, 0.1)]
-        [TestCase(5.0, Double.PositiveInfinity, -6.1)]
-        [TestCase(-5.0, Double.PositiveInfinity, -10.0)]
-        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity, 2.0)]
-        [TestCase(Double.NegativeInfinity, Double.PositiveInfinity, -5.1)]
+        [TestCase(double.PositiveInfinity, 1.0, 2.0)]
+        [TestCase(double.NegativeInfinity, 1.0, 15.0)]
+        [TestCase(0.0, double.PositiveInfinity, 89.3)]
+        [TestCase(1.0, double.PositiveInfinity, -0.1)]
+        [TestCase(-1.0, double.PositiveInfinity, 0.1)]
+        [TestCase(5.0, double.PositiveInfinity, -6.1)]
+        [TestCase(-5.0, double.PositiveInfinity, -10.0)]
+        [TestCase(double.PositiveInfinity, double.PositiveInfinity, 2.0)]
+        [TestCase(double.NegativeInfinity, double.PositiveInfinity, -5.1)]
         public void ValidateDensityLn(double location, double scale, double x)
         {
             var n = new Laplace(location, scale);
@@ -321,22 +321,22 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(-1.0, 0.1, -5.4)]
         [TestCase(5.0, 0.1, -4.9)]
         [TestCase(-5.0, 0.1, 2.0)]
-        [TestCase(Double.PositiveInfinity, 0.1, 5.5)]
-        [TestCase(Double.NegativeInfinity, 0.1, -0.0)]
-        [TestCase(0.0, 1.0, Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity, 0.1, 5.5)]
+        [TestCase(double.NegativeInfinity, 0.1, -0.0)]
+        [TestCase(0.0, 1.0, double.PositiveInfinity)]
         [TestCase(1.0, 1.0, 5.0)]
         [TestCase(-1.0, 1.0, -1.0)]
         [TestCase(5.0, 1.0, -1.0)]
         [TestCase(-5.0, 1.0, 2.5)]
-        [TestCase(Double.PositiveInfinity, 1.0, 2.0)]
-        [TestCase(Double.NegativeInfinity, 1.0, 15.0)]
-        [TestCase(0.0, Double.PositiveInfinity, 89.3)]
-        [TestCase(1.0, Double.PositiveInfinity, -0.1)]
-        [TestCase(-1.0, Double.PositiveInfinity, 0.1)]
-        [TestCase(5.0, Double.PositiveInfinity, -6.1)]
-        [TestCase(-5.0, Double.PositiveInfinity, -10.0)]
-        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity, 2.0)]
-        [TestCase(Double.NegativeInfinity, Double.PositiveInfinity, -5.1)]
+        [TestCase(double.PositiveInfinity, 1.0, 2.0)]
+        [TestCase(double.NegativeInfinity, 1.0, 15.0)]
+        [TestCase(0.0, double.PositiveInfinity, 89.3)]
+        [TestCase(1.0, double.PositiveInfinity, -0.1)]
+        [TestCase(-1.0, double.PositiveInfinity, 0.1)]
+        [TestCase(5.0, double.PositiveInfinity, -6.1)]
+        [TestCase(-5.0, double.PositiveInfinity, -10.0)]
+        [TestCase(double.PositiveInfinity, double.PositiveInfinity, 2.0)]
+        [TestCase(double.NegativeInfinity, double.PositiveInfinity, -5.1)]
         public void ValidateCumulativeDistribution(double location, double scale, double x)
         {
             var n = new Laplace(location, scale);

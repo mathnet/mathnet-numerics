@@ -207,7 +207,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Discrete
         [TestCase(-10, 10, -5, -3.0445224377234229965005979803657054342845752874046093)]
         [TestCase(-10, 10, 1, -3.0445224377234229965005979803657054342845752874046093)]
         [TestCase(-10, 10, 10, -3.0445224377234229965005979803657054342845752874046093)]
-        [TestCase(-10, -10, 0, Double.NegativeInfinity)]
+        [TestCase(-10, -10, 0, double.NegativeInfinity)]
         [TestCase(-10, -10, -10, 0.0)]
         public void ValidateProbabilityLn(int l, int u, int x, double dln)
         {

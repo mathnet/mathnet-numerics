@@ -51,10 +51,10 @@ namespace MathNet.Numerics.Tests.ComplexTests
         [TestCase(0, -2, "(0, -2)")]
         [TestCase(0, 2, "(0, 2)")]
         [TestCase(0, 0, "(0, 0)")]
-        [TestCase(Single.NaN, Single.NaN, "({1}, {1})")]
-        [TestCase(Single.NaN, 0, "({1}, 0)")]
-        [TestCase(0, Single.NaN, "(0, {1})")]
-        [TestCase(Single.PositiveInfinity, Single.PositiveInfinity, "({2}, {2})")]
+        [TestCase(float.NaN, float.NaN, "({1}, {1})")]
+        [TestCase(float.NaN, 0, "({1}, 0)")]
+        [TestCase(0, float.NaN, "(0, {1})")]
+        [TestCase(float.PositiveInfinity, float.PositiveInfinity, "({2}, {2})")]
         [TestCase(1.1f, 0, "(1{0}1, 0)")]
         [TestCase(-1.1f, 0, "(-1{0}1, 0)")]
         [TestCase(0, 1.1f, "(0, 1{0}1)")]
@@ -65,7 +65,7 @@ namespace MathNet.Numerics.Tests.ComplexTests
             var numberFormat = NumberFormatInfo.CurrentInfo;
             var a = new Complex32(real, imag);
             Assert.AreEqual(
-                String.Format(
+                string.Format(
                     expected,
                     numberFormat.NumberDecimalSeparator,
                     numberFormat.NaNSymbol,
@@ -92,11 +92,11 @@ namespace MathNet.Numerics.Tests.ComplexTests
             Assert.AreEqual("(" + nan + ", " + nan + ")", Complex32.NaN.ToString(provider));
             Assert.AreEqual("(" + infinity + ", " + infinity + ")", Complex32.PositiveInfinity.ToString(provider));
             Assert.AreEqual("(0, 0)", Complex32.Zero.ToString(provider));
-            Assert.AreEqual("(" + String.Format("{0}", number) + ", 0)", new Complex32(1.1f, 0.0f).ToString(provider));
-            Assert.AreEqual("(" + String.Format("-{0}", number) + ", 0)", new Complex32(-1.1f, 0f).ToString(provider));
-            Assert.AreEqual("(0, " + String.Format("-{0}", number) + ")", new Complex32(0.0f, -1.1f).ToString(provider));
-            Assert.AreEqual("(0, " + String.Format("{0}", number) + ")", new Complex32(0.0f, 1.1f).ToString(provider));
-            Assert.AreEqual("(" + String.Format("{0}", number) + ", " + String.Format("{0}", number) + ")", new Complex32(1.1f, 1.1f).ToString(provider));
+            Assert.AreEqual("(" + string.Format("{0}", number) + ", 0)", new Complex32(1.1f, 0.0f).ToString(provider));
+            Assert.AreEqual("(" + string.Format("-{0}", number) + ", 0)", new Complex32(-1.1f, 0f).ToString(provider));
+            Assert.AreEqual("(0, " + string.Format("-{0}", number) + ")", new Complex32(0.0f, -1.1f).ToString(provider));
+            Assert.AreEqual("(0, " + string.Format("{0}", number) + ")", new Complex32(0.0f, 1.1f).ToString(provider));
+            Assert.AreEqual("(" + string.Format("{0}", number) + ", " + string.Format("{0}", number) + ")", new Complex32(1.1f, 1.1f).ToString(provider));
         }
 
         /// <summary>
@@ -105,11 +105,11 @@ namespace MathNet.Numerics.Tests.ComplexTests
         [Test]
         public void CanFormatComplexToStringWithFormat()
         {
-            Assert.AreEqual("(0, 0)", String.Format("{0:G}", Complex32.Zero));
-            Assert.AreEqual("(1, 2)", String.Format("{0:G}", new Complex32(1, 2)));
-            Assert.AreEqual("(001, 002)", String.Format("{0:000;minus 000;zero}", new Complex32(1, 2)));
-            Assert.AreEqual("(zero, minus 002)", String.Format("{0:000;minus 000;zero}", new Complex32(0, -2)));
-            Assert.AreEqual("(zero, zero)", String.Format("{0:000;minus 000;zero}", Complex32.Zero));
+            Assert.AreEqual("(0, 0)", string.Format("{0:G}", Complex32.Zero));
+            Assert.AreEqual("(1, 2)", string.Format("{0:G}", new Complex32(1, 2)));
+            Assert.AreEqual("(001, 002)", string.Format("{0:000;minus 000;zero}", new Complex32(1, 2)));
+            Assert.AreEqual("(zero, minus 002)", string.Format("{0:000;minus 000;zero}", new Complex32(0, -2)));
+            Assert.AreEqual("(zero, zero)", string.Format("{0:000;minus 000;zero}", Complex32.Zero));
 
             Assert.AreEqual("(0, 0)", Complex32.Zero.ToString("G"));
             Assert.AreEqual("(1, 2)", new Complex32(1, 2).ToString("G"));
@@ -126,10 +126,10 @@ namespace MathNet.Numerics.Tests.ComplexTests
         {
             var culture = CultureInfo.InvariantCulture;
 
-            Assert.AreEqual("(NaN, NaN)", String.Format(culture, "{0:.000}", Complex32.NaN));
-            Assert.AreEqual("(.000, .000)", String.Format(culture, "{0:.000}", Complex32.Zero));
-            Assert.AreEqual("(1.100, .000)", String.Format(culture, "{0:.000}", new Complex32(1.1f, 0.0f)));
-            Assert.AreEqual("(1.100, 1.100)", String.Format(culture, "{0:.000}", new Complex32(1.1f, 1.1f)));
+            Assert.AreEqual("(NaN, NaN)", string.Format(culture, "{0:.000}", Complex32.NaN));
+            Assert.AreEqual("(.000, .000)", string.Format(culture, "{0:.000}", Complex32.Zero));
+            Assert.AreEqual("(1.100, .000)", string.Format(culture, "{0:.000}", new Complex32(1.1f, 0.0f)));
+            Assert.AreEqual("(1.100, 1.100)", string.Format(culture, "{0:.000}", new Complex32(1.1f, 1.1f)));
 
             Assert.AreEqual("(NaN, NaN)", Complex32.NaN.ToString("#.000", culture));
             Assert.AreEqual("(Infinity, Infinity)", Complex32.PositiveInfinity.ToString("#.000", culture));
@@ -193,8 +193,7 @@ namespace MathNet.Numerics.Tests.ComplexTests
         public void CanTryParseStringToComplexWithInvariant(string str, float expectedReal, float expectedImaginary)
         {
             var invariantCulture = CultureInfo.InvariantCulture;
-            Complex32 z;
-            var ret = Complex32.TryParse(str, invariantCulture, out z);
+            var ret = Complex32.TryParse(str, invariantCulture, out var z);
             Assert.IsTrue(ret);
             Assert.AreEqual(expectedReal, z.Real);
             Assert.AreEqual(expectedImaginary, z.Imaginary);
@@ -215,11 +214,10 @@ namespace MathNet.Numerics.Tests.ComplexTests
         [Test]
         public void TryParseCanHandleSymbols()
         {
-            Complex32 z;
             var ni = NumberFormatInfo.CurrentInfo;
             var separator = CultureInfo.CurrentCulture.TextInfo.ListSeparator;
             var ret = Complex32.TryParse(
-                ni.NegativeInfinitySymbol + separator + ni.PositiveInfinitySymbol, out z);
+                ni.NegativeInfinitySymbol + separator + ni.PositiveInfinitySymbol, out var z);
             Assert.IsTrue(ret, "A1");
             Assert.AreEqual(float.NegativeInfinity, z.Real, "A2");
             Assert.AreEqual(float.PositiveInfinity, z.Imaginary, "A3");
@@ -246,7 +244,7 @@ namespace MathNet.Numerics.Tests.ComplexTests
             Assert.AreEqual(float.MaxValue, z.Real, "E2");
             Assert.AreEqual(float.MinValue, z.Imaginary, "E3");
         }
-        
+
         /// <summary>
         /// Try parse can handle symbols with a culture.
         /// </summary>
@@ -258,12 +256,11 @@ namespace MathNet.Numerics.Tests.ComplexTests
         //[TestCase("he-IL")] Mono 4 Issue
         public void TryParseCanHandleSymbolsWithCulture(string cultureName)
         {
-            Complex32 z;
             var culture = new CultureInfo(cultureName);
             var ni = culture.NumberFormat;
             var separator = culture.TextInfo.ListSeparator;
             var ret = Complex32.TryParse(
-                ni.NegativeInfinitySymbol + separator + ni.PositiveInfinitySymbol, culture, out z);
+                ni.NegativeInfinitySymbol + separator + ni.PositiveInfinitySymbol, culture, out var z);
             Assert.IsTrue(ret, "A1");
             Assert.AreEqual(float.NegativeInfinity, z.Real, "A2");
             Assert.AreEqual(float.PositiveInfinity, z.Imaginary, "A3");
@@ -313,8 +310,7 @@ namespace MathNet.Numerics.Tests.ComplexTests
         [TestCase("(  )")]
         public void TryParseReturnsFalseWhenGivenBadValueWithInvariant(string str)
         {
-            Complex32 z;
-            var ret = Complex32.TryParse(str, CultureInfo.InvariantCulture, out z);
+            var ret = Complex32.TryParse(str, CultureInfo.InvariantCulture, out var z);
             Assert.IsFalse(ret);
             Assert.AreEqual(0, z.Real);
             Assert.AreEqual(0, z.Imaginary);

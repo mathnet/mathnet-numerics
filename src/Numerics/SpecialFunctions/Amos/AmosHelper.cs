@@ -2544,7 +2544,7 @@ namespace MathNet.Numerics
 
                 switch (i)
                 {
-                    case 9: return Int32.MaxValue; // the largest magnitude of integer = 2^31 - 1 = 2147483647
+                    case 9: return int.MaxValue; // the largest magnitude of integer = 2^31 - 1 = 2147483647
                     case 14: return 53; // return Precision.DoubleWidth; // the number of base-2 digits.
                     case 15: return -1021; // EMIN, the smallest exponent E.
                     case 16: return 1024; // EMAX, the largest exponent E = 2^10

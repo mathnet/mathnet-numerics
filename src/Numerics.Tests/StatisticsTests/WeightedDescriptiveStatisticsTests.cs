@@ -30,16 +30,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MathNet.Numerics.Statistics;
+using NUnit.Framework;
 #if NET5_0_OR_GREATER
 using System.Text.Json;
 using System.Text.Json.Serialization;
 #endif
-using NUnit.Framework;
-using MathNet.Numerics.Statistics;
-using MathNet.Numerics.Tests;
-using MathNet.Numerics.Tests.StatisticsTests;
 
-namespace MathNet.Numerics.UnitTests.StatisticsTests
+namespace MathNet.Numerics.Tests.StatisticsTests
 {
     /// <summary>
     /// Descriptive statistics tests.
@@ -353,7 +351,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         [Test]
         public void ShortSequences()
         {
-            var stats5 = new WeightedDescriptiveStatistics(new Tuple<double, double>[0]);
+            var stats5 = new WeightedDescriptiveStatistics(Array.Empty<Tuple<double, double>>());
             Assert.That(stats5.Skewness, Is.NaN);
             Assert.That(stats5.Kurtosis, Is.NaN);
 

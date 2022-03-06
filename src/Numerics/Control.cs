@@ -342,12 +342,12 @@ namespace MathNet.Numerics
             sb.AppendLine($"Process Architecture: {RuntimeInformation.ProcessArchitecture}");
 #endif
             var processorArchitecture = Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE");
-            if (!String.IsNullOrEmpty(processorArchitecture))
+            if (!string.IsNullOrEmpty(processorArchitecture))
             {
                 sb.AppendLine($"Processor Architecture: {processorArchitecture}");
             }
             var processorId = Environment.GetEnvironmentVariable("PROCESSOR_IDENTIFIER");
-            if (!String.IsNullOrEmpty(processorId))
+            if (!string.IsNullOrEmpty(processorId))
             {
                 sb.AppendLine($"Processor Identifier: {processorId}");
             }

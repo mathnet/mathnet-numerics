@@ -74,8 +74,8 @@ namespace MathNet.Numerics.Tests.StatisticsTests
                     return new Tuple<string, string>(vals[0], vals[1]);
                 }).ToArray();
 
-            var series = data.Select(tuple => Double.Parse(tuple.Item1, CultureInfo.InvariantCulture)).ToArray();
-            var resNumpy = data.Select(tuple => Double.Parse(tuple.Item2, CultureInfo.InvariantCulture)).ToArray();
+            var series = data.Select(tuple => double.Parse(tuple.Item1, CultureInfo.InvariantCulture)).ToArray();
+            var resNumpy = data.Select(tuple => double.Parse(tuple.Item2, CultureInfo.InvariantCulture)).ToArray();
 
             var resMathNet = Correlation.Auto(series);
 

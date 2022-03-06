@@ -243,7 +243,7 @@ namespace MathNet.Numerics.Optimization
 
         static double FindMaxStep(Vector<double> startingPoint, Vector<double> searchDirection, Vector<double> lowerBound, Vector<double> upperBound)
         {
-            double maxStep = Double.PositiveInfinity;
+            double maxStep = double.PositiveInfinity;
             for (int ii = 0; ii < startingPoint.Count; ++ii)
             {
                 double paramMaxStep;
@@ -252,7 +252,7 @@ namespace MathNet.Numerics.Optimization
                 else if (searchDirection[ii] < 0)
                     paramMaxStep = (startingPoint[ii] - lowerBound[ii])/-searchDirection[ii];
                 else
-                    paramMaxStep = Double.PositiveInfinity;
+                    paramMaxStep = double.PositiveInfinity;
 
                 if (paramMaxStep < maxStep)
                     maxStep = paramMaxStep;

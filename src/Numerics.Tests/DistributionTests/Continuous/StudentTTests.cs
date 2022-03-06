@@ -62,7 +62,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// <param name="dof">Degrees of freedom.</param>
         [TestCase(0.0, 0.1, 1.0)]
         [TestCase(-5.0, 1.0, 3.0)]
-        [TestCase(10.0, 10.0, Double.PositiveInfinity)]
+        [TestCase(10.0, 10.0, double.PositiveInfinity)]
         public void CanCreateStudentT(double location, double scale, double dof)
         {
             var n = new StudentT(location, scale, dof);
@@ -77,9 +77,9 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// <param name="location">Location value.</param>
         /// <param name="scale">Scale value.</param>
         /// <param name="dof">Degrees of freedom.</param>
-        [TestCase(Double.NaN, 1.0, 1.0)]
-        [TestCase(0.0, Double.NaN, 1.0)]
-        [TestCase(0.0, 1.0, Double.NaN)]
+        [TestCase(double.NaN, 1.0, 1.0)]
+        [TestCase(0.0, double.NaN, 1.0)]
+        [TestCase(0.0, 1.0, double.NaN)]
         [TestCase(0.0, -10.0, 1.0)]
         [TestCase(0.0, 10.0, -1.0)]
         public void StudentTCreateFailsWithBadParameters(double location, double scale, double dof)
@@ -105,15 +105,15 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// <param name="scale">Scale value.</param>
         /// <param name="dof">Degrees of freedom.</param>
         /// <param name="mean">Expected value.</param>
-        [TestCase(0.0, 1.0, 1.0, Double.NaN)]
-        [TestCase(0.0, 0.1, 1.0, Double.NaN)]
+        [TestCase(0.0, 1.0, 1.0, double.NaN)]
+        [TestCase(0.0, 0.1, 1.0, double.NaN)]
         [TestCase(0.0, 1.0, 3.0, 0.0)]
-        [TestCase(0.0, 10.0, 1.0, Double.NaN)]
+        [TestCase(0.0, 10.0, 1.0, double.NaN)]
         [TestCase(0.0, 10.0, 2.0, 0.0)]
-        [TestCase(0.0, 10.0, Double.PositiveInfinity, 0.0)]
-        [TestCase(10.0, 1.0, 1.0, Double.NaN)]
+        [TestCase(0.0, 10.0, double.PositiveInfinity, 0.0)]
+        [TestCase(10.0, 1.0, 1.0, double.NaN)]
         [TestCase(-5.0, 100.0, 1.5, -5.0)]
-        [TestCase(0.0, Double.PositiveInfinity, 1.0, Double.NaN)]
+        [TestCase(0.0, double.PositiveInfinity, 1.0, double.NaN)]
         public void ValidateMean(double location, double scale, double dof, double mean)
         {
             var n = new StudentT(location, scale, dof);
@@ -127,17 +127,17 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// <param name="scale">Scale value.</param>
         /// <param name="dof">Degrees of freedom.</param>
         /// <param name="var">Expected value.</param>
-        [TestCase(0.0, 1.0, 1.0, Double.NaN)]
-        [TestCase(0.0, 0.1, 1.0, Double.NaN)]
+        [TestCase(0.0, 1.0, 1.0, double.NaN)]
+        [TestCase(0.0, 0.1, 1.0, double.NaN)]
         [TestCase(0.0, 1.0, 3.0, 3.0)]
-        [TestCase(0.0, 10.0, 1.0, Double.NaN)]
-        [TestCase(0.0, 10.0, 2.0, Double.PositiveInfinity)]
+        [TestCase(0.0, 10.0, 1.0, double.NaN)]
+        [TestCase(0.0, 10.0, 2.0, double.PositiveInfinity)]
         [TestCase(0.0, 10.0, 2.5, 500.0)]
-        [TestCase(0.0, 10.0, Double.PositiveInfinity, 100.0)]
-        [TestCase(10.0, 1.0, 1.0, Double.NaN)]
+        [TestCase(0.0, 10.0, double.PositiveInfinity, 100.0)]
+        [TestCase(10.0, 1.0, 1.0, double.NaN)]
         [TestCase(10.0, 1.0, 2.5, 5.0)]
-        [TestCase(-5.0, 100.0, 1.5, Double.PositiveInfinity)]
-        [TestCase(0.0, Double.PositiveInfinity, 1.0, Double.NaN)]
+        [TestCase(-5.0, 100.0, 1.5, double.PositiveInfinity)]
+        [TestCase(0.0, double.PositiveInfinity, 1.0, double.NaN)]
         public void ValidateVariance(double location, double scale, double dof, double var)
         {
             var n = new StudentT(location, scale, dof);
@@ -151,17 +151,17 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// <param name="scale">Scale value.</param>
         /// <param name="dof">Degrees of freedom.</param>
         /// <param name="sdev">Expected value.</param>
-        [TestCase(0.0, 1.0, 1.0, Double.NaN)]
-        [TestCase(0.0, 0.1, 1.0, Double.NaN)]
+        [TestCase(0.0, 1.0, 1.0, double.NaN)]
+        [TestCase(0.0, 0.1, 1.0, double.NaN)]
         [TestCase(0.0, 1.0, 3.0, 1.7320508075688772935274463415059)]
-        [TestCase(0.0, 10.0, 1.0, Double.NaN)]
-        [TestCase(0.0, 10.0, 2.0, Double.PositiveInfinity)]
+        [TestCase(0.0, 10.0, 1.0, double.NaN)]
+        [TestCase(0.0, 10.0, 2.0, double.PositiveInfinity)]
         [TestCase(0.0, 10.0, 2.5, 22.360679774997896964091736687313)]
-        [TestCase(0.0, 10.0, Double.PositiveInfinity, 10.0)]
-        [TestCase(10.0, 1.0, 1.0, Double.NaN)]
+        [TestCase(0.0, 10.0, double.PositiveInfinity, 10.0)]
+        [TestCase(10.0, 1.0, 1.0, double.NaN)]
         [TestCase(10.0, 1.0, 2.5, 2.2360679774997896964091736687313)]
-        [TestCase(-5.0, 100.0, 1.5, Double.PositiveInfinity)]
-        [TestCase(0.0, Double.PositiveInfinity, 1.0, Double.NaN)]
+        [TestCase(-5.0, 100.0, 1.5, double.PositiveInfinity)]
+        [TestCase(0.0, double.PositiveInfinity, 1.0, double.NaN)]
         public void ValidateStdDev(double location, double scale, double dof, double sdev)
         {
             var n = new StudentT(location, scale, dof);
@@ -180,11 +180,11 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.0, 10.0, 1.0)]
         [TestCase(0.0, 10.0, 2.0)]
         [TestCase(0.0, 10.0, 2.5)]
-        [TestCase(0.0, 10.0, Double.PositiveInfinity)]
+        [TestCase(0.0, 10.0, double.PositiveInfinity)]
         [TestCase(10.0, 1.0, 1.0)]
         [TestCase(10.0, 1.0, 2.5)]
         [TestCase(-5.0, 100.0, 1.5)]
-        [TestCase(0.0, Double.PositiveInfinity, 1.0)]
+        [TestCase(0.0, double.PositiveInfinity, 1.0)]
         public void ValidateMode(double location, double scale, double dof)
         {
             var n = new StudentT(location, scale, dof);
@@ -203,11 +203,11 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.0, 10.0, 1.0)]
         [TestCase(0.0, 10.0, 2.0)]
         [TestCase(0.0, 10.0, 2.5)]
-        [TestCase(0.0, 10.0, Double.PositiveInfinity)]
+        [TestCase(0.0, 10.0, double.PositiveInfinity)]
         [TestCase(10.0, 1.0, 1.0)]
         [TestCase(10.0, 1.0, 2.5)]
         [TestCase(-5.0, 100.0, 1.5)]
-        [TestCase(0.0, Double.PositiveInfinity, 1.0)]
+        [TestCase(0.0, double.PositiveInfinity, 1.0)]
         public void ValidateMedian(double location, double scale, double dof)
         {
             var n = new StudentT(location, scale, dof);
@@ -221,7 +221,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         public void ValidateMinimum()
         {
             var n = new StudentT();
-            Assert.AreEqual(Double.NegativeInfinity, n.Minimum);
+            Assert.AreEqual(double.NegativeInfinity, n.Minimum);
         }
 
         /// <summary>
@@ -231,7 +231,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         public void ValidateMaximum()
         {
             var n = new StudentT();
-            Assert.AreEqual(Double.PositiveInfinity, n.Maximum);
+            Assert.AreEqual(double.PositiveInfinity, n.Maximum);
         }
 
         /// <summary>
@@ -252,9 +252,9 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.0, 1.0, 2.0, -1.0, 0.192450089729875)]
         [TestCase(0.0, 1.0, 2.0, 2.0, 0.068041381743977)]
         [TestCase(0.0, 1.0, 2.0, -2.0, 0.068041381743977)]
-        [TestCase(0.0, 1.0, Double.PositiveInfinity, 0.0, 0.398942280401433)]
-        [TestCase(0.0, 1.0, Double.PositiveInfinity, 1.0, 0.241970724519143)]
-        [TestCase(0.0, 1.0, Double.PositiveInfinity, 2.0, 0.053990966513188)]
+        [TestCase(0.0, 1.0, double.PositiveInfinity, 0.0, 0.398942280401433)]
+        [TestCase(0.0, 1.0, double.PositiveInfinity, 1.0, 0.241970724519143)]
+        [TestCase(0.0, 1.0, double.PositiveInfinity, 2.0, 0.053990966513188)]
         public void ValidateDensity(double location, double scale, double dof, double x, double p)
         {
             var n = new StudentT(location, scale, dof);
@@ -279,9 +279,9 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.0, 1.0, 2.0, -1.0, -1.647918433002166)]
         [TestCase(0.0, 1.0, 2.0, 2.0, -2.687639203842085)]
         [TestCase(0.0, 1.0, 2.0, -2.0, -2.687639203842085)]
-        [TestCase(0.0, 1.0, Double.PositiveInfinity, 0.0, -0.918938533204672)]
-        [TestCase(0.0, 1.0, Double.PositiveInfinity, 1.0, -1.418938533204674)]
-        [TestCase(0.0, 1.0, Double.PositiveInfinity, 2.0, -2.918938533204674)]
+        [TestCase(0.0, 1.0, double.PositiveInfinity, 0.0, -0.918938533204672)]
+        [TestCase(0.0, 1.0, double.PositiveInfinity, 1.0, -1.418938533204674)]
+        [TestCase(0.0, 1.0, double.PositiveInfinity, 2.0, -2.918938533204674)]
         public void ValidateDensityLn(double location, double scale, double dof, double x, double p)
         {
             var n = new StudentT(location, scale, dof);
@@ -338,9 +338,9 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.0, 1.0, 2.0, -1.0, 0.211324865405187)]
         [TestCase(0.0, 1.0, 2.0, 2.0, 0.908248290463863)]
         [TestCase(0.0, 1.0, 2.0, -2.0, 0.091751709536137)]
-        [TestCase(0.0, 1.0, Double.PositiveInfinity, 0.0, 0.5)]
-        [TestCase(0.0, 1.0, Double.PositiveInfinity, 1.0, 0.841344746068543)]
-        [TestCase(0.0, 1.0, Double.PositiveInfinity, 2.0, 0.977249868051821)]
+        [TestCase(0.0, 1.0, double.PositiveInfinity, 0.0, 0.5)]
+        [TestCase(0.0, 1.0, double.PositiveInfinity, 1.0, 0.841344746068543)]
+        [TestCase(0.0, 1.0, double.PositiveInfinity, 2.0, 0.977249868051821)]
         public void ValidateCumulativeDistribution(double location, double scale, double dof, double x, double p)
         {
             var dist = new StudentT(location, scale, dof);
@@ -358,9 +358,9 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.0, 1.0, 2.0, -1.0, 0.211324865405187)]
         [TestCase(0.0, 1.0, 2.0, 2.0, 0.908248290463863)]
         [TestCase(0.0, 1.0, 2.0, -2.0, 0.091751709536137)]
-        [TestCase(0.0, 1.0, Double.PositiveInfinity, 0.0, 0.5)]
-        [TestCase(0.0, 1.0, Double.PositiveInfinity, 1.0, 0.841344746068543)]
-        [TestCase(0.0, 1.0, Double.PositiveInfinity, 2.0, 0.977249868051821)]
+        [TestCase(0.0, 1.0, double.PositiveInfinity, 0.0, 0.5)]
+        [TestCase(0.0, 1.0, double.PositiveInfinity, 1.0, 0.841344746068543)]
+        [TestCase(0.0, 1.0, double.PositiveInfinity, 2.0, 0.977249868051821)]
         public void ValidateInverseCumulativeDistribution(double location, double scale, double dof, double x, double p)
         {
             var dist = new StudentT(location, scale, dof);

@@ -60,7 +60,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Discrete
         /// </summary>
         /// <param name="p">Success probability.</param>
         /// <param name="n">Number of trials.</param>
-        [TestCase(Double.NaN, 1)]
+        [TestCase(double.NaN, 1)]
         [TestCase(-1.0, 1)]
         [TestCase(2.0, 1)]
         [TestCase(0.3, -2)]
@@ -189,13 +189,13 @@ namespace MathNet.Numerics.Tests.DistributionTests.Discrete
         /// <param name="x">Input X value.</param>
         /// <param name="dln">Expected value.</param>
         [TestCase(0.000000, 1, 0, 0.0)]
-        [TestCase(0.000000, 1, 1, Double.NegativeInfinity)]
+        [TestCase(0.000000, 1, 1, double.NegativeInfinity)]
         [TestCase(0.000000, 3, 0, 0.0)]
-        [TestCase(0.000000, 3, 1, Double.NegativeInfinity)]
-        [TestCase(0.000000, 3, 3, Double.NegativeInfinity)]
+        [TestCase(0.000000, 3, 1, double.NegativeInfinity)]
+        [TestCase(0.000000, 3, 3, double.NegativeInfinity)]
         [TestCase(0.000000, 10, 0, 0.0)]
-        [TestCase(0.000000, 10, 1, Double.NegativeInfinity)]
-        [TestCase(0.000000, 10, 10, Double.NegativeInfinity)]
+        [TestCase(0.000000, 10, 1, double.NegativeInfinity)]
+        [TestCase(0.000000, 10, 10, double.NegativeInfinity)]
         [TestCase(0.300000, 1, 0, -0.3566749439387324423539544041072745145718090708995)]
         [TestCase(0.300000, 1, 1, -1.2039728043259360296301803719337238685164245381839)]
         [TestCase(0.300000, 3, 0, -1.0700248318161973270618632123218235437154272126985)]
@@ -204,13 +204,13 @@ namespace MathNet.Numerics.Tests.DistributionTests.Discrete
         [TestCase(0.300000, 10, 0, -3.566749439387324423539544041072745145718090708995)]
         [TestCase(0.300000, 10, 1, -2.1114622067804823267977785542148302920616046876506)]
         [TestCase(0.300000, 10, 10, -12.039728043259360296301803719337238685164245381839)]
-        [TestCase(1.000000, 1, 0, Double.NegativeInfinity)]
+        [TestCase(1.000000, 1, 0, double.NegativeInfinity)]
         [TestCase(1.000000, 1, 1, 0.0)]
-        [TestCase(1.000000, 3, 0, Double.NegativeInfinity)]
-        [TestCase(1.000000, 3, 1, Double.NegativeInfinity)]
+        [TestCase(1.000000, 3, 0, double.NegativeInfinity)]
+        [TestCase(1.000000, 3, 1, double.NegativeInfinity)]
         [TestCase(1.000000, 3, 3, 0.0)]
-        [TestCase(1.000000, 10, 0, Double.NegativeInfinity)]
-        [TestCase(1.000000, 10, 1, Double.NegativeInfinity)]
+        [TestCase(1.000000, 10, 0, double.NegativeInfinity)]
+        [TestCase(1.000000, 10, 1, double.NegativeInfinity)]
         [TestCase(1.000000, 10, 10, 0.0)]
         public void ValidateProbabilityLn(double p, int n, int x, double dln)
         {

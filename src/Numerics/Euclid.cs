@@ -310,7 +310,7 @@ namespace MathNet.Numerics
         /// <exception cref="ArgumentOutOfRangeException"/>
         public static int CeilingToPowerOfTwo(this int number)
         {
-            if (number == Int32.MinValue)
+            if (number == int.MinValue)
             {
                 return 0;
             }
@@ -339,7 +339,7 @@ namespace MathNet.Numerics
         /// <exception cref="ArgumentOutOfRangeException"/>
         public static long CeilingToPowerOfTwo(this long number)
         {
-            if (number == Int64.MinValue)
+            if (number == long.MinValue)
             {
                 return 0;
             }

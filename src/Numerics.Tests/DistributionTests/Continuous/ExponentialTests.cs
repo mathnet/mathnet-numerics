@@ -48,7 +48,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.1)]
         [TestCase(1.0)]
         [TestCase(10.0)]
-        [TestCase(Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity)]
         public void CanCreateExponential(double lambda)
         {
             var n = new Exponential(lambda);
@@ -59,7 +59,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// Exponential create fails with bad parameter.
         /// </summary>
         /// <param name="lambda">Lambda value.</param>
-        [TestCase(Double.NaN)]
+        [TestCase(double.NaN)]
         [TestCase(-1.0)]
         [TestCase(-10.0)]
         public void ExponentialCreateFailsWithBadParameters(double lambda)
@@ -86,7 +86,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.1)]
         [TestCase(1.0)]
         [TestCase(10.0)]
-        [TestCase(Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity)]
         public void ValidateMean(double lambda)
         {
             var n = new Exponential(lambda);
@@ -101,7 +101,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.1)]
         [TestCase(1.0)]
         [TestCase(10.0)]
-        [TestCase(Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity)]
         public void ValidateVariance(double lambda)
         {
             var n = new Exponential(lambda);
@@ -116,7 +116,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.1)]
         [TestCase(1.0)]
         [TestCase(10.0)]
-        [TestCase(Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity)]
         public void ValidateStdDev(double lambda)
         {
             var n = new Exponential(lambda);
@@ -131,7 +131,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.1)]
         [TestCase(1.0)]
         [TestCase(10.0)]
-        [TestCase(Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity)]
         public void ValidateEntropy(double lambda)
         {
             var n = new Exponential(lambda);
@@ -146,7 +146,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.1)]
         [TestCase(1.0)]
         [TestCase(10.0)]
-        [TestCase(Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity)]
         public void ValidateSkewness(double lambda)
         {
             var n = new Exponential(lambda);
@@ -161,7 +161,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.1)]
         [TestCase(1.0)]
         [TestCase(10.0)]
-        [TestCase(Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity)]
         public void ValidateMode(double lambda)
         {
             var n = new Exponential(lambda);
@@ -176,7 +176,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.1)]
         [TestCase(1.0)]
         [TestCase(10.0)]
-        [TestCase(Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity)]
         public void ValidateMedian(double lambda)
         {
             var n = new Exponential(lambda);
@@ -200,7 +200,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         public void ValidateMaximum()
         {
             var n = new Exponential(1.0);
-            Assert.AreEqual(Double.PositiveInfinity, n.Maximum);
+            Assert.AreEqual(double.PositiveInfinity, n.Maximum);
         }
 
         /// <summary>
@@ -212,22 +212,22 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.1, 0.0)]
         [TestCase(1.0, 0.0)]
         [TestCase(10.0, 0.0)]
-        [TestCase(Double.PositiveInfinity, 0.0)]
+        [TestCase(double.PositiveInfinity, 0.0)]
         [TestCase(0.0, 0.1)]
         [TestCase(0.1, 0.1)]
         [TestCase(1.0, 0.1)]
         [TestCase(10.0, 0.1)]
-        [TestCase(Double.PositiveInfinity, 0.1)]
+        [TestCase(double.PositiveInfinity, 0.1)]
         [TestCase(0.0, 1.0)]
         [TestCase(0.1, 1.0)]
         [TestCase(1.0, 1.0)]
         [TestCase(10.0, 1.0)]
-        [TestCase(Double.PositiveInfinity, 1.0)]
-        [TestCase(0.0, Double.PositiveInfinity)]
-        [TestCase(0.1, Double.PositiveInfinity)]
-        [TestCase(1.0, Double.PositiveInfinity)]
-        [TestCase(10.0, Double.PositiveInfinity)]
-        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity, 1.0)]
+        [TestCase(0.0, double.PositiveInfinity)]
+        [TestCase(0.1, double.PositiveInfinity)]
+        [TestCase(1.0, double.PositiveInfinity)]
+        [TestCase(10.0, double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity, double.PositiveInfinity)]
         public void ValidateDensity(double lambda, double x)
         {
             var n = new Exponential(lambda);
@@ -252,22 +252,22 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.1, 0.0)]
         [TestCase(1.0, 0.0)]
         [TestCase(10.0, 0.0)]
-        [TestCase(Double.PositiveInfinity, 0.0)]
+        [TestCase(double.PositiveInfinity, 0.0)]
         [TestCase(0.0, 0.1)]
         [TestCase(0.1, 0.1)]
         [TestCase(1.0, 0.1)]
         [TestCase(10.0, 0.1)]
-        [TestCase(Double.PositiveInfinity, 0.1)]
+        [TestCase(double.PositiveInfinity, 0.1)]
         [TestCase(0.0, 1.0)]
         [TestCase(0.1, 1.0)]
         [TestCase(1.0, 1.0)]
         [TestCase(10.0, 1.0)]
-        [TestCase(Double.PositiveInfinity, 1.0)]
-        [TestCase(0.0, Double.PositiveInfinity)]
-        [TestCase(0.1, Double.PositiveInfinity)]
-        [TestCase(1.0, Double.PositiveInfinity)]
-        [TestCase(10.0, Double.PositiveInfinity)]
-        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity, 1.0)]
+        [TestCase(0.0, double.PositiveInfinity)]
+        [TestCase(0.1, double.PositiveInfinity)]
+        [TestCase(1.0, double.PositiveInfinity)]
+        [TestCase(10.0, double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity, double.PositiveInfinity)]
         public void ValidateDensityLn(double lambda, double x)
         {
             var n = new Exponential(lambda);
@@ -305,22 +305,22 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.1, 0.0)]
         [TestCase(1.0, 0.0)]
         [TestCase(10.0, 0.0)]
-        [TestCase(Double.PositiveInfinity, 0.0)]
+        [TestCase(double.PositiveInfinity, 0.0)]
         [TestCase(0.0, 0.1)]
         [TestCase(0.1, 0.1)]
         [TestCase(1.0, 0.1)]
         [TestCase(10.0, 0.1)]
-        [TestCase(Double.PositiveInfinity, 0.1)]
+        [TestCase(double.PositiveInfinity, 0.1)]
         [TestCase(0.0, 1.0)]
         [TestCase(0.1, 1.0)]
         [TestCase(1.0, 1.0)]
         [TestCase(10.0, 1.0)]
-        [TestCase(Double.PositiveInfinity, 1.0)]
-        [TestCase(0.0, Double.PositiveInfinity)]
-        [TestCase(0.1, Double.PositiveInfinity)]
-        [TestCase(1.0, Double.PositiveInfinity)]
-        [TestCase(10.0, Double.PositiveInfinity)]
-        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity, 1.0)]
+        [TestCase(0.0, double.PositiveInfinity)]
+        [TestCase(0.1, double.PositiveInfinity)]
+        [TestCase(1.0, double.PositiveInfinity)]
+        [TestCase(10.0, double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity, double.PositiveInfinity)]
         public void ValidateCumulativeDistribution(double lambda, double x)
         {
             var n = new Exponential(lambda);
@@ -346,9 +346,9 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(10.0, 0.0)]
         [TestCase(10.0, 0.1)]
         [TestCase(1.0, 1.0)]
-        [TestCase(0.1, Double.PositiveInfinity)]
-        [TestCase(1.0, Double.PositiveInfinity)]
-        [TestCase(10.0, Double.PositiveInfinity)]
+        [TestCase(0.1, double.PositiveInfinity)]
+        [TestCase(1.0, double.PositiveInfinity)]
+        [TestCase(10.0, double.PositiveInfinity)]
         public void ValidateInverseCumulativeDistribution(double lambda, double x)
         {
             var n = new Exponential(lambda);

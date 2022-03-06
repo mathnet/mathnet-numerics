@@ -27,7 +27,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using MathNet.Numerics.Statistics;
@@ -65,7 +64,7 @@ namespace MathNet.Numerics.Tests.StatisticsTests
         [Test]
         public void CanCreateEmptyBucket()
         {
-            var b = new Bucket(0.0, 1.0);
+            Assert.That(() => new Bucket(0.0, 1.0), Throws.Nothing);
         }
 
         /// <summary>
@@ -74,7 +73,7 @@ namespace MathNet.Numerics.Tests.StatisticsTests
         [Test]
         public void CanCreateFilledBucket()
         {
-            var b = new Bucket(0.0, 1.0, 10.0);
+            Assert.That(() => new Bucket(0.0, 1.0, 10.0), Throws.Nothing);
         }
 
         /// <summary>
@@ -157,7 +156,7 @@ namespace MathNet.Numerics.Tests.StatisticsTests
         [Test]
         public void CanCreateEmptyHistogram()
         {
-            var h = new Histogram();
+            Assert.That(() => new Histogram(), Throws.Nothing);
         }
 
         /// <summary>
@@ -186,7 +185,7 @@ namespace MathNet.Numerics.Tests.StatisticsTests
             h.AddBucket(new Bucket(1.0, 2.0));
             h.AddBucket(new Bucket(2.0, 3.0));
             h.AddBucket(new Bucket(3.0, 20.0));
-            h.AddBucket(new Bucket(20.0, Double.PositiveInfinity));
+            h.AddBucket(new Bucket(20.0, double.PositiveInfinity));
             Assert.AreEqual(i, h.GetBucketIndexOf(x));
         }
 
@@ -201,7 +200,7 @@ namespace MathNet.Numerics.Tests.StatisticsTests
             h.AddBucket(new Bucket(1.0, 2.0));
             h.AddBucket(new Bucket(2.0, 3.0));
             h.AddBucket(new Bucket(3.0, 20.0));
-            h.AddBucket(new Bucket(20.0, Double.PositiveInfinity));
+            h.AddBucket(new Bucket(20.0, double.PositiveInfinity));
             Assert.That(() => { var i = h.GetBucketIndexOf(0.0); }, Throws.ArgumentException);
             Assert.That(() => { var i = h.GetBucketIndexOf(-1.0); }, Throws.ArgumentException);
         }
@@ -218,7 +217,7 @@ namespace MathNet.Numerics.Tests.StatisticsTests
             h.AddBucket(new Bucket(1.0, 2.0));
             h.AddBucket(new Bucket(2.0, 3.0));
             h.AddBucket(new Bucket(3.0, 20.0));
-            h.AddBucket(new Bucket(20.0, Double.PositiveInfinity));
+            h.AddBucket(new Bucket(20.0, double.PositiveInfinity));
 
             Assert.AreEqual(b, h.GetBucketOf(0.1));
         }
@@ -236,7 +235,7 @@ namespace MathNet.Numerics.Tests.StatisticsTests
             h.AddBucket(c);
             h.AddBucket(new Bucket(1.0, 2.0));
             h.AddBucket(new Bucket(2.0, 3.0));
-            h.AddBucket(new Bucket(20.0, Double.PositiveInfinity));
+            h.AddBucket(new Bucket(20.0, double.PositiveInfinity));
 
             Assert.AreEqual(b, h[0]);
             Assert.AreEqual(c, h[3]);
@@ -253,7 +252,7 @@ namespace MathNet.Numerics.Tests.StatisticsTests
             h.AddBucket(new Bucket(1.0, 2.0));
             h.AddBucket(new Bucket(2.0, 3.0));
             h.AddBucket(new Bucket(3.0, 20.0));
-            h.AddBucket(new Bucket(20.0, Double.PositiveInfinity));
+            h.AddBucket(new Bucket(20.0, double.PositiveInfinity));
 
             Assert.AreEqual(5, h.BucketCount);
         }
@@ -269,7 +268,7 @@ namespace MathNet.Numerics.Tests.StatisticsTests
             h.AddBucket(new Bucket(1.0, 2.0, 1));
             h.AddBucket(new Bucket(2.0, 3.0, 1));
             h.AddBucket(new Bucket(3.0, 20.0, 1));
-            h.AddBucket(new Bucket(20.0, Double.PositiveInfinity, 1));
+            h.AddBucket(new Bucket(20.0, double.PositiveInfinity, 1));
 
             Assert.AreEqual(5, h.DataCount);
         }
@@ -280,7 +279,7 @@ namespace MathNet.Numerics.Tests.StatisticsTests
         [Test]
         public void CanCreateEqualSpacedHistogram()
         {
-            var h = new Histogram(new[] {1.0, 5.0, 10.0}, 2);
+            Assert.That(() => new Histogram(new[] { 1.0, 5.0, 10.0 }, 2), Throws.Nothing);
         }
 
         /// <summary>
@@ -298,7 +297,7 @@ namespace MathNet.Numerics.Tests.StatisticsTests
         [Test]
         public void CanCreateEqualSpacedHistogramWithGivenLowerAndUpperBound()
         {
-            var h = new Histogram(new[] {1.0, 5.0, 10.0}, 2, 0.0, 20.0);
+            Assert.That(() => new Histogram(new[] { 1.0, 5.0, 10.0 }, 2, 0.0, 20.0), Throws.Nothing);
         }
 
         /// <summary>

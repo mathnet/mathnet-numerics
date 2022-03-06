@@ -60,18 +60,18 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
 
         static string GetCombinedHintPath()
         {
-            if (!String.IsNullOrEmpty(MklControl.HintPath))
+            if (!string.IsNullOrEmpty(MklControl.HintPath))
             {
                 return MklControl.HintPath;
             }
 
-            if (!String.IsNullOrEmpty(LinearAlgebraControl.HintPath))
+            if (!string.IsNullOrEmpty(LinearAlgebraControl.HintPath))
             {
                 return LinearAlgebraControl.HintPath;
             }
 
             var value = Environment.GetEnvironmentVariable(MklControl.EnvVarMKLProviderPath);
-            if (!String.IsNullOrEmpty(value))
+            if (!string.IsNullOrEmpty(value))
             {
                 return value;
             }

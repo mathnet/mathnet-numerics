@@ -57,7 +57,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Discrete
         /// Bernoulli create fails with bad parameters.
         /// </summary>
         /// <param name="p">Probability of one.</param>
-        [TestCase(Double.NaN)]
+        [TestCase(double.NaN)]
         [TestCase(-1.0)]
         [TestCase(2.0)]
         public void BernoulliCreateFailsWithBadParameters(double p)
@@ -176,18 +176,18 @@ namespace MathNet.Numerics.Tests.DistributionTests.Discrete
         /// <param name="p">Probability of one.</param>
         /// <param name="x">Input X value.</param>
         /// <param name="dln">Expected value.</param>
-        [TestCase(0.0, -1, Double.NegativeInfinity)]
+        [TestCase(0.0, -1, double.NegativeInfinity)]
         [TestCase(0.0, 0, 0.0)]
-        [TestCase(0.0, 1, Double.NegativeInfinity)]
-        [TestCase(0.0, 2, Double.NegativeInfinity)]
-        [TestCase(0.3, -1, Double.NegativeInfinity)]
+        [TestCase(0.0, 1, double.NegativeInfinity)]
+        [TestCase(0.0, 2, double.NegativeInfinity)]
+        [TestCase(0.3, -1, double.NegativeInfinity)]
         [TestCase(0.3, 0, -0.35667494393873244235395440410727451457180907089949815)]
         [TestCase(0.3, 1, -1.2039728043259360296301803719337238685164245381839102)]
-        [TestCase(0.3, 2, Double.NegativeInfinity)]
-        [TestCase(1.0, -1, Double.NegativeInfinity)]
-        [TestCase(1.0, 0, Double.NegativeInfinity)]
+        [TestCase(0.3, 2, double.NegativeInfinity)]
+        [TestCase(1.0, -1, double.NegativeInfinity)]
+        [TestCase(1.0, 0, double.NegativeInfinity)]
         [TestCase(1.0, 1, 0.0)]
-        [TestCase(1.0, 2, Double.NegativeInfinity)]
+        [TestCase(1.0, 2, double.NegativeInfinity)]
         public void ValidateProbabilityLn(double p, int x, double dln)
         {
             var b = new Bernoulli(p);

@@ -96,7 +96,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Multivariate
         /// <param name="nu">DegreesOfFreedom parameter.</param>
         /// <param name="order">Scale matrix order.</param>
         [TestCase(-1.0, 2)]
-        [TestCase(Double.NaN, 5)]
+        [TestCase(double.NaN, 5)]
         public void FailNuCreateWishart(double nu, int order)
         {
             var matrix = Matrix<double>.Build.RandomPositiveDefinite(order, 1);

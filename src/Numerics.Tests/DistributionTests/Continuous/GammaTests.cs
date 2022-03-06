@@ -52,7 +52,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(1.0, 1.0)]
         [TestCase(10.0, 10.0)]
         [TestCase(10.0, 1.0)]
-        [TestCase(10.0, Double.PositiveInfinity)]
+        [TestCase(10.0, double.PositiveInfinity)]
         public void CanCreateGamma(double shape, double invScale)
         {
             var n = new Gamma(shape, invScale);
@@ -65,11 +65,11 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// </summary>
         /// <param name="shape">Shape value.</param>
         /// <param name="invScale">Inverse scale value.</param>
-        [TestCase(1.0, Double.NaN)]
+        [TestCase(1.0, double.NaN)]
         [TestCase(1.0, -1.0)]
         [TestCase(-1.0, 1.0)]
         [TestCase(-1.0, -1.0)]
-        [TestCase(-1.0, Double.NaN)]
+        [TestCase(-1.0, double.NaN)]
         public void GammaCreateFailsWithBadParameters(double shape, double invScale)
         {
             Assert.That(() => new Gamma(shape, invScale), Throws.ArgumentException);
@@ -85,7 +85,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(1.0, 1.0)]
         [TestCase(10.0, 10.0)]
         [TestCase(10.0, 1.0)]
-        [TestCase(10.0, Double.PositiveInfinity)]
+        [TestCase(10.0, double.PositiveInfinity)]
         public void CanCreateGammaWithShapeInvScale(double shape, double invScale)
         {
             var n = Gamma.WithShapeRate(shape, invScale);
@@ -103,7 +103,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(1.0, 1.0)]
         [TestCase(10.0, 10.0)]
         [TestCase(10.0, 1.0)]
-        [TestCase(10.0, Double.PositiveInfinity)]
+        [TestCase(10.0, double.PositiveInfinity)]
         public void CanCreateGammaWithShapeScale(double shape, double scale)
         {
             var n = Gamma.WithShapeScale(shape, scale);
@@ -128,12 +128,12 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// <param name="shape">Shape value.</param>
         /// <param name="invScale">Inverse scale value.</param>
         /// <param name="mean">Expected value.</param>
-        [TestCase(0.0, 0.0, Double.NaN)]
+        [TestCase(0.0, 0.0, double.NaN)]
         [TestCase(1.0, 0.1, 10.0)]
         [TestCase(1.0, 1.0, 1.0)]
         [TestCase(10.0, 10.0, 1.0)]
         [TestCase(10.0, 1.0, 10.0)]
-        [TestCase(10.0, Double.PositiveInfinity, 10.0)]
+        [TestCase(10.0, double.PositiveInfinity, 10.0)]
         public void ValidateMean(double shape, double invScale, double mean)
         {
             var n = new Gamma(shape, invScale);
@@ -146,12 +146,12 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// <param name="shape">Shape value.</param>
         /// <param name="invScale">Inverse scale value.</param>
         /// <param name="var">Expected value.</param>
-        [TestCase(0.0, 0.0, Double.NaN)]
+        [TestCase(0.0, 0.0, double.NaN)]
         [TestCase(1.0, 0.1, 100.0)]
         [TestCase(1.0, 1.0, 1.0)]
         [TestCase(10.0, 10.0, 0.1)]
         [TestCase(10.0, 1.0, 10.0)]
-        [TestCase(10.0, Double.PositiveInfinity, 0.0)]
+        [TestCase(10.0, double.PositiveInfinity, 0.0)]
         public void ValidateVariance(double shape, double invScale, double var)
         {
             var n = new Gamma(shape, invScale);
@@ -164,12 +164,12 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// <param name="shape">Shape value.</param>
         /// <param name="invScale">Inverse scale value.</param>
         /// <param name="sdev">Expected value.</param>
-        [TestCase(0.0, 0.0, Double.NaN)]
+        [TestCase(0.0, 0.0, double.NaN)]
         [TestCase(1.0, 0.1, 10.0)]
         [TestCase(1.0, 1.0, 1.0)]
         [TestCase(10.0, 10.0, 0.31622776601683794197697302588502426416723164097476643)]
         [TestCase(10.0, 1.0, 3.1622776601683793319988935444327185337195551393252168)]
-        [TestCase(10.0, Double.PositiveInfinity, 0.0)]
+        [TestCase(10.0, double.PositiveInfinity, 0.0)]
         public void ValidateStdDev(double shape, double invScale, double sdev)
         {
             var n = new Gamma(shape, invScale);
@@ -182,12 +182,12 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// <param name="shape">Shape value.</param>
         /// <param name="invScale">Inverse scale value.</param>
         /// <param name="entropy">Expected value.</param>
-        [TestCase(0.0, 0.0, Double.NaN)]
+        [TestCase(0.0, 0.0, double.NaN)]
         [TestCase(1.0, 0.1, 3.3025850929940456285068402234265387271634735938763824)]
         [TestCase(1.0, 1.0, 1.0)]
         [TestCase(10.0, 10.0, 0.23346908548693395836262094490967812177376750477943892)]
         [TestCase(10.0, 1.0, 2.5360541784809796423806123995940423293748689934081866)]
-        [TestCase(10.0, Double.PositiveInfinity, 0.0)]
+        [TestCase(10.0, double.PositiveInfinity, 0.0)]
         public void ValidateEntropy(double shape, double invScale, double entropy)
         {
             var n = new Gamma(shape, invScale);
@@ -200,12 +200,12 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// <param name="shape">Shape value.</param>
         /// <param name="invScale">Inverse scale value.</param>
         /// <param name="skewness">Expected value.</param>
-        [TestCase(0.0, 0.0, Double.NaN)]
+        [TestCase(0.0, 0.0, double.NaN)]
         [TestCase(1.0, 0.1, 2.0)]
         [TestCase(1.0, 1.0, 2.0)]
         [TestCase(10.0, 10.0, 0.63245553203367586639977870888654370674391102786504337)]
         [TestCase(10.0, 1.0, 0.63245553203367586639977870888654370674391102786504337)]
-        [TestCase(10.0, Double.PositiveInfinity, 0.0)]
+        [TestCase(10.0, double.PositiveInfinity, 0.0)]
         public void ValidateSkewness(double shape, double invScale, double skewness)
         {
             var n = new Gamma(shape, invScale);
@@ -218,12 +218,12 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// <param name="shape">Shape value.</param>
         /// <param name="invScale">Inverse scale value.</param>
         /// <param name="mode">Expected value.</param>
-        [TestCase(0.0, 0.0, Double.NaN)]
+        [TestCase(0.0, 0.0, double.NaN)]
         [TestCase(1.0, 0.1, 0.0)]
         [TestCase(1.0, 1.0, 0.0)]
         [TestCase(10.0, 10.0, 0.9)]
         [TestCase(10.0, 1.0, 9.0)]
-        [TestCase(10.0, Double.PositiveInfinity, 10.0)]
+        [TestCase(10.0, double.PositiveInfinity, 10.0)]
         public void ValidateMode(double shape, double invScale, double mode)
         {
             var n = new Gamma(shape, invScale);
@@ -257,7 +257,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         public void ValidateMaximum()
         {
             var n = new Gamma(1.0, 1.0);
-            Assert.AreEqual(Double.PositiveInfinity, n.Maximum);
+            Assert.AreEqual(double.PositiveInfinity, n.Maximum);
         }
 
         /// <summary>
@@ -282,9 +282,9 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(10, 1.0, 0.0, 0.0)]
         [TestCase(10, 1.0, 1.0, 0.0000010137771196302974029859010421116095333052555418644397)]
         [TestCase(10, 1.0, 10.0, 0.12511003572113329898476497894772544708420990097708601)]
-        [TestCase(10, Double.PositiveInfinity, 0.0, 0.0)]
-        [TestCase(10, Double.PositiveInfinity, 1.0, 0.0)]
-        [TestCase(10, Double.PositiveInfinity, 10.0, Double.PositiveInfinity)]
+        [TestCase(10, double.PositiveInfinity, 0.0, 0.0)]
+        [TestCase(10, double.PositiveInfinity, 1.0, 0.0)]
+        [TestCase(10, double.PositiveInfinity, 10.0, double.PositiveInfinity)]
         public void ValidateDensity(int shape, double invScale, double x, double pdf)
         {
             var n = new Gamma(shape, invScale);
@@ -299,24 +299,24 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// <param name="invScale">Inverse scale value.</param>
         /// <param name="x">Input X value.</param>
         /// <param name="pdfln">Expected value.</param>
-        [TestCase(0, 0.0, 0.0, Double.NegativeInfinity)]
-        [TestCase(0, 0.0, 1.0, Double.NegativeInfinity)]
-        [TestCase(0, 0.0, 10.0, Double.NegativeInfinity)]
+        [TestCase(0, 0.0, 0.0, double.NegativeInfinity)]
+        [TestCase(0, 0.0, 1.0, double.NegativeInfinity)]
+        [TestCase(0, 0.0, 10.0, double.NegativeInfinity)]
         [TestCase(1, 0.1, 0.0, -2.3025850929940456285068402234265387271634735938763824)]
         [TestCase(1, 0.1, 1.0, -2.402585092994045634057955346552321429281631934330484)]
         [TestCase(1, 0.1, 10.0, -3.3025850929940456285068402234265387271634735938763824)]
         [TestCase(1, 1.0, 0.0, 0.0)]
         [TestCase(1, 1.0, 1.0, -1.0)]
         [TestCase(1, 1.0, 10.0, -10.0)]
-        [TestCase(10, 10.0, 0.0, Double.NegativeInfinity)]
+        [TestCase(10, 10.0, 0.0, double.NegativeInfinity)]
         [TestCase(10, 10.0, 1.0, 0.22402344985898722897219667227693591172986563062456522)]
         [TestCase(10, 10.0, 10.0, -69.052710713194601614865880235563786219860220971716511)]
-        [TestCase(10, 1.0, 0.0, Double.NegativeInfinity)]
+        [TestCase(10, 1.0, 0.0, double.NegativeInfinity)]
         [TestCase(10, 1.0, 1.0, -13.801827480081469611207717874566706164281149255663166)]
         [TestCase(10, 1.0, 10.0, -2.0785616431350584550457947824074282958712358580042068)]
-        [TestCase(10, Double.PositiveInfinity, 0.0, Double.NegativeInfinity)]
-        [TestCase(10, Double.PositiveInfinity, 1.0, Double.NegativeInfinity)]
-        [TestCase(10, Double.PositiveInfinity, 10.0, Double.PositiveInfinity)]
+        [TestCase(10, double.PositiveInfinity, 0.0, double.NegativeInfinity)]
+        [TestCase(10, double.PositiveInfinity, 1.0, double.NegativeInfinity)]
+        [TestCase(10, double.PositiveInfinity, 10.0, double.PositiveInfinity)]
         public void ValidateDensityLn(int shape, double invScale, double x, double pdfln)
         {
             var n = new Gamma(shape, invScale);
@@ -404,9 +404,9 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(10, 1.0, 0.0, 0.0)]
         [TestCase(10, 1.0, 1.0, 0.00000011142547833872067735305068724025236288094949815466035)]
         [TestCase(10, 1.0, 10.0, 0.54207028552814779168583514294066541824736464003242184)]
-        [TestCase(10, Double.PositiveInfinity, 0.0, 0.0)]
-        [TestCase(10, Double.PositiveInfinity, 1.0, 0.0)]
-        [TestCase(10, Double.PositiveInfinity, 10.0, 1.0)]
+        [TestCase(10, double.PositiveInfinity, 0.0, 0.0)]
+        [TestCase(10, double.PositiveInfinity, 1.0, 0.0)]
+        [TestCase(10, double.PositiveInfinity, 10.0, 1.0)]
         public void ValidateCumulativeDistribution(double shape, double invScale, double x, double cdf)
         {
             var gamma = new Gamma(shape, invScale);

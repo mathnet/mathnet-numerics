@@ -50,7 +50,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(1.0, 0.1)]
         [TestCase(10.0, 1.0)]
         [TestCase(11.0, 10.0)]
-        [TestCase(12.0, Double.PositiveInfinity)]
+        [TestCase(12.0, double.PositiveInfinity)]
         public void CanCreateWeibull(double shape, double scale)
         {
             var n = new Weibull(shape, scale);
@@ -63,9 +63,9 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// </summary>
         /// <param name="shape">Shape value.</param>
         /// <param name="scale">Scale value.</param>
-        [TestCase(Double.NaN, 1.0)]
-        [TestCase(1.0, Double.NaN)]
-        [TestCase(Double.NaN, Double.NaN)]
+        [TestCase(double.NaN, 1.0)]
+        [TestCase(1.0, double.NaN)]
+        [TestCase(double.NaN, double.NaN)]
         [TestCase(1.0, -1.0)]
         [TestCase(-1.0, 1.0)]
         [TestCase(-1.0, -1.0)]
@@ -201,7 +201,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         public void ValidateMaximum()
         {
             var n = new Weibull(1.0, 1.0);
-            Assert.AreEqual(Double.PositiveInfinity, n.Maximum);
+            Assert.AreEqual(double.PositiveInfinity, n.Maximum);
         }
 
         /// <summary>
@@ -242,10 +242,10 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(1.0, 1.0, 0.0, 0.0)]
         [TestCase(1.0, 1.0, 1.0, -1.0)]
         [TestCase(1.0, 1.0, 10.0, -10.0)]
-        [TestCase(10.0, 10.0, 0.0, Double.NegativeInfinity)]
+        [TestCase(10.0, 10.0, 0.0, double.NegativeInfinity)]
         [TestCase(10.0, 10.0, 1.0, -20.723265837046411156161923092159277868409913397659)]
         [TestCase(10.0, 10.0, 10.0, -1.0)]
-        [TestCase(10.0, 1.0, 0.0, Double.NegativeInfinity)]
+        [TestCase(10.0, 1.0, 0.0, double.NegativeInfinity)]
         [TestCase(10.0, 1.0, 1.0, 1.3025850929940456840179914546843642076011014886288)]
         [TestCase(10.0, 1.0, 10.0, -9.999999976974149070059543159820085453156357923988985113712e9)]
         public void ValidateDensityLn(double shape, double scale, double x, double pdfln)

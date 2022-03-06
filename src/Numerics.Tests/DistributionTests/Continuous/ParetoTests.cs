@@ -48,7 +48,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.1, 0.1)]
         [TestCase(1.0, 1.0)]
         [TestCase(10.0, 10.0)]
-        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity, double.PositiveInfinity)]
         public void CanCreatePareto(double scale, double shape)
         {
             var n = new Pareto(scale, shape);
@@ -61,9 +61,9 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// </summary>
         /// <param name="scale">Scale value.</param>
         /// <param name="shape">Shape value.</param>
-        [TestCase(Double.NaN, 1.0)]
-        [TestCase(1.0, Double.NaN)]
-        [TestCase(Double.NaN, Double.NaN)]
+        [TestCase(double.NaN, 1.0)]
+        [TestCase(1.0, double.NaN)]
+        [TestCase(double.NaN, double.NaN)]
         [TestCase(1.0, -1.0)]
         [TestCase(-1.0, 1.0)]
         [TestCase(-1.0, -1.0)]
@@ -94,7 +94,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.1, 0.1)]
         [TestCase(1.0, 1.0)]
         [TestCase(10.0, 10.0)]
-        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity, double.PositiveInfinity)]
         public void ValidateMean(double scale, double shape)
         {
             var n = new Pareto(scale, shape);
@@ -112,7 +112,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.1, 0.1)]
         [TestCase(1.0, 1.0)]
         [TestCase(10.0, 10.0)]
-        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity, double.PositiveInfinity)]
         public void ValidateVariance(double scale, double shape)
         {
             var n = new Pareto(scale, shape);
@@ -134,7 +134,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.1, 0.1)]
         [TestCase(1.0, 1.0)]
         [TestCase(10.0, 10.0)]
-        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity, double.PositiveInfinity)]
         public void ValidateStdDev(double scale, double shape)
         {
             var n = new Pareto(scale, shape);
@@ -149,7 +149,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.1, 0.1)]
         [TestCase(1.0, 1.0)]
         [TestCase(10.0, 10.0)]
-        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity, double.PositiveInfinity)]
         public void ValidateEntropy(double scale, double shape)
         {
             var n = new Pareto(scale, shape);
@@ -164,7 +164,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.1, 0.1)]
         [TestCase(1.0, 1.0)]
         [TestCase(10.0, 10.0)]
-        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity, double.PositiveInfinity)]
         public void ValidateSkewness(double scale, double shape)
         {
             var n = new Pareto(scale, shape);
@@ -179,7 +179,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.1, 0.1)]
         [TestCase(1.0, 1.0)]
         [TestCase(10.0, 10.0)]
-        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity, double.PositiveInfinity)]
         public void ValidateMode(double scale, double shape)
         {
             var n = new Pareto(scale, shape);
@@ -194,7 +194,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.1, 0.1)]
         [TestCase(1.0, 1.0)]
         [TestCase(10.0, 10.0)]
-        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity, double.PositiveInfinity)]
         public void ValidateMedian(double scale, double shape)
         {
             var n = new Pareto(scale, shape);
@@ -208,7 +208,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(0.1)]
         [TestCase(1.0)]
         [TestCase(10.0)]
-        [TestCase(Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity)]
         public void ValidateMinimum(double scale)
         {
             var n = new Pareto(scale, 1.0);
@@ -222,7 +222,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         public void ValidateMaximum()
         {
             var n = new Pareto(1.0, 1.0);
-            Assert.AreEqual(Double.PositiveInfinity, n.Maximum);
+            Assert.AreEqual(double.PositiveInfinity, n.Maximum);
         }
 
         [TestCase(1, 1, 1, 1)]
@@ -252,7 +252,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         [TestCase(5.0, 5.0, 2.0)]
         [TestCase(7.0, 7.0, 10.0)]
         [TestCase(10.0, 10.0, 12.0)]
-        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity)]
+        [TestCase(double.PositiveInfinity, double.PositiveInfinity, double.PositiveInfinity)]
         public void ValidateCumulativeDistribution(double scale, double shape, double x)
         {
             var n = new Pareto(scale, shape);
