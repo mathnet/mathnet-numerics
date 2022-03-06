@@ -111,7 +111,7 @@ namespace MathNet.Numerics.Statistics
         /// <remarks>
         /// Used for Json serialization
         /// </remarks>
-        public DescriptiveStatistics()
+        public WeightedDescriptiveStatistics()
         {
         }
 #endif

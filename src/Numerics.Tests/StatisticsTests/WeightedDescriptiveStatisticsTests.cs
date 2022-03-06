@@ -36,6 +36,8 @@ using System.Text.Json.Serialization;
 #endif
 using NUnit.Framework;
 using MathNet.Numerics.Statistics;
+using MathNet.Numerics.Tests;
+using MathNet.Numerics.Tests.StatisticsTests;
 
 namespace MathNet.Numerics.UnitTests.StatisticsTests
 {
@@ -416,7 +418,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
                 NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals,
             };
             var json = JsonSerializer.Serialize(serialize, jsonSerializerOptions);
-            var stats = JsonSerializer.Deserialize<DescriptiveStatistics>(json, jsonSerializerOptions);
+            var stats = JsonSerializer.Deserialize<WeightedDescriptiveStatistics>(json, jsonSerializerOptions);
             Assert.NotNull(stats);
             AssertHelpers.AlmostEqualRelative(data.Mean, stats.Mean, 10);
             AssertHelpers.AlmostEqualRelative(data.StandardDeviation, stats.StandardDeviation, digits);

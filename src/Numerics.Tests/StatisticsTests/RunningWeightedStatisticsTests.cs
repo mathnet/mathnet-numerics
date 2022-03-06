@@ -32,6 +32,8 @@ using System.Collections.Generic;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.Random;
 using MathNet.Numerics.Statistics;
+using MathNet.Numerics.Tests;
+using MathNet.Numerics.Tests.StatisticsTests;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.StatisticsTests
