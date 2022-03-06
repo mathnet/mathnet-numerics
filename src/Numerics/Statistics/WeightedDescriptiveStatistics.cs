@@ -30,6 +30,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Linq;
 #if NET5_0_OR_GREATER
 using System.Text.Json.Serialization;
 #endif
@@ -41,7 +42,7 @@ namespace MathNet.Numerics.Statistics
     /// NIST standard of accuracy for mean, variance, and standard deviation
     /// (the only statistics they provide exact values for) and exceeds them
     /// in increased accuracy mode.
-    /// Recommendation: consider to use RunningStatistics instead.
+    /// Recommendation: consider to use RunningWeightedStatistics instead.
     /// </summary>
     /// <remarks>
     /// This type declares a DataContract for out of the box ephemeral serialization
@@ -50,10 +51,11 @@ namespace MathNet.Numerics.Statistics
     /// It is not recommended to rely on this mechanism for durable persistence.
     /// </remarks>
     [DataContract(Namespace = "urn:MathNet/Numerics")]
-    public class DescriptiveStatistics
+    public class WeightedDescriptiveStatistics
     {
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="DescriptiveStatistics"/> class.
+        /// Initializes a new instance of the <see cref="WeightedDescriptiveStatistics"/> class.
         /// </summary>
         /// <param name="data">The sample data.</param>
         /// <param name="increasedAccuracy">
@@ -64,25 +66,22 @@ namespace MathNet.Numerics.Statistics
         /// Don't use increased accuracy for data sets containing large values (in absolute value).
         /// This may cause the calculations to overflow.
         /// </remarks>
-        public DescriptiveStatistics(IEnumerable<double> data, bool increasedAccuracy = false)
+        public WeightedDescriptiveStatistics(IEnumerable<Tuple<double, double>> data, bool increasedAccuracy = false)
         {
             if (data == null)
             {
                 throw new ArgumentNullException(nameof(data));
             }
 
+            var data2 = data.Select(x => (x.Item1, x.Item2));
             if (increasedAccuracy)
-            {
-                ComputeDecimal(data);
-            }
+                ComputeDecimal(data2);
             else
-            {
-                Compute(data);
-            }
+                Compute(data2);
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DescriptiveStatistics"/> class.
+        /// Initializes a new instance of the <see cref="WeightedDescriptiveStatistics"/> class.
         /// </summary>
         /// <param name="data">The sample data.</param>
         /// <param name="increasedAccuracy">
@@ -93,7 +92,7 @@ namespace MathNet.Numerics.Statistics
         /// Don't use increased accuracy for data sets containing large values (in absolute value).
         /// This may cause the calculations to overflow.
         /// </remarks>
-        public DescriptiveStatistics(IEnumerable<double?> data, bool increasedAccuracy = false)
+        public WeightedDescriptiveStatistics(IEnumerable<(double, double)> data, bool increasedAccuracy = false)
         {
             if (data == null)
             {
@@ -101,15 +100,10 @@ namespace MathNet.Numerics.Statistics
             }
 
             if (increasedAccuracy)
-            {
                 ComputeDecimal(data);
-            }
             else
-            {
                 Compute(data);
-            }
         }
-
 #if NET5_0_OR_GREATER
         /// <summary>
         /// Initializes a new instance of the <see cref="DescriptiveStatistics"/> class.
@@ -163,7 +157,7 @@ namespace MathNet.Numerics.Statistics
         public double StandardDeviation { get; private set; }
 
         /// <summary>
-        /// Gets the sample skewness.
+        /// Gets the unbiased estimator of the population skewness.
         /// </summary>
         /// <value>The sample skewness.</value>
         /// <remarks>Returns zero if <see cref="Count"/> is less than three. </remarks>
@@ -174,7 +168,7 @@ namespace MathNet.Numerics.Statistics
         public double Skewness { get; private set; }
 
         /// <summary>
-        /// Gets the sample kurtosis.
+        /// Gets the unbiased estimator of the population excess kurtosis using the G_2 estimator.
         /// </summary>
         /// <value>The sample kurtosis.</value>
         /// <remarks>Returns zero if <see cref="Count"/> is less than four. </remarks>
@@ -204,11 +198,32 @@ namespace MathNet.Numerics.Statistics
 #endif
         public double Minimum { get; private set; }
 
+
         /// <summary>
-        /// Computes descriptive statistics from a stream of data values.
+        /// Gets the total weight. When used with unweighted data, returns the number of samples.
+        /// </summary>
+        /// <value>The total weight.</value>
+        [DataMember(Order = 9)]
+#if NET5_0_OR_GREATER
+        [JsonInclude]
+#endif
+        public double TotalWeight { get; private set; }
+
+        /// <summary>
+        /// The Kish's effective sample size https://en.wikipedia.org/wiki/Effective_sample_size
+        /// </summary>
+        /// <value>The Kish's effective sample size.</value>
+        [DataMember(Order = 10)]
+#if NET5_0_OR_GREATER
+        [JsonInclude]
+#endif
+        public double EffectiveSampleSize { get; private set; }
+
+        /// <summary>
+        /// Computes descriptive statistics from a stream of data values and reliability weights.
         /// </summary>
         /// <param name="data">A sequence of datapoints.</param>
-        void Compute(IEnumerable<double> data)
+        void Compute(IEnumerable<(double, double)> data)
         {
             double mean = 0;
             double variance = 0;
@@ -217,157 +232,43 @@ namespace MathNet.Numerics.Statistics
             double minimum = double.PositiveInfinity;
             double maximum = double.NegativeInfinity;
             long n = 0;
+            double totalWeight = 0;
+            double den = 0;
 
-            foreach (var xi in data)
+            double V2 = 0;
+            double V3 = 0;
+            double V4 = 0;
+
+            foreach (var (w, xi) in data)
             {
-                double delta = xi - mean;
-                double scaleDelta = delta / ++n;
-                double scaleDeltaSqr = scaleDelta * scaleDelta;
-                double tmpDelta = delta * (n - 1);
-
-                mean += scaleDelta;
-
-                kurtosis += tmpDelta * scaleDelta * scaleDeltaSqr * (n * n - 3 * n + 3)
-                            + 6 * scaleDeltaSqr * variance - 4 * scaleDelta * skewness;
-
-                skewness += tmpDelta * scaleDeltaSqr * (n - 2) - 3 * scaleDelta * variance;
-                variance += tmpDelta * scaleDelta;
-
-                if (minimum > xi)
+                if (w < 0)
                 {
-                    minimum = xi;
+                    throw new ArgumentOutOfRangeException(nameof(data), w, "Expected non-negative weighting of sample");
                 }
-
-                if (maximum < xi)
+                else if (w > 0)
                 {
-                    maximum = xi;
-                }
-            }
+                    ++n;
+                    double delta = xi - mean;
+                    double prevWeight = totalWeight;
+                    totalWeight += w;
+                    V2 += w * w;
+                    V3 += w * w * w;
+                    V4 += w * w * w * w;
 
-            SetStatistics(mean, variance, skewness, kurtosis, minimum, maximum, n);
-        }
+                    den += w * (2.0 * prevWeight - den) / totalWeight;
 
-        /// <summary>
-        /// Computes descriptive statistics from a stream of nullable data values.
-        /// </summary>
-        /// <param name="data">A sequence of datapoints.</param>
-        void Compute(IEnumerable<double?> data)
-        {
-            double mean = 0;
-            double variance = 0;
-            double skewness = 0;
-            double kurtosis = 0;
-            double minimum = double.PositiveInfinity;
-            double maximum = double.NegativeInfinity;
-            long n = 0;
-
-            foreach (var xi in data)
-            {
-                if (xi.HasValue)
-                {
-                    double delta = xi.Value - mean;
-                    double scaleDelta = delta / ++n;
+                    double scaleDelta = delta * w / totalWeight;
                     double scaleDeltaSqr = scaleDelta * scaleDelta;
-                    double tmpDelta = delta * (n - 1);
+                    double tmpDelta = delta * scaleDelta * prevWeight;
+                    double r = prevWeight / w;
 
                     mean += scaleDelta;
 
-                    kurtosis += tmpDelta * scaleDelta * scaleDeltaSqr * (n * n - 3 * n + 3)
-                                + 6 * scaleDeltaSqr * variance - 4 * scaleDelta * skewness;
+                    kurtosis += tmpDelta * scaleDeltaSqr * (r * r - r + 1.0)
+                                + 6.0 * scaleDeltaSqr * variance - 4.0 * scaleDelta * skewness;
 
-                    skewness += tmpDelta * scaleDeltaSqr * (n - 2) - 3 * scaleDelta * variance;
-                    variance += tmpDelta * scaleDelta;
-
-                    if (minimum > xi)
-                    {
-                        minimum = xi.Value;
-                    }
-
-                    if (maximum < xi)
-                    {
-                        maximum = xi.Value;
-                    }
-                }
-            }
-
-            SetStatistics(mean, variance, skewness, kurtosis, minimum, maximum, n);
-        }
-
-        /// <summary>
-        /// Computes descriptive statistics from a stream of data values.
-        /// </summary>
-        /// <param name="data">A sequence of datapoints.</param>
-        void ComputeDecimal(IEnumerable<double> data)
-        {
-            decimal mean = 0;
-            decimal variance = 0;
-            decimal skewness = 0;
-            decimal kurtosis = 0;
-            decimal minimum = decimal.MaxValue;
-            decimal maximum = decimal.MinValue;
-            long n = 0;
-
-            foreach (double x in data)
-            {
-                decimal xi = (decimal)x;
-                decimal delta = xi - mean;
-                decimal scaleDelta = delta / ++n;
-                decimal scaleDelta2 = scaleDelta * scaleDelta;
-                decimal tmpDelta = delta * (n - 1);
-
-                mean += scaleDelta;
-
-                kurtosis += tmpDelta * scaleDelta * scaleDelta2 * (n * n - 3 * n + 3)
-                            + 6 * scaleDelta2 * variance - 4 * scaleDelta * skewness;
-
-                skewness += tmpDelta * scaleDelta2 * (n - 2) - 3 * scaleDelta * variance;
-                variance += tmpDelta * scaleDelta;
-
-                if (minimum > xi)
-                {
-                    minimum = xi;
-                }
-
-                if (maximum < xi)
-                {
-                    maximum = xi;
-                }
-            }
-
-            SetStatistics((double)mean, (double)variance, (double)skewness, (double)kurtosis, (double)minimum, (double)maximum, n);
-        }
-
-        /// <summary>
-        /// Computes descriptive statistics from a stream of nullable data values.
-        /// </summary>
-        /// <param name="data">A sequence of datapoints.</param>
-        void ComputeDecimal(IEnumerable<double?> data)
-        {
-            decimal mean = 0;
-            decimal variance = 0;
-            decimal skewness = 0;
-            decimal kurtosis = 0;
-            decimal minimum = decimal.MaxValue;
-            decimal maximum = decimal.MinValue;
-            long n = 0;
-
-            foreach (double? x in data)
-            {
-                if (x.HasValue)
-                {
-                    decimal xi = (decimal)x.Value;
-                    decimal delta = xi - mean;
-                    decimal scaleDelta = delta / ++n;
-                    decimal scaleDeltaSquared = scaleDelta * scaleDelta;
-                    decimal tmpDelta = delta * (n - 1);
-
-                    mean += scaleDelta;
-
-                    kurtosis += tmpDelta * scaleDelta * scaleDeltaSquared * (n * n - 3 * n + 3)
-                                + 6 * scaleDeltaSquared * variance - 4 * scaleDelta * skewness;
-
-                    skewness += tmpDelta * scaleDeltaSquared * (n - 2) - 3 * scaleDelta * variance;
-                    variance += tmpDelta * scaleDelta;
+                    skewness += tmpDelta * scaleDelta * (r - 1.0) - 3.0 * scaleDelta * variance;
+                    variance += tmpDelta;
 
                     if (minimum > xi)
                     {
@@ -381,7 +282,74 @@ namespace MathNet.Numerics.Statistics
                 }
             }
 
-            SetStatistics((double)mean, (double)variance, (double)skewness, (double)kurtosis, (double)minimum, (double)maximum, n);
+            SetStatisticsWeighted(mean, variance, skewness, kurtosis, minimum, maximum, n, totalWeight, den, V2, V3, V4);
+        }
+
+        /// <summary>
+        /// Computes descriptive statistics from a stream of data values and reliability weights.
+        /// </summary>
+        /// <param name="data">A sequence of datapoints.</param>
+        void ComputeDecimal(IEnumerable<(double, double)> data)
+        {
+            decimal mean = 0;
+            decimal variance = 0;
+            decimal skewness = 0;
+            decimal kurtosis = 0;
+            decimal minimum = decimal.MaxValue;
+            decimal maximum = decimal.MinValue;
+            decimal totalWeight = 0;
+            long n = 0;
+            decimal den = 0;
+
+            decimal V2 = 0;
+            decimal V3 = 0;
+            decimal V4 = 0;
+
+            foreach (var (w, x) in data)
+            {
+                if (w < 0)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(data), w, "Expected non-negative weighting of sample");
+                }
+                else if (w > 0)
+                {
+
+                    decimal xi = (decimal)x;
+                    decimal decW = (decimal)w;
+                    ++n;
+                    decimal delta = xi - mean;
+                    decimal prevWeight = totalWeight;
+                    totalWeight += decW;
+                    V2 += decW * decW;
+                    V3 += decW * decW * decW;
+                    V4 += decW * decW * decW * decW;
+                    den += decW * (2.0m * prevWeight - den) / totalWeight;
+                    decimal scaleDelta = delta * decW / totalWeight;
+                    decimal scaleDeltaSqr = scaleDelta * scaleDelta;
+                    decimal tmpDelta = delta * scaleDelta * prevWeight;
+                    decimal r = prevWeight / decW;
+
+                    mean += scaleDelta;
+
+                    kurtosis += tmpDelta * scaleDeltaSqr * (r * r - r + 1.0m)
+                                + 6.0m * scaleDeltaSqr * variance - 4.0m * scaleDelta * skewness;
+
+                    skewness += tmpDelta * scaleDelta * (r - 1.0m) - 3.0m * scaleDelta * variance;
+                    variance += tmpDelta;
+
+                    if (minimum > xi)
+                    {
+                        minimum = xi;
+                    }
+
+                    if (maximum < xi)
+                    {
+                        maximum = xi;
+                    }
+                }
+            }
+
+            SetStatisticsWeighted((double)mean, (double)variance, (double)skewness, (double)kurtosis, (double)minimum, (double)maximum, n, (double)totalWeight, (double)den, (double)V2, (double)V3, (double)V4);
         }
 
         /// <summary>
@@ -394,11 +362,12 @@ namespace MathNet.Numerics.Statistics
         /// <param name="minimum">For setting Minimum.</param>
         /// <param name="maximum">For setting Maximum.</param>
         /// <param name="n">For setting Count.</param>
-        void SetStatistics(double mean, double variance, double skewness, double kurtosis, double minimum, double maximum, long n)
+        void SetStatisticsWeighted(double mean, double variance, double skewness, double kurtosis, double minimum, double maximum, long n, double w1, double den, double w2, double w3, double w4)
         {
             Mean = mean;
             Count = n;
-
+            TotalWeight = w1;
+            EffectiveSampleSize = w1 * w1 / w2;
             Minimum = double.NaN;
             Maximum = double.NaN;
             Variance = double.NaN;
@@ -413,7 +382,7 @@ namespace MathNet.Numerics.Statistics
 
                 if (n > 1)
                 {
-                    Variance = variance / (n - 1);
+                    Variance = variance / den;
                     StandardDeviation = Math.Sqrt(Variance);
                 }
 
@@ -421,13 +390,19 @@ namespace MathNet.Numerics.Statistics
                 {
                     if (n > 2)
                     {
-                        Skewness = (double)n / ((n - 1) * (n - 2)) * (skewness / (Variance * StandardDeviation));
+                        var skewDen = (w1 * (w1 * w1 - 3.0 * w2) + 2.0 * w3) / (w1 * w1);
+                        Skewness = skewness / (skewDen * Variance * StandardDeviation);
                     }
 
                     if (n > 3)
                     {
-                        Kurtosis = ((double)n * n - 1) / ((n - 2) * (n - 3))
-                                   * (n * kurtosis / (variance * variance) - 3 + 6.0 / (n + 1));
+                        double p2 = w1 * w1;
+                        double p4 = p2 * p2;
+                        double w2p2 = w2 * w2;
+                        double poly = p4 - 6.0 * p2 * w2 + 8.0 * w1 * w3 + 3.0 * w2p2 - 6.0 * w4;
+                        double a = p4 - 4.0 * w1 * w3 + 3.0 * w2p2;
+                        double b = 3.0 * (p4 - 2.0 * p2 * w2 + 4.0 * w1 * w3 - 3.0 * w2p2);
+                        Kurtosis = (a * w1 * kurtosis / (variance * variance) - b) * (den / (w1 * poly));
                     }
                 }
             }
