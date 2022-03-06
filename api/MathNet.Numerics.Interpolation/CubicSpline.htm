@@ -193,11 +193,13 @@
 				<li><a href="../MathNet.Numerics.Interpolation/CubicSpline.htm#Differentiate">Differentiate</a></li>
 				<li><a href="../MathNet.Numerics.Interpolation/CubicSpline.htm#Differentiate2">Differentiate2</a></li>
 				<li><a href="../MathNet.Numerics.Interpolation/CubicSpline.htm#Equals">Equals</a></li>
+				<li><a href="../MathNet.Numerics.Interpolation/CubicSpline.htm#Extrema">Extrema</a></li>
 				<li><a href="../MathNet.Numerics.Interpolation/CubicSpline.htm#GetHashCode">GetHashCode</a></li>
 				<li><a href="../MathNet.Numerics.Interpolation/CubicSpline.htm#GetType">GetType</a></li>
 				<li><a href="../MathNet.Numerics.Interpolation/CubicSpline.htm#Integrate">Integrate</a></li>
 				<li><a href="../MathNet.Numerics.Interpolation/CubicSpline.htm#Integrate">Integrate</a></li>
 				<li><a href="../MathNet.Numerics.Interpolation/CubicSpline.htm#Interpolate">Interpolate</a></li>
+				<li><a href="../MathNet.Numerics.Interpolation/CubicSpline.htm#StationaryPoints">StationaryPoints</a></li>
 				<li><a href="../MathNet.Numerics.Interpolation/CubicSpline.htm#ToString">ToString</a></li>
 			</ul>
 		
@@ -436,6 +438,20 @@ Monotone-preserving interpolation with continuous first derivative.
       
     </div>
 	</div>
+	<div id="Extrema" class="method">
+		<h4><span title="System.Tuple<double, double>">Tuple&lt;double, double&gt;</span> <strong>Extrema</strong>()</h4>
+		<div class="content">Returns the t values in the domain of the spline for which it takes the minimum and maximum value. 
+
+
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.Tuple<double, double>">Tuple&lt;double, double&gt;</span></code></h6>
+        <p>A tuple containing the t value for which the spline is minimum in the first component and maximum in the second component </p>
+      </div>
+      
+    </div>
+	</div>
 	<div id="GetHashCode" class="method">
 		<h4><span title="System.int">int</span> <strong>GetHashCode</strong>()</h4>
 		<div class="content">
@@ -502,6 +518,21 @@ Monotone-preserving interpolation with continuous first derivative.
         <h5>Return</h5>
         <h6><code><span title="System.double">double</span></code></h6>
         <p>Interpolated value x(t). </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="StationaryPoints" class="method">
+		<h4><span title="System.Double[]">Double[]</span> <strong>StationaryPoints</strong>()</h4>
+		<div class="content">Gets all the t values where the derivative is 0
+see: https://mathworld.wolfram.com/StationaryPoint.html 
+
+
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.Double[]">Double[]</span></code></h6>
+        <p>An array of t values (in the domain of the function) where the derivative of the spline is 0 </p>
       </div>
       
     </div>

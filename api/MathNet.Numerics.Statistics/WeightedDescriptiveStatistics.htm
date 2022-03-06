@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <title>RunningStatistics - Math.NET Numerics Documentation</title>
+    <title>WeightedDescriptiveStatistics - Math.NET Numerics Documentation</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link type="text/css" rel="stylesheet" href="../main.css"/>
     <script type="text/javascript" src="../js/jquery-1.3.2.min.js"></script>
@@ -146,7 +146,7 @@
             <a href="../MathNet.Numerics.Statistics/RankDefinition.htm">RankDefinition</a>
         </li>
 				<li>
-            <a href="../MathNet.Numerics.Statistics/RunningStatistics.htm" class="current">RunningStatistics</a>
+            <a href="../MathNet.Numerics.Statistics/RunningStatistics.htm">RunningStatistics</a>
         </li>
 				<li>
             <a href="../MathNet.Numerics.Statistics/RunningWeightedStatistics.htm">RunningWeightedStatistics</a>
@@ -161,18 +161,21 @@
             <a href="../MathNet.Numerics.Statistics/StreamingStatistics.htm">StreamingStatistics</a>
         </li>
 				<li>
-            <a href="../MathNet.Numerics.Statistics/WeightedDescriptiveStatistics.htm">WeightedDescriptiveStatistics</a>
+            <a href="../MathNet.Numerics.Statistics/WeightedDescriptiveStatistics.htm" class="current">WeightedDescriptiveStatistics</a>
         </li>
 		</ul>
 	</div>
 </div>
     <div class="header">
-		<p class="class"><strong>Type</strong> RunningStatistics</p>
+		<p class="class"><strong>Type</strong> WeightedDescriptiveStatistics</p>
 		<p><strong>Namespace</strong> MathNet.Numerics.Statistics</p>
 	</div>
     <div class="sub-header">
-			<div id="summary">Running statistics accumulator, allows updating by adding values
-or by combining two accumulators. <blockquote class="remarks">
+			<div id="summary">Computes the basic statistics of data set. The class meets the
+NIST standard of accuracy for mean, variance, and standard deviation
+(the only statistics they provide exact values for) and exceeds them
+in increased accuracy mode.
+Recommendation: consider to use RunningWeightedStatistics instead. <blockquote class="remarks">
   This type declares a DataContract for out of the box ephemeral serialization
 with engines like DataContractSerializer, Protocol Buffers and FsPickler,
 but does not guarantee any compatibility between versions.
@@ -182,39 +185,30 @@ It is not recommended to rely on this mechanism for durable persistence.
 		
 			<h3 class="section">Constructors</h3>
 			<ul>
-				<li><a href="../MathNet.Numerics.Statistics/RunningStatistics.htm#.ctor">RunningStatistics</a></li>
-				<li><a href="../MathNet.Numerics.Statistics/RunningStatistics.htm#.ctor">RunningStatistics</a></li>
+				<li><a href="../MathNet.Numerics.Statistics/WeightedDescriptiveStatistics.htm#.ctor">WeightedDescriptiveStatistics</a></li>
 			</ul>
 
-			<h3 class="section">Static Functions</h3>
-			<ul>
-				<li><a href="../MathNet.Numerics.Statistics/RunningStatistics.htm#Combine">Combine</a></li>
-			</ul>
 			<h3 class="section">Methods</h3>
 			<ul>
-				<li><a href="../MathNet.Numerics.Statistics/RunningStatistics.htm#Equals">Equals</a></li>
-				<li><a href="../MathNet.Numerics.Statistics/RunningStatistics.htm#GetHashCode">GetHashCode</a></li>
-				<li><a href="../MathNet.Numerics.Statistics/RunningStatistics.htm#GetType">GetType</a></li>
-				<li><a href="../MathNet.Numerics.Statistics/RunningStatistics.htm#Push">Push</a></li>
-				<li><a href="../MathNet.Numerics.Statistics/RunningStatistics.htm#PushRange">PushRange</a></li>
-				<li><a href="../MathNet.Numerics.Statistics/RunningStatistics.htm#ToString">ToString</a></li>
+				<li><a href="../MathNet.Numerics.Statistics/WeightedDescriptiveStatistics.htm#Equals">Equals</a></li>
+				<li><a href="../MathNet.Numerics.Statistics/WeightedDescriptiveStatistics.htm#GetHashCode">GetHashCode</a></li>
+				<li><a href="../MathNet.Numerics.Statistics/WeightedDescriptiveStatistics.htm#GetType">GetType</a></li>
+				<li><a href="../MathNet.Numerics.Statistics/WeightedDescriptiveStatistics.htm#ToString">ToString</a></li>
 			</ul>
 		
 
 			<h3 class="section">Properties</h3>
 			<ul>
-				<li><a href="../MathNet.Numerics.Statistics/RunningStatistics.htm#Count">Count</a></li>
-				<li><a href="../MathNet.Numerics.Statistics/RunningStatistics.htm#Kurtosis">Kurtosis</a></li>
-				<li><a href="../MathNet.Numerics.Statistics/RunningStatistics.htm#Maximum">Maximum</a></li>
-				<li><a href="../MathNet.Numerics.Statistics/RunningStatistics.htm#Mean">Mean</a></li>
-				<li><a href="../MathNet.Numerics.Statistics/RunningStatistics.htm#Minimum">Minimum</a></li>
-				<li><a href="../MathNet.Numerics.Statistics/RunningStatistics.htm#PopulationKurtosis">PopulationKurtosis</a></li>
-				<li><a href="../MathNet.Numerics.Statistics/RunningStatistics.htm#PopulationSkewness">PopulationSkewness</a></li>
-				<li><a href="../MathNet.Numerics.Statistics/RunningStatistics.htm#PopulationStandardDeviation">PopulationStandardDeviation</a></li>
-				<li><a href="../MathNet.Numerics.Statistics/RunningStatistics.htm#PopulationVariance">PopulationVariance</a></li>
-				<li><a href="../MathNet.Numerics.Statistics/RunningStatistics.htm#Skewness">Skewness</a></li>
-				<li><a href="../MathNet.Numerics.Statistics/RunningStatistics.htm#StandardDeviation">StandardDeviation</a></li>
-				<li><a href="../MathNet.Numerics.Statistics/RunningStatistics.htm#Variance">Variance</a></li>
+				<li><a href="../MathNet.Numerics.Statistics/WeightedDescriptiveStatistics.htm#Count">Count</a></li>
+				<li><a href="../MathNet.Numerics.Statistics/WeightedDescriptiveStatistics.htm#EffectiveSampleSize">EffectiveSampleSize</a></li>
+				<li><a href="../MathNet.Numerics.Statistics/WeightedDescriptiveStatistics.htm#Kurtosis">Kurtosis</a></li>
+				<li><a href="../MathNet.Numerics.Statistics/WeightedDescriptiveStatistics.htm#Maximum">Maximum</a></li>
+				<li><a href="../MathNet.Numerics.Statistics/WeightedDescriptiveStatistics.htm#Mean">Mean</a></li>
+				<li><a href="../MathNet.Numerics.Statistics/WeightedDescriptiveStatistics.htm#Minimum">Minimum</a></li>
+				<li><a href="../MathNet.Numerics.Statistics/WeightedDescriptiveStatistics.htm#Skewness">Skewness</a></li>
+				<li><a href="../MathNet.Numerics.Statistics/WeightedDescriptiveStatistics.htm#StandardDeviation">StandardDeviation</a></li>
+				<li><a href="../MathNet.Numerics.Statistics/WeightedDescriptiveStatistics.htm#TotalWeight">TotalWeight</a></li>
+				<li><a href="../MathNet.Numerics.Statistics/WeightedDescriptiveStatistics.htm#Variance">Variance</a></li>
 			</ul>
 		
 	</div>
@@ -223,35 +217,27 @@ It is not recommended to rely on this mechanism for durable persistence.
 	<h3 class="section">Public Constructors</h3>
 	
 	<div id=".ctor" class="method">
-		<h4> <strong>RunningStatistics</strong>()</h4>
-		<div class="content">
+		<h4> <strong>WeightedDescriptiveStatistics</strong>(<span title="System.Collections.Generic.IEnumerable<Tuple<double, double>>">IEnumerable&lt;Tuple&lt;double, double&gt;&gt;</span> data, <span title="System.bool">bool</span> increasedAccuracy)</h4>
+		<div class="content">Initializes a new instance of the  <a href="../MathNet.Numerics.Statistics/WeightedDescriptiveStatistics.htm">WeightedDescriptiveStatistics</a>  class. <blockquote class="remarks">
+  Don't use increased accuracy for data sets containing large values (in absolute value).
+This may cause the calculations to overflow. 
+</blockquote>
 
 
+      <div class="parameters">
+        <h5>Parameters</h5>
 
-      
-    </div>
-	</div>
-	<div id=".ctor" class="method">
-		<h4> <strong>RunningStatistics</strong>(<span title="System.Collections.Generic.IEnumerable<double>">IEnumerable&lt;double&gt;</span> values)</h4>
-		<div class="content">
-
-
+          <h6><code><span title="System.Collections.Generic.IEnumerable<Tuple<double, double>>">IEnumerable&lt;Tuple&lt;double, double&gt;&gt;</span></code> data</h6>
+          <p class="comments">The sample data. </p>
+          <h6><code><span title="System.bool">bool</span></code> increasedAccuracy</h6>
+          <p class="comments">If set to  <code>true</code> , increased accuracy mode used.
+Increased accuracy mode uses  <a href="../System/Decimal.htm">Decimal</a>  types for internal calculations. </p>
+      </div>
 
       
     </div>
 	</div>
 	
-	<h3 class="section">Public Static Functions</h3>
-	
-	<div id="Combine" class="method">
-		<h4><a href="../MathNet.Numerics.Statistics/RunningStatistics.htm">RunningStatistics</a> <strong>Combine</strong>(<a href="../MathNet.Numerics.Statistics/RunningStatistics.htm">RunningStatistics</a> a, <a href="../MathNet.Numerics.Statistics/RunningStatistics.htm">RunningStatistics</a> b)</h4>
-		<div class="content">Create a new running statistics over the combined samples of two existing running statistics. 
-
-
-
-      
-    </div>
-	</div>
 
 	<h3 class="section">Public Methods</h3>
 	
@@ -282,24 +268,6 @@ It is not recommended to rely on this mechanism for durable persistence.
       
     </div>
 	</div>
-	<div id="Push" class="method">
-		<h4><span title="System.void">void</span> <strong>Push</strong>(<span title="System.double">double</span> value)</h4>
-		<div class="content">Update the running statistics by adding another observed sample (in-place). 
-
-
-
-      
-    </div>
-	</div>
-	<div id="PushRange" class="method">
-		<h4><span title="System.void">void</span> <strong>PushRange</strong>(<span title="System.Collections.Generic.IEnumerable<double>">IEnumerable&lt;double&gt;</span> values)</h4>
-		<div class="content">Update the running statistics by adding a sequence of observed sample (in-place). 
-
-
-
-      
-    </div>
-	</div>
 	<div id="ToString" class="method">
 		<h4><span title="System.string">string</span> <strong>ToString</strong>()</h4>
 		<div class="content">
@@ -313,94 +281,87 @@ It is not recommended to rely on this mechanism for durable persistence.
   <h3 class="section">Public Properties</h3>
 
   <div id="Count" class="method">
-    <h4><span title="System.long">long</span> <strong>Count</strong> get; </h4>
-    <div class="content">Gets the total number of samples. 
-      
+    <h4><span title="System.long">long</span> <strong>Count</strong> get; set;</h4>
+    <div class="content">Gets the size of the sample. 
+      <blockquote class="value">
+  <strong>Value: </strong>
+</blockquote>
+    </div>
+  </div>
+  <div id="EffectiveSampleSize" class="method">
+    <h4><span title="System.double">double</span> <strong>EffectiveSampleSize</strong> get; set;</h4>
+    <div class="content">The Kish's effective sample size https://en.wikipedia.org/wiki/Effective_sample_size 
+      <blockquote class="value">
+  <strong>Value: </strong>
+</blockquote>
     </div>
   </div>
   <div id="Kurtosis" class="method">
-    <h4><span title="System.double">double</span> <strong>Kurtosis</strong> get; </h4>
-    <div class="content">Estimates the unbiased population excess kurtosis from the provided samples.
-Uses a normalizer (Bessel's correction; type 2).
-Returns NaN if data has less than four entries or if any entry is NaN. 
-      
+    <h4><span title="System.double">double</span> <strong>Kurtosis</strong> get; set;</h4>
+    <div class="content">Gets the unbiased estimator of the population excess kurtosis using the G_2 estimator. <blockquote class="remarks">
+  Returns zero if  <a href="../MathNet.Numerics.Statistics/WeightedDescriptiveStatistics.htm#Count">Count</a>  is less than four. 
+</blockquote>
+      <blockquote class="value">
+  <strong>Value: </strong>
+</blockquote>
     </div>
   </div>
   <div id="Maximum" class="method">
-    <h4><span title="System.double">double</span> <strong>Maximum</strong> get; </h4>
-    <div class="content">Returns the maximum value in the sample data.
-Returns NaN if data is empty or if any entry is NaN. 
-      
+    <h4><span title="System.double">double</span> <strong>Maximum</strong> get; set;</h4>
+    <div class="content">Gets the maximum sample value. 
+      <blockquote class="value">
+  <strong>Value: </strong>
+</blockquote>
     </div>
   </div>
   <div id="Mean" class="method">
-    <h4><span title="System.double">double</span> <strong>Mean</strong> get; </h4>
-    <div class="content">Evaluates the sample mean, an estimate of the population mean.
-Returns NaN if data is empty or if any entry is NaN. 
-      
+    <h4><span title="System.double">double</span> <strong>Mean</strong> get; set;</h4>
+    <div class="content">Gets the sample mean. 
+      <blockquote class="value">
+  <strong>Value: </strong>
+</blockquote>
     </div>
   </div>
   <div id="Minimum" class="method">
-    <h4><span title="System.double">double</span> <strong>Minimum</strong> get; </h4>
-    <div class="content">Returns the minimum value in the sample data.
-Returns NaN if data is empty or if any entry is NaN. 
-      
-    </div>
-  </div>
-  <div id="PopulationKurtosis" class="method">
-    <h4><span title="System.double">double</span> <strong>PopulationKurtosis</strong> get; </h4>
-    <div class="content">Evaluates the population excess kurtosis from the full population.
-Does not use a normalizer and would thus be biased if applied to a subset (type 1).
-Returns NaN if data has less than three entries or if any entry is NaN. 
-      
-    </div>
-  </div>
-  <div id="PopulationSkewness" class="method">
-    <h4><span title="System.double">double</span> <strong>PopulationSkewness</strong> get; </h4>
-    <div class="content">Evaluates the population skewness from the full population.
-Does not use a normalizer and would thus be biased if applied to a subset (type 1).
-Returns NaN if data has less than two entries or if any entry is NaN. 
-      
-    </div>
-  </div>
-  <div id="PopulationStandardDeviation" class="method">
-    <h4><span title="System.double">double</span> <strong>PopulationStandardDeviation</strong> get; </h4>
-    <div class="content">Evaluates the standard deviation from the provided full population.
-On a dataset of size N will use an N normalizer and would thus be biased if applied to a subset.
-Returns NaN if data is empty or if any entry is NaN. 
-      
-    </div>
-  </div>
-  <div id="PopulationVariance" class="method">
-    <h4><span title="System.double">double</span> <strong>PopulationVariance</strong> get; </h4>
-    <div class="content">Evaluates the variance from the provided full population.
-On a dataset of size N will use an N normalizer and would thus be biased if applied to a subset.
-Returns NaN if data is empty or if any entry is NaN. 
-      
+    <h4><span title="System.double">double</span> <strong>Minimum</strong> get; set;</h4>
+    <div class="content">Gets the minimum sample value. 
+      <blockquote class="value">
+  <strong>Value: </strong>
+</blockquote>
     </div>
   </div>
   <div id="Skewness" class="method">
-    <h4><span title="System.double">double</span> <strong>Skewness</strong> get; </h4>
-    <div class="content">Estimates the unbiased population skewness from the provided samples.
-Uses a normalizer (Bessel's correction; type 2).
-Returns NaN if data has less than three entries or if any entry is NaN. 
-      
+    <h4><span title="System.double">double</span> <strong>Skewness</strong> get; set;</h4>
+    <div class="content">Gets the unbiased estimator of the population skewness. <blockquote class="remarks">
+  Returns zero if  <a href="../MathNet.Numerics.Statistics/WeightedDescriptiveStatistics.htm#Count">Count</a>  is less than three. 
+</blockquote>
+      <blockquote class="value">
+  <strong>Value: </strong>
+</blockquote>
     </div>
   </div>
   <div id="StandardDeviation" class="method">
-    <h4><span title="System.double">double</span> <strong>StandardDeviation</strong> get; </h4>
-    <div class="content">Estimates the unbiased population standard deviation from the provided samples.
-On a dataset of size N will use an N-1 normalizer (Bessel's correction).
-Returns NaN if data has less than two entries or if any entry is NaN. 
-      
+    <h4><span title="System.double">double</span> <strong>StandardDeviation</strong> get; set;</h4>
+    <div class="content">Gets the unbiased population standard deviation (on a dataset of size N will use an N-1 normalizer). 
+      <blockquote class="value">
+  <strong>Value: </strong>
+</blockquote>
+    </div>
+  </div>
+  <div id="TotalWeight" class="method">
+    <h4><span title="System.double">double</span> <strong>TotalWeight</strong> get; set;</h4>
+    <div class="content">Gets the total weight. When used with unweighted data, returns the number of samples. 
+      <blockquote class="value">
+  <strong>Value: </strong>
+</blockquote>
     </div>
   </div>
   <div id="Variance" class="method">
-    <h4><span title="System.double">double</span> <strong>Variance</strong> get; </h4>
-    <div class="content">Estimates the unbiased population variance from the provided samples.
-On a dataset of size N will use an N-1 normalizer (Bessel's correction).
-Returns NaN if data has less than two entries or if any entry is NaN. 
-      
+    <h4><span title="System.double">double</span> <strong>Variance</strong> get; set;</h4>
+    <div class="content">Gets the unbiased population variance estimator (on a dataset of size N will use an N-1 normalizer). 
+      <blockquote class="value">
+  <strong>Value: </strong>
+</blockquote>
     </div>
   </div>
 	<div id="footer">

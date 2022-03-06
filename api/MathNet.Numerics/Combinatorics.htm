@@ -244,6 +244,7 @@
 				<li><a href="../MathNet.Numerics/Combinatorics.htm#GenerateCombinationWithRepetition">GenerateCombinationWithRepetition</a></li>
 				<li><a href="../MathNet.Numerics/Combinatorics.htm#GeneratePermutation">GeneratePermutation</a></li>
 				<li><a href="../MathNet.Numerics/Combinatorics.htm#GenerateVariation">GenerateVariation</a></li>
+				<li><a href="../MathNet.Numerics/Combinatorics.htm#GenerateVariation">GenerateVariation</a></li>
 				<li><a href="../MathNet.Numerics/Combinatorics.htm#GenerateVariationWithRepetition">GenerateVariationWithRepetition</a></li>
 				<li><a href="../MathNet.Numerics/Combinatorics.htm#Permutations">Permutations</a></li>
 				<li><a href="../MathNet.Numerics/Combinatorics.htm#SelectCombination``1">SelectCombination&lt;T&gt;</a></li>
@@ -311,8 +312,8 @@ The order does not matter and an object can be chosen more than once.
     </div>
 	</div>
 	<div id="GenerateCombination" class="method">
-		<h4><span title="System.Boolean[]">Boolean[]</span> <strong>GenerateCombination</strong>(<span title="System.int">int</span> n, <span title="System.int">int</span> k, <span title="System.Random">Random</span> randomSource)</h4>
-		<div class="content">Generate a random combination, without repetition, by randomly selecting k of N elements. 
+		<h4><span title="System.Boolean[]">Boolean[]</span> <strong>GenerateCombination</strong>(<span title="System.int">int</span> n, <span title="System.Random">Random</span> randomSource)</h4>
+		<div class="content">Generate a random combination, without repetition, by randomly selecting some of N elements. 
 
 
       <div class="parameters">
@@ -320,8 +321,6 @@ The order does not matter and an object can be chosen more than once.
 
           <h6><code><span title="System.int">int</span></code> n</h6>
           <p class="comments">Number of elements in the set. </p>
-          <h6><code><span title="System.int">int</span></code> k</h6>
-          <p class="comments">Number of elements to choose from the set. Each element is chosen at most once. </p>
           <h6><code><span title="System.Random">Random</span></code> randomSource</h6>
           <p class="comments">The random number generator to use. Optional; the default random source will be used if null. </p>
       </div>
@@ -335,8 +334,8 @@ The order does not matter and an object can be chosen more than once.
     </div>
 	</div>
 	<div id="GenerateCombination" class="method">
-		<h4><span title="System.Boolean[]">Boolean[]</span> <strong>GenerateCombination</strong>(<span title="System.int">int</span> n, <span title="System.Random">Random</span> randomSource)</h4>
-		<div class="content">Generate a random combination, without repetition, by randomly selecting some of N elements. 
+		<h4><span title="System.Boolean[]">Boolean[]</span> <strong>GenerateCombination</strong>(<span title="System.int">int</span> n, <span title="System.int">int</span> k, <span title="System.Random">Random</span> randomSource)</h4>
+		<div class="content">Generate a random combination, without repetition, by randomly selecting k of N elements. 
 
 
       <div class="parameters">
@@ -344,6 +343,8 @@ The order does not matter and an object can be chosen more than once.
 
           <h6><code><span title="System.int">int</span></code> n</h6>
           <p class="comments">Number of elements in the set. </p>
+          <h6><code><span title="System.int">int</span></code> k</h6>
+          <p class="comments">Number of elements to choose from the set. Each element is chosen at most once. </p>
           <h6><code><span title="System.Random">Random</span></code> randomSource</h6>
           <p class="comments">The random number generator to use. Optional; the default random source will be used if null. </p>
       </div>
@@ -423,6 +424,30 @@ Implemented using partial Fisher-Yates Shuffling.
       <div class="return">
         <h5>Return</h5>
         <h6><code><span title="System.Int32[]">Int32[]</span></code></h6>
+        <p>An array of length  <code>K</code>  that contains the indices of the selections as integers of the interval  <code>[0, N)</code>. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="GenerateVariation" class="method">
+		<h4><span title="System.Numerics.BigInteger[]">BigInteger[]</span> <strong>GenerateVariation</strong>(<span title="System.Numerics.BigInteger">BigInteger</span> n, <span title="System.int">int</span> k, <span title="System.Random">Random</span> randomSource)</h4>
+		<div class="content">Generate a random variation, without repetition, by randomly selecting k of n elements with order. This is an O(k) space-complexity implementation optimized for very large N. The space complexity of Fisher-Yates Shuffling is O(n+k). When N is very large, the algorithm will be unexecutable in limited memory, and a more memory-efficient algorithm is needed. You can explicitly cast N to  <span title="System.Numerics.BigInteger">BigInteger</span>  if N is out of range of  <span title="System.Int32">Int32</span>  or memory, so that this special implementation is called. However, this implementation is slower than Fisher-Yates Shuffling: don't call it if time is more critical than space. The K of type  <span title="System.Numerics.BigInteger">BigInteger</span>  seems impossible, because the returned array is of size K and must all be stored in memory. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Numerics.BigInteger">BigInteger</span></code> n</h6>
+          <p class="comments">Number of elements in the set. </p>
+          <h6><code><span title="System.int">int</span></code> k</h6>
+          <p class="comments">Number of elements to choose from the set. Each element is chosen at most once. </p>
+          <h6><code><span title="System.Random">Random</span></code> randomSource</h6>
+          <p class="comments">The random number generator to use. Optional; the default random source will be used if null. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.Numerics.BigInteger[]">BigInteger[]</span></code></h6>
         <p>An array of length  <code>K</code>  that contains the indices of the selections as integers of the interval  <code>[0, N)</code>. </p>
       </div>
       

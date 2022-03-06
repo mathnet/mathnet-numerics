@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <title>RunningStatistics - Math.NET Numerics Documentation</title>
+    <title>RunningWeightedStatistics - Math.NET Numerics Documentation</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link type="text/css" rel="stylesheet" href="../main.css"/>
     <script type="text/javascript" src="../js/jquery-1.3.2.min.js"></script>
@@ -146,10 +146,10 @@
             <a href="../MathNet.Numerics.Statistics/RankDefinition.htm">RankDefinition</a>
         </li>
 				<li>
-            <a href="../MathNet.Numerics.Statistics/RunningStatistics.htm" class="current">RunningStatistics</a>
+            <a href="../MathNet.Numerics.Statistics/RunningStatistics.htm">RunningStatistics</a>
         </li>
 				<li>
-            <a href="../MathNet.Numerics.Statistics/RunningWeightedStatistics.htm">RunningWeightedStatistics</a>
+            <a href="../MathNet.Numerics.Statistics/RunningWeightedStatistics.htm" class="current">RunningWeightedStatistics</a>
         </li>
 				<li>
             <a href="../MathNet.Numerics.Statistics/SortedArrayStatistics.htm">SortedArrayStatistics</a>
@@ -167,12 +167,12 @@
 	</div>
 </div>
     <div class="header">
-		<p class="class"><strong>Type</strong> RunningStatistics</p>
+		<p class="class"><strong>Type</strong> RunningWeightedStatistics</p>
 		<p><strong>Namespace</strong> MathNet.Numerics.Statistics</p>
 	</div>
     <div class="sub-header">
-			<div id="summary">Running statistics accumulator, allows updating by adding values
-or by combining two accumulators. <blockquote class="remarks">
+			<div id="summary">Running weighted statistics accumulator, allows updating by adding values
+or by combining two accumulators. Weights are reliability weights, not frequency weights. <blockquote class="remarks">
   This type declares a DataContract for out of the box ephemeral serialization
 with engines like DataContractSerializer, Protocol Buffers and FsPickler,
 but does not guarantee any compatibility between versions.
@@ -182,39 +182,42 @@ It is not recommended to rely on this mechanism for durable persistence.
 		
 			<h3 class="section">Constructors</h3>
 			<ul>
-				<li><a href="../MathNet.Numerics.Statistics/RunningStatistics.htm#.ctor">RunningStatistics</a></li>
-				<li><a href="../MathNet.Numerics.Statistics/RunningStatistics.htm#.ctor">RunningStatistics</a></li>
+				<li><a href="../MathNet.Numerics.Statistics/RunningWeightedStatistics.htm#.ctor">RunningWeightedStatistics</a></li>
+				<li><a href="../MathNet.Numerics.Statistics/RunningWeightedStatistics.htm#.ctor">RunningWeightedStatistics</a></li>
 			</ul>
 
 			<h3 class="section">Static Functions</h3>
 			<ul>
-				<li><a href="../MathNet.Numerics.Statistics/RunningStatistics.htm#Combine">Combine</a></li>
+				<li><a href="../MathNet.Numerics.Statistics/RunningWeightedStatistics.htm#Combine">Combine</a></li>
 			</ul>
 			<h3 class="section">Methods</h3>
 			<ul>
-				<li><a href="../MathNet.Numerics.Statistics/RunningStatistics.htm#Equals">Equals</a></li>
-				<li><a href="../MathNet.Numerics.Statistics/RunningStatistics.htm#GetHashCode">GetHashCode</a></li>
-				<li><a href="../MathNet.Numerics.Statistics/RunningStatistics.htm#GetType">GetType</a></li>
-				<li><a href="../MathNet.Numerics.Statistics/RunningStatistics.htm#Push">Push</a></li>
-				<li><a href="../MathNet.Numerics.Statistics/RunningStatistics.htm#PushRange">PushRange</a></li>
-				<li><a href="../MathNet.Numerics.Statistics/RunningStatistics.htm#ToString">ToString</a></li>
+				<li><a href="../MathNet.Numerics.Statistics/RunningWeightedStatistics.htm#Equals">Equals</a></li>
+				<li><a href="../MathNet.Numerics.Statistics/RunningWeightedStatistics.htm#GetHashCode">GetHashCode</a></li>
+				<li><a href="../MathNet.Numerics.Statistics/RunningWeightedStatistics.htm#GetType">GetType</a></li>
+				<li><a href="../MathNet.Numerics.Statistics/RunningWeightedStatistics.htm#Push">Push</a></li>
+				<li><a href="../MathNet.Numerics.Statistics/RunningWeightedStatistics.htm#PushRange">PushRange</a></li>
+				<li><a href="../MathNet.Numerics.Statistics/RunningWeightedStatistics.htm#PushRange">PushRange</a></li>
+				<li><a href="../MathNet.Numerics.Statistics/RunningWeightedStatistics.htm#ToString">ToString</a></li>
 			</ul>
 		
 
 			<h3 class="section">Properties</h3>
 			<ul>
-				<li><a href="../MathNet.Numerics.Statistics/RunningStatistics.htm#Count">Count</a></li>
-				<li><a href="../MathNet.Numerics.Statistics/RunningStatistics.htm#Kurtosis">Kurtosis</a></li>
-				<li><a href="../MathNet.Numerics.Statistics/RunningStatistics.htm#Maximum">Maximum</a></li>
-				<li><a href="../MathNet.Numerics.Statistics/RunningStatistics.htm#Mean">Mean</a></li>
-				<li><a href="../MathNet.Numerics.Statistics/RunningStatistics.htm#Minimum">Minimum</a></li>
-				<li><a href="../MathNet.Numerics.Statistics/RunningStatistics.htm#PopulationKurtosis">PopulationKurtosis</a></li>
-				<li><a href="../MathNet.Numerics.Statistics/RunningStatistics.htm#PopulationSkewness">PopulationSkewness</a></li>
-				<li><a href="../MathNet.Numerics.Statistics/RunningStatistics.htm#PopulationStandardDeviation">PopulationStandardDeviation</a></li>
-				<li><a href="../MathNet.Numerics.Statistics/RunningStatistics.htm#PopulationVariance">PopulationVariance</a></li>
-				<li><a href="../MathNet.Numerics.Statistics/RunningStatistics.htm#Skewness">Skewness</a></li>
-				<li><a href="../MathNet.Numerics.Statistics/RunningStatistics.htm#StandardDeviation">StandardDeviation</a></li>
-				<li><a href="../MathNet.Numerics.Statistics/RunningStatistics.htm#Variance">Variance</a></li>
+				<li><a href="../MathNet.Numerics.Statistics/RunningWeightedStatistics.htm#Count">Count</a></li>
+				<li><a href="../MathNet.Numerics.Statistics/RunningWeightedStatistics.htm#EffectiveSampleSize">EffectiveSampleSize</a></li>
+				<li><a href="../MathNet.Numerics.Statistics/RunningWeightedStatistics.htm#Kurtosis">Kurtosis</a></li>
+				<li><a href="../MathNet.Numerics.Statistics/RunningWeightedStatistics.htm#Maximum">Maximum</a></li>
+				<li><a href="../MathNet.Numerics.Statistics/RunningWeightedStatistics.htm#Mean">Mean</a></li>
+				<li><a href="../MathNet.Numerics.Statistics/RunningWeightedStatistics.htm#Minimum">Minimum</a></li>
+				<li><a href="../MathNet.Numerics.Statistics/RunningWeightedStatistics.htm#PopulationKurtosis">PopulationKurtosis</a></li>
+				<li><a href="../MathNet.Numerics.Statistics/RunningWeightedStatistics.htm#PopulationSkewness">PopulationSkewness</a></li>
+				<li><a href="../MathNet.Numerics.Statistics/RunningWeightedStatistics.htm#PopulationStandardDeviation">PopulationStandardDeviation</a></li>
+				<li><a href="../MathNet.Numerics.Statistics/RunningWeightedStatistics.htm#PopulationVariance">PopulationVariance</a></li>
+				<li><a href="../MathNet.Numerics.Statistics/RunningWeightedStatistics.htm#Skewness">Skewness</a></li>
+				<li><a href="../MathNet.Numerics.Statistics/RunningWeightedStatistics.htm#StandardDeviation">StandardDeviation</a></li>
+				<li><a href="../MathNet.Numerics.Statistics/RunningWeightedStatistics.htm#TotalWeight">TotalWeight</a></li>
+				<li><a href="../MathNet.Numerics.Statistics/RunningWeightedStatistics.htm#Variance">Variance</a></li>
 			</ul>
 		
 	</div>
@@ -223,7 +226,7 @@ It is not recommended to rely on this mechanism for durable persistence.
 	<h3 class="section">Public Constructors</h3>
 	
 	<div id=".ctor" class="method">
-		<h4> <strong>RunningStatistics</strong>()</h4>
+		<h4> <strong>RunningWeightedStatistics</strong>()</h4>
 		<div class="content">
 
 
@@ -232,7 +235,7 @@ It is not recommended to rely on this mechanism for durable persistence.
     </div>
 	</div>
 	<div id=".ctor" class="method">
-		<h4> <strong>RunningStatistics</strong>(<span title="System.Collections.Generic.IEnumerable<double>">IEnumerable&lt;double&gt;</span> values)</h4>
+		<h4> <strong>RunningWeightedStatistics</strong>(<span title="System.Collections.Generic.IEnumerable<Tuple<double, double>>">IEnumerable&lt;Tuple&lt;double, double&gt;&gt;</span> values)</h4>
 		<div class="content">
 
 
@@ -244,7 +247,7 @@ It is not recommended to rely on this mechanism for durable persistence.
 	<h3 class="section">Public Static Functions</h3>
 	
 	<div id="Combine" class="method">
-		<h4><a href="../MathNet.Numerics.Statistics/RunningStatistics.htm">RunningStatistics</a> <strong>Combine</strong>(<a href="../MathNet.Numerics.Statistics/RunningStatistics.htm">RunningStatistics</a> a, <a href="../MathNet.Numerics.Statistics/RunningStatistics.htm">RunningStatistics</a> b)</h4>
+		<h4><a href="../MathNet.Numerics.Statistics/RunningWeightedStatistics.htm">RunningWeightedStatistics</a> <strong>Combine</strong>(<a href="../MathNet.Numerics.Statistics/RunningWeightedStatistics.htm">RunningWeightedStatistics</a> a, <a href="../MathNet.Numerics.Statistics/RunningWeightedStatistics.htm">RunningWeightedStatistics</a> b)</h4>
 		<div class="content">Create a new running statistics over the combined samples of two existing running statistics. 
 
 
@@ -283,7 +286,7 @@ It is not recommended to rely on this mechanism for durable persistence.
     </div>
 	</div>
 	<div id="Push" class="method">
-		<h4><span title="System.void">void</span> <strong>Push</strong>(<span title="System.double">double</span> value)</h4>
+		<h4><span title="System.void">void</span> <strong>Push</strong>(<span title="System.double">double</span> weight, <span title="System.double">double</span> value)</h4>
 		<div class="content">Update the running statistics by adding another observed sample (in-place). 
 
 
@@ -292,8 +295,17 @@ It is not recommended to rely on this mechanism for durable persistence.
     </div>
 	</div>
 	<div id="PushRange" class="method">
-		<h4><span title="System.void">void</span> <strong>PushRange</strong>(<span title="System.Collections.Generic.IEnumerable<double>">IEnumerable&lt;double&gt;</span> values)</h4>
-		<div class="content">Update the running statistics by adding a sequence of observed sample (in-place). 
+		<h4><span title="System.void">void</span> <strong>PushRange</strong>(<span title="System.Collections.Generic.IEnumerable<Tuple<double, double>>">IEnumerable&lt;Tuple&lt;double, double&gt;&gt;</span> values)</h4>
+		<div class="content">Update the running statistics by adding a sequence of weighted observatopms (in-place). 
+
+
+
+      
+    </div>
+	</div>
+	<div id="PushRange" class="method">
+		<h4><span title="System.void">void</span> <strong>PushRange</strong>(<span title="System.Collections.Generic.IEnumerable<double>">IEnumerable&lt;double&gt;</span> weights, <span title="System.Collections.Generic.IEnumerable<double>">IEnumerable&lt;double&gt;</span> values)</h4>
+		<div class="content">Update the running statistics by adding a sequence of weighted observatopms (in-place). 
 
 
 
@@ -314,15 +326,22 @@ It is not recommended to rely on this mechanism for durable persistence.
 
   <div id="Count" class="method">
     <h4><span title="System.long">long</span> <strong>Count</strong> get; </h4>
-    <div class="content">Gets the total number of samples. 
+    <div class="content">Gets the total number of samples with non-zero weight. 
+      
+    </div>
+  </div>
+  <div id="EffectiveSampleSize" class="method">
+    <h4><span title="System.double">double</span> <strong>EffectiveSampleSize</strong> get; </h4>
+    <div class="content">The Kish's Effective Sample Size 
       
     </div>
   </div>
   <div id="Kurtosis" class="method">
     <h4><span title="System.double">double</span> <strong>Kurtosis</strong> get; </h4>
     <div class="content">Estimates the unbiased population excess kurtosis from the provided samples.
-Uses a normalizer (Bessel's correction; type 2).
-Returns NaN if data has less than four entries or if any entry is NaN. 
+Will use the Bessel correction for reliability weighting.
+Returns NaN if data has less than four entries or if any entry is NaN.
+Equivalent formula for this for weighted distributions are unknown. 
       
     </div>
   </div>
@@ -382,7 +401,7 @@ Returns NaN if data is empty or if any entry is NaN.
   <div id="Skewness" class="method">
     <h4><span title="System.double">double</span> <strong>Skewness</strong> get; </h4>
     <div class="content">Estimates the unbiased population skewness from the provided samples.
-Uses a normalizer (Bessel's correction; type 2).
+Will use the Bessel correction for reliability weighting.
 Returns NaN if data has less than three entries or if any entry is NaN. 
       
     </div>
@@ -390,15 +409,21 @@ Returns NaN if data has less than three entries or if any entry is NaN.
   <div id="StandardDeviation" class="method">
     <h4><span title="System.double">double</span> <strong>StandardDeviation</strong> get; </h4>
     <div class="content">Estimates the unbiased population standard deviation from the provided samples.
-On a dataset of size N will use an N-1 normalizer (Bessel's correction).
+Will use the Bessel correction for reliability weighting.
 Returns NaN if data has less than two entries or if any entry is NaN. 
+      
+    </div>
+  </div>
+  <div id="TotalWeight" class="method">
+    <h4><span title="System.double">double</span> <strong>TotalWeight</strong> get; </h4>
+    <div class="content">Evaluates the total weight of the population. 
       
     </div>
   </div>
   <div id="Variance" class="method">
     <h4><span title="System.double">double</span> <strong>Variance</strong> get; </h4>
     <div class="content">Estimates the unbiased population variance from the provided samples.
-On a dataset of size N will use an N-1 normalizer (Bessel's correction).
+Will use the Bessel correction for reliability weighting.
 Returns NaN if data has less than two entries or if any entry is NaN. 
       
     </div>

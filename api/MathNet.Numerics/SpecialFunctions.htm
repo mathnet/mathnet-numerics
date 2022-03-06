@@ -289,6 +289,7 @@
 				<li><a href="../MathNet.Numerics/SpecialFunctions.htm#Erfc">Erfc</a></li>
 				<li><a href="../MathNet.Numerics/SpecialFunctions.htm#ErfcInv">ErfcInv</a></li>
 				<li><a href="../MathNet.Numerics/SpecialFunctions.htm#ErfInv">ErfInv</a></li>
+				<li><a href="../MathNet.Numerics/SpecialFunctions.htm#Expm1">Expm1</a></li>
 				<li><a href="../MathNet.Numerics/SpecialFunctions.htm#ExponentialIntegral">ExponentialIntegral</a></li>
 				<li><a href="../MathNet.Numerics/SpecialFunctions.htm#ExponentialMinusOne">ExponentialMinusOne</a></li>
 				<li><a href="../MathNet.Numerics/SpecialFunctions.htm#Factorial">Factorial</a></li>
@@ -515,26 +516,6 @@
     </div>
 	</div>
 	<div id="AiryBi" class="method">
-		<h4><span title="System.Numerics.Complex">Complex</span> <strong>AiryBi</strong>(<span title="System.Numerics.Complex">Complex</span> z)</h4>
-		<div class="content">Returns the Airy function Bi. <p>AiryBi(z) is a solution to the Airy equation, y'' - y * z = 0. </p> 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.Numerics.Complex">Complex</span></code> z</h6>
-          <p class="comments">The value to compute the Airy function of. </p>
-      </div>
-
-      <div class="return">
-        <h5>Return</h5>
-        <h6><code><span title="System.Numerics.Complex">Complex</span></code></h6>
-        <p>The Airy function Bi. </p>
-      </div>
-      
-    </div>
-	</div>
-	<div id="AiryBi" class="method">
 		<h4><span title="System.double">double</span> <strong>AiryBi</strong>(<span title="System.double">double</span> z)</h4>
 		<div class="content">Returns the Airy function Bi. <p>AiryBi(z) is a solution to the Airy equation, y'' - y * z = 0. </p> 
 
@@ -554,22 +535,22 @@
       
     </div>
 	</div>
-	<div id="AiryBiPrime" class="method">
-		<h4><span title="System.double">double</span> <strong>AiryBiPrime</strong>(<span title="System.double">double</span> z)</h4>
-		<div class="content">Returns the derivative of the Airy function Bi. <p>AiryBiPrime(z) is defined as d/dz AiryBi(z). </p> 
+	<div id="AiryBi" class="method">
+		<h4><span title="System.Numerics.Complex">Complex</span> <strong>AiryBi</strong>(<span title="System.Numerics.Complex">Complex</span> z)</h4>
+		<div class="content">Returns the Airy function Bi. <p>AiryBi(z) is a solution to the Airy equation, y'' - y * z = 0. </p> 
 
 
       <div class="parameters">
         <h5>Parameters</h5>
 
-          <h6><code><span title="System.double">double</span></code> z</h6>
-          <p class="comments">The value to compute the derivative of the Airy function of. </p>
+          <h6><code><span title="System.Numerics.Complex">Complex</span></code> z</h6>
+          <p class="comments">The value to compute the Airy function of. </p>
       </div>
 
       <div class="return">
         <h5>Return</h5>
-        <h6><code><span title="System.double">double</span></code></h6>
-        <p>The derivative of the Airy function Bi. </p>
+        <h6><code><span title="System.Numerics.Complex">Complex</span></code></h6>
+        <p>The Airy function Bi. </p>
       </div>
       
     </div>
@@ -594,9 +575,9 @@
       
     </div>
 	</div>
-	<div id="AiryBiPrimeScaled" class="method">
-		<h4><span title="System.double">double</span> <strong>AiryBiPrimeScaled</strong>(<span title="System.double">double</span> z)</h4>
-		<div class="content">Returns the exponentially scaled derivative of the Airy function Bi. <p>ScaledAiryBiPrime(z) is given by Exp(-Abs(zta.Real)) * AiryBiPrime(z) where zta = (2 / 3) * z * Sqrt(z). </p> 
+	<div id="AiryBiPrime" class="method">
+		<h4><span title="System.double">double</span> <strong>AiryBiPrime</strong>(<span title="System.double">double</span> z)</h4>
+		<div class="content">Returns the derivative of the Airy function Bi. <p>AiryBiPrime(z) is defined as d/dz AiryBi(z). </p> 
 
 
       <div class="parameters">
@@ -609,7 +590,7 @@
       <div class="return">
         <h5>Return</h5>
         <h6><code><span title="System.double">double</span></code></h6>
-        <p>The exponentially scaled derivative of the Airy function Bi. </p>
+        <p>The derivative of the Airy function Bi. </p>
       </div>
       
     </div>
@@ -634,22 +615,22 @@
       
     </div>
 	</div>
-	<div id="AiryBiScaled" class="method">
-		<h4><span title="System.Numerics.Complex">Complex</span> <strong>AiryBiScaled</strong>(<span title="System.Numerics.Complex">Complex</span> z)</h4>
-		<div class="content">Returns the exponentially scaled Airy function Bi. <p>ScaledAiryBi(z) is given by Exp(-Abs(zta.Real)) * AiryBi(z) where zta = (2 / 3) * z * Sqrt(z). </p> 
+	<div id="AiryBiPrimeScaled" class="method">
+		<h4><span title="System.double">double</span> <strong>AiryBiPrimeScaled</strong>(<span title="System.double">double</span> z)</h4>
+		<div class="content">Returns the exponentially scaled derivative of the Airy function Bi. <p>ScaledAiryBiPrime(z) is given by Exp(-Abs(zta.Real)) * AiryBiPrime(z) where zta = (2 / 3) * z * Sqrt(z). </p> 
 
 
       <div class="parameters">
         <h5>Parameters</h5>
 
-          <h6><code><span title="System.Numerics.Complex">Complex</span></code> z</h6>
-          <p class="comments">The value to compute the Airy function of. </p>
+          <h6><code><span title="System.double">double</span></code> z</h6>
+          <p class="comments">The value to compute the derivative of the Airy function of. </p>
       </div>
 
       <div class="return">
         <h5>Return</h5>
-        <h6><code><span title="System.Numerics.Complex">Complex</span></code></h6>
-        <p>The exponentially scaled Airy function Bi(z). </p>
+        <h6><code><span title="System.double">double</span></code></h6>
+        <p>The exponentially scaled derivative of the Airy function Bi. </p>
       </div>
       
     </div>
@@ -674,24 +655,22 @@
       
     </div>
 	</div>
-	<div id="BesselI" class="method">
-		<h4><span title="System.Numerics.Complex">Complex</span> <strong>BesselI</strong>(<span title="System.double">double</span> n, <span title="System.Numerics.Complex">Complex</span> z)</h4>
-		<div class="content">Returns the modified Bessel function of the first kind. <p>BesselI(n, z) is a solution to the modified Bessel differential equation. </p> 
+	<div id="AiryBiScaled" class="method">
+		<h4><span title="System.Numerics.Complex">Complex</span> <strong>AiryBiScaled</strong>(<span title="System.Numerics.Complex">Complex</span> z)</h4>
+		<div class="content">Returns the exponentially scaled Airy function Bi. <p>ScaledAiryBi(z) is given by Exp(-Abs(zta.Real)) * AiryBi(z) where zta = (2 / 3) * z * Sqrt(z). </p> 
 
 
       <div class="parameters">
         <h5>Parameters</h5>
 
-          <h6><code><span title="System.double">double</span></code> n</h6>
-          <p class="comments">The order of the modified Bessel function. </p>
           <h6><code><span title="System.Numerics.Complex">Complex</span></code> z</h6>
-          <p class="comments">The value to compute the modified Bessel function of. </p>
+          <p class="comments">The value to compute the Airy function of. </p>
       </div>
 
       <div class="return">
         <h5>Return</h5>
         <h6><code><span title="System.Numerics.Complex">Complex</span></code></h6>
-        <p>The modified Bessel function of the first kind. </p>
+        <p>The exponentially scaled Airy function Bi(z). </p>
       </div>
       
     </div>
@@ -713,6 +692,28 @@
       <div class="return">
         <h5>Return</h5>
         <h6><code><span title="System.double">double</span></code></h6>
+        <p>The modified Bessel function of the first kind. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="BesselI" class="method">
+		<h4><span title="System.Numerics.Complex">Complex</span> <strong>BesselI</strong>(<span title="System.double">double</span> n, <span title="System.Numerics.Complex">Complex</span> z)</h4>
+		<div class="content">Returns the modified Bessel function of the first kind. <p>BesselI(n, z) is a solution to the modified Bessel differential equation. </p> 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.double">double</span></code> n</h6>
+          <p class="comments">The order of the modified Bessel function. </p>
+          <h6><code><span title="System.Numerics.Complex">Complex</span></code> z</h6>
+          <p class="comments">The value to compute the modified Bessel function of. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.Numerics.Complex">Complex</span></code></h6>
         <p>The modified Bessel function of the first kind. </p>
       </div>
       
@@ -828,28 +829,6 @@ in each interval.
     </div>
 	</div>
 	<div id="BesselJ" class="method">
-		<h4><span title="System.double">double</span> <strong>BesselJ</strong>(<span title="System.double">double</span> n, <span title="System.double">double</span> z)</h4>
-		<div class="content">Returns the Bessel function of the first kind. <p>BesselJ(n, z) is a solution to the Bessel differential equation. </p> 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.double">double</span></code> n</h6>
-          <p class="comments">The order of the Bessel function. </p>
-          <h6><code><span title="System.double">double</span></code> z</h6>
-          <p class="comments">The value to compute the Bessel function of. </p>
-      </div>
-
-      <div class="return">
-        <h5>Return</h5>
-        <h6><code><span title="System.double">double</span></code></h6>
-        <p>The Bessel function of the first kind. </p>
-      </div>
-      
-    </div>
-	</div>
-	<div id="BesselJ" class="method">
 		<h4><span title="System.Numerics.Complex">Complex</span> <strong>BesselJ</strong>(<span title="System.double">double</span> n, <span title="System.Numerics.Complex">Complex</span> z)</h4>
 		<div class="content">Returns the Bessel function of the first kind. <p>BesselJ(n, z) is a solution to the Bessel differential equation. </p> 
 
@@ -871,9 +850,9 @@ in each interval.
       
     </div>
 	</div>
-	<div id="BesselJScaled" class="method">
-		<h4><span title="System.Numerics.Complex">Complex</span> <strong>BesselJScaled</strong>(<span title="System.double">double</span> n, <span title="System.Numerics.Complex">Complex</span> z)</h4>
-		<div class="content">Returns the exponentially scaled Bessel function of the first kind. <p>ScaledBesselJ(n, z) is given by Exp(-Abs(z.Imaginary)) * BesselJ(n, z). </p> 
+	<div id="BesselJ" class="method">
+		<h4><span title="System.double">double</span> <strong>BesselJ</strong>(<span title="System.double">double</span> n, <span title="System.double">double</span> z)</h4>
+		<div class="content">Returns the Bessel function of the first kind. <p>BesselJ(n, z) is a solution to the Bessel differential equation. </p> 
 
 
       <div class="parameters">
@@ -881,14 +860,14 @@ in each interval.
 
           <h6><code><span title="System.double">double</span></code> n</h6>
           <p class="comments">The order of the Bessel function. </p>
-          <h6><code><span title="System.Numerics.Complex">Complex</span></code> z</h6>
+          <h6><code><span title="System.double">double</span></code> z</h6>
           <p class="comments">The value to compute the Bessel function of. </p>
       </div>
 
       <div class="return">
         <h5>Return</h5>
-        <h6><code><span title="System.Numerics.Complex">Complex</span></code></h6>
-        <p>The exponentially scaled Bessel function of the first kind. </p>
+        <h6><code><span title="System.double">double</span></code></h6>
+        <p>The Bessel function of the first kind. </p>
       </div>
       
     </div>
@@ -915,24 +894,24 @@ in each interval.
       
     </div>
 	</div>
-	<div id="BesselK" class="method">
-		<h4><span title="System.double">double</span> <strong>BesselK</strong>(<span title="System.double">double</span> n, <span title="System.double">double</span> z)</h4>
-		<div class="content">Returns the modified Bessel function of the second kind. <p>BesselK(n, z) is a solution to the modified Bessel differential equation. </p> 
+	<div id="BesselJScaled" class="method">
+		<h4><span title="System.Numerics.Complex">Complex</span> <strong>BesselJScaled</strong>(<span title="System.double">double</span> n, <span title="System.Numerics.Complex">Complex</span> z)</h4>
+		<div class="content">Returns the exponentially scaled Bessel function of the first kind. <p>ScaledBesselJ(n, z) is given by Exp(-Abs(z.Imaginary)) * BesselJ(n, z). </p> 
 
 
       <div class="parameters">
         <h5>Parameters</h5>
 
           <h6><code><span title="System.double">double</span></code> n</h6>
-          <p class="comments">The order of the modified Bessel function. </p>
-          <h6><code><span title="System.double">double</span></code> z</h6>
-          <p class="comments">The value to compute the modified Bessel function of. </p>
+          <p class="comments">The order of the Bessel function. </p>
+          <h6><code><span title="System.Numerics.Complex">Complex</span></code> z</h6>
+          <p class="comments">The value to compute the Bessel function of. </p>
       </div>
 
       <div class="return">
         <h5>Return</h5>
-        <h6><code><span title="System.double">double</span></code></h6>
-        <p>The modified Bessel function of the second kind. </p>
+        <h6><code><span title="System.Numerics.Complex">Complex</span></code></h6>
+        <p>The exponentially scaled Bessel function of the first kind. </p>
       </div>
       
     </div>
@@ -954,6 +933,28 @@ in each interval.
       <div class="return">
         <h5>Return</h5>
         <h6><code><span title="System.Numerics.Complex">Complex</span></code></h6>
+        <p>The modified Bessel function of the second kind. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="BesselK" class="method">
+		<h4><span title="System.double">double</span> <strong>BesselK</strong>(<span title="System.double">double</span> n, <span title="System.double">double</span> z)</h4>
+		<div class="content">Returns the modified Bessel function of the second kind. <p>BesselK(n, z) is a solution to the modified Bessel differential equation. </p> 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.double">double</span></code> n</h6>
+          <p class="comments">The order of the modified Bessel function. </p>
+          <h6><code><span title="System.double">double</span></code> z</h6>
+          <p class="comments">The value to compute the modified Bessel function of. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.double">double</span></code></h6>
         <p>The modified Bessel function of the second kind. </p>
       </div>
       
@@ -1116,28 +1117,6 @@ of the second kind of order 1 of the argument..
     </div>
 	</div>
 	<div id="BesselYScaled" class="method">
-		<h4><span title="System.double">double</span> <strong>BesselYScaled</strong>(<span title="System.double">double</span> n, <span title="System.double">double</span> z)</h4>
-		<div class="content">Returns the exponentially scaled Bessel function of the second kind. <p>ScaledBesselY(n, z) is given by Exp(-Abs(z.Imaginary)) * BesselY(n, z). </p> 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.double">double</span></code> n</h6>
-          <p class="comments">The order of the Bessel function. </p>
-          <h6><code><span title="System.double">double</span></code> z</h6>
-          <p class="comments">The value to compute the Bessel function of. </p>
-      </div>
-
-      <div class="return">
-        <h5>Return</h5>
-        <h6><code><span title="System.double">double</span></code></h6>
-        <p>The exponentially scaled Bessel function of the second kind. </p>
-      </div>
-      
-    </div>
-	</div>
-	<div id="BesselYScaled" class="method">
 		<h4><span title="System.Numerics.Complex">Complex</span> <strong>BesselYScaled</strong>(<span title="System.double">double</span> n, <span title="System.Numerics.Complex">Complex</span> z)</h4>
 		<div class="content">Returns the exponentially scaled Bessel function of the second kind. <p>ScaledBesselY(n, z) is given by Exp(-Abs(z.Imaginary)) * Y(n, z). </p> 
 
@@ -1154,6 +1133,28 @@ of the second kind of order 1 of the argument..
       <div class="return">
         <h5>Return</h5>
         <h6><code><span title="System.Numerics.Complex">Complex</span></code></h6>
+        <p>The exponentially scaled Bessel function of the second kind. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="BesselYScaled" class="method">
+		<h4><span title="System.double">double</span> <strong>BesselYScaled</strong>(<span title="System.double">double</span> n, <span title="System.double">double</span> z)</h4>
+		<div class="content">Returns the exponentially scaled Bessel function of the second kind. <p>ScaledBesselY(n, z) is given by Exp(-Abs(z.Imaginary)) * BesselY(n, z). </p> 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.double">double</span></code> n</h6>
+          <p class="comments">The order of the Bessel function. </p>
+          <h6><code><span title="System.double">double</span></code> z</h6>
+          <p class="comments">The value to compute the Bessel function of. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.double">double</span></code></h6>
         <p>The exponentially scaled Bessel function of the second kind. </p>
       </div>
       
@@ -1434,6 +1435,26 @@ and found cases where we can only guarantee 9 significant figures correct. <ul><
       
     </div>
 	</div>
+	<div id="Expm1" class="method">
+		<h4><span title="System.double">double</span> <strong>Expm1</strong>(<span title="System.double">double</span> power)</h4>
+		<div class="content">Numerically stable exponential minus one, i.e.  <code>x -> exp(x)-1</code> 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.double">double</span></code> power</h6>
+          <p class="comments">A number specifying a power. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.double">double</span></code></h6>
+        <p>Returns  <code>exp(power)-1</code>. </p>
+      </div>
+      
+    </div>
+	</div>
 	<div id="ExponentialIntegral" class="method">
 		<h4><span title="System.double">double</span> <strong>ExponentialIntegral</strong>(<span title="System.double">double</span> x, <span title="System.int">int</span> n)</h4>
 		<div class="content">Computes the generalized Exponential Integral function (En). <blockquote class="remarks">
@@ -1466,6 +1487,9 @@ for 0 < x <= 1 uses Taylor series expansion </p> <p>Our unit tests suggest that 
 	<div id="ExponentialMinusOne" class="method">
 		<h4><span title="System.double">double</span> <strong>ExponentialMinusOne</strong>(<span title="System.double">double</span> power)</h4>
 		<div class="content">Numerically stable exponential minus one, i.e.  <code>x -> exp(x)-1</code> 
+        <div id="warning">
+          <b>Obsolete:</b> Use Expm1 instead
+        </div>
 
 
       <div class="parameters">
@@ -1480,6 +1504,15 @@ for 0 < x <= 1 uses Taylor series expansion </p> <p>Our unit tests suggest that 
         <h6><code><span title="System.double">double</span></code></h6>
         <p>Returns  <code>exp(power)-1</code>. </p>
       </div>
+      
+    </div>
+	</div>
+	<div id="Factorial" class="method">
+		<h4><span title="System.Numerics.BigInteger">BigInteger</span> <strong>Factorial</strong>(<span title="System.Numerics.BigInteger">BigInteger</span> x)</h4>
+		<div class="content">Computes the factorial of an integer. 
+
+
+
       
     </div>
 	</div>
@@ -1499,15 +1532,6 @@ factorials become very large even for small parameters.
         <h6><code><span title="System.double">double</span></code></h6>
         <p>A value value! for value > 0 </p>
       </div>
-      
-    </div>
-	</div>
-	<div id="Factorial" class="method">
-		<h4><span title="System.Numerics.BigInteger">BigInteger</span> <strong>Factorial</strong>(<span title="System.Numerics.BigInteger">BigInteger</span> x)</h4>
-		<div class="content">Computes the factorial of an integer. 
-
-
-
       
     </div>
 	</div>
@@ -1849,6 +1873,28 @@ see: https://en.wikipedia.org/wiki/Generalized_hypergeometric_function
     </div>
 	</div>
 	<div id="Hypotenuse" class="method">
+		<h4><a href="../MathNet.Numerics/Complex32.htm">Complex32</a> <strong>Hypotenuse</strong>(<a href="../MathNet.Numerics/Complex32.htm">Complex32</a> a, <a href="../MathNet.Numerics/Complex32.htm">Complex32</a> b)</h4>
+		<div class="content">Numerically stable hypotenuse of a right angle triangle, i.e.  <code>(a,b) -> sqrt(a^2 + b^2)</code> 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics/Complex32.htm">Complex32</a></code> a</h6>
+          <p class="comments">The length of side a of the triangle. </p>
+          <h6><code><a href="../MathNet.Numerics/Complex32.htm">Complex32</a></code> b</h6>
+          <p class="comments">The length of side b of the triangle. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><a href="../MathNet.Numerics/Complex32.htm">Complex32</a></code></h6>
+        <p>Returns  <code>sqrt(a2 + b2)</code>  without underflow/overflow. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="Hypotenuse" class="method">
 		<h4><span title="System.double">double</span> <strong>Hypotenuse</strong>(<span title="System.double">double</span> a, <span title="System.double">double</span> b)</h4>
 		<div class="content">Numerically stable hypotenuse of a right angle triangle, i.e.  <code>(a,b) -> sqrt(a^2 + b^2)</code> 
 
@@ -1914,28 +1960,6 @@ see: https://en.wikipedia.org/wiki/Generalized_hypergeometric_function
       
     </div>
 	</div>
-	<div id="Hypotenuse" class="method">
-		<h4><a href="../MathNet.Numerics/Complex32.htm">Complex32</a> <strong>Hypotenuse</strong>(<a href="../MathNet.Numerics/Complex32.htm">Complex32</a> a, <a href="../MathNet.Numerics/Complex32.htm">Complex32</a> b)</h4>
-		<div class="content">Numerically stable hypotenuse of a right angle triangle, i.e.  <code>(a,b) -> sqrt(a^2 + b^2)</code> 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><a href="../MathNet.Numerics/Complex32.htm">Complex32</a></code> a</h6>
-          <p class="comments">The length of side a of the triangle. </p>
-          <h6><code><a href="../MathNet.Numerics/Complex32.htm">Complex32</a></code> b</h6>
-          <p class="comments">The length of side b of the triangle. </p>
-      </div>
-
-      <div class="return">
-        <h5>Return</h5>
-        <h6><code><a href="../MathNet.Numerics/Complex32.htm">Complex32</a></code></h6>
-        <p>Returns  <code>sqrt(a2 + b2)</code>  without underflow/overflow. </p>
-      </div>
-      
-    </div>
-	</div>
 	<div id="KelvinBe" class="method">
 		<h4><span title="System.Numerics.Complex">Complex</span> <strong>KelvinBe</strong>(<span title="System.double">double</span> nu, <span title="System.double">double</span> x)</h4>
 		<div class="content">Returns the Kelvin function of the first kind. <p>KelvinBe(nu, x) is given by BesselJ(0, j * sqrt(j) * x) where j = sqrt(-1). </p> <p>KelvinBer(nu, x) and KelvinBei(nu, x) are the real and imaginary parts of the KelvinBe(nu, x) </p> 
@@ -1959,13 +1983,15 @@ see: https://en.wikipedia.org/wiki/Generalized_hypergeometric_function
     </div>
 	</div>
 	<div id="KelvinBei" class="method">
-		<h4><span title="System.double">double</span> <strong>KelvinBei</strong>(<span title="System.double">double</span> x)</h4>
-		<div class="content">Returns the Kelvin function bei. <p>KelvinBei(x) is given by the imaginary part of BesselJ(0, j * sqrt(j) * x) where j = sqrt(-1). </p> <p>KelvinBei(x) is equivalent to KelvinBei(0, x). </p> 
+		<h4><span title="System.double">double</span> <strong>KelvinBei</strong>(<span title="System.double">double</span> nu, <span title="System.double">double</span> x)</h4>
+		<div class="content">Returns the Kelvin function bei. <p>KelvinBei(nu, x) is given by the imaginary part of BesselJ(nu, j * sqrt(j) * x) where j = sqrt(-1). </p> 
 
 
       <div class="parameters">
         <h5>Parameters</h5>
 
+          <h6><code><span title="System.double">double</span></code> nu</h6>
+          <p class="comments">the order of the the Kelvin function. </p>
           <h6><code><span title="System.double">double</span></code> x</h6>
           <p class="comments">The value to compute the Kelvin function of. </p>
       </div>
@@ -1979,15 +2005,13 @@ see: https://en.wikipedia.org/wiki/Generalized_hypergeometric_function
     </div>
 	</div>
 	<div id="KelvinBei" class="method">
-		<h4><span title="System.double">double</span> <strong>KelvinBei</strong>(<span title="System.double">double</span> nu, <span title="System.double">double</span> x)</h4>
-		<div class="content">Returns the Kelvin function bei. <p>KelvinBei(nu, x) is given by the imaginary part of BesselJ(nu, j * sqrt(j) * x) where j = sqrt(-1). </p> 
+		<h4><span title="System.double">double</span> <strong>KelvinBei</strong>(<span title="System.double">double</span> x)</h4>
+		<div class="content">Returns the Kelvin function bei. <p>KelvinBei(x) is given by the imaginary part of BesselJ(0, j * sqrt(j) * x) where j = sqrt(-1). </p> <p>KelvinBei(x) is equivalent to KelvinBei(0, x). </p> 
 
 
       <div class="parameters">
         <h5>Parameters</h5>
 
-          <h6><code><span title="System.double">double</span></code> nu</h6>
-          <p class="comments">the order of the the Kelvin function. </p>
           <h6><code><span title="System.double">double</span></code> x</h6>
           <p class="comments">The value to compute the Kelvin function of. </p>
       </div>
@@ -2043,26 +2067,6 @@ see: https://en.wikipedia.org/wiki/Generalized_hypergeometric_function
     </div>
 	</div>
 	<div id="KelvinBer" class="method">
-		<h4><span title="System.double">double</span> <strong>KelvinBer</strong>(<span title="System.double">double</span> x)</h4>
-		<div class="content">Returns the Kelvin function ber. <p>KelvinBer(x) is given by the real part of BesselJ(0, j * sqrt(j) * x) where j = sqrt(-1). </p> <p>KelvinBer(x) is equivalent to KelvinBer(0, x). </p> 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.double">double</span></code> x</h6>
-          <p class="comments">The value to compute the Kelvin function of. </p>
-      </div>
-
-      <div class="return">
-        <h5>Return</h5>
-        <h6><code><span title="System.double">double</span></code></h6>
-        <p>The Kelvin function ber. </p>
-      </div>
-      
-    </div>
-	</div>
-	<div id="KelvinBer" class="method">
 		<h4><span title="System.double">double</span> <strong>KelvinBer</strong>(<span title="System.double">double</span> nu, <span title="System.double">double</span> x)</h4>
 		<div class="content">Returns the Kelvin function ber. <p>KelvinBer(nu, x) is given by the real part of BesselJ(nu, j * sqrt(j) * x) where j = sqrt(-1). </p> 
 
@@ -2084,22 +2088,22 @@ see: https://en.wikipedia.org/wiki/Generalized_hypergeometric_function
       
     </div>
 	</div>
-	<div id="KelvinBerPrime" class="method">
-		<h4><span title="System.double">double</span> <strong>KelvinBerPrime</strong>(<span title="System.double">double</span> x)</h4>
-		<div class="content">Returns the derivative of the Kelvin function ber. 
+	<div id="KelvinBer" class="method">
+		<h4><span title="System.double">double</span> <strong>KelvinBer</strong>(<span title="System.double">double</span> x)</h4>
+		<div class="content">Returns the Kelvin function ber. <p>KelvinBer(x) is given by the real part of BesselJ(0, j * sqrt(j) * x) where j = sqrt(-1). </p> <p>KelvinBer(x) is equivalent to KelvinBer(0, x). </p> 
 
 
       <div class="parameters">
         <h5>Parameters</h5>
 
           <h6><code><span title="System.double">double</span></code> x</h6>
-          <p class="comments">The value to compute the derivative of the Kelvin function of. </p>
+          <p class="comments">The value to compute the Kelvin function of. </p>
       </div>
 
       <div class="return">
         <h5>Return</h5>
         <h6><code><span title="System.double">double</span></code></h6>
-        <p>The derivative of the Kelvin function ber. </p>
+        <p>The Kelvin function ber. </p>
       </div>
       
     </div>
@@ -2122,6 +2126,26 @@ see: https://en.wikipedia.org/wiki/Generalized_hypergeometric_function
         <h5>Return</h5>
         <h6><code><span title="System.double">double</span></code></h6>
         <p>the derivative of the Kelvin function ber </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="KelvinBerPrime" class="method">
+		<h4><span title="System.double">double</span> <strong>KelvinBerPrime</strong>(<span title="System.double">double</span> x)</h4>
+		<div class="content">Returns the derivative of the Kelvin function ber. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.double">double</span></code> x</h6>
+          <p class="comments">The value to compute the derivative of the Kelvin function of. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.double">double</span></code></h6>
+        <p>The derivative of the Kelvin function ber. </p>
       </div>
       
     </div>
@@ -2186,6 +2210,26 @@ see: https://en.wikipedia.org/wiki/Generalized_hypergeometric_function
     </div>
 	</div>
 	<div id="KelvinKeiPrime" class="method">
+		<h4><span title="System.double">double</span> <strong>KelvinKeiPrime</strong>(<span title="System.double">double</span> x)</h4>
+		<div class="content">Returns the derivative of the Kelvin function kei. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.double">double</span></code> x</h6>
+          <p class="comments">The value to compute the derivative of the Kelvin function of. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.double">double</span></code></h6>
+        <p>The derivative of the Kelvin function kei. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="KelvinKeiPrime" class="method">
 		<h4><span title="System.double">double</span> <strong>KelvinKeiPrime</strong>(<span title="System.double">double</span> nu, <span title="System.double">double</span> x)</h4>
 		<div class="content">Returns the derivative of the Kelvin function kei. 
 
@@ -2207,34 +2251,16 @@ see: https://en.wikipedia.org/wiki/Generalized_hypergeometric_function
       
     </div>
 	</div>
-	<div id="KelvinKeiPrime" class="method">
-		<h4><span title="System.double">double</span> <strong>KelvinKeiPrime</strong>(<span title="System.double">double</span> x)</h4>
-		<div class="content">Returns the derivative of the Kelvin function kei. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.double">double</span></code> x</h6>
-          <p class="comments">The value to compute the derivative of the Kelvin function of. </p>
-      </div>
-
-      <div class="return">
-        <h5>Return</h5>
-        <h6><code><span title="System.double">double</span></code></h6>
-        <p>The derivative of the Kelvin function kei. </p>
-      </div>
-      
-    </div>
-	</div>
 	<div id="KelvinKer" class="method">
-		<h4><span title="System.double">double</span> <strong>KelvinKer</strong>(<span title="System.double">double</span> x)</h4>
-		<div class="content">Returns the Kelvin function ker. <p>KelvinKer(x) is given by the real part of Exp(-nu * pi * j / 2) * BesselK(0, sqrt(j) * x) where j = sqrt(-1). </p> <p>KelvinKer(x) is equivalent to KelvinKer(0, x). </p> 
+		<h4><span title="System.double">double</span> <strong>KelvinKer</strong>(<span title="System.double">double</span> nu, <span title="System.double">double</span> x)</h4>
+		<div class="content">Returns the Kelvin function ker. <p>KelvinKer(nu, x) is given by the real part of Exp(-nu * pi * j / 2) * BesselK(nu, sqrt(j) * x) where j = sqrt(-1). </p> 
 
 
       <div class="parameters">
         <h5>Parameters</h5>
 
+          <h6><code><span title="System.double">double</span></code> nu</h6>
+          <p class="comments">the order of the the Kelvin function. </p>
           <h6><code><span title="System.double">double</span></code> x</h6>
           <p class="comments">The non-negative real value to compute the Kelvin function of. </p>
       </div>
@@ -2248,15 +2274,13 @@ see: https://en.wikipedia.org/wiki/Generalized_hypergeometric_function
     </div>
 	</div>
 	<div id="KelvinKer" class="method">
-		<h4><span title="System.double">double</span> <strong>KelvinKer</strong>(<span title="System.double">double</span> nu, <span title="System.double">double</span> x)</h4>
-		<div class="content">Returns the Kelvin function ker. <p>KelvinKer(nu, x) is given by the real part of Exp(-nu * pi * j / 2) * BesselK(nu, sqrt(j) * x) where j = sqrt(-1). </p> 
+		<h4><span title="System.double">double</span> <strong>KelvinKer</strong>(<span title="System.double">double</span> x)</h4>
+		<div class="content">Returns the Kelvin function ker. <p>KelvinKer(x) is given by the real part of Exp(-nu * pi * j / 2) * BesselK(0, sqrt(j) * x) where j = sqrt(-1). </p> <p>KelvinKer(x) is equivalent to KelvinKer(0, x). </p> 
 
 
       <div class="parameters">
         <h5>Parameters</h5>
 
-          <h6><code><span title="System.double">double</span></code> nu</h6>
-          <p class="comments">the order of the the Kelvin function. </p>
           <h6><code><span title="System.double">double</span></code> x</h6>
           <p class="comments">The non-negative real value to compute the Kelvin function of. </p>
       </div>
@@ -2368,15 +2392,6 @@ between 0 and 1. </p>
     </div>
 	</div>
 	<div id="MarcumQ" class="method">
-		<h4><span title="System.double">double</span> <strong>MarcumQ</strong>(<span title="System.double">double</span> nu, <span title="System.double">double</span> a, <span title="System.double">double</span> b, <span title="System.Int32&">Int32&amp;</span> err)</h4>
-		<div class="content">
-
-
-
-      
-    </div>
-	</div>
-	<div id="MarcumQ" class="method">
 		<h4><span title="System.double">double</span> <strong>MarcumQ</strong>(<span title="System.double">double</span> nu, <span title="System.double">double</span> a, <span title="System.double">double</span> b)</h4>
 		<div class="content">Returns the Marcum Q-function Q[ν](a,b).  <p>References: A. Gil, J. Segura and N.M. Temme. Efficient and accurate algorithms for the
 computation and inversion of the incomplete gamma function ratios. SIAM J Sci Comput. (2012) 34(6), A2965-A2981 </p> 
@@ -2398,6 +2413,15 @@ computation and inversion of the incomplete gamma function ratios. SIAM J Sci Co
         <h6><code><span title="System.double">double</span></code></h6>
         <p>The Marcum Q-function Q[ν](a,b) </p>
       </div>
+      
+    </div>
+	</div>
+	<div id="MarcumQ" class="method">
+		<h4><span title="System.double">double</span> <strong>MarcumQ</strong>(<span title="System.double">double</span> nu, <span title="System.double">double</span> a, <span title="System.double">double</span> b, <span title="System.Int32&">Int32&amp;</span> err)</h4>
+		<div class="content">
+
+
+
       
     </div>
 	</div>
