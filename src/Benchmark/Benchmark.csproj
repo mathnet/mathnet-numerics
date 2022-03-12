@@ -3,6 +3,7 @@
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <TargetFrameworks>net6.0;net48</TargetFrameworks>
+        <LangVersion>7.3</LangVersion>
         <AssemblyName>Benchmark</AssemblyName>
         <RootNamespace>Benchmark</RootNamespace>
         <IsPackable>false</IsPackable>

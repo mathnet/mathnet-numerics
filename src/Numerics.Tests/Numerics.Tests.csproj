@@ -4,6 +4,7 @@
         <OutputType>Exe</OutputType>
         <GenerateProgramFile>false</GenerateProgramFile>
         <TargetFrameworks>net6.0;net48</TargetFrameworks>
+        <LangVersion>7.3</LangVersion>
         <AssemblyName>MathNet.Numerics.Tests</AssemblyName>
         <RootNamespace>MathNet.Numerics.Tests</RootNamespace>
         <IsPackable>false</IsPackable>
@@ -11,7 +12,7 @@
         <VersionSuffix>alpha02</VersionSuffix>
         <GenerateDocumentationFile>false</GenerateDocumentationFile>
     </PropertyGroup>
-	<ItemGroup>
+    <ItemGroup>
         <None Remove="TestResult.xml" />
     </ItemGroup>
     <ItemGroup>

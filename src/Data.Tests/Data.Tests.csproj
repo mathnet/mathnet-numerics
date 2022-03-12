@@ -4,6 +4,7 @@
         <OutputType>Exe</OutputType>
         <GenerateProgramFile>false</GenerateProgramFile>
         <TargetFrameworks>net6.0;net48</TargetFrameworks>
+        <LangVersion>7.3</LangVersion>
         <AssemblyName>MathNet.Numerics.Data.Tests</AssemblyName>
         <RootNamespace>MathNet.Numerics.Data.Tests</RootNamespace>
         <IsPackable>false</IsPackable>

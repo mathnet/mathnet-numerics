@@ -3,6 +3,7 @@
     <PropertyGroup>
         <OutputType>Library</OutputType>
         <TargetFrameworks>net6.0;net5.0;net461;net48;netstandard2.0</TargetFrameworks>
+        <LangVersion>7.3</LangVersion>
         <AssemblyName>MathNet.Numerics.Data.Matlab</AssemblyName>
         <RootNamespace>MathNet.Numerics.Data.Matlab</RootNamespace>
         <IsPackable>true</IsPackable>
@@ -54,13 +55,13 @@ Control.Describe now includes CPU architecture and family identifier if know</Pa
         <ProjectReference Include="..\Numerics\Numerics.csproj" />
     </ItemGroup>
     <ItemGroup>
-      <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="6.0.0">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      </PackageReference>
-      <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      </PackageReference>
+        <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="6.0.0">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
     </ItemGroup>
 </Project>
