@@ -28,7 +28,6 @@
 // </copyright>
 
 using System;
-using System.Linq;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.LinearAlgebra.Storage;
@@ -96,6 +95,26 @@ namespace MathNet.Numerics.Tests.LinearAlgebraTests
                 var expected = matNoDuplicates[r, c];
                 Assert.True(Math.Abs(actual - expected) < tol, $"Expected {expected:E6} at ({r}, {c}), but got {actual:E6}");
             }
+        }
+
+        [Test]
+        public void PointwiseMultiplication_SparseReturnsSameResultAsDenseTest()
+        {
+            var x = SparseMatrix.OfDiagonalArray(new double[] { 1, 2, 3, 4 });
+            var y = DenseMatrix.OfDiagonalArray(new double[] { 5, -6, 7, -8 });
+            x.PointwiseMultiply(y, x);
+            var result = SparseMatrix.OfDiagonalArray(new double[] { 5, -12, 21, -32 });
+            Assert.AreEqual(result, x);
+        }
+
+        [Test]
+        public void PointwiseDivision_SparseReturnsSameResultAsDenseTest()
+        {
+            var x = SparseMatrix.OfDiagonalArray(new double[] { 30, 20, 10 });
+            var y = DenseMatrix.OfDiagonalArray(new double[] { 3, 4, 5 });
+            x.PointwiseDivide(y, x);
+            var result = SparseMatrix.OfDiagonalArray(new double[] { 10, 5, 2 });
+            Assert.AreEqual(result, x);
         }
     }
 }
