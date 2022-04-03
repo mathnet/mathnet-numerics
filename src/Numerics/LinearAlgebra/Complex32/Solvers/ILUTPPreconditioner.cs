@@ -499,9 +499,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
                         SwapColumns(_upper, i, indexSorting[0]);
 
                         // Update P
-                        var temp = _pivots[i];
-                        _pivots[i] = _pivots[indexSorting[0]];
-                        _pivots[indexSorting[0]] = temp;
+                        (_pivots[i], _pivots[indexSorting[0]]) = (_pivots[indexSorting[0]], _pivots[i]);
                     }
                 }
 
@@ -531,9 +529,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
                     // store the pivots in the hashtable
                     knownPivots.Add(_pivots[i], i);
 
-                    var t = row[i];
-                    row[i] = row[_pivots[i]];
-                    row[_pivots[i]] = t;
+                    (row[i], row[_pivots[i]]) = (row[_pivots[i]], row[i]);
                 }
             }
         }
@@ -575,9 +571,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         {
             for (var i = 0; i < matrix.RowCount; i++)
             {
-                var temp = matrix[i, firstColumn];
-                matrix[i, firstColumn] = matrix[i, secondColumn];
-                matrix[i, secondColumn] = temp;
+                (matrix[i, firstColumn], matrix[i, secondColumn]) = (matrix[i, secondColumn], matrix[i, firstColumn]);
             }
         }
 
@@ -862,9 +856,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         /// <param name="second">Second value to exchange</param>
         static void Exchange(int[] values, int first, int second)
         {
-            var t = values[first];
-            values[first] = values[second];
-            values[second] = t;
+            (values[first], values[second]) = (values[second], values[first]);
         }
     }
 }

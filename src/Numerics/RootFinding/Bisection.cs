@@ -88,9 +88,7 @@ namespace MathNet.Numerics.RootFinding
 
             if (upperBound < lowerBound)
             {
-                var t = upperBound;
-                upperBound = lowerBound;
-                lowerBound = t;
+                (upperBound, lowerBound) = (lowerBound, upperBound);
             }
 
             double fmin = f(lowerBound);

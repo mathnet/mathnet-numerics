@@ -125,9 +125,7 @@ namespace MathNet.Numerics
             if (symmetryTransformation)
             {
                 x = 1.0 - x;
-                var swap = a;
-                a = b;
-                b = swap;
+                (a, b) = (b, a);
             }
 
             var qab = a + b;

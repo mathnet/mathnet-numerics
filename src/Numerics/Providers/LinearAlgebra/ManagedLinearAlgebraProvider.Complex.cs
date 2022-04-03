@@ -570,16 +570,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             if (transposeA != Transpose.DontTranspose)
             {
-                var swap = rowsA;
-                rowsA = columnsA;
-                columnsA = swap;
+                (rowsA, columnsA) = (columnsA, rowsA);
             }
 
             if (transposeB != Transpose.DontTranspose)
             {
-                var swap = rowsB;
-                rowsB = columnsB;
-                columnsB = swap;
+                (rowsB, columnsB) = (columnsB, rowsB);
             }
 
             if (columnsA != rowsB)
@@ -752,9 +748,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                         var indexk = k*order;
                         var indexkp = indexk + p;
                         var indexkj = indexk + j;
-                        var temp = data[indexkp];
-                        data[indexkp] = data[indexkj];
-                        data[indexkj] = temp;
+                        (data[indexkp], data[indexkj]) = (data[indexkj], data[indexkp]);
                     }
 
                     ipiv[j] = p;
@@ -935,9 +929,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                     var indexk = j*order;
                     var indexkp = indexk + p;
                     var indexkj = indexk + i;
-                    var temp = b[indexkp];
-                    b[indexkp] = b[indexkj];
-                    b[indexkj] = temp;
+                    (b[indexkp], b[indexkj]) = (b[indexkj], b[indexkp]);
                 }
             }
 
@@ -2241,9 +2233,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                                 // Swap columns l, l + 1
                                 for (i = 0; i < columnsA; i++)
                                 {
-                                    var z = v[(l*columnsA) + i];
-                                    v[(l*columnsA) + i] = v[((l + 1)*columnsA) + i];
-                                    v[((l + 1)*columnsA) + i] = z;
+                                    (v[(l*columnsA) + i], v[((l + 1)*columnsA) + i]) = (v[((l + 1)*columnsA) + i], v[(l*columnsA) + i]);
                                 }
                             }
 
@@ -2252,9 +2242,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                                 // Swap columns l, l + 1
                                 for (i = 0; i < rowsA; i++)
                                 {
-                                    var z = u[(l*rowsA) + i];
-                                    u[(l*rowsA) + i] = u[((l + 1)*rowsA) + i];
-                                    u[((l + 1)*rowsA) + i] = z;
+                                    (u[(l*rowsA) + i], u[((l + 1)*rowsA) + i]) = (u[((l + 1)*rowsA) + i], u[(l*rowsA) + i]);
                                 }
                             }
 

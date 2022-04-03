@@ -674,9 +674,7 @@ namespace MathNet.Numerics.Statistics
                 {
                     if (high == low + 1 && a[high] < a[low])
                     {
-                        var tmp = a[low];
-                        a[low] = a[high];
-                        a[high] = tmp;
+                        (a[low], a[high]) = (a[high], a[low]);
                     }
 
                     return a[rank];
@@ -684,29 +682,21 @@ namespace MathNet.Numerics.Statistics
 
                 int middle = (low + high) >> 1;
 
-                var tmp1 = a[middle];
-                a[middle] = a[low + 1];
-                a[low + 1] = tmp1;
+                (a[middle], a[low + 1]) = (a[low + 1], a[middle]);
 
                 if (a[low] > a[high])
                 {
-                    var tmp = a[low];
-                    a[low] = a[high];
-                    a[high] = tmp;
+                    (a[low], a[high]) = (a[high], a[low]);
                 }
 
                 if (a[low + 1] > a[high])
                 {
-                    var tmp = a[low + 1];
-                    a[low + 1] = a[high];
-                    a[high] = tmp;
+                    (a[low + 1], a[high]) = (a[high], a[low + 1]);
                 }
 
                 if (a[low] > a[low + 1])
                 {
-                    var tmp = a[low];
-                    a[low] = a[low + 1];
-                    a[low + 1] = tmp;
+                    (a[low], a[low + 1]) = (a[low + 1], a[low]);
                 }
 
                 int begin = low + 1;
@@ -732,9 +722,7 @@ namespace MathNet.Numerics.Statistics
                         break;
                     }
 
-                    var tmp = a[begin];
-                    a[begin] = a[end];
-                    a[end] = tmp;
+                    (a[begin], a[end]) = (a[end], a[begin]);
                 }
 
                 a[low + 1] = a[end];

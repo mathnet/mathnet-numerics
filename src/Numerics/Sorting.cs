@@ -858,9 +858,7 @@ namespace MathNet.Numerics
                 return;
             }
 
-            T local = keys[a];
-            keys[a] = keys[b];
-            keys[b] = local;
+            (keys[a], keys[b]) = (keys[b], keys[a]);
         }
     }
 }

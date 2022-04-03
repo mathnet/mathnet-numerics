@@ -47,9 +47,7 @@ namespace MathNet.Numerics.Providers.FourierTransform
             {
                 if (i < j)
                 {
-                    var temp = samples[i];
-                    samples[i] = samples[j];
-                    samples[j] = temp;
+                    (samples[i], samples[j]) = (samples[j], samples[i]);
                 }
 
                 var m = samples.Length;

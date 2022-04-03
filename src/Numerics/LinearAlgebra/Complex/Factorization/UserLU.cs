@@ -261,9 +261,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                 }
 
                 var p = Pivots[i];
-                var temp = result[p];
-                result[p] = result[i];
-                result[i] = temp;
+                (result[p], result[i]) = (result[i], result[p]);
             }
 
             var order = Factors.RowCount;

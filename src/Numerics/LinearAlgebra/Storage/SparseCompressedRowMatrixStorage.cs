@@ -1137,9 +1137,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             for (int i = 0, last = 0; i <= rows; i++)
             {
-                var temp = csrRowPointers[i];
-                csrRowPointers[i] = last;
-                last = temp;
+                (csrRowPointers[i], last) = (last, csrRowPointers[i]);
             }
 
             storage.ColumnIndices = csrColumnIndices;

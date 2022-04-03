@@ -33,8 +33,6 @@ namespace MathNet.Numerics.Providers.FourierTransform
 {
     public partial class ManagedFourierTransformProvider
     {
-
-
         /// <summary>
         /// Fully rescale the FFT result.
         /// </summary>

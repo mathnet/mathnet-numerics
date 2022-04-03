@@ -113,9 +113,7 @@ namespace MathNet.Numerics
             {
                 if (idx[i] != inv[i])
                 {
-                    int t = idx[i];
-                    idx[i] = idx[inv[i]];
-                    idx[inv[i]] = t;
+                    (idx[i], idx[inv[i]]) = (idx[inv[i]], idx[i]);
                 }
             }
 
