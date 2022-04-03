@@ -1517,6 +1517,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             if (ValueCount != 0)
             {
+                var targetData = target.Data;
                 for (int row = 0; row < RowCount; row++)
                 {
                     var targetIndex = row * ColumnCount;
@@ -1524,7 +1525,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                     var endIndex = RowPointers[row + 1];
                     for (var j = startIndex; j < endIndex; j++)
                     {
-                        target.Data[targetIndex + ColumnIndices[j]] = Values[j];
+                        targetData[targetIndex + ColumnIndices[j]] = Values[j];
                     }
                 }
             }

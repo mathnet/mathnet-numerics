@@ -89,17 +89,19 @@ namespace MathNet.Numerics.Integration.GaussRule
 
             int m = (gaussPoint.Order + 1) >> 1;
 
+            var gaussPointAbscissas = gaussPoint.Abscissas;
+            var gaussPointWeights = gaussPoint.Weights;
             for (int i = 1; i <= m; i++)
             {
                 int index1 = gaussPoint.Order - i;
                 int index2 = i - 1;
                 int index3 = m - i;
 
-                abscissas[index1] = gaussPoint.Abscissas[index3] * a + b;
-                abscissas[index2] = -gaussPoint.Abscissas[index3] * a + b;
+                abscissas[index1] = gaussPointAbscissas[index3] * a + b;
+                abscissas[index2] = -gaussPointAbscissas[index3] * a + b;
 
-                weights[index1] = gaussPoint.Weights[index3] * a;
-                weights[index2] = gaussPoint.Weights[index3] * a;
+                weights[index1] = gaussPointWeights[index3] * a;
+                weights[index2] = gaussPointWeights[index3] * a;
             }
 
             return new GaussPoint(intervalBegin, intervalEnd, gaussPoint.Order, abscissas, weights);

@@ -138,11 +138,12 @@ namespace MathNet.Numerics.Optimization
 
         static void ValidateHessian(IObjectiveFunctionEvaluation eval)
         {
-            for (int ii = 0; ii < eval.Hessian.RowCount; ++ii)
+            var hessian = eval.Hessian;
+            for (int ii = 0; ii < hessian.RowCount; ++ii)
             {
-                for (int jj = 0; jj < eval.Hessian.ColumnCount; ++jj)
+                for (int jj = 0; jj < hessian.ColumnCount; ++jj)
                 {
-                    if (double.IsNaN(eval.Hessian[ii, jj]) || double.IsInfinity(eval.Hessian[ii, jj]))
+                    if (double.IsNaN(hessian[ii, jj]) || double.IsInfinity(hessian[ii, jj]))
                     {
                         throw new EvaluationException("Non-finite Hessian returned.", eval);
                     }

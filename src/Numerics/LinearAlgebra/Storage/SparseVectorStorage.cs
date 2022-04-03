@@ -199,10 +199,13 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             if (other is SparseVectorStorage<T> otherSparse)
             {
+                var otherSparseIndices = otherSparse.Indices;
+                var otherSparseValues = otherSparse.Values;
+
                 int i = 0, j = 0;
                 while (i < ValueCount || j < otherSparse.ValueCount)
                 {
-                    if (j >= otherSparse.ValueCount || i < ValueCount && Indices[i] < otherSparse.Indices[j])
+                    if (j >= otherSparse.ValueCount || i < ValueCount && Indices[i] < otherSparseIndices[j])
                     {
                         if (!Zero.Equals(Values[i++]))
                         {
@@ -212,9 +215,9 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                         continue;
                     }
 
-                    if (i >= ValueCount || j < otherSparse.ValueCount && otherSparse.Indices[j] < Indices[i])
+                    if (i >= ValueCount || j < otherSparse.ValueCount && otherSparseIndices[j] < Indices[i])
                     {
-                        if (!Zero.Equals(otherSparse.Values[j++]))
+                        if (!Zero.Equals(otherSparseValues[j++]))
                         {
                             return false;
                         }
@@ -222,7 +225,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                         continue;
                     }
 
-                    if (!Values[i].Equals(otherSparse.Values[j]))
+                    if (!Values[i].Equals(otherSparseValues[j]))
                     {
                         return false;
                     }
@@ -909,12 +912,14 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                     denseTarget.Clear();
                 }
 
+                var denseTargetData = denseTarget.Data;
+
                 if (zeros == Zeros.Include || !Zero.Equals(f(Zero)))
                 {
                     int k = 0;
                     for (int i = 0; i < Length; i++)
                     {
-                        denseTarget.Data[i] = k < ValueCount && (Indices[k]) == i
+                        denseTargetData[i] = k < ValueCount && (Indices[k]) == i
                             ? f(Values[k++])
                             : f(Zero);
                     }
@@ -925,7 +930,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                     {
                         for (int i = a; i < b; i++)
                         {
-                            denseTarget.Data[Indices[i]] = f(Values[i]);
+                            denseTargetData[Indices[i]] = f(Values[i]);
                         }
                     });
                 }
@@ -981,12 +986,14 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                     denseTarget.Clear();
                 }
 
+                var denseTargetData = denseTarget.Data;
+
                 if (zeros == Zeros.Include || !Zero.Equals(f(0, Zero)))
                 {
                     int k = 0;
                     for (int i = 0; i < Length; i++)
                     {
-                        denseTarget.Data[i] = k < ValueCount && (Indices[k]) == i
+                        denseTargetData[i] = k < ValueCount && (Indices[k]) == i
                             ? f(i, Values[k++])
                             : f(i, Zero);
                     }
@@ -997,7 +1004,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                     {
                         for (int i = a; i < b; i++)
                         {
-                            denseTarget.Data[Indices[i]] = f(Indices[i], Values[i]);
+                            denseTargetData[Indices[i]] = f(Indices[i], Values[i]);
                         }
                     });
                 }

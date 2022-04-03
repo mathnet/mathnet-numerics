@@ -218,11 +218,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         {
             if (result is DenseVector dense)
             {
+                var denseValues = dense._values;
                 CommonParallel.For(0, _values.Length, 4096, (a, b) =>
                 {
                     for (int i = a; i < b; i++)
                     {
-                        dense._values[i] = _values[i] + scalar;
+                        denseValues[i] = _values[i] + scalar;
                     }
                 });
             }
@@ -276,11 +277,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         {
             if (result is DenseVector dense)
             {
+                var denseValues = dense._values;
                 CommonParallel.For(0, _values.Length, 4096, (a, b) =>
                 {
                     for (int i = a; i < b; i++)
                     {
-                        dense._values[i] = _values[i] - scalar;
+                        denseValues[i] = _values[i] - scalar;
                     }
                 });
             }
@@ -412,10 +414,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         {
             if (other is DenseVector denseVector)
             {
+                var denseVectorValues = denseVector._values;
                 var dot = Complex32.Zero;
                 for (var i = 0; i < _values.Length; i++)
                 {
-                    dot += _values[i].Conjugate() * denseVector._values[i];
+                    dot += _values[i].Conjugate() * denseVectorValues[i];
                 }
 
                 return dot;

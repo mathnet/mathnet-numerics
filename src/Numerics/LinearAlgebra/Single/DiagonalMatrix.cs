@@ -659,11 +659,13 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             }
 
             var inverse = (DiagonalMatrix)Clone();
+            var inverseData = inverse._data;
+
             for (var i = 0; i < _data.Length; i++)
             {
                 if (_data[i] != 0.0)
                 {
-                    inverse._data[i] = 1.0f / _data[i];
+                    inverseData[i] = 1.0f / _data[i];
                 }
                 else
                 {

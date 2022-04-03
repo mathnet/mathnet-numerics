@@ -227,9 +227,10 @@ namespace MathNet.Numerics.LinearAlgebra
             int colIndex = 0;
             foreach (var column in columnsLeft)
             {
+                var columnItem2 = column.Item2;
                 for (int i = 0; i < column.Item2.Length; i++)
                 {
-                    array[i, colIndex] = column.Item2[i];
+                    array[i, colIndex] = columnItem2[i];
                 }
                 colIndex++;
             }
@@ -252,9 +253,10 @@ namespace MathNet.Numerics.LinearAlgebra
             }
             foreach (var column in columnsRight)
             {
+                var columnItem2 = column.Item2;
                 for (int i = 0; i < column.Item2.Length; i++)
                 {
-                    array[i, colIndex] = column.Item2[i];
+                    array[i, colIndex] = columnItem2[i];
                 }
                 colIndex++;
             }

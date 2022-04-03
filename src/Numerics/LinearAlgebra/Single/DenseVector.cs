@@ -218,11 +218,12 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         {
             if (result is DenseVector dense)
             {
+                var denseValues = dense._values;
                 CommonParallel.For(0, _values.Length, 4096, (a, b) =>
                 {
                     for (int i = a; i < b; i++)
                     {
-                        dense._values[i] = _values[i] + scalar;
+                        denseValues[i] = _values[i] + scalar;
                     }
                 });
             }
@@ -276,11 +277,12 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         {
             if (result is DenseVector dense)
             {
+                var denseValues = dense._values;
                 CommonParallel.For(0, _values.Length, 4096, (a, b) =>
                 {
                     for (int i = a; i < b; i++)
                     {
-                        dense._values[i] = _values[i] - scalar;
+                        denseValues[i] = _values[i] - scalar;
                     }
                 });
             }
@@ -466,11 +468,12 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         {
             if (result is DenseVector dense)
             {
+                var denseValues = dense._values;
                 CommonParallel.For(0, _length, 4096, (a, b) =>
                 {
                     for (int i = a; i < b; i++)
                     {
-                        dense._values[i] = Euclid.Modulus(_values[i], divisor);
+                        denseValues[i] = Euclid.Modulus(_values[i], divisor);
                     }
                 });
             }
@@ -490,11 +493,12 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         {
             if (result is DenseVector dense)
             {
+                var denseValues = dense._values;
                 CommonParallel.For(0, _length, 4096, (a, b) =>
                 {
                     for (int i = a; i < b; i++)
                     {
-                        dense._values[i] = _values[i] % divisor;
+                        denseValues[i] = _values[i] % divisor;
                     }
                 });
             }
