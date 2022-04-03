@@ -26,8 +26,8 @@ let collectNuGetPackages (solution:Solution) =
         | VisualStudio project -> Shell.copyDir solution.OutputNuGetDir project.OutputDir (fun n -> n.EndsWith(".nupkg"))
         | _ -> failwith "Project type not supported")
 
-let provideLicense path =
-    File.readAsString "LICENSE.md"
+let provideLicense licenseFile path =
+    File.readAsString licenseFile
     |> String.convertTextToWindowsLineBreaks
     |> File.replaceContent (path </> "license.txt")
 
@@ -72,7 +72,7 @@ let zip (package:ZipPackage) header zipDir filesDir filesFilter =
     Shell.cleanDir "obj/Zip"
     let workPath = "obj/Zip/" + package.Id
     Shell.copyDir workPath filesDir filesFilter
-    provideLicense workPath
+    provideLicense "LICENSE.md" workPath
     provideReadme header (sprintf "%s v%s" package.Title package.Release.PackageVersion) package.Release workPath
     Zip.zip "obj/Zip/" (zipDir </> sprintf "%s-%s.zip" package.Id package.Release.PackageVersion) !! (workPath + "/**/*.*")
     Directory.delete "obj/Zip"
@@ -87,10 +87,10 @@ let private updateNuspec (nuget:NuGetPackage) outPath dependencies (spec:NuGet.N
                 ReleaseNotes = nuget.Release.ReleaseNotes
                 Publish = false }
 
-let nugetPackManually (solution:Solution) (packages:NuGetSpecification list) header =
+let nugetPackManually (solution:Solution) (packages:NuGetSpecification list) licenseFile header =
     Shell.cleanDir "obj/NuGet"
     for pack in packages do
-        provideLicense "obj/NuGet"
+        provideLicense licenseFile "obj/NuGet"
         provideReadme header (sprintf "%s v%s" pack.Title pack.NuGet.Release.PackageVersion) pack.NuGet.Release "obj/NuGet"
         NuGet.NuGet (updateNuspec pack.NuGet solution.OutputNuGetDir pack.Dependencies) pack.NuSpecFile
         Shell.cleanDir "obj/NuGet"

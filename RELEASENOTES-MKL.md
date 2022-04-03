@@ -1,3 +1,8 @@
+### 3.0.0 - 2022-02-19
+* New binary names and package structure with runtime folders
+* With Intel oneAPI 2022
+* Note that MathNet.Numerics.Providers.MKL.dll is required for this to work with Numerics v5
+
 ### 3.0.0-beta3 - 2022-02-19
 * Fix typo in the binary file name
 

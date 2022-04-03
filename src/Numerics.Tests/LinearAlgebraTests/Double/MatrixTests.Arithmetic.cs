@@ -698,7 +698,7 @@ namespace MathNet.Numerics.Tests.LinearAlgebraTests.Double
             {
                 for (var j = 0; j < matrixC.ColumnCount; j++)
                 {
-                    AssertHelpers.AlmostEqual(matrixA.Column(i)*matrixB.Column(j), matrixC[i, j], 15);
+                    AssertHelpers.AlmostEqual(matrixA.Column(i)*matrixB.Column(j), matrixC[i, j], 13);
                 }
             }
         }
@@ -736,7 +736,7 @@ namespace MathNet.Numerics.Tests.LinearAlgebraTests.Double
             {
                 for (var j = 0; j < matrixC.ColumnCount; j++)
                 {
-                    AssertHelpers.AlmostEqual(matrixA.Column(i)*matrixB.Column(j), matrixC[i, j], 15);
+                    AssertHelpers.AlmostEqual(matrixA.Column(i)*matrixB.Column(j), matrixC[i, j], 13);
                 }
             }
         }

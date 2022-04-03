@@ -225,7 +225,7 @@ let ``Build MKL Windows`` isIncremental isSign _ =
     Directory.create mklSolution.OutputZipDir
     zip mklWinZipPackage header mklSolution.OutputZipDir "out/MKL/Windows" (fun f -> f.Contains("MathNet.Numerics.Providers.MKL.") || f.Contains("libMathNetNumerics") || f.Contains("libiomp5md.dll"))
     Directory.create mklSolution.OutputNuGetDir
-    nugetPackManually mklSolution [ mklWinPack; mklWin32Pack; mklWin64Pack ] header
+    nugetPackManually mklSolution [ mklWinPack; mklWin32Pack; mklWin64Pack ] "LICENSE-MKL.md" header
 
     // NuGet Sign (all or nothing)
     if isSign then signNuGet fingerprint timeserver [mklSolution]
@@ -237,7 +237,7 @@ let ``Build CUDA Windows`` isIncremental isSign _ =
     Directory.create cudaSolution.OutputZipDir
     zip cudaWinZipPackage header cudaSolution.OutputZipDir "out/CUDA/Windows" (fun f -> f.Contains("MathNet.Numerics.Providers.CUDA.") || f.Contains("libMathNetNumerics") || f.Contains("cublas") || f.Contains("cudart") || f.Contains("cusolver"))
     Directory.create cudaSolution.OutputNuGetDir
-    nugetPackManually cudaSolution [ cudaWinPack ] header
+    nugetPackManually cudaSolution [ cudaWinPack ] "LICENSE.md" header
 
     // NuGet Sign (all or nothing)
     if isSign then signNuGet fingerprint timeserver [cudaSolution]
@@ -250,7 +250,7 @@ let ``Build OpenBLAS Windows`` isIncremental isSign _ =
     Directory.create openBlasSolution.OutputZipDir
     zip openBlasWinZipPackage header openBlasSolution.OutputZipDir "out/OpenBLAS/Windows" (fun f -> f.Contains("MathNet.Numerics.Providers.OpenBLAS.") || f.Contains("libMathNetNumerics") || f.Contains("libgcc") || f.Contains("libgfortran") || f.Contains("libopenblas") || f.Contains("libquadmath"))
     Directory.create openBlasSolution.OutputNuGetDir
-    nugetPackManually openBlasSolution [ openBlasWinPack ] header
+    nugetPackManually openBlasSolution [ openBlasWinPack ] "LICENSE.md" header
 
     // NuGet Sign (all or nothing)
     if isSign then signNuGet fingerprint timeserver [openBlasSolution]
@@ -268,19 +268,19 @@ let ``Pack MKL Linux Zip`` _ =
 
 let ``Pack MKL Linux NuGet`` _ =
     Directory.create mklSolution.OutputNuGetDir
-    nugetPackManually mklSolution [ mklLinuxPack; mklLinux32Pack; mklLinux64Pack ] header
+    nugetPackManually mklSolution [ mklLinuxPack; mklLinux32Pack; mklLinux64Pack ] "LICENSE-MKL.md" header
 
 let ``Pack MKL Windows`` _ =
     Directory.create mklSolution.OutputZipDir
     zip mklWinZipPackage header mklSolution.OutputZipDir "out/MKL/Windows" (fun f -> f.Contains("MathNet.Numerics.Providers.MKL.") || f.Contains("libMathNetNumerics") || f.Contains("libiomp5md.dll"))
     Directory.create mklSolution.OutputNuGetDir
-    nugetPackManually mklSolution [ mklWinPack; mklWin32Pack; mklWin64Pack ] header
+    nugetPackManually mklSolution [ mklWinPack; mklWin32Pack; mklWin64Pack ] "LICENSE-MKL.md" header
 
 let ``Pack OpenBLAS Windows`` _ =
     Directory.create openBlasSolution.OutputZipDir
     zip openBlasWinZipPackage header openBlasSolution.OutputZipDir "out/OpenBLAS/Windows" (fun f -> f.Contains("MathNet.Numerics.Providers.OpenBLAS.") || f.Contains("libMathNetNumerics") || f.Contains("libgcc") || f.Contains("libgfortran") || f.Contains("libopenblas") || f.Contains("libquadmath"))
     Directory.create openBlasSolution.OutputNuGetDir
-    nugetPackManually openBlasSolution [ openBlasWinPack ] header
+    nugetPackManually openBlasSolution [ openBlasWinPack ] "LICENSE.md" header
 
 let extraDocs =
     [ "LICENSE.md", "License.md"
