@@ -1,3 +1,7 @@
+### 5.0.0-beta02 - 2022-04-03
+* BUG: Fix sparse inplace pointwise multiplication and division *~jkalias*
+* Code maintenance, prefer looping over local arrays
+
 ### 5.0.0-beta01 - 2022-03-06
 * COMPATIBILITY: net5.0, net48 better supported with explicit builds
 * COMPATIBILITY: netstandard1.x, net40, net45 no longer supported
