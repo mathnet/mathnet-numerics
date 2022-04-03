@@ -1,20 +1,20 @@
 Math.NET Numerics
 =================
 
-Math.NET Numerics is an opensource **numerical library for .NET, Silverlight and Mono**.
+Math.NET Numerics is an opensource **numerical library for .NET and Mono**.
 
 Math.NET Numerics is the numerical foundation of the Math.NET initiative, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use. Covered topics include special functions, linear algebra, probability models, random numbers, statistics, interpolation, integration, regression, curve fitting, integral transforms (FFT) and more.
 
 In addition to the core .NET package (which is written entirely in C#), Numerics specifically supports F# with idiomatic extension modules and maintains mathematical data structures like BigRational that originated in the F# PowerPack. If a performance boost is needed, the managed-code provider backing its linear algebra routines and decompositions can be exchanged with wrappers for optimized native implementations such as Intel MKL.
 
-Math.NET Numerics is covered under the terms of the [MIT/X11](LICENSE.md) license. You may therefore link to it and use it in both opensource and proprietary software projects. We accept contributions!
+Math.NET Numerics is covered under the terms of the [MIT license](LICENSE.md). You may therefore link to it and use it in both opensource and proprietary software projects. We accept contributions!
 
 * [**Project Website**](https://numerics.mathdotnet.com)
 * [Source Code](https://github.com/mathnet/mathnet-numerics)
 * [NuGet & Binaries](https://numerics.mathdotnet.com/Packages.html) | [Release Notes](https://numerics.mathdotnet.com/ReleaseNotes.html)
 * [Documentation](https://numerics.mathdotnet.com) | [API Reference](https://numerics.mathdotnet.com/api/)
 * [Issues & Bugs](https://github.com/mathnet/mathnet-numerics/issues) | [Ideas](https://feedback.mathdotnet.com/forums/2060-math-net-numerics)
-* [Discussions](https://discuss.mathdotnet.com/c/numerics) | [Stack Overflow](https://stackoverflow.com/questions/tagged/mathdotnet) | [Twitter](https://twitter.com/MathDotNet)
+* [Discussions](https://github.com/mathnet/mathnet-numerics/discussions) | [Stack Overflow](https://stackoverflow.com/questions/tagged/mathdotnet) | [Twitter](https://twitter.com/MathDotNet)
 * [Wikipedia](https://en.wikipedia.org/wiki/Math.NET_Numerics) | [OpenHUB](https://www.openhub.net/p/mathnet-numerics)
 
 ### Current Version
@@ -51,7 +51,7 @@ Platform Support and Dependencies
 
 Supported Platforms:
 
-- .NET 5.0 or higher (Package includes builds for 5.0)
+- .NET 5.0 or higher (Package includes builds for 5.0 and 6.0)
 - .NET Framework 4.6.1 or higher (Package includes builds for 4.6.1 and 4.8)
 - .NET Standard 2.0 or higher (Package includes builds for 2.0)
 
