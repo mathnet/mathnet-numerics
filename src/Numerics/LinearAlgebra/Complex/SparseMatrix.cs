@@ -768,10 +768,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
         protected override void DoSubtract(Matrix<Complex> other, Matrix<Complex> result)
         {
-            var sparseOther = other as SparseMatrix;
-            var sparseResult = result as SparseMatrix;
-
-            if (sparseOther == null || sparseResult == null)
+            if (!(other is SparseMatrix sparseOther) || !(result is SparseMatrix sparseResult))
             {
                 base.DoSubtract(other, result);
                 return;
@@ -886,9 +883,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="result">The result of the multiplication.</param>
         protected override void DoMultiply(Matrix<Complex> other, Matrix<Complex> result)
         {
-            var sparseOther = other as SparseMatrix;
             var sparseResult = result as SparseMatrix;
-            if (sparseOther != null && sparseResult != null)
+            if (other is SparseMatrix sparseOther && sparseResult != null)
             {
                 DoMultiplySparse(sparseOther, sparseResult);
                 return;

@@ -78,8 +78,7 @@ namespace MathNet.Numerics.Tests.Random
             Assert.IsTrue(sum >= (N/2.0) - (.05*N));
             Assert.IsTrue(sum <= (N/2.0) + (.05*N));
 
-            var disposable = random as IDisposable;
-            if (disposable != null)
+            if (random is IDisposable disposable)
             {
                 disposable.Dispose();
             }
@@ -101,8 +100,7 @@ namespace MathNet.Numerics.Tests.Random
                 Assert.IsTrue(next < j, string.Format("Value {0} is larger or equal to upper bound {1}", next, j));
             }
 
-            var disposable = random as IDisposable;
-            if (disposable != null)
+            if (random is IDisposable disposable)
             {
                 disposable.Dispose();
             }

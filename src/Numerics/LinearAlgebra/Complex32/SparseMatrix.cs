@@ -884,9 +884,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <param name="result">The result of the multiplication.</param>
         protected override void DoMultiply(Matrix<Complex32> other, Matrix<Complex32> result)
         {
-            var sparseOther = other as SparseMatrix;
             var sparseResult = result as SparseMatrix;
-            if (sparseOther != null && sparseResult != null)
+            if (other is SparseMatrix sparseOther && sparseResult != null)
             {
                 DoMultiplySparse(sparseOther, sparseResult);
                 return;

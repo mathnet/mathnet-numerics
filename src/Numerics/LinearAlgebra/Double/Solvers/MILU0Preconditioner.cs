@@ -80,8 +80,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// instance of SparseCompressedRowMatrixStorage.</exception>
         public void Initialize(Matrix<double> matrix)
         {
-            var csr = matrix.Storage as SparseCompressedRowMatrixStorage<double>;
-            if (csr == null)
+            if (!(matrix.Storage is SparseCompressedRowMatrixStorage<double> csr))
             {
                 throw new ArgumentException("Matrix must be in sparse storage format", nameof(matrix));
             }

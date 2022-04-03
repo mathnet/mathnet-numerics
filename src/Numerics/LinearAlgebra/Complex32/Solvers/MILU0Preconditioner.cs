@@ -82,8 +82,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         /// instance of SparseCompressedRowMatrixStorage.</exception>
         public void Initialize(Matrix<Complex32> matrix)
         {
-            var csr = matrix.Storage as SparseCompressedRowMatrixStorage<Complex32>;
-            if (csr == null)
+            if (!(matrix.Storage is SparseCompressedRowMatrixStorage<Complex32> csr))
             {
                 throw new ArgumentException("Matrix must be in sparse storage format", nameof(matrix));
             }

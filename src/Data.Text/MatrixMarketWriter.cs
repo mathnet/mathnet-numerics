@@ -127,8 +127,7 @@ namespace MathNet.Numerics.Data.Text
             var format = CreateValueFormatter<T>();
             var storage = matrix.Storage;
 
-            var sparse = storage as SparseCompressedRowMatrixStorage<T>;
-            if (sparse != null)
+            if (storage is SparseCompressedRowMatrixStorage<T> sparse)
             {
                 writer.WriteLine("%%MatrixMarket matrix coordinate {0} general", complex ? "complex" : "real");
                 writer.WriteLine("{0} {1} {2}", sparse.RowCount, sparse.ColumnCount, sparse.ValueCount);
@@ -144,8 +143,7 @@ namespace MathNet.Numerics.Data.Text
                 return;
             }
 
-            var diagonal = storage as DiagonalMatrixStorage<T>;
-            if (diagonal != null)
+            if (storage is DiagonalMatrixStorage<T> diagonal)
             {
                 writer.WriteLine("%%MatrixMarket matrix coordinate {0} general", complex ? "complex" : "real");
                 writer.WriteLine("{0} {1} {2}", diagonal.RowCount, diagonal.ColumnCount, diagonal.Data.Length);
@@ -157,8 +155,7 @@ namespace MathNet.Numerics.Data.Text
                 return;
             }
 
-            var dense = storage as DenseColumnMajorMatrixStorage<T>;
-            if (dense != null)
+            if (storage is DenseColumnMajorMatrixStorage<T> dense)
             {
                 writer.WriteLine("%%MatrixMarket matrix array {0} general", complex ? "complex" : "real");
                 writer.WriteLine("{0} {1}", dense.RowCount, dense.ColumnCount);
@@ -184,8 +181,7 @@ namespace MathNet.Numerics.Data.Text
             var format = CreateValueFormatter<T>();
             var storage = vector.Storage;
 
-            var sparse = storage as SparseVectorStorage<T>;
-            if (sparse != null)
+            if (storage is SparseVectorStorage<T> sparse)
             {
                 writer.WriteLine("%%MatrixMarket vector coordinate {0}", complex ? "complex" : "real");
                 writer.WriteLine("{0} {1}", sparse.Length, sparse.ValueCount);
@@ -197,8 +193,7 @@ namespace MathNet.Numerics.Data.Text
                 return;
             }
 
-            var dense = storage as DenseVectorStorage<T>;
-            if (dense != null)
+            if (storage is DenseVectorStorage<T> dense)
             {
                 writer.WriteLine("%%MatrixMarket vector array {0}", complex ? "complex" : "real");
                 writer.WriteLine("{0}", dense.Length);

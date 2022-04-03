@@ -889,9 +889,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <param name="result">The result of the multiplication.</param>
         protected override void DoMultiply(Matrix<float> other, Matrix<float> result)
         {
-            var sparseOther = other as SparseMatrix;
             var sparseResult = result as SparseMatrix;
-            if (sparseOther != null && sparseResult != null)
+            if (other is SparseMatrix sparseOther && sparseResult != null)
             {
                 DoMultiplySparse(sparseOther, sparseResult);
                 return;
