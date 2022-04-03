@@ -1176,7 +1176,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">The matrix to store the result of the pointwise multiplication.</param>
         protected override void DoPointwiseMultiply(Matrix<double> other, Matrix<double> result)
         {
-            result.Clear();
+            if (!ReferenceEquals(this, result))
+            {
+                result.Clear();
+            }
 
             var rowPointers = _storage.RowPointers;
             var columnIndices = _storage.ColumnIndices;
@@ -1203,7 +1206,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">The matrix to store the result of the pointwise division.</param>
         protected override void DoPointwiseDivide(Matrix<double> divisor, Matrix<double> result)
         {
-            result.Clear();
+            if (!ReferenceEquals(this, result))
+            {
+                result.Clear();
+            }
 
             var rowPointers = _storage.RowPointers;
             var columnIndices = _storage.ColumnIndices;
