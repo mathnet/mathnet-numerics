@@ -17,9 +17,9 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - [Christoph Rüegg](https://christoph.ruegg.name/) (@cdrnet)
 - [Marcus Cuda](https://marcuscuda.com/) (@marcuscuda)
 - Jurgen Van Gael (@jvangael)
+- Jong Hyun Kim
 - Scott Stephens
 - Ignas Anikevicius
-- Jong Hyun Kim
 - Alexander Karatarakis
 - Tobias Glaubach
 - Erik Ovegård
@@ -33,11 +33,12 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - MaLiN2223
 - Matthew Johnson
 - manyue
+- 埃博拉酱
 - David Prince
+- Febin
 - Evangelink
 - Frank A. Krueger
 - Andriy Bratiychuk
-- Febin
 - Jack Pappas
 - Jon Smit
 - Phil Cleveland
@@ -46,30 +47,35 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Artyom Baranovskiy
 - Ashley Messer
 - Candy Chiu
+- Eduardo Rojas
 - Evelina Gabasova
+- Robin Neatherway
 - Superbest
 - lionpeloux
 - mjmckp
+- richard-allen
 - Anders Gustafsson
 - Gauthier Segay
 - Hythem Sidky
 - John C Barstow
+- Jon Larborn
 - Justin Needham
 - Ksero
 - P. van der Velde
-- Robin Neatherway
 - Tom McTiernan
 - mikael
 - Alex Hildebrand
 - Andrew Kazyrevich
 - Arthur
+- Bobby Ingram
+- CHUTORO
 - Ethar Alali
 - Feodor Fitsner
 - Iain McDonald
 - Jakub Bialogrodzki
-- Jon Larborn
 - Juri
 - Kyle Parrigan
+- Mohamed Moussa
 - Regis Portalez
 - Ryan Blackwell
 - bdodson
@@ -80,6 +86,7 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Amaury Levé
 - Andrew Willshire
 - BenHewins
+- Charlie Turndorf
 - Colin Green
 - Dan
 - Daniel Fox
@@ -91,9 +98,11 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Guney Ozsan
 - Iain Sproat
 - IgorK
+- Ioannis Kaliakatsos
 - Jakub Arnold
 - Jeff Mastry
 - Joel Sleppy
+- Joseph Petersen
 - Konstantin Tretyakov
 - Kosei ABE
 - Lucas Godshalk
@@ -111,6 +120,7 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - RR
 - Ryan Grange
 - Sergey Kosukhin
+- Shiney
 - Sunny Ahuwanya
 - Till Hoffmann
 - Tomas Petricek
@@ -120,7 +130,7 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - arthurvb
 - bbieniek
 - bstrausser
-- Christoph Alber
+- Christoph Albert
 - grovesNL
 - jb
 - kayan
@@ -128,6 +138,7 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - logophobia
 - Matthew Peacock
 - nyuriks
+- rca22
 - seahearman
 - teramonagi
 - vvavrychuk
