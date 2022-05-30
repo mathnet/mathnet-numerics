@@ -218,9 +218,7 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
                     ? null
                     : Matrix<double>.Build.DiagonalOfDiagonalVector(weights);
 
-            L = (weights == null)
-                ? null
-                : Weights.Diagonal().PointwiseSqrt();
+            L = weights?.PointwiseSqrt();
         }
 
         /// <summary>
