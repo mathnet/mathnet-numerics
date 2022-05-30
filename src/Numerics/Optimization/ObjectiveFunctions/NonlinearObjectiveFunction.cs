@@ -214,7 +214,7 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
                 weights = weights.PointwiseAbs();
             }
 
-            Weights = (weights == null)
+            Weights = weights == null
                     ? null
                     : Matrix<double>.Build.DiagonalOfDiagonalVector(weights);
 
