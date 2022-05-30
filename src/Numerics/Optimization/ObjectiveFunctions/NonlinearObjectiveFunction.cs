@@ -216,7 +216,7 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
 
             Weights = (weights == null)
                     ? null
-                    : Matrix<double>.Build.DenseOfDiagonalVector(weights);
+                    : Matrix<double>.Build.DiagonalOfDiagonalVector(weights);
 
             L = (weights == null)
                 ? null
