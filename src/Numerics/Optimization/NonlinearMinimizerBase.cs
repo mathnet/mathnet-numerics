@@ -1,5 +1,6 @@
 ﻿using MathNet.Numerics.LinearAlgebra;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MathNet.Numerics.Optimization
@@ -153,150 +154,14 @@ namespace MathNet.Numerics.Optimization
         // Except when it is initial guess, the parameters argument is always internal parameter.
         // So, first map the parameters argument to the external parameters in order to calculate function values.
 
-        protected Vector<double> ProjectToInternalParameters(Vector<double> Pext)
-        {
-            var Pint = Pext.Clone();
+        private ProjectableParameters Projectable(IEnumerable<double> parameterValues) =>
+            new ProjectableParameters(parameterValues, LowerBound, UpperBound, Scales);
 
-            if (LowerBound != null && UpperBound != null)
-            {
-                for (int i = 0; i < Pext.Count; i++)
-                {
-                    Pint[i] = Math.Asin((2.0 * (Pext[i] - LowerBound[i]) / (UpperBound[i] - LowerBound[i])) - 1.0);
-                }
+        protected Vector<double> ProjectToInternalParameters(Vector<double> Pext) => Projectable(Pext).ToInternal();
 
-                return Pint;
-            }
+        protected Vector<double> ProjectToExternalParameters(Vector<double> Pint) => Projectable(Pint).ToExternal();
 
-            if (LowerBound != null && UpperBound == null)
-            {
-                for (int i = 0; i < Pext.Count; i++)
-                {
-                    Pint[i] = (Scales == null)
-                        ? Math.Sqrt(Math.Pow(Pext[i] - LowerBound[i] + 1.0, 2) - 1.0)
-                        : Math.Sqrt(Math.Pow((Pext[i] - LowerBound[i]) / Scales[i] + 1.0, 2) - 1.0);
-                }
-
-                return Pint;
-            }
-
-            if (LowerBound == null && UpperBound != null)
-            {
-                for (int i = 0; i < Pext.Count; i++)
-                {
-                    Pint[i] = (Scales == null)
-                        ? Math.Sqrt(Math.Pow(UpperBound[i] - Pext[i] + 1.0, 2) - 1.0)
-                        : Math.Sqrt(Math.Pow((UpperBound[i] - Pext[i]) / Scales[i] + 1.0, 2) - 1.0);
-                }
-
-                return Pint;
-            }
-
-            if (Scales != null)
-            {
-                for (int i = 0; i < Pext.Count; i++)
-                {
-                    Pint[i] = Pext[i] / Scales[i];
-                }
-
-                return Pint;
-            }
-
-            return Pint;
-        }
-
-        protected Vector<double> ProjectToExternalParameters(Vector<double> Pint)
-        {
-            var Pext = Pint.Clone();
-
-            if (LowerBound != null && UpperBound != null)
-            {
-                for (int i = 0; i < Pint.Count; i++)
-                {
-                    Pext[i] = LowerBound[i] + (UpperBound[i] / 2.0 - LowerBound[i] / 2.0) * (Math.Sin(Pint[i]) + 1.0);
-                }
-
-                return Pext;
-            }
-
-            if (LowerBound != null && UpperBound == null)
-            {
-                for (int i = 0; i < Pint.Count; i++)
-                {
-                    Pext[i] = (Scales == null)
-                        ? LowerBound[i] + Math.Sqrt(Pint[i] * Pint[i] + 1.0) - 1.0
-                        : LowerBound[i] + Scales[i] * (Math.Sqrt(Pint[i] * Pint[i] + 1.0) - 1.0);
-                }
-
-                return Pext;
-            }
-
-            if (LowerBound == null && UpperBound != null)
-            {
-                for (int i = 0; i < Pint.Count; i++)
-                {
-                    Pext[i] = (Scales == null)
-                        ? UpperBound[i] - Math.Sqrt(Pint[i] * Pint[i] + 1.0) + 1.0
-                        : UpperBound[i] - Scales[i] * (Math.Sqrt(Pint[i] * Pint[i] + 1.0) - 1.0);
-                }
-
-                return Pext;
-            }
-
-            if (Scales != null)
-            {
-                for (int i = 0; i < Pint.Count; i++)
-                {
-                    Pext[i] = Pint[i] * Scales[i];
-                }
-
-                return Pext;
-            }
-
-            return Pext;
-        }
-
-        protected Vector<double> ScaleFactorsOfJacobian(Vector<double> Pint)
-        {
-            var scale = Vector<double>.Build.Dense(Pint.Count, 1.0);
-
-            if (LowerBound != null && UpperBound != null)
-            {
-                for (int i = 0; i < Pint.Count; i++)
-                {
-                    scale[i] = (UpperBound[i] - LowerBound[i]) / 2.0 * Math.Cos(Pint[i]);
-                }
-                return scale;
-            }
-
-            if (LowerBound != null && UpperBound == null)
-            {
-                for (int i = 0; i < Pint.Count; i++)
-                {
-                    scale[i] = (Scales == null)
-                        ? Pint[i] / Math.Sqrt(Pint[i] * Pint[i] + 1.0)
-                        : Scales[i] * Pint[i] / Math.Sqrt(Pint[i] * Pint[i] + 1.0);
-                }
-                return scale;
-            }
-
-            if (LowerBound == null && UpperBound != null)
-            {
-                for (int i = 0; i < Pint.Count; i++)
-                {
-                    scale[i] = (Scales == null)
-                        ? -Pint[i] / Math.Sqrt(Pint[i] * Pint[i] + 1.0)
-                        : -Scales[i] * Pint[i] / Math.Sqrt(Pint[i] * Pint[i] + 1.0);
-                }
-                return scale;
-            }
-
-            if (Scales != null)
-            {
-                return Scales;
-            }
-
-            return scale;
-        }
+        protected Vector<double> ScaleFactorsOfJacobian(Vector<double> Pint) => Projectable(Pint).JacobianScaleFactors();
 
         #endregion Projection of Parameters
     }
