@@ -58,20 +58,12 @@ namespace MathNet.Numerics.Optimization
                 throw new ArgumentNullException(nameof(parameters));
             }
 
-            if (lowerBound != null && lowerBound.Count(x => double.IsInfinity(x) || double.IsNaN(x)) > 0)
-            {
-                throw new ArgumentException("The lower bounds must be finite.");
-            }
             if (lowerBound != null && lowerBound.Count != parameters.Count)
             {
                 throw new ArgumentException("The lower bounds can't have different size from the parameters.");
             }
             LowerBound = lowerBound;
 
-            if (upperBound != null && upperBound.Count(x => double.IsInfinity(x) || double.IsNaN(x)) > 0)
-            {
-                throw new ArgumentException("The upper bounds must be finite.");
-            }
             if (upperBound != null && upperBound.Count != parameters.Count)
             {
                 throw new ArgumentException("The upper bounds can't have different size from the parameters.");
