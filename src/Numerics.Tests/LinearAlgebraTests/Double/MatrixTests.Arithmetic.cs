@@ -39,6 +39,28 @@ namespace MathNet.Numerics.Tests.LinearAlgebraTests.Double
     /// </summary>
     public abstract partial class MatrixTests
     {
+        private static Vector<double> GetVector(string name, double[] data)
+        {
+            switch (name)
+            {
+                case "Dense": return Vector<double>.Build.Dense(data);
+                case "Sparse": return Vector<double>.Build.SparseOfArray(data);
+                case "User": return new UserDefinedVector(data);
+                default: throw new NotImplementedException($"{nameof(GetVector)}(string, double[]) for {nameof(name)}=\"{name}\"");
+            }
+        }
+
+        private static Vector<double> GetVector(string name, int size)
+        {
+            switch (name)
+            {
+                case "Dense": return Vector<double>.Build.Dense(size);
+                case "Sparse": return Vector<double>.Build.Sparse(size);
+                case "User": return new UserDefinedVector(size);
+                default: throw new NotImplementedException($"{nameof(GetVector)}(string, int) for {nameof(name)}=\"{name}\"");
+            }
+        }
+
         /// <summary>
         /// Can multiply with a scalar.
         /// </summary>
@@ -65,10 +87,10 @@ namespace MathNet.Numerics.Tests.LinearAlgebraTests.Double
         /// Can multiply with a vector.
         /// </summary>
         [Test]
-        public void CanMultiplyWithVector()
+        public void CanMultiplyWithVector([Values("Dense", "Sparse", "User")] string vec)
         {
             var matrix = TestMatrices["Singular3x3"];
-            var x = Vector<double>.Build.Dense(new[] { 1.0, 2.0, 3.0 });
+            var x = GetVector(vec, new[] { 1.0, 2.0, 3.0 });
             var y = matrix*x;
 
             Assert.AreEqual(matrix.RowCount, y.Count);
@@ -85,11 +107,13 @@ namespace MathNet.Numerics.Tests.LinearAlgebraTests.Double
         /// Can multiply with a vector into a result.
         /// </summary>
         [Test]
-        public void CanMultiplyWithVectorIntoResult()
+        public void CanMultiplyWithVectorIntoResult(
+            [Values("Dense", "Sparse", "User")] string vecX,
+            [Values("Dense", "Sparse", "User")] string vecY)
         {
             var matrix = TestMatrices["Singular3x3"];
-            var x = Vector<double>.Build.Dense(new[] { 1.0, 2.0, 3.0 });
-            var y = Vector<double>.Build.Dense(3);
+            var x = GetVector(vecX, new[] { 1.0, 2.0, 3.0 });
+            var y = GetVector(vecY, 3);
             matrix.Multiply(x, y);
 
             for (var i = 0; i < matrix.RowCount; i++)
@@ -104,16 +128,18 @@ namespace MathNet.Numerics.Tests.LinearAlgebraTests.Double
         /// Can multiply with a vector into result when updating input argument.
         /// </summary>
         [Test]
-        public void CanMultiplyWithVectorIntoResultWhenUpdatingInputArgument()
+        public void CanMultiplyWithVectorIntoResultWhenUpdatingInputArgument(
+            [Values("Dense", "Sparse", "User")] string vecX,
+            [Values("Dense", "Sparse", "User")] string vecY)
         {
             var matrix = TestMatrices["Singular3x3"];
-            var x = Vector<double>.Build.Dense(new[] { 1.0, 2.0, 3.0 });
+            var x = GetVector(vecX, new[] { 1.0, 2.0, 3.0 });
             var y = x;
             matrix.Multiply(x, x);
 
             Assert.AreSame(y, x);
 
-            y = Vector<double>.Build.Dense(new[] { 1.0, 2.0, 3.0 });
+            y = GetVector(vecY, new[] { 1.0, 2.0, 3.0 });
             for (var i = 0; i < matrix.RowCount; i++)
             {
                 var ar = matrix.Row(i);
@@ -126,11 +152,13 @@ namespace MathNet.Numerics.Tests.LinearAlgebraTests.Double
         /// Multiply with a vector into too large result throws <c>ArgumentException</c>.
         /// </summary>
         [Test]
-        public void MultiplyWithVectorIntoLargerResultThrowsArgumentException()
+        public void MultiplyWithVectorIntoLargerResultThrowsArgumentException(
+            [Values("Dense", "Sparse", "User")] string vecX,
+            [Values("Dense", "Sparse", "User")] string vecY)
         {
             var matrix = TestMatrices["Singular3x3"];
-            var x = Vector<double>.Build.Dense(new[] { 1.0, 2.0, 3.0 });
-            Vector<double> y = Vector<double>.Build.Dense(4);
+            var x = GetVector(vecX, new[] { 1.0, 2.0, 3.0 });
+            var y = GetVector(vecY, 4);
             Assert.That(() => matrix.Multiply(x, y), Throws.ArgumentException);
         }
 
@@ -608,10 +636,10 @@ namespace MathNet.Numerics.Tests.LinearAlgebraTests.Double
         /// Can multiply transposed matrix with a vector.
         /// </summary>
         [Test]
-        public void CanTransposeThisAndMultiplyWithVector()
+        public void CanTransposeThisAndMultiplyWithVector([Values("Dense", "Sparse", "User")] string vec)
         {
             var matrix = TestMatrices["Singular3x3"];
-            var x = Vector<double>.Build.Dense(new[] { 1.0, 2.0, 3.0 });
+            var x = GetVector(vec, new[] { 1.0, 2.0, 3.0 });
             var y = matrix.TransposeThisAndMultiply(x);
 
             Assert.AreEqual(matrix.ColumnCount, y.Count);
@@ -628,11 +656,13 @@ namespace MathNet.Numerics.Tests.LinearAlgebraTests.Double
         /// Can multiply transposed matrix with a vector into a result.
         /// </summary>
         [Test]
-        public void CanTransposeThisAndMultiplyWithVectorIntoResult()
+        public void CanTransposeThisAndMultiplyWithVectorIntoResult(
+            [Values("Dense", "Sparse", "User")] string vecX,
+            [Values("Dense", "Sparse", "User")] string vecY)
         {
             var matrix = TestMatrices["Singular3x3"];
-            var x = Vector<double>.Build.Dense(new[] { 1.0, 2.0, 3.0 });
-            var y = Vector<double>.Build.Dense(3);
+            var x = GetVector(vecX, new[] { 1.0, 2.0, 3.0 });
+            var y = GetVector(vecY, 3);
             matrix.TransposeThisAndMultiply(x, y);
 
             for (var j = 0; j < matrix.ColumnCount; j++)
@@ -647,16 +677,18 @@ namespace MathNet.Numerics.Tests.LinearAlgebraTests.Double
         /// Can multiply transposed matrix with a vector into result when updating input argument.
         /// </summary>
         [Test]
-        public void CanTransposeThisAndMultiplyWithVectorIntoResultWhenUpdatingInputArgument()
+        public void CanTransposeThisAndMultiplyWithVectorIntoResultWhenUpdatingInputArgument(
+            [Values("Dense", "Sparse", "User")] string vecX,
+            [Values("Dense", "Sparse", "User")] string vecY)
         {
             var matrix = TestMatrices["Singular3x3"];
-            var x = Vector<double>.Build.Dense(new[] { 1.0, 2.0, 3.0 });
+            var x = GetVector(vecX, new[] { 1.0, 2.0, 3.0 });
             var y = x;
             matrix.TransposeThisAndMultiply(x, x);
 
             Assert.AreSame(y, x);
 
-            y = Vector<double>.Build.Dense(new[] { 1.0, 2.0, 3.0 });
+            y = GetVector(vecY, new[] { 1.0, 2.0, 3.0 });
             for (var j = 0; j < matrix.ColumnCount; j++)
             {
                 var ar = matrix.Column(j);
@@ -669,11 +701,13 @@ namespace MathNet.Numerics.Tests.LinearAlgebraTests.Double
         /// Multiply transposed matrix with a vector into too large result throws <c>ArgumentException</c>.
         /// </summary>
         [Test]
-        public void TransposeThisAndMultiplyWithVectorIntoLargerResultThrowsArgumentException()
+        public void TransposeThisAndMultiplyWithVectorIntoLargerResultThrowsArgumentException(
+            [Values("Dense", "Sparse", "User")] string vecX,
+            [Values("Dense", "Sparse", "User")] string vecY)
         {
             var matrix = TestMatrices["Singular3x3"];
-            var x = Vector<double>.Build.Dense(new[] { 1.0, 2.0, 3.0 });
-            Vector<double> y = Vector<double>.Build.Dense(4);
+            var x = GetVector(vecX, new[] { 1.0, 2.0, 3.0 });
+            var y = GetVector(vecY, 4);
             Assert.That(() => matrix.TransposeThisAndMultiply(x, y), Throws.ArgumentException);
         }
 

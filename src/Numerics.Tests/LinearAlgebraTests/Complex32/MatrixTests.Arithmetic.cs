@@ -42,6 +42,28 @@ namespace MathNet.Numerics.Tests.LinearAlgebraTests.Complex32
     /// </summary>
     public abstract partial class MatrixTests
     {
+        private static Vector<Complex32> GetVector(string name, Complex32[] data)
+        {
+            switch (name)
+            {
+                case "Dense": return Vector<Complex32>.Build.Dense(data);
+                case "Sparse": return Vector<Complex32>.Build.SparseOfArray(data);
+                case "User": return new UserDefinedVector(data);
+                default: throw new NotImplementedException($"{nameof(GetVector)}(string, Complex32[]) for {nameof(name)}=\"{name}\"");
+            }
+        }
+
+        private static Vector<Complex32> GetVector(string name, int size)
+        {
+            switch (name)
+            {
+                case "Dense": return Vector<Complex32>.Build.Dense(size);
+                case "Sparse": return Vector<Complex32>.Build.Sparse(size);
+                case "User": return new UserDefinedVector(size);
+                default: throw new NotImplementedException($"{nameof(GetVector)}(string, int) for {nameof(name)}=\"{name}\"");
+            }
+        }
+
         /// <summary>
         /// Can multiply with a complex number.
         /// </summary>
@@ -69,10 +91,10 @@ namespace MathNet.Numerics.Tests.LinearAlgebraTests.Complex32
         /// Can multiply with a vector.
         /// </summary>
         [Test]
-        public void CanMultiplyWithVector()
+        public void CanMultiplyWithVector([Values("Dense", "Sparse", "User")] string vec)
         {
             var matrix = TestMatrices["Singular3x3"];
-            var x = new DenseVector(new[] { new Complex32(1, 1), new Complex32(2, 1), new Complex32(3, 1) });
+            var x = GetVector(vec, new[] { new Complex32(1, 1), new Complex32(2, 1), new Complex32(3, 1) });
             var y = matrix * x;
 
             Assert.AreEqual(matrix.RowCount, y.Count);
@@ -89,11 +111,13 @@ namespace MathNet.Numerics.Tests.LinearAlgebraTests.Complex32
         /// Can multiply with a vector into a result.
         /// </summary>
         [Test]
-        public void CanMultiplyWithVectorIntoResult()
+        public void CanMultiplyWithVectorIntoResult(
+            [Values("Dense", "Sparse", "User")] string vecX,
+            [Values("Dense", "Sparse", "User")] string vecY)
         {
             var matrix = TestMatrices["Singular3x3"];
-            var x = new DenseVector(new[] { new Complex32(1, 1), new Complex32(2, 1), new Complex32(3, 1) });
-            var y = new DenseVector(3);
+            var x = GetVector(vecX, new[] { new Complex32(1, 1), new Complex32(2, 1), new Complex32(3, 1) });
+            var y = GetVector(vecY, 3);
             matrix.Multiply(x, y);
 
             for (var i = 0; i < matrix.RowCount; i++)
@@ -108,16 +132,18 @@ namespace MathNet.Numerics.Tests.LinearAlgebraTests.Complex32
         /// Can multiply with a vector into result when updating input argument.
         /// </summary>
         [Test]
-        public void CanMultiplyWithVectorIntoResultWhenUpdatingInputArgument()
+        public void CanMultiplyWithVectorIntoResultWhenUpdatingInputArgument(
+            [Values("Dense", "Sparse", "User")] string vecX,
+            [Values("Dense", "Sparse", "User")] string vecY)
         {
             var matrix = TestMatrices["Singular3x3"];
-            var x = new DenseVector(new[] { new Complex32(1, 1), new Complex32(2, 1), new Complex32(3, 1) });
+            var x = GetVector(vecX, new[] { new Complex32(1, 1), new Complex32(2, 1), new Complex32(3, 1) });
             var y = x;
             matrix.Multiply(x, x);
 
             Assert.AreSame(y, x);
 
-            y = new DenseVector(new[] { new Complex32(1, 1), new Complex32(2, 1), new Complex32(3, 1) });
+            y = GetVector(vecY, new[] { new Complex32(1, 1), new Complex32(2, 1), new Complex32(3, 1) });
             for (var i = 0; i < matrix.RowCount; i++)
             {
                 var ar = matrix.Row(i);
@@ -130,11 +156,13 @@ namespace MathNet.Numerics.Tests.LinearAlgebraTests.Complex32
         /// Multiply with a vector into too large result throws <c>ArgumentException</c>.
         /// </summary>
         [Test]
-        public void MultiplyWithVectorIntoLargerResultThrowsArgumentException()
+        public void MultiplyWithVectorIntoLargerResultThrowsArgumentException(
+            [Values("Dense", "Sparse", "User")] string vecX,
+            [Values("Dense", "Sparse", "User")] string vecY)
         {
             var matrix = TestMatrices["Singular3x3"];
-            var x = new DenseVector(new[] { new Complex32(1, 1), new Complex32(2, 1), new Complex32(3, 1) });
-            Vector<Complex32> y = new DenseVector(4);
+            var x = GetVector(vecX, new[] { new Complex32(1, 1), new Complex32(2, 1), new Complex32(3, 1) });
+            var y = GetVector(vecY, 4);
             Assert.That(() => matrix.Multiply(x, y), Throws.ArgumentException);
         }
 
@@ -615,10 +643,10 @@ namespace MathNet.Numerics.Tests.LinearAlgebraTests.Complex32
         /// Can multiply transposed matrix with a vector.
         /// </summary>
         [Test]
-        public void CanTransposeThisAndMultiplyWithVector()
+        public void CanTransposeThisAndMultiplyWithVector([Values("Dense", "Sparse", "User")] string vec)
         {
             var matrix = TestMatrices["Singular3x3"];
-            var x = new DenseVector(new[] { new Complex32(1, 1), new Complex32(2, 1), new Complex32(3, 1) });
+            var x = GetVector(vec, new[] { new Complex32(1, 1), new Complex32(2, 1), new Complex32(3, 1) });
             var y = matrix.TransposeThisAndMultiply(x);
 
             Assert.AreEqual(matrix.ColumnCount, y.Count);
@@ -635,11 +663,13 @@ namespace MathNet.Numerics.Tests.LinearAlgebraTests.Complex32
         /// Can multiply transposed matrix with a vector into a result.
         /// </summary>
         [Test]
-        public void CanTransposeThisAndMultiplyWithVectorIntoResult()
+        public void CanTransposeThisAndMultiplyWithVectorIntoResult(
+            [Values("Dense", "Sparse", "User")] string vecX,
+            [Values("Dense", "Sparse", "User")] string vecY)
         {
             var matrix = TestMatrices["Singular3x3"];
-            var x = new DenseVector(new[] { new Complex32(1, 1), new Complex32(2, 1), new Complex32(3, 1) });
-            var y = new DenseVector(3);
+            var x = GetVector(vecX, new[] { new Complex32(1, 1), new Complex32(2, 1), new Complex32(3, 1) });
+            var y = GetVector(vecY, 3);
             matrix.TransposeThisAndMultiply(x, y);
 
             for (var j = 0; j < matrix.ColumnCount; j++)
@@ -654,16 +684,18 @@ namespace MathNet.Numerics.Tests.LinearAlgebraTests.Complex32
         /// Can multiply transposed matrix with a vector into result when updating input argument.
         /// </summary>
         [Test]
-        public void CanTransposeThisAndMultiplyWithVectorIntoResultWhenUpdatingInputArgument()
+        public void CanTransposeThisAndMultiplyWithVectorIntoResultWhenUpdatingInputArgument(
+            [Values("Dense", "Sparse", "User")] string vecX,
+            [Values("Dense", "Sparse", "User")] string vecY)
         {
             var matrix = TestMatrices["Singular3x3"];
-            var x = new DenseVector(new[] { new Complex32(1, 1), new Complex32(2, 1), new Complex32(3, 1) });
+            var x = GetVector(vecX, new[] { new Complex32(1, 1), new Complex32(2, 1), new Complex32(3, 1) });
             var y = x;
             matrix.TransposeThisAndMultiply(x, x);
 
             Assert.AreSame(y, x);
 
-            y = new DenseVector(new[] { new Complex32(1, 1), new Complex32(2, 1), new Complex32(3, 1) });
+            y = GetVector(vecY, new[] { new Complex32(1, 1), new Complex32(2, 1), new Complex32(3, 1) });
             for (var j = 0; j < matrix.ColumnCount; j++)
             {
                 var ar = matrix.Column(j);
@@ -676,12 +708,93 @@ namespace MathNet.Numerics.Tests.LinearAlgebraTests.Complex32
         /// Multiply transposed matrix with a vector into too large result throws <c>ArgumentException</c>.
         /// </summary>
         [Test]
-        public void TransposeThisAndMultiplyWithVectorIntoLargerResultThrowsArgumentException()
+        public void TransposeThisAndMultiplyWithVectorIntoLargerResultThrowsArgumentException(
+            [Values("Dense", "Sparse", "User")] string vecX,
+            [Values("Dense", "Sparse", "User")] string vecY)
         {
             var matrix = TestMatrices["Singular3x3"];
-            var x = new DenseVector(new[] { new Complex32(1, 1), new Complex32(2, 1), new Complex32(3, 1) });
-            Vector<Complex32> y = new DenseVector(4);
+            var x = GetVector(vecX, new[] { new Complex32(1, 1), new Complex32(2, 1), new Complex32(3, 1) });
+            var y = GetVector(vecY, 4);
             Assert.That(() => matrix.TransposeThisAndMultiply(x, y), Throws.ArgumentException);
+        }
+
+        /// <summary>
+        /// Can multiply conjugate transposed matrix with a vector.
+        /// </summary>
+        [Test]
+        public void CanConjugateTransposeThisAndMultiplyWithVector([Values("Dense", "Sparse", "User")] string vec)
+        {
+            var matrix = TestMatrices["Singular3x3"];
+            var x = GetVector(vec, new[] { new Complex32(1, 1), new Complex32(2, 1), new Complex32(3, 1) });
+            var y = matrix.ConjugateTransposeThisAndMultiply(x);
+
+            Assert.AreEqual(matrix.ColumnCount, y.Count);
+
+            for (var j = 0; j < matrix.ColumnCount; j++)
+            {
+                var ar = matrix.Column(j);
+                var dot = ar.ConjugateDotProduct(x);
+                AssertHelpers.AlmostEqual(dot, y[j], 5);
+            }
+        }
+
+        /// <summary>
+        /// Can multiply conjugate transposed matrix with a vector into a result.
+        /// </summary>
+        [Test]
+        public void CanConjugateTransposeThisAndMultiplyWithVectorIntoResult(
+            [Values("Dense", "Sparse", "User")] string vecX,
+            [Values("Dense", "Sparse", "User")] string vecY)
+        {
+            var matrix = TestMatrices["Singular3x3"];
+            var x = GetVector(vecX, new[] { new Complex32(1, 1), new Complex32(2, 1), new Complex32(3, 1) });
+            var y = GetVector(vecY, 3);
+            matrix.ConjugateTransposeThisAndMultiply(x, y);
+
+            for (var j = 0; j < matrix.ColumnCount; j++)
+            {
+                var ar = matrix.Column(j);
+                var dot = ar.ConjugateDotProduct(x);
+                AssertHelpers.AlmostEqual(dot, y[j], 5);
+            }
+        }
+
+        /// <summary>
+        /// Can multiply conjugate transposed matrix with a vector into result when updating input argument.
+        /// </summary>
+        [Test]
+        public void CanConjugateTransposeThisAndMultiplyWithVectorIntoResultWhenUpdatingInputArgument(
+            [Values("Dense", "Sparse", "User")] string vecX,
+            [Values("Dense", "Sparse", "User")] string vecY)
+        {
+            var matrix = TestMatrices["Singular3x3"];
+            var x = GetVector(vecX, new[] { new Complex32(1, 1), new Complex32(2, 1), new Complex32(3, 1) });
+            var y = x;
+            matrix.ConjugateTransposeThisAndMultiply(x, x);
+
+            Assert.AreSame(y, x);
+
+            y = GetVector(vecY, new[] { new Complex32(1, 1), new Complex32(2, 1), new Complex32(3, 1) });
+            for (var j = 0; j < matrix.ColumnCount; j++)
+            {
+                var ar = matrix.Column(j);
+                var dot = ar.ConjugateDotProduct(y);
+                AssertHelpers.AlmostEqual(dot, x[j], 5);
+            }
+        }
+
+        /// <summary>
+        /// Multiply conjugate transposed matrix with a vector into too large result throws <c>ArgumentException</c>.
+        /// </summary>
+        [Test]
+        public void ConjugateTransposeThisAndMultiplyWithVectorIntoLargerResultThrowsArgumentException(
+            [Values("Dense", "Sparse", "User")] string vecX,
+            [Values("Dense", "Sparse", "User")] string vecY)
+        {
+            var matrix = TestMatrices["Singular3x3"];
+            var x = GetVector(vecX, new[] { new Complex32(1, 1), new Complex32(2, 1), new Complex32(3, 1) });
+            var y = GetVector(vecY, 4);
+            Assert.That(() => matrix.ConjugateTransposeThisAndMultiply(x, y), Throws.ArgumentException);
         }
 
         /// <summary>
