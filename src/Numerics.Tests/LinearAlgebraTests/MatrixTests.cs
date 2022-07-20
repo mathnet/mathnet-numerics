@@ -116,5 +116,52 @@ namespace MathNet.Numerics.Tests.LinearAlgebraTests
             var result = SparseMatrix.OfDiagonalArray(new double[] { 10, 5, 2 });
             Assert.AreEqual(result, x);
         }
+
+        [Test]
+        public void MatrixVectorMultiplicationSameResult(
+            [Values("Dense", "Sparse")] string mtx,
+            [Values("Dense", "Sparse")] string vec,
+            [Values(0, 1, -1, double.Epsilon, double.MaxValue, double.MinValue, double.NaN, double.NegativeInfinity, double.PositiveInfinity)] double m_01,
+            [Values(0, 1, -1, double.Epsilon, double.MaxValue, double.MinValue, double.NaN, double.NegativeInfinity, double.PositiveInfinity)] double v_1
+            )
+        {
+            double m_00 = 1;
+            double m_10 = 0;
+            double m_11 = -2;
+
+            double v_0 = 0;
+
+            var matrixValues = new double[,] { { m_00, m_01 }, { m_10, m_11 } };
+            var vectorValues = new double[] { v_0, v_1 };
+
+            var m = GetMatrix(mtx, matrixValues);
+            var v = GetVector(vec, vectorValues);
+
+            var result = m * v;
+
+            Assert.AreEqual(2, result.Count, "Bad result dimension");
+            Assert.AreEqual((m_00 * v_0) + (m_01 * v_1), result[0], "Bad result index 0");
+            Assert.AreEqual((m_10 * v_0) + (m_11 * v_1), result[1], "Bad result index 1");
+        }
+
+        private static Matrix<double> GetMatrix(string name, double[,] data)
+        {
+            switch (name)
+            {
+                case "Dense": return Matrix<double>.Build.DenseOfArray(data);
+                case "Sparse": return Matrix<double>.Build.SparseOfArray(data);
+                default: throw new NotImplementedException($"{nameof(GetMatrix)}(string, double[,]) for {nameof(name)}=\"{name}\"");
+            }
+        }
+
+        private static Vector<double> GetVector(string name, double[] data)
+        {
+            switch (name)
+            {
+                case "Dense": return Vector<double>.Build.Dense(data);
+                case "Sparse": return Vector<double>.Build.SparseOfArray(data);
+                default: throw new NotImplementedException($"{nameof(GetVector)}(string, double[]) for {nameof(name)}=\"{name}\"");
+            }
+        }
     }
 }
