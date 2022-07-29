@@ -53,6 +53,12 @@
         <EmbeddedResource Include="..\..\data\Matlab\v.mat">
             <Link>Data\Matlab\v.mat</Link>
         </EmbeddedResource>
+        <EmbeddedResource Include="..\..\data\Matlab\cell-array-nested.mat">
+            <Link>Data\Matlab\cell-array-nested.mat</Link>
+        </EmbeddedResource>
+        <EmbeddedResource Include="..\..\data\Matlab\struct-nested.mat">
+            <Link>Data\Matlab\struct-nested.mat</Link>
+        </EmbeddedResource>
         <EmbeddedResource Include="..\..\data\NIST\AtmWtAgt.dat">
             <Link>Data\NIST\AtmWtAgt.dat</Link>
         </EmbeddedResource>

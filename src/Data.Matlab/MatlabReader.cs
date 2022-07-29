@@ -71,6 +71,18 @@ namespace MathNet.Numerics.Data.Matlab
         }
 
         /// <summary>
+        /// Unpacks a MATLAB object that cannot be mapped to a MathNet.Numerics matrix. This could be any nesting of cell matrices and structures.
+        /// The nesting must bottom out on either a MathNet.Numerics matrix (if the lowest level values here are matrices of a numeric type) or a character mattrix (if the lowest level value is a matrix of a char type)
+        /// Since structures and cell matrices can have different data types in different fields and can even be nested the type of the field value cannot be more specific than a nested object
+        /// </summary>
+        /// <returns></returns>
+        public static NestedObject NonNumeric(MatlabMatrix structData)
+        {
+            return Parser.ParseNonNumeric(structData.Data);
+        }
+
+
+        /// <summary>
         /// Read the first or a specific matrix from a MATLAB file stream.
         /// </summary>
         /// <typeparam name="T">The data type of the Matrix. It can be either: double, float, Complex, or Complex32.</typeparam>

@@ -24,6 +24,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System.Collections.Generic;
+using System.IO;
 using System.Numerics;
 using MathNet.Numerics.Data.Matlab;
 using NUnit.Framework;
@@ -461,6 +463,186 @@ namespace MathNet.Numerics.Data.Tests.Matlab
                 Assert.AreEqual(100, matrix.ColumnCount);
                 Assert.AreEqual(typeof (LinearAlgebra.Single.SparseMatrix), matrix.GetType());
                 AssertHelpers.AlmostEqual(17.6385090630805f, matrix.FrobeniusNorm(), 6);
+            }
+        }
+
+        /// <summary>                                                                                                
+        /// Can read structures with nested structures, cell matrices and normal matrices
+        /// </summary>                                                                                               
+        [Test]
+        public void CanReadNestedStructure()
+        {
+            using (var stream = TestData.Data.ReadStream("Matlab.struct-nested.mat"))
+            {
+                var fileEntries = MatlabReader.List(stream);
+
+                var result = MatlabReader.NonNumeric(fileEntries.Find(o => o.Name == "s"));
+
+                // we can use the methods provided by OneOf to work on the returned NestedObject
+                result.Switch(
+                    s => Assert.IsTrue(s.ContainsKey("a")),
+                    _ => Assert.Fail("Wrong type, Expected MatlabStructure but got CellMatrix"),
+                    _ => Assert.Fail("Wrong type, Expected MatlabStructure but got CharMatrix"),
+                    _ => Assert.Fail("Wrong type, Expected MatlabStructure but got Matrix<double>"));
+
+
+                // or we can just use it direclty as a MatlabStructure
+                var structure = result.AsT0;
+
+                Assert.IsTrue(structure.ContainsKey("a"));// numeric matrix
+                Assert.IsTrue(structure.ContainsKey("b"));// complex numeric matrix
+                Assert.IsTrue(structure.ContainsKey("c"));// char matrix
+                Assert.IsTrue(structure.ContainsKey("d"));// cell matrix
+                Assert.IsTrue(structure.ContainsKey("e"));// structure
+
+                // numeric matrices need compile time type information so they still need to be unpacked
+                var numeric = structure["a"].AsT3;
+                var numericUnpacked = MatlabReader.Unpack<double>(numeric);
+                Assert.AreEqual(3, numericUnpacked.ColumnCount);
+                Assert.AreEqual(1, numericUnpacked.RowCount);
+
+                Assert.AreEqual(10, numericUnpacked[0, 0]);
+                Assert.AreEqual(20, numericUnpacked[0, 1]);
+                Assert.AreEqual(30, numericUnpacked[0, 2]);
+
+                var complex = structure["b"].AsT3;
+                var complexUnpacked = MatlabReader.Unpack<Complex>(complex);
+                Assert.AreEqual(3, complexUnpacked.ColumnCount);
+                Assert.AreEqual(1, complexUnpacked.RowCount);
+
+                Assert.AreEqual(new Complex(1,2), complexUnpacked[0, 0]);
+                Assert.AreEqual(new Complex(2,3), complexUnpacked[0, 1]);
+                Assert.AreEqual(new Complex(3,4), complexUnpacked[0, 2]);
+
+                // contains chars a,b and c in a single row (null terminated)
+                var chars = structure["c"].AsT2;
+                //convenient for use as string
+                Assert.AreEqual("abc\0", chars.ConcatRows()[0]);
+
+                var cells = structure["d"].AsT1;
+                Assert.AreEqual(2, cells.Data.Length);
+
+                var cell1 = MatlabReader.Unpack<double>(cells.Data[0, 0].AsT3);
+                Assert.AreEqual(1, cell1.ColumnCount);
+                Assert.AreEqual(1, cell1.RowCount);
+                Assert.AreEqual(13, cell1[0, 0]);
+
+                var cell2 = MatlabReader.Unpack<double>(cells.Data[0, 1].AsT3);
+                Assert.AreEqual(1, cell2.ColumnCount);
+                Assert.AreEqual(1, cell2.RowCount);
+                Assert.AreEqual(12, cell2[0, 0]);
+
+                var nestedStructure = structure["e"].AsT0;
+
+                var aa = nestedStructure["aa"].AsT3;
+                var aaUnpacked = MatlabReader.Unpack<double>(aa);
+                Assert.AreEqual(1, aaUnpacked.ColumnCount);
+                Assert.AreEqual(1, aaUnpacked.RowCount);
+                Assert.AreEqual(23, aaUnpacked[0, 0]);
+
+                var b = nestedStructure["b"].AsT3;
+                var bUnpacked = MatlabReader.Unpack<double>(b);
+                Assert.AreEqual(1, bUnpacked.ColumnCount);
+                Assert.AreEqual(1, bUnpacked.RowCount);
+                Assert.AreEqual(34, bUnpacked[0, 0]);
+            }
+        }
+
+        [Test]
+        public void CanReadNestedCells()
+        {
+            using (var stream = TestData.Data.ReadStream("Matlab.cell-array-nested.mat"))
+            {
+                var fileEntries = MatlabReader.List(stream);
+
+                var result = MatlabReader.NonNumeric(fileEntries.Find(o => o.Name == "c"));
+
+                // this cell matrix contains one row with in each cell:
+                // 1x3 cell matrix
+                // 1x4 numeric matrix
+                // 3x3 numeric matrix
+                // char matrix 'abcd'
+                // 1x3 complex matrix
+                // structure
+                var cells = result.AsT1;
+
+                // 1x3 cell matrix
+                // each cell is char array, contents a,b,c
+                var nestedCells = cells.Data[0, 0].AsT1;
+                Assert.AreEqual(3, nestedCells.Data.Length);
+
+                string[] expectedString = new string[] { "a\0", "b\0", "c\0" };
+                for(int i = 0; i<3; i++)
+                {
+                    var singleChar = nestedCells.Data[0,i].AsT2;
+                    Assert.AreEqual(1, singleChar.Data.Length);
+                    Assert.AreEqual(expectedString[i], singleChar.Data[0, 0]);
+                }
+
+                // 1x4 numeric matrix
+                var fourNumeric = cells.Data[0, 1].AsT3;
+                var fourNumericUnpacked = MatlabReader.Unpack<double>(fourNumeric);
+                Assert.AreEqual(1, fourNumericUnpacked.RowCount);
+                Assert.AreEqual(4, fourNumericUnpacked.ColumnCount);
+
+                for(int i = 0; i<4; i++)
+                {
+                    Assert.AreEqual(i + 1, fourNumericUnpacked[0, i]);
+                }
+
+                // 3x3 numeric matrix
+                var threeNumeric = cells.Data[0, 2].AsT3;
+                var threeNumericUnpacked = MatlabReader.Unpack<double>(threeNumeric);
+                Assert.AreEqual(3, threeNumericUnpacked.RowCount);
+                Assert.AreEqual(3, threeNumericUnpacked.ColumnCount);
+
+                double[,] expected = new double[3, 3]
+                {
+                    { 0.0960473, 0.102643, 0.592588 },
+                    { 0.796906, 0.477299, 0.147533 },
+                    { 0.13894, 0.0817299, 0.906656 }
+                };
+
+                for(int row = 0; row<3; row++)
+                {
+                    for(int col = 0; col<3; col++)
+                    {
+                        Assert.AreEqual(expected[row, col], threeNumericUnpacked[row, col], 0.000001);
+                    }
+                }
+
+                // char matrix
+                var nestedChars = cells.Data[0, 3].AsT2;
+                Assert.AreEqual(4, nestedChars.Data.Length);
+                Assert.AreEqual("abcd", nestedChars.ConcatRows()[0]);
+
+                // 1x3 complex matrix
+                var complex = cells.Data[0, 4].AsT3;
+                var complexUnpacked = MatlabReader.Unpack<Complex>(complex);
+                Assert.AreEqual(1, complexUnpacked.RowCount);
+                Assert.AreEqual(3, complexUnpacked.ColumnCount);
+
+                for(int i = 0; i<3; i++)
+                {
+                    Assert.AreEqual(new Complex(i + 1, i + 2), complexUnpacked[0, i]);
+                }
+
+                // structure
+                var structure = cells.Data[0, 5].AsT0;
+
+                Assert.AreEqual(2, structure.Count);
+
+                var fieldA = structure["a"].AsT3;
+                var fieldAUnpacked = MatlabReader.Unpack<double>(fieldA);
+                Assert.AreEqual(1, fieldAUnpacked.RowCount);
+                Assert.AreEqual(1, fieldAUnpacked.ColumnCount);
+                Assert.AreEqual(1, fieldAUnpacked[0, 0]);
+
+                var fieldAbg = structure["abg"].AsT3;
+                var fieldAbgUnpacked = MatlabReader.Unpack<double>(fieldAbg);
+                Assert.AreEqual(1, fieldAbgUnpacked.RowCount);
+                Assert.AreEqual(1, fieldAbgUnpacked.ColumnCount);
+                Assert.AreEqual(2, fieldAbgUnpacked[0, 0]);
             }
         }
     }
