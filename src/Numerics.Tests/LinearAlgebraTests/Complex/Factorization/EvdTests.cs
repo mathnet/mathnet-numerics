@@ -259,5 +259,32 @@ namespace MathNet.Numerics.Tests.LinearAlgebraTests.Complex.Factorization
             AssertHelpers.AlmostEqual(ACopy, A, 14);
             AssertHelpers.AlmostEqual(BCopy, B, 14);
         }
+
+        /// <summary>
+        /// See: https://github.com/mathnet/mathnet-numerics/issues/595
+        /// </summary>
+        [Test]
+        public void CanFactorizeMatrixWithZeroInternalNorm()
+        {
+            Complex[,] data =
+            {
+                {new Complex(0.0, 0.0), new Complex(1.0, 0.0), new Complex(0.0, 0.0), new Complex(0.0, 0.0)},
+                {new Complex(2.25, 0.0), new Complex(0.0, 0.0), new Complex(0.0, 0.0), new Complex(0.0, 0.0)},
+                {new Complex(0.0, 0.0), new Complex(0.0, 0.0), new Complex(0.0, 0.0), new Complex(1.0, 0.0)},
+                {new Complex(0.0, 0.0), new Complex(0.0, 0.0), new Complex(2.25, 0.0), new Complex(0.0, 0.0)}
+            };
+
+            var A = Matrix<Complex>.Build.DenseOfArray(data);
+
+            var factorEvd = A.Evd();
+            var V = factorEvd.EigenVectors;
+            var λ = factorEvd.D;
+
+            // Verify A*V = λ*V
+            var Av = A * V;
+            var Lv = V * λ;
+            AssertHelpers.AlmostEqual(Av, Lv, 4);
+            AssertHelpers.AlmostEqualRelative(Av, Lv, 8);
+        }
     }
 }

@@ -257,5 +257,32 @@ namespace MathNet.Numerics.Tests.LinearAlgebraTests.Complex32.Factorization
             AssertHelpers.AlmostEqual(ACopy, A, 14);
             AssertHelpers.AlmostEqual(BCopy, B, 14);
         }
+
+        /// <summary>
+        /// See: https://github.com/mathnet/mathnet-numerics/issues/595
+        /// </summary>
+        [Test]
+        public void CanFactorizeMatrixWithZeroInternalNorm()
+        {
+            Complex32[,] data =
+            {
+                {new Complex32(0.0f, 0.0f), new Complex32(1.0f, 0.0f), new Complex32(0.0f, 0.0f), new Complex32(0.0f, 0.0f)},
+                {new Complex32(2.25f, 0.0f), new Complex32(0.0f, 0.0f), new Complex32(0.0f, 0.0f), new Complex32(0.0f, 0.0f)},
+                {new Complex32(0.0f, 0.0f), new Complex32(0.0f, 0.0f), new Complex32(0.0f, 0.0f), new Complex32(1.0f, 0.0f)},
+                {new Complex32(0.0f, 0.0f), new Complex32(0.0f, 0.0f), new Complex32(2.25f, 0.0f), new Complex32(0.0f, 0.0f)}
+            };
+
+            var A = Matrix<Complex32>.Build.DenseOfArray(data);
+
+            var factorEvd = A.Evd();
+            var V = factorEvd.EigenVectors;
+            var λ = factorEvd.D;
+
+            // Verify A*V = λ*V
+            var Av = A * V;
+            var Lv = V * λ;
+            AssertHelpers.AlmostEqual(Av, Lv, 4);
+            AssertHelpers.AlmostEqualRelative(Av, Lv, 8);
+        }
     }
 }

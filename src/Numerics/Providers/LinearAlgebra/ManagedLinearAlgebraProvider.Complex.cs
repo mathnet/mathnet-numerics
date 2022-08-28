@@ -3064,10 +3064,21 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                         var im1Oim1 = im1O + im1;
                         s = matrixH[im1O + i].Real;
                         norm = SpecialFunctions.Hypotenuse(matrixH[im1Oim1].Magnitude, s.Real);
-                        x = matrixH[im1Oim1]/norm;
-                        vectorV[i - 1] = x;
-                        matrixH[im1Oim1] = norm;
-                        matrixH[im1O + i] = new Complex(0.0, s.Real/norm);
+
+                        if (norm != 0.0)
+                        {
+                            x = matrixH[im1Oim1] / norm;
+                            vectorV[i - 1] = x;
+                            matrixH[im1Oim1] = norm;
+                            matrixH[im1O + i] = new Complex(0.0, s.Real / norm);
+                        }
+                        else
+                        {
+                            x = 1.0;
+                            vectorV[i - 1] = x;
+                            matrixH[im1Oim1] = norm;
+                            matrixH[im1O + i] = new Complex(0.0, 0.0);
+                        }
 
                         for (var j = i; j < order; j++)
                         {
