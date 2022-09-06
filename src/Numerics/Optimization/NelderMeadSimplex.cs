@@ -30,7 +30,6 @@
 // Converted from code released with a MIT license available at https://code.google.com/p/nelder-mead-simplex/
 
 using System;
-using System.Reflection;
 using MathNet.Numerics.LinearAlgebra;
 
 namespace MathNet.Numerics.Optimization
