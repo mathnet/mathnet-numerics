@@ -68,7 +68,7 @@ Control.Describe now includes CPU architecture and family identifier if know</Pa
         <Compile Include="Quaternion.fs" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="FSharp.Core" Version="6.0.3" />
+        <PackageReference Include="FSharp.Core" Version="6.0.6" />
         <PackageReference Include="System.ValueTuple" Version="4.5.0" Condition="'$(TargetFramework)' == 'net461'" />
         <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2">
             <PrivateAssets>all</PrivateAssets>

@@ -34,7 +34,7 @@
         <Compile Include="Main.fs" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="FSharp.Core" Version="6.0.3" />
+        <PackageReference Include="FSharp.Core" Version="6.0.6" />
         <PackageReference Include="System.ValueTuple" Version="4.5.0" Condition="'$(TargetFramework)' == 'net461'" />
         <PackageReference Include="NUnit" Version="3.13.3" />
         <PackageReference Include="NUnitLite" Version="3.13.3" />
