@@ -116,6 +116,24 @@ namespace MathNet.Numerics.Tests.RootFindingTests
         }
 
         [Test]
+        public void InfinitelyManyRoots()
+        {
+            // degenerate case with infinitely many roots
+            Func<double, double> f1 = x => 0.0;
+            Func<double, double> df1 = x => 0.0;
+            Assert.AreEqual(-50, RobustNewtonRaphson.FindRoot(f1, df1, -200, 100), 1e-6);
+        }
+
+        [Test]
+        public void InfinitelyManyRootsWithGivenAccuracy()
+        {
+            // degenerate case with infinitely many roots
+            Func<double, double> f1 = x => 1e-10;
+            Func<double, double> df1 = x => 1e-6;
+            Assert.AreEqual(-50, RobustNewtonRaphson.FindRoot(f1, df1, -200, 100, 1e-8), 1e-6);
+        }
+
+        [Test]
         public void NoRoot()
         {
             Func<double, double> f1 = x => x * x + 4;
