@@ -257,6 +257,8 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         static int SampleUnchecked(System.Random rnd, double r, double p)
         {
+            if (p == 1.0) return 0;
+
             var lambda = Gamma.SampleUnchecked(rnd, r, p/(1-p));
             return Poisson.SampleUnchecked(rnd, lambda);
         }
