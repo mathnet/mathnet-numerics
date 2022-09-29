@@ -51,7 +51,7 @@ namespace MathNet.Numerics.Distributions
         /// Initializes a new instance of the <see cref="NegativeBinomial"/> class.
         /// </summary>
         /// <param name="r">The number of successes (r) required to stop the experiment. Range: r ≥ 0.</param>
-        /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
+        /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 < p ≤ 1.</param>
         public NegativeBinomial(double r, double p)
         {
             if (!IsValidParameterSet(r, p))
@@ -68,7 +68,7 @@ namespace MathNet.Numerics.Distributions
         /// Initializes a new instance of the <see cref="NegativeBinomial"/> class.
         /// </summary>
         /// <param name="r">The number of successes (r) required to stop the experiment. Range: r ≥ 0.</param>
-        /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
+        /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 < p ≤ 1.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public NegativeBinomial(double r, double p, System.Random randomSource)
         {
@@ -97,10 +97,10 @@ namespace MathNet.Numerics.Distributions
         /// Tests whether the provided values are valid parameters for this distribution.
         /// </summary>
         /// <param name="r">The number of successes (r) required to stop the experiment. Range: r ≥ 0.</param>
-        /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
+        /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 < p ≤ 1.</param>
         public static bool IsValidParameterSet(double r, double p)
         {
-            return r >= 0.0 && p >= 0.0 && p <= 1.0;
+            return r >= 0.0 && p > 0.0 && p <= 1.0;
         }
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace MathNet.Numerics.Distributions
         public double R => _r;
 
         /// <summary>
-        /// Gets the probability of success. Range: 0 ≤ p ≤ 1.
+        /// Gets the probability of success. Range: 0 < p ≤ 1.
         /// </summary>
         public double P => _p;
 
@@ -202,7 +202,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="k">The location in the domain where we want to evaluate the probability mass function.</param>
         /// <param name="r">The number of successes (r) required to stop the experiment. Range: r ≥ 0.</param>
-        /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
+        /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 < p ≤ 1.</param>
         /// <returns>the probability mass at location <paramref name="k"/>.</returns>
         public static double PMF(double r, double p, int k)
         {
@@ -214,11 +214,11 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="k">The location in the domain where we want to evaluate the log probability mass function.</param>
         /// <param name="r">The number of successes (r) required to stop the experiment. Range: r ≥ 0.</param>
-        /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
+        /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 < p ≤ 1.</param>
         /// <returns>the log probability mass at location <paramref name="k"/>.</returns>
         public static double PMFLn(double r, double p, int k)
         {
-            if (!(r >= 0.0 && p >= 0.0 && p <= 1.0))
+            if (!(r >= 0.0 && p > 0.0 && p <= 1.0))
             {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
@@ -235,12 +235,12 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <param name="r">The number of successes (r) required to stop the experiment. Range: r ≥ 0.</param>
-        /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
+        /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 < p ≤ 1.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
         /// <seealso cref="CumulativeDistribution"/>
         public static double CDF(double r, double p, double x)
         {
-            if (!(r >= 0.0 && p >= 0.0 && p <= 1.0))
+            if (!(r >= 0.0 && p > 0.0 && p <= 1.0))
             {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
@@ -253,7 +253,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
         /// <param name="r">The number of successes (r) required to stop the experiment. Range: r ≥ 0.</param>
-        /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
+        /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 < p ≤ 1.</param>
         /// <returns>a sample from the distribution.</returns>
         static int SampleUnchecked(System.Random rnd, double r, double p)
         {
@@ -308,10 +308,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
         /// <param name="r">The number of successes (r) required to stop the experiment. Range: r ≥ 0.</param>
-        /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
+        /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 < p ≤ 1.</param>
         public static int Sample(System.Random rnd, double r, double p)
         {
-            if (!(r >= 0.0 && p >= 0.0 && p <= 1.0))
+            if (!(r >= 0.0 && p > 0.0 && p <= 1.0))
             {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
@@ -324,10 +324,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
         /// <param name="r">The number of successes (r) required to stop the experiment. Range: r ≥ 0.</param>
-        /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
+        /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 < p ≤ 1.</param>
         public static IEnumerable<int> Samples(System.Random rnd, double r, double p)
         {
-            if (!(r >= 0.0 && p >= 0.0 && p <= 1.0))
+            if (!(r >= 0.0 && p > 0.0 && p <= 1.0))
             {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
@@ -341,10 +341,10 @@ namespace MathNet.Numerics.Distributions
         /// <param name="rnd">The random number generator to use.</param>
         /// <param name="values">The array to fill with the samples.</param>
         /// <param name="r">The number of successes (r) required to stop the experiment. Range: r ≥ 0.</param>
-        /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
+        /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 < p ≤ 1.</param>
         public static void Samples(System.Random rnd, int[] values, double r, double p)
         {
-            if (!(r >= 0.0 && p >= 0.0 && p <= 1.0))
+            if (!(r >= 0.0 && p > 0.0 && p <= 1.0))
             {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
@@ -356,10 +356,10 @@ namespace MathNet.Numerics.Distributions
         /// Samples a random variable.
         /// </summary>
         /// <param name="r">The number of successes (r) required to stop the experiment. Range: r ≥ 0.</param>
-        /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
+        /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 < p ≤ 1.</param>
         public static int Sample(double r, double p)
         {
-            if (!(r >= 0.0 && p >= 0.0 && p <= 1.0))
+            if (!(r >= 0.0 && p > 0.0 && p <= 1.0))
             {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
@@ -371,10 +371,10 @@ namespace MathNet.Numerics.Distributions
         /// Samples a sequence of this random variable.
         /// </summary>
         /// <param name="r">The number of successes (r) required to stop the experiment. Range: r ≥ 0.</param>
-        /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
+        /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 < p ≤ 1.</param>
         public static IEnumerable<int> Samples(double r, double p)
         {
-            if (!(r >= 0.0 && p >= 0.0 && p <= 1.0))
+            if (!(r >= 0.0 && p > 0.0 && p <= 1.0))
             {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
@@ -387,10 +387,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="values">The array to fill with the samples.</param>
         /// <param name="r">The number of successes (r) required to stop the experiment. Range: r ≥ 0.</param>
-        /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
+        /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 < p ≤ 1.</param>
         public static void Samples(int[] values, double r, double p)
         {
-            if (!(r >= 0.0 && p >= 0.0 && p <= 1.0))
+            if (!(r >= 0.0 && p > 0.0 && p <= 1.0))
             {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
