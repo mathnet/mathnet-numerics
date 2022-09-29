@@ -258,16 +258,7 @@ namespace MathNet.Numerics.Distributions
         static int SampleUnchecked(System.Random rnd, double r, double p)
         {
             var lambda = Gamma.SampleUnchecked(rnd, r, p/(1-p));
-            var c = Math.Exp(-lambda);
-            var p1 = 1.0;
-            var k = 0;
-            do
-            {
-                k = k + 1;
-                p1 = p1*rnd.NextDouble();
-            }
-            while (p1 >= c);
-            return k - 1;
+            return Poisson.SampleUnchecked(rnd, lambda);
         }
 
         static void SamplesUnchecked(System.Random rnd, int[] values, double r, double p)
