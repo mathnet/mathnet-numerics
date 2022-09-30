@@ -206,6 +206,8 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the probability mass at location <paramref name="k"/>.</returns>
         public static double PMF(double r, double p, int k)
         {
+            if (p == 1.0 || r == 0.0) return k == 0 ? 1.0 : 0.0;
+
             return Math.Exp(PMFLn(r, p, k));
         }
 
@@ -222,6 +224,8 @@ namespace MathNet.Numerics.Distributions
             {
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
+
+            if (p == 1.0 || r == 0.0) return k == 0 ? 0.0 : Double.NegativeInfinity;
 
             return SpecialFunctions.GammaLn(r + k)
                    - SpecialFunctions.GammaLn(r)
