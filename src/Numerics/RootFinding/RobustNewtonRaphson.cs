@@ -74,15 +74,15 @@ namespace MathNet.Numerics.RootFinding
                 throw new ArgumentOutOfRangeException(nameof(accuracy), "Must be greater than zero.");
             }
 
-            double fmin = f(lowerBound);
-            double fmax = f(upperBound);
-
             root = lowerBound + 0.5 * (upperBound - lowerBound);
             double fx = f(root);
             if (Math.Abs(fx) < accuracy)
             {
                 return true;
             }
+
+            double fmin = f(lowerBound);
+            double fmax = f(upperBound);
 
             if (Math.Abs(fmin) < accuracy)
             {
