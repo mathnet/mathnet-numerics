@@ -77,7 +77,7 @@ namespace MathNet.Numerics.RootFinding
             double fmin = f(lowerBound);
             double fmax = f(upperBound);
 
-            root = 0.5 * (lowerBound + upperBound);
+            root = lowerBound + 0.5 * (upperBound - lowerBound);
             double fx = f(root);
             if (Math.Abs(fx) < accuracy)
             {
