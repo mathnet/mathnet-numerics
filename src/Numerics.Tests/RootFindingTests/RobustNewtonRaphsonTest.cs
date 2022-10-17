@@ -136,7 +136,6 @@ namespace MathNet.Numerics.Tests.RootFindingTests
         [Test]
         public void BoundsNearMaxValueNoOverflow()
         {
-            // degenerate case with infinitely many roots
             Func<double, double> f1 = x => 0.0;
             Func<double, double> df1 = x => 0.0;
             Assert.AreEqual(double.MaxValue, RobustNewtonRaphson.FindRoot(f1, df1, double.MaxValue - 2, double.MaxValue - 1), 1e-6);
@@ -145,10 +144,27 @@ namespace MathNet.Numerics.Tests.RootFindingTests
         [Test]
         public void BoundsNearMinValueNoUnderflow()
         {
-            // degenerate case with infinitely many roots
             Func<double, double> f1 = x => 0.0;
             Func<double, double> df1 = x => 0.0;
             Assert.AreEqual(double.MinValue, RobustNewtonRaphson.FindRoot(f1, df1, double.MinValue + 1, double.MinValue + 2), 1e-6);
+        }
+
+        [Test]
+        public void InfiniteLowerBound()
+        {
+            Func<double, double> f1 = x => 0.0;
+            Func<double, double> df1 = x => 0.0;
+            Assert.That(() => RobustNewtonRaphson.FindRoot(f1, df1, double.NegativeInfinity, 5), Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => RobustNewtonRaphson.FindRoot(f1, df1, double.PositiveInfinity, 5), Throws.TypeOf<ArgumentOutOfRangeException>());
+        }
+
+        [Test]
+        public void InfiniteUpperBound()
+        {
+            Func<double, double> f1 = x => 0.0;
+            Func<double, double> df1 = x => 0.0;
+            Assert.That(() => RobustNewtonRaphson.FindRoot(f1, df1, -5, double.NegativeInfinity), Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => RobustNewtonRaphson.FindRoot(f1, df1, -5, double.PositiveInfinity), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         [Test]

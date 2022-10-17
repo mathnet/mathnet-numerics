@@ -60,8 +60,8 @@ namespace MathNet.Numerics.RootFinding
         /// <summary>Find a solution of the equation f(x)=0.</summary>
         /// <param name="f">The function to find roots from.</param>
         /// <param name="df">The first derivative of the function to find roots from.</param>
-        /// <param name="lowerBound">The low value of the range where the root is supposed to be.</param>
-        /// <param name="upperBound">The high value of the range where the root is supposed to be.</param>
+        /// <param name="lowerBound">The low value of the range where the root is supposed to be (finite number).</param>
+        /// <param name="upperBound">The high value of the range where the root is supposed to be (finite number).</param>
         /// <param name="accuracy">Desired accuracy. The root will be refined until the accuracy or the maximum number of iterations is reached. Example: 1e-14. Must be greater than 0.</param>
         /// <param name="maxIterations">Maximum number of iterations. Example: 100.</param>
         /// <param name="subdivision">How many parts an interval should be split into for zero crossing scanning in case of lacking bracketing. Example: 20.</param>
@@ -72,6 +72,16 @@ namespace MathNet.Numerics.RootFinding
             if (accuracy <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(accuracy), "Must be greater than zero.");
+            }
+
+            if (double.IsInfinity(lowerBound))
+            {
+                throw new ArgumentOutOfRangeException(nameof(lowerBound), "Must be a finite number.");
+            }
+
+            if (double.IsInfinity(upperBound))
+            {
+                throw new ArgumentOutOfRangeException(nameof(upperBound), "Must be a finite number.");
             }
 
             root = lowerBound + 0.5 * (upperBound - lowerBound);
