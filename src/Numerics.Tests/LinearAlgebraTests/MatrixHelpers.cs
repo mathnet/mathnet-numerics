@@ -28,6 +28,7 @@
 // </copyright>
 
 using System;
+using System.Globalization;
 using System.IO;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
@@ -136,7 +137,7 @@ namespace MathNet.Numerics.Tests.LinearAlgebraTests
                 if (!int.TryParse(split[1], out cooCols[i]))
                     throw new InvalidDataException($"Could not parse column integer on line {i + 1}");
 
-                if (!double.TryParse(split[2], out cooVals[i]))
+                if (!double.TryParse(split[2], NumberStyles.Float, CultureInfo.InvariantCulture, out cooVals[i]))
                     throw new InvalidDataException($"Could not parse double value on line {i + 1}");
 
                 nRows = Math.Max(nRows, cooRows[i] + 1);
