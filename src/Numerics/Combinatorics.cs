@@ -32,7 +32,6 @@ using System.Collections.Generic;
 using System.Linq;
 using MathNet.Numerics.Random;
 using System.Numerics;
-using System.Net;
 
 namespace MathNet.Numerics
 {
@@ -164,7 +163,7 @@ namespace MathNet.Numerics
                 (data[i], data[swapIndex]) = (data[swapIndex], data[i]);
             }
         }
-
+#if NETCOREAPP2_1_OR_GREATER
         /// <summary>
         /// Select a random permutation, without repetition, from a data array by reordering the provided array in-place.
         /// Implemented using Fisher-Yates Shuffling. The provided data array will be modified.
@@ -182,7 +181,7 @@ namespace MathNet.Numerics
                 (data[i], data[swapIndex]) = (data[swapIndex], data[i]);
             }
         }
-
+#endif
         /// <summary>
         /// Select a random permutation from a data sequence by returning the provided data in random order.
         /// Implemented using Fisher-Yates Shuffling.
@@ -202,7 +201,7 @@ namespace MathNet.Numerics
                 array[k] = array[i];
             }
         }
-
+#if NETCOREAPP2_1_OR_GREATER
         /// <summary>
         /// Select a random permutation from a data sequence by returning the provided data in random order.
         /// Implemented using Fisher-Yates Shuffling.
@@ -217,7 +216,7 @@ namespace MathNet.Numerics
             array.SelectPermutationInplace(random);
             return array;
         }
-
+#endif
         /// <summary>
         /// Generate a random combination, without repetition, by randomly selecting some of N elements.
         /// </summary>
@@ -306,7 +305,7 @@ namespace MathNet.Numerics
                 }
             }
         }
-
+#if NETCOREAPP2_1_OR_GREATER
         /// <summary>
         /// Select a random combination, without repetition, from a data sequence by selecting k elements in original order.
         /// </summary>
@@ -332,7 +331,7 @@ namespace MathNet.Numerics
             }
             return output;
         }
-
+#endif
         /// <summary>
         /// Generates a random combination, with repetition, by randomly selecting k of N elements.
         /// </summary>
@@ -378,7 +377,7 @@ namespace MathNet.Numerics
                 }
             }
         }
-
+#if NETCOREAPP2_1_OR_GREATER
         /// <summary>
         /// Select a random combination, with repetition, from a data sequence by selecting k elements in original order.
         /// </summary>
@@ -403,7 +402,7 @@ namespace MathNet.Numerics
             }
             return output;
         }
-
+#endif
         /// <summary>
         /// Generate a random variation, without repetition, by randomly selecting k of n elements with order.
         /// Implemented using partial Fisher-Yates Shuffling.
@@ -513,7 +512,7 @@ namespace MathNet.Numerics
                 array[swapIndex] = array[i];
             }
         }
-
+#if NETCOREAPP2_1_OR_GREATER
         /// <summary>
         /// Select a random variation, without repetition, from a data sequence by randomly selecting k elements in random order.
         /// Implemented using partial Fisher-Yates Shuffling.
@@ -543,7 +542,7 @@ namespace MathNet.Numerics
             }
             return output;
         }
-
+#endif
         /// <summary>
         /// Select a random variation, without repetition, from a data sequence by randomly selecting k elements in random order.
         /// Implemented using partial Fisher-Yates Shuffling.
@@ -568,7 +567,7 @@ namespace MathNet.Numerics
                 data[swapIndex] = data[i];
             }
         }
-
+#if NETCOREAPP2_1_OR_GREATER
         /// <summary>
         /// Select a random variation, without repetition, from a data sequence by randomly selecting k elements in random order.
         /// Implemented using partial Fisher-Yates Shuffling.
@@ -597,7 +596,7 @@ namespace MathNet.Numerics
             }
             return output;
         }
-
+#endif
         /// <summary>
         /// Generate a random variation, with repetition, by randomly selecting k of n elements with order.
         /// </summary>
@@ -636,7 +635,7 @@ namespace MathNet.Numerics
                 yield return array[indices[i]];
             }
         }
-
+#if NETCOREAPP2_1_OR_GREATER
         /// <summary>
         /// Select a random variation, with repetition, from a data sequence by randomly selecting k elements in random order.
         /// </summary>
@@ -656,5 +655,6 @@ namespace MathNet.Numerics
             }
             return output;
         }
+#endif
     }
 }
