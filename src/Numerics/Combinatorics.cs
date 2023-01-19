@@ -32,6 +32,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MathNet.Numerics.Random;
 using System.Numerics;
+using System.Net;
 
 namespace MathNet.Numerics
 {
@@ -208,18 +209,13 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="data">The data elements to be reordered.</param>
         /// <param name="randomSource">The random number generator to use. Optional; the default random source will be used if null.</param>
-        public static IEnumerable<T> SelectPermutation<T>(this ReadOnlySpan<T> data, System.Random randomSource = null)
+        public static T[] SelectPermutation<T>(this ReadOnlySpan<T> data, System.Random randomSource = null)
         {
+            //Return array but not IEnumerable because ReadOnlySpan does not support iterators
             var random = randomSource ?? SystemRandomSource.Default;
             T[] array = data.ToArray();
-
-            // Fisher-Yates Shuffling
-            for (int i = array.Length - 1; i >= 0; i--)
-            {
-                int k = random.Next(i + 1);
-                yield return array[k];
-                array[k] = array[i];
-            }
+            array.SelectPermutationInplace(random);
+            return array;
         }
 
         /// <summary>
@@ -318,20 +314,23 @@ namespace MathNet.Numerics
         /// <param name="elementsToChoose">Number of elements (k) to choose from the data set. Each element is chosen at most once.</param>
         /// <param name="randomSource">The random number generator to use. Optional; the default random source will be used if null.</param>
         /// <returns>The chosen combination, in the original order.</returns>
-        public static IEnumerable<T> SelectCombination<T>(this ReadOnlySpan<T> data, int elementsToChoose, System.Random randomSource = null)
+        public static T[] SelectCombination<T>(this ReadOnlySpan<T> data, int elementsToChoose, System.Random randomSource = null)
         {
+            //Return array but not IEnumerable because ReadOnlySpan does not support iterators
             if (elementsToChoose < 0) throw new ArgumentOutOfRangeException(nameof(elementsToChoose), "Value must not be negative (zero is ok).");
             if (elementsToChoose > data.Length) throw new ArgumentOutOfRangeException(nameof(elementsToChoose), $"elementsToChoose must be smaller than or equal to data.Count.");
 
             bool[] mask = GenerateCombination(data.Length, elementsToChoose, randomSource);
-
+            T[] output = new T[elementsToChoose];
+            elementsToChoose = 0;
             for (int i = 0; i < mask.Length; i++)
             {
                 if (mask[i])
                 {
-                    yield return data[i];
+                    output[elementsToChoose++] = data[i];
                 }
             }
+            return output;
         }
 
         /// <summary>
@@ -387,19 +386,22 @@ namespace MathNet.Numerics
         /// <param name="elementsToChoose">Number of elements (k) to choose from the data set. Elements can be chosen more than once.</param>
         /// <param name="randomSource">The random number generator to use. Optional; the default random source will be used if null.</param>
         /// <returns>The chosen combination with repetition, in the original order.</returns>
-        public static IEnumerable<T> SelectCombinationWithRepetition<T>(this ReadOnlySpan<T> data, int elementsToChoose, System.Random randomSource = null)
+        public static T[] SelectCombinationWithRepetition<T>(this ReadOnlySpan<T> data, int elementsToChoose, System.Random randomSource = null)
         {
+            //Return array but not IEnumerable because ReadOnlySpan does not support iterators
             if (elementsToChoose < 0) throw new ArgumentOutOfRangeException(nameof(elementsToChoose), "Value must not be negative (zero is ok).");
 
             int[] mask = GenerateCombinationWithRepetition(data.Length, elementsToChoose, randomSource);
-
+            T[] output = new T[elementsToChoose];
+            elementsToChoose = 0;
             for (int i = 0; i < mask.Length; i++)
             {
                 for (int j = 0; j < mask[i]; j++)
                 {
-                    yield return data[i];
+                    output[elementsToChoose++] = data[i];
                 }
             }
+            return output;
         }
 
         /// <summary>
@@ -521,21 +523,25 @@ namespace MathNet.Numerics
         /// <param name="elementsToChoose">Number of elements (k) to choose from the set. Each element is chosen at most once.</param>
         /// <param name="randomSource">The random number generator to use. Optional; the default random source will be used if null.</param>
         /// <returns>The chosen variation, in random order.</returns>
-        public static IEnumerable<T> SelectVariation<T>(this ReadOnlySpan<T> data, int elementsToChoose, System.Random randomSource = null)
+        public static T[] SelectVariation<T>(this ReadOnlySpan<T> data, int elementsToChoose, System.Random randomSource = null)
         {
+            //Return array but not IEnumerable because ReadOnlySpan does not support iterators
             var random = randomSource ?? SystemRandomSource.Default;
             T[] array = data.ToArray();
 
             if (elementsToChoose < 0) throw new ArgumentOutOfRangeException(nameof(elementsToChoose), "Value must not be negative (zero is ok).");
             if (elementsToChoose > array.Length) throw new ArgumentOutOfRangeException(nameof(elementsToChoose), "elementsToChoose must be smaller than or equal to data.Count.");
-
+            T[] output = new T[elementsToChoose];
+            int iEnd = array.Length - elementsToChoose;
+            elementsToChoose = 0;
             // Partial Fisher-Yates Shuffling
-            for (int i = array.Length - 1; i >= array.Length - elementsToChoose; i--)
+            for (int i = array.Length - 1; i >= iEnd; i--)
             {
                 int swapIndex = random.Next(i + 1);
-                yield return array[swapIndex];
+                output[elementsToChoose++] = array[swapIndex];
                 array[swapIndex] = array[i];
             }
+            return output;
         }
 
         /// <summary>
@@ -572,21 +578,24 @@ namespace MathNet.Numerics
         /// <param name="elementsToChoose">Number of elements (k) to choose from the set. Each element is chosen at most once.</param>
         /// <param name="randomSource">The random number generator to use. Optional; the default random source will be used if null.</param>
         /// <returns>The chosen variation, in random order.</returns>
-        public static IEnumerable<T> SelectVariation<T>(this Span<T> data, int elementsToChoose, System.Random randomSource = null)
+        public static T[] SelectVariationInPlace<T>(this Span<T> data, int elementsToChoose, System.Random randomSource = null)
         {
+            //Return array but not IEnumerable because Span does not support iterators
             var random = randomSource ?? SystemRandomSource.Default;
-            T[] array = data.ToArray();
 
             if (elementsToChoose < 0) throw new ArgumentOutOfRangeException(nameof(elementsToChoose), "Value must not be negative (zero is ok).");
-            if (elementsToChoose > array.Length) throw new ArgumentOutOfRangeException(nameof(elementsToChoose), "elementsToChoose must be smaller than or equal to data.Count.");
-
+            if (elementsToChoose > data.Length) throw new ArgumentOutOfRangeException(nameof(elementsToChoose), "elementsToChoose must be smaller than or equal to data.Count.");
+            T[] output = new T[elementsToChoose];
+            int iEnd = data.Length - elementsToChoose;
+            elementsToChoose = 0;
             // Partial Fisher-Yates Shuffling
-            for (int i = array.Length - 1; i >= array.Length - elementsToChoose; i--)
+            for (int i = data.Length - 1; i >= iEnd; i--)
             {
                 int swapIndex = random.Next(i + 1);
-                yield return array[swapIndex];
-                array[swapIndex] = array[i];
+                output[elementsToChoose++] = data[swapIndex];
+                data[swapIndex] = data[i];
             }
+            return output;
         }
 
         /// <summary>
@@ -635,16 +644,17 @@ namespace MathNet.Numerics
         /// <param name="elementsToChoose">Number of elements (k) to choose from the data set. Elements can be chosen more than once.</param>
         /// <param name="randomSource">The random number generator to use. Optional; the default random source will be used if null.</param>
         /// <returns>The chosen variation with repetition, in random order.</returns>
-        public static IEnumerable<T> SelectVariationWithRepetition<T>(this ReadOnlySpan<T> data, int elementsToChoose, System.Random randomSource = null)
+        public static T[] SelectVariationWithRepetition<T>(this ReadOnlySpan<T> data, int elementsToChoose, System.Random randomSource = null)
         {
             if (elementsToChoose < 0) throw new ArgumentOutOfRangeException(nameof(elementsToChoose), "Value must not be negative (zero is ok).");
 
             int[] indices = GenerateVariationWithRepetition(data.Length, elementsToChoose, randomSource);
-
+            T[] output = new T[elementsToChoose];
             for (int i = 0; i < indices.Length; i++)
             {
-                yield return data[indices[i]];
+                output[i] = data[indices[i]];
             }
+            return output;
         }
     }
 }
