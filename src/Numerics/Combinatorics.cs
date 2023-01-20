@@ -32,6 +32,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MathNet.Numerics.Random;
 using System.Numerics;
+using System.Xml;
 
 namespace MathNet.Numerics
 {
@@ -135,15 +136,27 @@ namespace MathNet.Numerics
         public static int[] GeneratePermutation(int n, System.Random randomSource = null)
         {
             if (n < 0) throw new ArgumentOutOfRangeException(nameof(n), "Value must not be negative (zero is ok).");
+            return Enumerable.Range(0,n).SelectPermutation(randomSource).ToArray();
+        }
 
-            int[] indices = new int[n];
-            for (int i = 0; i < indices.Length; i++)
+        /// <summary>
+        /// Select a random permutation, without repetition, from a data array by reordering the provided array in-place.
+        /// Implemented using Fisher-Yates Shuffling. The provided data array will be modified.
+        /// </summary>
+        /// <param name="data">The data array to be reordered. The array will be modified by this routine.</param>
+        /// <param name="startIndex">Elements before this index won't be reordered</param>
+        /// <param name="endIndex">Elements after this index won't be reordered</param>
+        /// <param name="randomSource">The random number generator to use. Optional; the default random source will be used if null.</param>
+        public static void SelectPermutationInplace<T>(this IList<T> data, int startIndex, int endIndex, System.Random randomSource = null)
+        {
+            var random = randomSource ?? SystemRandomSource.Default;
+
+            // Fisher-Yates Shuffling
+            for (int i = endIndex; i > startIndex; i--)
             {
-                indices[i] = i;
+                int swapIndex = random.Next(startIndex, i + 1);
+                (data[i], data[swapIndex]) = (data[swapIndex], data[i]);
             }
-
-            SelectPermutationInplace(indices, randomSource);
-            return indices;
         }
 
         /// <summary>
@@ -154,21 +167,14 @@ namespace MathNet.Numerics
         /// <param name="randomSource">The random number generator to use. Optional; the default random source will be used if null.</param>
         public static void SelectPermutationInplace<T>(this IList<T> data, System.Random randomSource = null)
         {
-            var random = randomSource ?? SystemRandomSource.Default;
-
-            // Fisher-Yates Shuffling
-            for (int i = data.Count - 1; i > 0; i--)
-            {
-                int swapIndex = random.Next(i + 1);
-                (data[i], data[swapIndex]) = (data[swapIndex], data[i]);
-            }
+            data.SelectPermutationInplace(0, data.Count - 1, randomSource);
         }
 #if NETCOREAPP2_1_OR_GREATER
         /// <summary>
-        /// Select a random permutation, without repetition, from a data array by reordering the provided array in-place.
-        /// Implemented using Fisher-Yates Shuffling. The provided data array will be modified.
+        /// Select a random permutation, without repetition, from a data span by reordering the provided span in-place.
+        /// Implemented using Fisher-Yates Shuffling. The provided data span will be modified.
         /// </summary>
-        /// <param name="data">The data array to be reordered. The array will be modified by this routine.</param>
+        /// <param name="data">The data span to be reordered. The span will be modified by this routine.</param>
         /// <param name="randomSource">The random number generator to use. Optional; the default random source will be used if null.</param>
         public static void SelectPermutationInplace<T>(this Span<T> data, System.Random randomSource = null)
         {
@@ -184,39 +190,55 @@ namespace MathNet.Numerics
 #endif
         /// <summary>
         /// Select a random permutation from a data sequence by returning the provided data in random order.
-        /// Implemented using Fisher-Yates Shuffling.
+        /// Implemented using Fisher-Yates Shuffling. The provided data array will be modified but not copied.
         /// </summary>
         /// <param name="data">The data elements to be reordered.</param>
+        /// <param name="startIndex">Elements before this index won't be reordered</param>
+        /// <param name="endIndex">Elements after this index won't be reordered</param>
         /// <param name="randomSource">The random number generator to use. Optional; the default random source will be used if null.</param>
-        public static IEnumerable<T> SelectPermutation<T>(this IEnumerable<T> data, System.Random randomSource = null)
+        public static IEnumerable<T> SelectPermutationWithoutCopy<T>(this IList<T> data, int startIndex, int endIndex, System.Random randomSource = null)
         {
             var random = randomSource ?? SystemRandomSource.Default;
-            T[] array = data.ToArray();
 
             // Fisher-Yates Shuffling
-            for (int i = array.Length - 1; i >= 0; i--)
+            for (int i = endIndex; i >= startIndex; i--)
             {
-                int k = random.Next(i + 1);
-                yield return array[k];
-                array[k] = array[i];
+                int k = random.Next(startIndex, i + 1);
+                yield return data[k];
+                data[k] = data[i];
             }
         }
 #if NETCOREAPP2_1_OR_GREATER
         /// <summary>
         /// Select a random permutation from a data sequence by returning the provided data in random order.
-        /// Implemented using Fisher-Yates Shuffling.
+        /// Implemented using Fisher-Yates Shuffling. The provided data memory will be modified but not copied.
         /// </summary>
         /// <param name="data">The data elements to be reordered.</param>
         /// <param name="randomSource">The random number generator to use. Optional; the default random source will be used if null.</param>
-        public static T[] SelectPermutation<T>(this ReadOnlySpan<T> data, System.Random randomSource = null)
+        public static IEnumerable<T> SelectPermutationWithoutCopy<T>(this Memory<T> data, System.Random randomSource = null)
         {
-            //Return array but not IEnumerable because ReadOnlySpan does not support iterators
             var random = randomSource ?? SystemRandomSource.Default;
-            T[] array = data.ToArray();
-            array.SelectPermutationInplace(random);
-            return array;
+
+            // Fisher-Yates Shuffling
+            for (int i = data.Length - 1; i >= 0; i--)
+            {
+                int k = random.Next(i + 1);
+                yield return data.Span[k];
+                data.Span[k] = data.Span[i];
+            }
         }
 #endif
+        /// <summary>
+        /// Select a random permutation from a data sequence by returning the provided data in random order.
+        /// Implemented using Fisher-Yates Shuffling. The provided data array will be copied but not modified.
+        /// </summary>
+        /// <param name="data">The data elements to be reordered.</param>
+        /// <param name="randomSource">The random number generator to use. Optional; the default random source will be used if null.</param>
+        public static IEnumerable<T> SelectPermutation<T>(this IEnumerable<T> data, System.Random randomSource = null)
+        {
+            return data.ToArray().SelectPermutationWithoutCopy(0, data.Count() - 1, randomSource);
+        }
+
         /// <summary>
         /// Generate a random combination, without repetition, by randomly selecting some of N elements.
         /// </summary>
@@ -234,7 +256,6 @@ namespace MathNet.Numerics
             {
                 mask[i] = random.NextBoolean();
             }
-
             return mask;
         }
 
@@ -305,6 +326,31 @@ namespace MathNet.Numerics
                 }
             }
         }
+
+        /// <summary>
+        /// Select a random combination, without repetition, from a data sequence by selecting k elements in original order.
+        /// </summary>
+        /// <param name="data">The data source to choose from.</param>
+        /// <param name="startIndex">Elements before this index won't be chosen.</param>
+        /// <param name="segmentLength">Number of elements in the data segment to be chosen from.</param>
+        /// <param name="elementsToChoose">Number of elements (k) to choose from the data set. Each element is chosen at most once.</param>
+        /// <param name="randomSource">The random number generator to use. Optional; the default random source will be used if null.</param>
+        /// <returns>The chosen combination, in the original order.</returns>
+        public static IEnumerable<T> SelectCombination<T>(this IReadOnlyList<T> data, int startIndex, int segmentLength, int elementsToChoose, System.Random randomSource = null)
+        {
+            if (elementsToChoose < 0) throw new ArgumentOutOfRangeException(nameof(elementsToChoose), "Value must not be negative (zero is ok).");
+            if (elementsToChoose > segmentLength) throw new ArgumentOutOfRangeException(nameof(elementsToChoose), $"elementsToChoose must be smaller than or equal to segmentLength.");
+
+            bool[] mask = GenerateCombination(segmentLength, elementsToChoose, randomSource);
+
+            for (int i = 0; i < mask.Length; i++)
+            {
+                if (mask[i])
+                {
+                    yield return data[startIndex + i];
+                }
+            }
+        }
 #if NETCOREAPP2_1_OR_GREATER
         /// <summary>
         /// Select a random combination, without repetition, from a data sequence by selecting k elements in original order.
@@ -313,23 +359,63 @@ namespace MathNet.Numerics
         /// <param name="elementsToChoose">Number of elements (k) to choose from the data set. Each element is chosen at most once.</param>
         /// <param name="randomSource">The random number generator to use. Optional; the default random source will be used if null.</param>
         /// <returns>The chosen combination, in the original order.</returns>
-        public static T[] SelectCombination<T>(this ReadOnlySpan<T> data, int elementsToChoose, System.Random randomSource = null)
+        public static IEnumerable<T> SelectCombination<T>(this ReadOnlyMemory<T> data, int elementsToChoose, System.Random randomSource = null)
         {
-            //Return array but not IEnumerable because ReadOnlySpan does not support iterators
             if (elementsToChoose < 0) throw new ArgumentOutOfRangeException(nameof(elementsToChoose), "Value must not be negative (zero is ok).");
-            if (elementsToChoose > data.Length) throw new ArgumentOutOfRangeException(nameof(elementsToChoose), $"elementsToChoose must be smaller than or equal to data.Count.");
+            if (elementsToChoose > data.Length) throw new ArgumentOutOfRangeException(nameof(elementsToChoose), $"elementsToChoose must be smaller than or equal to data.Length.");
 
             bool[] mask = GenerateCombination(data.Length, elementsToChoose, randomSource);
-            T[] output = new T[elementsToChoose];
-            elementsToChoose = 0;
+
             for (int i = 0; i < mask.Length; i++)
             {
                 if (mask[i])
                 {
-                    output[elementsToChoose++] = data[i];
+                    yield return data.Span[i];
                 }
             }
-            return output;
+        }
+
+        /// <summary>
+        /// Select a random combination, without repetition, from a data sequence by selecting k elements in original order.
+        /// </summary>
+        /// <param name="data">The data source to choose from.</param>
+        /// <param name="output">The chosen combination, in the original order. Number of elements to choose is determined by its <c>Length</c></param>
+        /// <param name="randomSource">The random number generator to use. Optional; the default random source will be used if null.</param>
+        public static void SelectCombination<T>(this ReadOnlySpan<T> data, Span<T> output, System.Random randomSource = null)
+        {
+            if (output.Length > data.Length) throw new ArgumentOutOfRangeException("output.Length", $"output.Length must be smaller than or equal to data.Length.");
+
+            bool[] mask = GenerateCombination(data.Length, output.Length, randomSource);
+            int startIndex = 0;
+            for (int i = 0; i < mask.Length; i++)
+            {
+                if (mask[i])
+                {
+                    output[startIndex++] = data[i];
+                }
+            }
+        }
+
+        /// <summary>
+        /// Select a random combination, without repetition, from a data sequence by selecting k elements in original order.
+        /// </summary>
+        /// <param name="data">The data source to choose from.</param>
+        /// <param name="elementsToChoose">Number of elements (k) to choose from the data set. Each element is chosen at most once.</param>
+        /// <param name="output">The chosen combination, in the original order.</param>
+        /// <param name="startIndex">Chosen elements will be copied to output starting from this index.</param>
+        /// <param name="randomSource">The random number generator to use. Optional; the default random source will be used if null.</param>
+        public static void SelectCombination<T>(this ReadOnlySpan<T> data, int elementsToChoose, IList<T> output, int startIndex = 0, System.Random randomSource = null)
+        {
+            if (elementsToChoose > data.Length) throw new ArgumentOutOfRangeException("elementsToChoose", $"elementsToChoose must be smaller than or equal to data.Length.");
+
+            bool[] mask = GenerateCombination(data.Length, elementsToChoose, randomSource);
+            for (int i = 0; i < mask.Length; i++)
+            {
+                if (mask[i])
+                {
+                    output[startIndex++] = data[i];
+                }
+            }
         }
 #endif
         /// <summary>
@@ -377,6 +463,30 @@ namespace MathNet.Numerics
                 }
             }
         }
+
+        /// <summary>
+        /// Select a random combination, with repetition, from a data sequence by selecting k elements in original order.
+        /// </summary>
+        /// <param name="data">The data source to choose from.</param>
+        /// <param name="startIndex">Elements before this index won't be chosen.</param>
+        /// <param name="segmentLength">Number of elements in the data segment to be chosen from.</param>
+        /// <param name="elementsToChoose">Number of elements (k) to choose from the data set. Elements can be chosen more than once.</param>
+        /// <param name="randomSource">The random number generator to use. Optional; the default random source will be used if null.</param>
+        /// <returns>The chosen combination with repetition, in the original order.</returns>
+        public static IEnumerable<T> SelectCombinationWithRepetition<T>(this IReadOnlyList<T> data, int startIndex, int segmentLength, int elementsToChoose, System.Random randomSource = null)
+        {
+            if (elementsToChoose < 0) throw new ArgumentOutOfRangeException(nameof(elementsToChoose), "Value must not be negative (zero is ok).");
+
+            int[] mask = GenerateCombinationWithRepetition(segmentLength, elementsToChoose, randomSource);
+
+            for (int i = 0; i < mask.Length; i++)
+            {
+                for (int j = 0; j < mask[i]; j++)
+                {
+                    yield return data[startIndex + i];
+                }
+            }
+        }
 #if NETCOREAPP2_1_OR_GREATER
         /// <summary>
         /// Select a random combination, with repetition, from a data sequence by selecting k elements in original order.
@@ -385,22 +495,60 @@ namespace MathNet.Numerics
         /// <param name="elementsToChoose">Number of elements (k) to choose from the data set. Elements can be chosen more than once.</param>
         /// <param name="randomSource">The random number generator to use. Optional; the default random source will be used if null.</param>
         /// <returns>The chosen combination with repetition, in the original order.</returns>
-        public static T[] SelectCombinationWithRepetition<T>(this ReadOnlySpan<T> data, int elementsToChoose, System.Random randomSource = null)
+        public static IEnumerable<T> SelectCombinationWithRepetition<T>(this ReadOnlyMemory<T> data, int elementsToChoose, System.Random randomSource = null)
         {
-            //Return array but not IEnumerable because ReadOnlySpan does not support iterators
             if (elementsToChoose < 0) throw new ArgumentOutOfRangeException(nameof(elementsToChoose), "Value must not be negative (zero is ok).");
 
             int[] mask = GenerateCombinationWithRepetition(data.Length, elementsToChoose, randomSource);
-            T[] output = new T[elementsToChoose];
-            elementsToChoose = 0;
+
             for (int i = 0; i < mask.Length; i++)
             {
                 for (int j = 0; j < mask[i]; j++)
                 {
-                    output[elementsToChoose++] = data[i];
+                    yield return data.Span[i];
                 }
             }
-            return output;
+        }
+
+        /// <summary>
+        /// Select a random combination, with repetition, from a data sequence by selecting k elements in original order.
+        /// </summary>
+        /// <param name="data">The data source to choose from.</param>
+        /// <param name="output">The chosen combination, in the original order. Number of elements to choose is determined by its <c>Length</c></param>
+        /// <param name="randomSource">The random number generator to use. Optional; the default random source will be used if null.</param>
+        /// <returns>The chosen combination with repetition, in the original order.</returns>
+        public static void SelectCombinationWithRepetition<T>(this ReadOnlySpan<T> data, Span<T> output, System.Random randomSource = null)
+        {
+            int[] mask = GenerateCombinationWithRepetition(data.Length, output.Length, randomSource);
+            int startIndex = 0;
+            for (int i = 0; i < mask.Length; i++)
+            {
+                for (int j = 0; j < mask[i]; j++)
+                {
+                    output[startIndex++] = data[i];
+                }
+            }
+        }
+
+        /// <summary>
+        /// Select a random combination, with repetition, from a data sequence by selecting k elements in original order.
+        /// </summary>
+        /// <param name="data">The data source to choose from.</param>
+        /// <param name="elementsToChoose">Number of elements (k) to choose from the data set.</param>
+        /// <param name="output">The chosen combination, in the original order.</param>
+        /// <param name="startIndex">Chosen elements will be copied to output starting from this index.</param>
+        /// <param name="randomSource">The random number generator to use. Optional; the default random source will be used if null.</param>
+        /// <returns>The chosen combination with repetition, in the original order.</returns>
+        public static void SelectCombinationWithRepetition<T>(this ReadOnlySpan<T> data, int elementsToChoose, IList<T> output, int startIndex = 0, System.Random randomSource = null)
+        {
+            int[] mask = GenerateCombinationWithRepetition(data.Length, elementsToChoose, randomSource);
+            for (int i = 0; i < mask.Length; i++)
+            {
+                for (int j = 0; j < mask[i]; j++)
+                {
+                    output[startIndex++] = data[i];
+                }
+            }
         }
 #endif
         /// <summary>
@@ -489,8 +637,31 @@ namespace MathNet.Numerics
 
         /// <summary>
         /// Select a random variation, without repetition, from a data sequence by randomly selecting k elements in random order.
-        /// Implemented using partial Fisher-Yates Shuffling.
-        /// This algorithm copies rather than modifies your original data. If you want to avoid copying, use the -InPlace version.
+        /// Implemented using partial Fisher-Yates Shuffling. The provided data array will be modified but not copied.
+        /// </summary>
+        /// <param name="data">The data source to choose from.</param>
+        /// <param name="elementsToChoose">Number of elements (k) to choose from the set. Each element is chosen at most once.</param>
+        /// <param name="randomSource">The random number generator to use. Optional; the default random source will be used if null.</param>
+        /// <returns>The chosen variation, in random order.</returns>
+        public static IEnumerable<T> SelectVariationWithoutCopy<T>(this IList<T> data,int startIndex,int endIndex, int elementsToChoose, System.Random randomSource = null)
+        {
+            var random = randomSource ?? SystemRandomSource.Default;
+
+            if (elementsToChoose < 0) throw new ArgumentOutOfRangeException(nameof(elementsToChoose), "Value must not be negative (zero is ok).");
+            if (elementsToChoose > data.Count) throw new ArgumentOutOfRangeException(nameof(elementsToChoose), "elementsToChoose must be smaller than or equal to data.Count.");
+
+            // Partial Fisher-Yates Shuffling
+            for (int i = endIndex; i >= endIndex - elementsToChoose+1; i--)
+            {
+                int swapIndex = random.Next(i + 1);
+                yield return data[swapIndex];
+                data[swapIndex] = data[i];
+            }
+        }
+
+        /// <summary>
+        /// Select a random variation, without repetition, from a data sequence by randomly selecting k elements in random order.
+        /// Implemented using partial Fisher-Yates Shuffling. The provided data array will be copied but not modified.
         /// </summary>
         /// <param name="data">The data source to choose from.</param>
         /// <param name="elementsToChoose">Number of elements (k) to choose from the set. Each element is chosen at most once.</param>
@@ -543,30 +714,6 @@ namespace MathNet.Numerics
             return output;
         }
 #endif
-        /// <summary>
-        /// Select a random variation, without repetition, from a data sequence by randomly selecting k elements in random order.
-        /// Implemented using partial Fisher-Yates Shuffling.
-        /// This algorithm modifies rather than copies your original data. If you want to avoid modifications, use the non-InPlace version.
-        /// </summary>
-        /// <param name="data">The data source to choose from.</param>
-        /// <param name="elementsToChoose">Number of elements (k) to choose from the set. Each element is chosen at most once.</param>
-        /// <param name="randomSource">The random number generator to use. Optional; the default random source will be used if null.</param>
-        /// <returns>The chosen variation, in random order.</returns>
-        public static IEnumerable<T> SelectVariationInPlace<T>(this IList<T> data, int elementsToChoose, System.Random randomSource = null)
-        {
-            var random = randomSource ?? SystemRandomSource.Default;
-
-            if (elementsToChoose < 0) throw new ArgumentOutOfRangeException(nameof(elementsToChoose), "Value must not be negative (zero is ok).");
-            if (elementsToChoose > data.Count) throw new ArgumentOutOfRangeException(nameof(elementsToChoose), "elementsToChoose must be smaller than or equal to data.Count.");
-
-            // Partial Fisher-Yates Shuffling
-            for (int i = data.Count - 1; i >= data.Count - elementsToChoose; i--)
-            {
-                int swapIndex = random.Next(i + 1);
-                yield return data[swapIndex];
-                data[swapIndex] = data[i];
-            }
-        }
 #if NETCOREAPP2_1_OR_GREATER
         /// <summary>
         /// Select a random variation, without repetition, from a data sequence by randomly selecting k elements in random order.
