@@ -38,7 +38,7 @@ namespace MathNet.Numerics
     public static class Sorting
     {
         /// <summary>
-        /// Sort a list of keys, in place using the quick sort algorithm using the quick sort algorithm.
+        /// Sort a list of keys, in place using the quick sort algorithm.
         /// </summary>
         /// <typeparam name="T">The type of elements in the key list.</typeparam>
         /// <param name="keys">List to sort.</param>
