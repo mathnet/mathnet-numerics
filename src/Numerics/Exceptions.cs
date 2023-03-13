@@ -154,4 +154,32 @@ namespace MathNet.Numerics
         {
         }
     }
+
+    /// <summary>
+    /// Distance between point 't' and reference points is too large (can lead to inaccurate interpolation).
+    /// </summary>
+    [Serializable]
+    public class InterpolatingDistanceException : Exception
+
+    {
+        public InterpolatingDistanceException()
+            : base("Distace from 't' to the two closest points exceeds MaxDeltaT.")
+        {
+        }
+
+        public InterpolatingDistanceException(string message)
+            : base(message)
+        {
+        }
+
+        public InterpolatingDistanceException(string message, Exception innerException)
+            : base(message, innerException)
+        {
+        }
+
+        protected InterpolatingDistanceException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
+            : base(info, context)
+        {
+        }
+    }
 }
