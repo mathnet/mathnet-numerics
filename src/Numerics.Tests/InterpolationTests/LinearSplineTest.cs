@@ -138,5 +138,31 @@ namespace MathNet.Numerics.Tests.InterpolationTests
             Assert.That(() => LinearSpline.Interpolate(new double[1], new double[1]), Throws.ArgumentException);
             Assert.That(LinearSpline.Interpolate(new[] { 1.0, 2.0 }, new[] { 2.0, 2.0 }).Interpolate(1.0), Is.EqualTo(2.0));
         }
+
+        [TestCase(-2.4, .6, 1.5, 1e-15)]
+        [TestCase(-0.9, 1.7, 1.0, 1e-15)]
+        [TestCase(-0.5, .5, 1.0, 1e-15)]
+        [TestCase(-0.1, -.7, 1.0, 1e-15)]
+        [TestCase(0.1, -.9, 1.0, 1e-15)]
+        [TestCase(0.4, -.6, 1.0, 1e-15)]
+        [TestCase(1.2, .2, 1.0, 1e-15)]
+        [TestCase(10.0, 9.0, double.MaxValue, 1e-15)]
+        [TestCase(-10.0, -7.0, double.MaxValue, 1e-15)]
+        public void DeltaTCommonPoints(double t, double x, double maxDeltaT, double maxAbsoluteError)
+        {
+            LinearSpline ip = LinearSpline.Interpolate(_t, _y);
+            Assert.AreEqual(x, ip.Interpolate(t, maxDeltaT), maxAbsoluteError, "Interpolation at {0}", t);
+        }
+
+        [TestCase(0.1, -.9, 0.2)]
+        [TestCase(0.4, -.6, .2)]
+        [TestCase(1.2, .2, .2)]
+        [TestCase(10.0, 9.0, .2)]
+        [TestCase(-10.0, -7.0, .2)]
+        public void DeltaTPointTooNarrow(double t, double x, double maxDeltaT)
+        {
+            LinearSpline ip = LinearSpline.Interpolate(_t, _y);
+            Assert.Throws<InterpolatingDistanceException>(() => ip.Interpolate(t, maxDeltaT));
+        }
     }
 }
