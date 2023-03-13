@@ -29,6 +29,7 @@
 
 using MathNet.Numerics.Interpolation;
 using NUnit.Framework;
+using System;
 
 namespace MathNet.Numerics.Tests.InterpolationTests
 {
@@ -137,6 +138,18 @@ namespace MathNet.Numerics.Tests.InterpolationTests
             Assert.That(() => LinearSpline.Interpolate(new double[0], new double[0]), Throws.ArgumentException);
             Assert.That(() => LinearSpline.Interpolate(new double[1], new double[1]), Throws.ArgumentException);
             Assert.That(LinearSpline.Interpolate(new[] { 1.0, 2.0 }, new[] { 2.0, 2.0 }).Interpolate(1.0), Is.EqualTo(2.0));
+        }
+
+        [Test]
+        public void DoNotExtrapolate()
+        {
+            LinearSpline ip = LinearSpline.Interpolate(_t, _y);
+
+            Assert.Throws<ArgumentOutOfRangeException>(() => ip.Interpolate(-2.1, false));
+            Assert.Throws<ArgumentOutOfRangeException>(() => ip.Interpolate(10.0, false));
+
+            Assert.Throws<ArgumentOutOfRangeException>(() => LinearSpline.Interpolate(new[] { 1.0, 2.0 }, new[] { 2.0, 2.0 }).Interpolate(0.9, false));
+            Assert.Throws<ArgumentOutOfRangeException>(() => LinearSpline.Interpolate(new[] { 1.0, 2.0 }, new[] { 2.0, 2.0 }).Interpolate(3.0, false));
         }
     }
 }
