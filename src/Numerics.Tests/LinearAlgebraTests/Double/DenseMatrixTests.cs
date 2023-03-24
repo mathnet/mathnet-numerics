@@ -95,6 +95,38 @@ namespace MathNet.Numerics.Tests.LinearAlgebraTests.Double
             Assert.AreEqual(10.0, data[0]);
         }
 
+        [Test]
+        public void DescriptionForMatrixWithRowsButNoColumns()
+        {
+            var matrix = TestMatrices["Tall3x2"];
+            matrix = matrix.RemoveColumn(matrix.ColumnCount - 1);
+            matrix = matrix.RemoveColumn(matrix.ColumnCount - 1);
+            Assert.AreEqual("DenseMatrix 3x0-Double\r\n[empty]\r\n[empty]\r\n[empty]\r\n", matrix.ToString());
+        }
+
+        [Test]
+        public void DescriptionForMatrixWithColumnsButNoRows()
+        {
+            var matrix = TestMatrices["Wide2x3"];
+            matrix = matrix.RemoveRow(matrix.RowCount - 1);
+            matrix = matrix.RemoveRow(matrix.RowCount - 1);
+            Assert.AreEqual("DenseMatrix 0x3-Double\r\n[empty]  [empty]  [empty]", matrix.ToString());
+        }
+
+        [Test]
+        public void DescriptionForMatrixWithNoRowsAndNoColumns()
+        {
+            var matrix = TestMatrices["Wide2x3"];
+            matrix = matrix.RemoveRow(matrix.RowCount - 1);
+            matrix = matrix.RemoveRow(matrix.RowCount - 1);
+
+            matrix = matrix.RemoveColumn(matrix.ColumnCount - 1);
+            matrix = matrix.RemoveColumn(matrix.ColumnCount - 1);
+            matrix = matrix.RemoveColumn(matrix.ColumnCount - 1);
+
+            Assert.AreEqual("DenseMatrix 0x0-Double\r\n[empty]", matrix.ToString());
+        }
+
         /// <summary>
         /// Matrix from two-dimensional array is a copy.
         /// </summary>
