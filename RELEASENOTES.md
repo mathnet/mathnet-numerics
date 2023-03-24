@@ -11,7 +11,7 @@
 * Random: xoshiro256StarStar fix out of range exception *~Charlie Turndorf*
 * Precision: Perf: pre-compute negative powers *~Febin*
 * Optimizations: Remove static properties in LevenbergMarquardtMinimizer *~Jong Hyun Kim*
-* Root Finding: Newton-Raphson better handling of zero-evaluations
+* Root Finding: Newton-Raphson better handling of zero-evaluations *~jkalias*
 * Fit.Curve and FindMinimum extended to accept two more parameters
 * Fixed an index out of bounds issue when calculating BFGS minimizer with one variable *~Shiney*
 * Fixed Sparse COO NormalizeDuplicates *~Mohamed Moussa*
