@@ -359,5 +359,179 @@ namespace MathNet.Numerics.Tests
                 Assert.AreEqual(7.01013 - 2.08551 * z, resf(z), 1e-4);
             }
         }
+
+        #region Fit.Line2D - Deming/Orthogonal regression
+
+        [Test]
+        public void Fit2DToExactLineWhenPointsAreOnLine()
+        {
+            var x = new[] { 30.0, 40.0, 50.0, 12.0, -3.4, 100.5 };
+            var y = x.Select(z => 4.0 - 1.5 * z).ToArray();
+
+            var (a, b, c) = Fit.Line2D(x, y);
+            Assert.AreEqual(1.0, a);
+            Assert.AreEqual(2.0 / 3.0, b, 1e-10);
+            Assert.AreEqual(-8.0 / 3.0, c, 1e-10);
+            var (ay, by) = Fit.StandardLineToYxLine(a, b, c);
+            Assert.AreEqual(-1.5, ay, 1e-10);
+            Assert.AreEqual(4.0, by, 1e-10);
+
+            (a, b, c) = Fit.Line2D(y, x);
+            Assert.AreEqual(2.0 / 3.0, a, 1e-10);
+            Assert.AreEqual(1, b);
+            Assert.AreEqual(-8.0 / 3.0, c, 1e-10);
+            (ay, by) = Fit.StandardLineToYxLine(a, b, c);
+            Assert.AreEqual(-2.0 / 3.0, ay, 1e-10);
+            Assert.AreEqual(8.0 / 3.0, by, 1e-10);
+        }
+
+        [Test]
+        public void Fit2DToBestLine()
+        {
+            // Same data as for FitToBestLine
+
+            var x = Enumerable.Range(1, 6).Select(Convert.ToDouble).ToArray();
+            var y = new[] { 4.986, 2.347, 2.061, -2.995, -2.352, -5.782 };
+
+            var (a, b, c) = Fit.Line2D(x, y);
+            Assert.AreEqual(1.0, a);
+            Assert.AreEqual(0.45061, b, 1e-4);
+            Assert.AreEqual(-3.36970, c, 1e-4);
+            var (ay, by) = Fit.StandardLineToYxLine(a, b, c);
+            Assert.AreEqual(-2.21922, ay, 1e-4);
+            Assert.AreEqual(7.47810, by, 1e-4);
+
+            (a, b, c) = Fit.Line2D(y, x);
+            Assert.AreEqual(0.45061, a, 1e-4);
+            Assert.AreEqual(1.0, b, 1e-4);
+            Assert.AreEqual(-3.36970, c, 1e-4);
+            (ay, by) = Fit.StandardLineToYxLine(a, b, c);
+            Assert.AreEqual(-0.45061, ay, 1e-4);
+            Assert.AreEqual(3.36970, by, 1e-4);
+        }
+
+        [Test]
+        public void FitsDemingToBestLine()
+        {
+            // Example data from:
+            // https://real-statistics.com/regression/deming-regression/deming-regression-basic-concepts/
+            // -> y = 1.018*x - 0.1708
+            var x = new[] { 5.1, 5.6, 6.8, 5.9, 4.0, 5.6, 6.6, 6.7, 5.2, 4.5 };
+            var y = new[] { 5.4, 5.6, 6.3, 6.1, 4.7, 5.1, 6.6, 6.8, 4.6, 4.1 };
+            double varx = 0.05;
+            double vary = 0.02;
+
+            var (a, b, c) = Fit.Line2D(x, y, vary/varx);
+            Assert.AreEqual(1.0, a);
+            Assert.AreEqual(-0.98232, b, 1e-4);
+            Assert.AreEqual(-0.16778, c, 1e-4);
+            var (ay, by) = Fit.StandardLineToYxLine(a, b, c);
+            Assert.AreEqual(1.01800, ay, 1e-4);
+            Assert.AreEqual(-0.17080, by, 1e-4);
+
+            (a, b, c) = Fit.Line2D(y, x, varx/vary);
+            Assert.AreEqual(-0.98232, a, 1e-4);
+            Assert.AreEqual(1.0, b);
+            Assert.AreEqual(-0.16778, c, 1e-4);
+        }
+
+        [Test]
+        public void FitsDemingToBestLineR()
+        {
+            // R :
+            // library(SimplyAgree)
+            // dat = data.frame(
+            //    x = c(7, 8.3, 10.5, 9, 5.1, 8.2, 10.2, 10.3, 7.1, 5.9),
+            //    y = c(7.9, 8.2, 9.6, 9, 6.5, 7.3, 10.2, 10.6, 6.3, 5.2)
+            // dem1 = dem_reg(x = "x", y = "y", data = dat, error.ratio = 4, weighted = FALSE)
+            // -> 1.00119 * x - 0.08974
+            // Note that in R: error.ratio = var_x/var_y, while delta here is defined as var_y/var_x
+            // https://cran.r-project.org/web/packages/SimplyAgree/vignettes/Deming.html
+
+            var x = new[] { 7.0, 8.3, 10.5, 9.0, 5.1, 8.2, 10.2, 10.3, 7.1, 5.9 };
+            var y = new[] { 7.9, 8.2,  9.6, 9.0, 6.5, 7.3, 10.2, 10.6, 6.3, 5.2 };
+
+            var (a, b, c) = Fit.Line2D(x, y, 1.0/4.0);
+            Assert.AreEqual(1.0, a);
+            Assert.AreEqual(-0.99881, b, 1e-4);
+            Assert.AreEqual(-0.08964, c, 1e-4);
+            var (ay, by) = Fit.StandardLineToYxLine(a, b, c);
+            Assert.AreEqual(1.00119, ay, 1e-4);
+            Assert.AreEqual(-0.08974, by, 1e-4);
+
+            (a, b, c) = Fit.Line2D(y, x, 4.0);
+            Assert.AreEqual(-0.99881, a, 1e-4);
+            Assert.AreEqual(1.0, b);
+            Assert.AreEqual(-0.08964, c, 1e-4);
+        }
+
+        [Test]
+        public void Fit2DToExactHorizontalVerticalLineWhenPointsAreOnLine()
+        {
+            // Special case, testing when sxy and either sxx or syy goes zero
+            var x = Enumerable.Range(1, 6).Select(Convert.ToDouble).ToArray();
+            var y = new[] { 5.0, 5.0, 5.0, 5.0, 5.0, 5.0 };
+
+            var (a, b, c) = Fit.Line2D(x, y);
+            Assert.AreEqual(0.0, a);
+            Assert.AreEqual(1.0, b);
+            Assert.AreEqual(-5.0, c);
+            var (ay, by) = Fit.StandardLineToYxLine(a, b, c);
+            Assert.AreEqual(0, ay);
+            Assert.AreEqual(5.0, by);
+
+            (a, b, c) = Fit.Line2D(y, x);
+            Assert.AreEqual(1.0, a);
+            Assert.AreEqual(0.0, b);
+            Assert.AreEqual(-5.0, c);
+            (ay, by) = Fit.StandardLineToYxLine(a, b, c);
+            Assert.AreEqual(double.PositiveInfinity, ay);
+            Assert.AreEqual(5.0, by);
+        }
+
+        [Test]
+        public void Fit2DToHorizontalVerticalLine()
+        {
+            // Special case, testing when sxy goes zero
+            var x = new[] { 1.0, 1.0, 5.0, 5.0, 7.0, 7.0 };
+            var y = new[] { 3.0, 5.0, 3.0, 5.0, 3.0, 5.0 };
+
+            var (a, b, c) = Fit.Line2D(x, y);
+            Assert.AreEqual(0.0, a);
+            Assert.AreEqual(1.0, b);
+            Assert.AreEqual(-4.0, c);
+
+            (a, b, c) = Fit.Line2D(y, x);
+            Assert.AreEqual(1.0, a);
+            Assert.AreEqual(0.0, b);
+            Assert.AreEqual(-4.0, c);
+
+        }
+
+        [Test]
+        public void Fit2DSymmetricData()
+        {
+            // Special case, two equally good solutions
+            var x = new[] { 3.0, 4.0, 3.0, 4.0 };
+            var y = new[] { 1.0, 1.0, 2.0, 2.0 };
+            var (a, b, c) = Fit.Line2D(x, y);
+            Assert.AreEqual(1, a);
+            Assert.AreEqual(0, b);
+            Assert.AreEqual(-3.5, c);
+        }
+
+        [Test]
+        public void Fit2DDegenerateLine()
+        {
+            // Special case, no solution
+            var x = new[] { 3.0, 3.0, 3.0 };
+            var y = new[] { 1.0, 1.0, 1.0 };
+            var (a, b, c) = Fit.Line2D(x, y);
+            Assert.AreEqual(0, a);
+            Assert.AreEqual(0, b);
+            Assert.AreEqual(0, c);
+        }
+
+        #endregion
     }
 }
