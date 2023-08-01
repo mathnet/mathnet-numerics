@@ -195,7 +195,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
 
             // ||r_i|| <= stop_tol * ||b||
             // Stop the calculation if it's clearly smaller than the tolerance
-            if (residualNorm < stopCriterion)
+            if (residualNorm <= stopCriterion)
             {
                 if (_lastIteration <= iterationNumber)
                 {

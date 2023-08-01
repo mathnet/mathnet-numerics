@@ -31,6 +31,8 @@ using System;
 using System.Collections.Generic;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
+using MathNet.Numerics.LinearAlgebra.Double.Solvers;
+using MathNet.Numerics.LinearAlgebra.Solvers;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.Tests.LinearAlgebraTests.Double
@@ -245,6 +247,20 @@ namespace MathNet.Numerics.Tests.LinearAlgebraTests.Double
                     GC.KeepAlive(m.ToMatrixString(i, j));
                 }
             }
+        }
+
+        [Test]
+        public void ResidualStopCriterionDoesNotCrashForZeroVector()
+        {
+            var A = new DenseMatrix(2, 2, new double[] { 1, 2, 3, 4 });
+            var b = new DenseVector(2);
+            var x = new DenseVector(2);
+
+            var iterator = new Iterator<double>(new ResidualStopCriterion<double>(1e-5));
+            var solver = new BiCgStab();
+
+            solver.Solve(A, b, x, iterator, null);
+            Assert.AreEqual(new DenseVector(2), x);
         }
 
         private Matrix<double> GetMatrixWithRowsButNoColumns()
