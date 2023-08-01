@@ -47,7 +47,7 @@ namespace MathNet.Numerics.Statistics
     /// It is not recommended to rely on this mechanism for durable persistence.
     /// </remarks>
     [DataContract(Namespace = "urn:MathNet/Numerics")]
-    public class RunningStatistics
+    public sealed class RunningStatistics
     {
         [DataMember(Order = 1)]
         long _n;
@@ -72,6 +72,17 @@ namespace MathNet.Numerics.Statistics
 
         public RunningStatistics()
         {
+        }
+        
+        public RunningStatistics(RunningStatistics runningStatistics)
+        {
+            _n = runningStatistics._n;
+            _min = runningStatistics._min;
+            _max = runningStatistics._max;
+            _m1 = runningStatistics._m1;
+            _m2 = runningStatistics._m2;
+            _m3 = runningStatistics._m3;
+            _m4 = runningStatistics._m4;
         }
 
         public RunningStatistics(IEnumerable<double> values)
@@ -203,11 +214,11 @@ namespace MathNet.Numerics.Statistics
         {
             if (a._n == 0)
             {
-                return b;
+                return new RunningStatistics(b);
             }
-            else if (b._n == 0)
+            if (b._n == 0)
             {
-                return a;
+                return new RunningStatistics(a);
             }
 
             long n = a._n + b._n;

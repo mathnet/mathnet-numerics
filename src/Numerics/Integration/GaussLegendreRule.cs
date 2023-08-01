@@ -192,7 +192,7 @@ namespace MathNet.Numerics.Integration
         /// <param name="invervalBeginA">Where the interval starts for the first (inside) integral, exclusive and finite.</param>
         /// <param name="invervalEndA">Where the interval ends for the first (inside) integral, exclusive and finite.</param>
         /// <param name="invervalBeginB">Where the interval starts for the second (outside) integral, exclusive and finite.</param>
-        /// /// <param name="invervalEndB">Where the interval ends for the second (outside) integral, exclusive and finite.</param>
+        /// <param name="invervalEndB">Where the interval ends for the second (outside) integral, exclusive and finite.</param>
         /// <param name="order">Defines an Nth order Gauss-Legendre rule. The order also defines the number of abscissas and weights for the rule. Precomputed Gauss-Legendre abscissas/weights for orders 2-20, 32, 64, 96, 100, 128, 256, 512, 1024 are used, otherwise they're calculated on the fly.</param>
         /// <returns>Approximation of the finite integral in the given interval.</returns>
         public static double Integrate(Func<double, double, double> f, double invervalBeginA, double invervalEndA, double invervalBeginB, double invervalEndB, int order)
@@ -257,6 +257,23 @@ namespace MathNet.Numerics.Integration
             }
 
             return c*a*sum;
+        }
+
+        /// <summary>
+        /// Approximates a 3-dimensional definite integral using an Nth order Gauss-Legendre rule over the cuboid [a1,a2] x [b1,b2] x [c1,c2].
+        /// </summary>
+        /// <param name="f">The 3-dimensional analytic smooth function to integrate.</param>
+        /// <param name="invervalBeginA">Where the interval starts for the first integral, exclusive and finite.</param>
+        /// <param name="invervalEndA">Where the interval ends for the first integral, exclusive and finite.</param>
+        /// <param name="invervalBeginB">Where the interval starts for the second integral, exclusive and finite.</param>
+        /// <param name="invervalEndB">Where the interval ends for the second integral, exclusive and finite.</param>
+        /// <param name="invervalBeginC">Where the interval starts for the third integral, exclusive and finite.</param>
+        /// <param name="invervalEndC">Where the interval ends for the third integral, exclusive and finite.</param>
+        /// <param name="order">Defines an Nth order Gauss-Legendre rule. The order also defines the number of abscissas and weights for the rule. Precomputed Gauss-Legendre abscissas/weights for orders 2-20, 32, 64, 96, 100, 128, 256, 512, 1024 are used, otherwise they're calculated on the fly.</param>
+        /// <returns>Approximation of the finite integral in the given intervals.</returns>
+        public static double Integrate(Func<double, double, double, double> f, double invervalBeginA, double invervalEndA, double invervalBeginB, double invervalEndB, double invervalBeginC, double invervalEndC, int order)
+        {
+            return Integrate((z) => Integrate((x, y) => f(x, y, z), invervalBeginA, invervalEndA, invervalBeginB, invervalEndB, order), invervalBeginC, invervalEndC, order);
         }
     }
 }

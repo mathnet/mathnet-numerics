@@ -27,13 +27,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Storage;
+using MathNet.Numerics.Threading;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime;
 using System.Runtime.CompilerServices;
-using MathNet.Numerics.LinearAlgebra.Storage;
-using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.LinearAlgebra
 {
@@ -42,6 +43,7 @@ namespace MathNet.Numerics.LinearAlgebra
     /// </summary>
     /// <typeparam name="T">Supported data types are <c>double</c>, <c>single</c>, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
     [Serializable]
+    [DebuggerTypeProxy(typeof(MatrixDebuggingView<>))]
     public abstract partial class Matrix<T> : IFormattable, IEquatable<Matrix<T>>, ICloneable
         where T : struct, IEquatable<T>, IFormattable
     {
@@ -1878,5 +1880,19 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             return Storage.Find2(other.Storage, (x, y) => !predicate(x, y), zeros) == null;
         }
+    }
+
+    internal class MatrixDebuggingView<T>
+        where T : struct, IEquatable<T>, IFormattable
+    {
+        private readonly Matrix<T> _matrix;
+
+        public MatrixDebuggingView(Matrix<T> matrix)
+        {
+            _matrix = matrix;
+        }
+
+        [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
+        public T[,] Items => _matrix.ToArray();
     }
 }

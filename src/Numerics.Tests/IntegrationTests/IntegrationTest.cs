@@ -112,6 +112,18 @@ namespace MathNet.Numerics.Tests.IntegrationTests
         }
 
         /// <summary>
+        /// Test Function: f(x, y, z) = y sin(x) + z cos(x)
+        /// </summary>
+        /// <param name="x">First input value.</param>
+        /// <param name="y">Second input value.</param>
+        /// <param name="z">Third input value.</param>
+        /// <returns>Function result.</returns>
+        private static double TargetFunctionH(double x, double y, double z)
+        {
+            return y * Math.Sin(x) + z * Math.Cos(x);
+        }
+
+        /// <summary>
         /// Test Function Start point.
         /// </summary>
         private const double StartA = 0;
@@ -215,6 +227,41 @@ namespace MathNet.Numerics.Tests.IntegrationTests
         /// Target area.
         /// </summary>
         private const double TargetAreaG = 1.1981402347355922074;
+
+        /// <summary>
+        /// Target volume.
+        /// </summary>
+        private const double TargetVolumeH = 2.0;
+
+        /// <summary>
+        /// Test Function Start point.
+        /// </summary>
+        private const double Xmin_H = 0;
+
+        /// <summary>
+        /// Test Function end point.
+        /// </summary>
+        private const double Xmax_H = Math.PI;
+
+        /// <summary>
+        /// Test Function Start point.
+        /// </summary>
+        private const double Ymin_H = 0;
+
+        /// <summary>
+        /// Test Function end point.
+        /// </summary>
+        private const double Ymax_H = 1;
+
+        /// <summary>
+        /// Test Function Start point.
+        /// </summary>
+        private const double Zmin_H = -1;
+
+        /// <summary>
+        /// Test Function end point.
+        /// </summary>
+        private const double Zmax_H = 1;
 
         /// <summary>
         /// Test Integrate facade for simple use cases.
@@ -383,6 +430,21 @@ namespace MathNet.Numerics.Tests.IntegrationTests
                 Integrate.GaussKronrod(TargetFunctionG, StartG, StopG, 1e-10, order: 15),
                 1e-10,
                 "GaussKronrod, sqrt(x)/sqrt(1 - x^2), order 15");
+
+            // TargetFunctionH
+            // integral_(0)^(¥ð) integral_(0)^(1) integral_(-1)^(1) y sin(x) + z cos(x) dz dy dx = 2.0
+
+            Assert.AreEqual(
+                TargetVolumeH,
+                Integrate.OnCuboid(TargetFunctionH, Xmin_H, Xmax_H, Ymin_H, Ymax_H, Zmin_H, Zmax_H),
+                1e-15,
+                "Cuboid, order 32");
+
+            Assert.AreEqual(
+                TargetVolumeH,
+                Integrate.OnCuboid(TargetFunctionH, Xmin_H, Xmax_H, Ymin_H, Ymax_H, Zmin_H, Zmax_H, order: 22),
+                1e-15,
+                "Cuboid, Order 22");
         }
 
         /// <summary>
@@ -512,6 +574,71 @@ namespace MathNet.Numerics.Tests.IntegrationTests
             double appoximateArea = GaussLegendreRule.Integrate(TargetFunctionB, StartA, StopA, StartB, StopB, order);
             double relativeError = Math.Abs(TargetAreaB - appoximateArea) / TargetAreaB;
             Assert.Less(relativeError, 1e-15);
+        }
+
+        /// <summary>
+        /// Gauss-Legendre rule supports 3-dimensional integration over the cuboid.
+        /// </summary>
+        /// <param name="order">Defines an Nth order Gauss-Legendre rule. The order also defines the number of abscissas and weights for the rule.</param>
+        [TestCase(19)]
+        [TestCase(20)]
+        [TestCase(21)]
+        [TestCase(22)]
+        public void TestGaussLegendreRuleIntegrate3D(int order)
+        {
+            double appoximateVolume = GaussLegendreRule.Integrate(TargetFunctionH, Xmin_H, Xmax_H, Ymin_H, Ymax_H, Zmin_H, Zmax_H, order);
+            double relativeError = Math.Abs(TargetVolumeH - appoximateVolume) / TargetVolumeH;
+            Assert.Less(relativeError, 1e-15);
+        }
+
+        [TestCase(19)]
+        [TestCase(20)]
+        [TestCase(21)]
+        [TestCase(22)]
+        public void TestIntegrateOverTetrahedron(int order)
+        {
+            // Variable change from (u, v, w) to (x, y, z):
+            // x = u;
+            // y = (1 - u)*v;
+            // z = (1 - u)*(1 - v)*w;
+            // Jacobian determinant of the transform
+            //    |J| = (1 - u)^2 (1 - v)
+            // integrate[f, {x, 0, 1}, {y, 0, 1 - x}, {z, 0, 1 - x - y}]
+            //    = integrate[f |J|, {u, 0, 1}, {v, 0, 1}, {w, 0, 1}]
+
+            double J(double u, double v, double w) => (1.0 - u) * (1.0 - u) * (1.0 - v);
+
+            double f1(double x, double y, double z) => Math.Sqrt(x + y + z);            
+            double expected1 = 0.1428571428571428571428571; // 1/7
+            Assert.AreEqual(
+               expected1,
+               Integrate.OnCuboid((u, v, w) => f1(u, (1 - u) * v, (1 - u) * (1 - v) * w) * J(u, v, w), 0, 1, 0, 1, 0, 1, order: order),
+               1e-10,
+               "Integral 3D of sqrt(x + y + z) on [0, 1] x [0, 1 - x] x [0, 1 - x - y]");
+
+            double f2(double x, double y, double z) => Math.Pow(1 + x + y + z, -4);
+            double expected2 = 0.02083333333333333333333333; // 1/48
+            Assert.AreEqual(
+               expected2,
+               Integrate.OnCuboid((u, v, w) => f2(u, (1 - u) * v, (1 - u) * (1 - v) * w) * J(u, v, w), 0, 1, 0, 1, 0, 1, order: order),
+               1e-15,
+               "Integral 3D of (1 + x + y + z)^(-4) on [0, 1] x [0, 1 - x] x [0, 1 - x - y]");
+
+            double f3(double x, double y, double z) => Math.Sin(x + 2 * y + 4 * z);
+            double expected3 = 0.1319023268901816727730723; // 2/3 sin^4(1/2) (2 + 4 cos(1) + cos(2))
+            Assert.AreEqual(
+               expected3,
+               Integrate.OnCuboid((u, v, w) => f3(u, (1 - u) * v, (1 - u) * (1 - v) * w) * J(u, v, w), 0, 1, 0, 1, 0, 1, order: order),
+               1e-15,
+               "Integral 3D of sin(x + 2 y + 4 z) on [0, 1] x [0, 1 - x] x [0, 1 - x - y]");
+
+            double f4(double x, double y, double z) => x * x + y;
+            double expected4 = 0.05833333333333333333333333; // 7/120
+            Assert.AreEqual(
+               expected4,
+               Integrate.OnCuboid((u, v, w) => f4(u, (1 - u) * v, (1 - u) * (1 - v) * w) * J(u, v, w), 0, 1, 0, 1, 0, 1, order: order),
+               1e-15,
+               "Integral 3D of x^2 + y on [0, 1] x [0, 1 - x] x [0, 1 - x - y]");
         }
 
         /// <summary>
