@@ -141,40 +141,13 @@ namespace MathNet.Numerics.Data.Matlab
         internal static Matrix<T> ParseMatrix<T>(byte[] data)
             where T : struct, IEquatable<T>, IFormattable
         {
-            using (var stream = new MemoryStream(data))
-            using (var reader = new BinaryReader(stream))
+            Func<BinaryReader, ArrayClass, bool, int, int, Matrix<T>> parser = (BinaryReader r, ArrayClass a, bool complex, int rows, int columns) =>
             {
-                // Array Flags tag (8 bytes)
-                reader.BaseStream.Seek(8, SeekOrigin.Current);
-
-                // Array Flags data: flags (byte 3), class (byte 4) (8 bytes)
-                var arrayClass = (ArrayClass)reader.ReadByte();
-                var flags = reader.ReadByte();
-                var complex = (flags & (byte)ArrayFlags.Complex) == (byte)ArrayFlags.Complex;
-                reader.BaseStream.Seek(6, SeekOrigin.Current);
-
-                // Dimensions Array tag (8 bytes)
-                reader.BaseStream.Seek(4, SeekOrigin.Current);
-                var numDimensions = reader.ReadInt32()/8;
-                if (numDimensions > 2)
-                {
-                    throw new NotSupportedException("Only 1 and 2 dimensional arrays are supported.");
-                }
-
-                // Dimensions Array data: row and column count (8 bytes)
-                var rows = reader.ReadInt32();
-                var columns = reader.ReadInt32();
-
-                // Array name
-                ReadElementTag(reader, out _, out var size, out var isSmallBlock);
-                reader.BaseStream.Seek(size, SeekOrigin.Current);
-                SkipElementPadding(reader, size, isSmallBlock);
-
                 // Data
-                switch (arrayClass)
+                switch (a)
                 {
                     case ArrayClass.Sparse:
-                        return PopulateSparseMatrix<T>(reader, complex, rows, columns);
+                        return PopulateSparseMatrix<T>(r, complex, rows, columns);
                     case ArrayClass.Function:
                     case ArrayClass.Character:
                     case ArrayClass.Object:
@@ -183,9 +156,233 @@ namespace MathNet.Numerics.Data.Matlab
                     case ArrayClass.Unknown:
                         throw new NotSupportedException();
                     default:
-                        return PopulateDenseMatrix<T>(reader, complex, rows, columns);
+                        return PopulateDenseMatrix<T>(r, complex, rows, columns);
+                }
+            };
+
+            return ParseObject(data, parser);
+        }
+
+        /// <summary>
+        /// For parsing nayhting that cannot be mapped to a MathNet.Numerics matrix
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        /// <exception cref="NotSupportedException"></exception>
+        internal static NestedObject ParseNonNumeric(byte[] data)
+        {
+            Func<BinaryReader, ArrayClass, bool, int, int, NestedObject> parser = (BinaryReader r, ArrayClass a, bool complex, int rows, int columns) =>
+            {
+                // Data
+                switch (a)
+                {
+                    case ArrayClass.Character:
+                        return PopulateCharacterMatrix(r, rows, columns);
+                    case ArrayClass.Structure:
+                        return PopulateStructure(r);
+                    case ArrayClass.Cell:
+                        return PopulateCellMatrix(r, complex, rows, columns);
+                    case ArrayClass.Unknown:
+                        throw new NotSupportedException();
+                    default:
+                        throw new NotSupportedException();
+                }
+            };
+
+            return ParseObject(data, parser);
+        }
+
+        private static NestedObject PopulateCharacterMatrix(BinaryReader reader, int rows, int columns)
+        {
+            ReadElementTag(reader, out var type, out var size, out var isSmallBlock);
+
+            MatlabCharMatrix result;
+            Encoding encoding;
+
+            switch (type)
+            {
+                case DataType.Utf8:
+                    encoding = Encoding.UTF8;
+                    break;
+                case DataType.Utf16:
+                    encoding = Encoding.Unicode;
+                    break;
+                case DataType.Utf32:
+                    encoding = Encoding.UTF32;
+                    break;
+                default:
+                    throw new NotImplementedException($"Could not parse char array due to unsupported encoding: {type}");
+            }
+
+            result = new MatlabCharMatrix(rows, columns, encoding);
+
+            for (int col = 0; col < columns; col++)
+            {
+                for (int row = 0; row < rows; row++)
+                {
+                    byte[] newChar;
+                    if(encoding.IsSingleByte)
+                    {
+                        newChar = reader.ReadBytes(1);
+                    }
+                    else
+                    {
+                        newChar = reader.ReadBytes(2);
+                    }
+
+                    result.Data[row, col] = encoding.GetString(newChar);
                 }
             }
+
+            return new NestedObject(result);
+        }
+
+        internal static T ParseObject<T>(byte[] data, Func<BinaryReader, ArrayClass, bool,int,int,T> parser)
+        {
+            using (var stream = new MemoryStream(data))
+            using (var reader = new BinaryReader(stream))
+            {
+                (ArrayClass arrayClass,
+                bool complex,
+                int rows, int columns, _) = ParseObjectHeader(reader);
+
+                // Data
+                return parser(reader, arrayClass, complex, rows, columns);
+            }
+        }
+
+        /// <summary>
+        /// Reads the object header and skips any remaining padding
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <returns></returns>
+        /// <exception cref="NotSupportedException"></exception>
+        private static (ArrayClass arrayClass, bool complex, int rows, int columns, string name) ParseObjectHeader(BinaryReader reader)
+        {
+            // Array Flags tag (8 bytes)
+            reader.BaseStream.Seek(8, SeekOrigin.Current);
+
+            // Array Flags data: flags (byte 3), class (byte 4) (8 bytes)
+            ArrayClass arrayClass = (ArrayClass)reader.ReadByte();
+            var flags = reader.ReadByte();
+            bool complex = (flags & (byte)ArrayFlags.Complex) == (byte)ArrayFlags.Complex;
+            reader.BaseStream.Seek(6, SeekOrigin.Current);
+
+            // Dimensions Array tag (8 bytes)
+            reader.BaseStream.Seek(4, SeekOrigin.Current);
+            var numDimensions = reader.ReadInt32() / 8;
+            if (numDimensions > 2)
+            {
+                throw new NotSupportedException("Only 1 and 2 dimensional arrays are supported.");
+            }
+
+            // Dimensions Array data: row and column count (8 bytes)
+            int rows = reader.ReadInt32();
+            int columns = reader.ReadInt32();
+
+            // Array name
+            ReadElementTag(reader, out _, out var size, out var isSmallBlock);
+            byte[] nameBytes = new byte[size];
+            reader.BaseStream.Read(nameBytes,0, size);
+            string name = Encoding.UTF8.GetString(nameBytes);
+
+            SkipElementPadding(reader, size, isSmallBlock);
+
+            return (arrayClass, complex, rows, columns, name);
+        }
+
+        private static NestedObject PopulateStructure(BinaryReader reader)
+        {
+            // after the common fields for all arrays a structure has the length for the field names as a short data element
+            // acording to the docs MATLAB always sets this to 32 bytes (31 chars + NULL) so we don't actually need to check it
+            ReadElementTag(reader, out _, out _, out _);
+
+            int nameLength = reader.ReadInt32();
+
+            // field names are saved as an miINT8 data element
+            // each name is padded to align on 32 bytes and NULL terminated
+            ReadElementTag(reader, out _, out var size, out var isSmallBlock);
+
+            List<string> fieldNames = new List<string>();
+            int bytesRead = 0;
+
+            while(bytesRead < size)
+            {
+                byte[] currentName = reader.ReadBytes(nameLength);
+                fieldNames.Add(Encoding.UTF8.GetString(currentName).TrimEnd((char)0));
+                bytesRead += nameLength;
+            }
+
+            SkipElementPadding(reader, size, isSmallBlock);
+
+            // each field of the structure could be any type supported by a matlab file
+            MatlabStructure result = new MatlabStructure();
+
+            for (int i = 0; i<fieldNames.Count; i++)
+            {
+                // to use the regular array parsing methods we need to know how much data to give them
+                ReadElementTag(reader, out _, out var fieldSize, out _);
+
+                // we also need to know what the array class is (maybe a nested structure or a cell)
+                (ArrayClass arrayClass, _, _, _, string name) = ParseObjectHeader(reader);
+
+                // reset reader back to expected position for further parsers
+                // the header has array flags (16 bytes), dimensions array (16 bytes) and array name (8 bytes)
+                reader.BaseStream.Seek(-40, SeekOrigin.Current);
+
+                byte[] arrayData = reader.ReadBytes(fieldSize);
+
+                switch (arrayClass)
+                {
+                    case ArrayClass.Structure:
+                    case ArrayClass.Cell:
+                    case ArrayClass.Character:
+                        result.Add(fieldNames[i], ParseNonNumeric(arrayData));
+                        break;
+                    default:
+                        result.Add(fieldNames[i], new NestedObject(new MatlabMatrix(name, arrayData)));
+                        break;
+                }
+            }
+
+            return new NestedObject(result);
+        }
+
+        private static NestedObject PopulateCellMatrix(BinaryReader reader, bool complex, int rows, int columns)
+        {
+            MatlabCellMatrix result = new MatlabCellMatrix(rows, columns);
+
+            for(int col = 0; col<columns; col++)
+            {
+                for(int row = 0; row<rows; row++)
+                {
+                    // to use the regular array parsing methods we need to know how much data to give them
+                    ReadElementTag(reader, out _, out var fieldSize, out _);
+
+                    // we also need to know what the array class is (maybe a nested structure or a cell)
+                    (ArrayClass arrayClass, _, _, _, string name) = ParseObjectHeader(reader);
+
+                    // reset reader back to expected position for further parsers
+                    // the header has array flags (16 bytes), dimensions array (16 bytes) and array name (8 bytes)
+                    reader.BaseStream.Seek(-40, SeekOrigin.Current);
+
+                    byte[] arrayData = reader.ReadBytes(fieldSize);
+
+                    switch (arrayClass)
+                    {
+                        case ArrayClass.Structure:
+                        case ArrayClass.Cell:
+                        case ArrayClass.Character:
+                            result.Data[row, col] = ParseNonNumeric(arrayData);
+                            break;
+                        default:
+                            result.Data[row, col]  = new NestedObject(new MatlabMatrix(name, arrayData));
+                            break;
+                    }
+                }
+            }
+
+            return new NestedObject(result);
         }
 
         /// <summary>
