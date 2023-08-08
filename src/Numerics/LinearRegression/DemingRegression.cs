@@ -35,7 +35,7 @@ namespace MathNet.Numerics.LinearRegression
     public static class DemingRegression
     {
         /// <summary>
-        /// Deming/Orthogonal regression, least-Squares fitting the points in
+        /// Deming/Orthogonal regression, least-squares fitting the points in
         /// the 2D dataset (x,y) to a line
         /// <code>
         ///    a*x + b*y + c = 0
@@ -61,6 +61,8 @@ namespace MathNet.Numerics.LinearRegression
         /// Solution algorithm as described from:
         ///     "Deming regression MethComp package", May 2007,
         ///     Anders Christian Jensen, Steno Diabetes Center, Gentofte, Denmark
+        ///     https://en.wikipedia.org/wiki/Deming_regression
+        ///     https://docplayer.gr/85660531-Deming-regression-methcomp-package-may.html
         /// Computations are offset to be centered around (mean(x), mean(y)),
         /// for improved numerical stability.
         /// </remarks>
@@ -73,7 +75,7 @@ namespace MathNet.Numerics.LinearRegression
 
             if (x.Length <= 1)
             {
-                throw new ArgumentException($"A regression of the requested order requires at least {2} samples. Only {x.Length} samples have been provided.");
+                throw new ArgumentException($"A regression of the requested order requires at least 2 samples. Only {x.Length} samples have been provided.");
             }
 
             // First Pass: Mean and abs-max values
@@ -133,7 +135,7 @@ namespace MathNet.Numerics.LinearRegression
                     return (1, 0, -mx);
                 // No line could be calculated
                 else
-                    return (0, 0, 0);
+                    return (double.NaN, double.NaN, double.NaN);
             }
 
             // Pick a or b solution such that both a and b are always <= 1

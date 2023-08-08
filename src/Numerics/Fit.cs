@@ -103,31 +103,9 @@ namespace MathNet.Numerics
         /// <param name="y">Y data</param>
         /// <param name="delta">Ratio of variances of x and y data, var(y)/var(x). Default value is 1.0.</param>
         /// <returns> returning its best fitting parameters as (a, b, c) tuple.</returns>
-        public static (double A, double B, double C) Line2D(double[] x, double[] y, double delta = 1.0)
+        public static (double A, double B, double C) Deming(double[] x, double[] y, double delta = 1.0)
         {
             return DemingRegression.Fit(x, y, delta);
-        }
-
-        /// <summary>
-        /// Convert line coefficients on the form
-        /// <code>
-        ///   a*x + b*y + c = 0
-        /// </code>
-        /// to coefficients on the form
-        /// <code>
-        ///   y = ay*x + by
-        /// </code>
-        /// If <paramref name="b"/> is zero, the ay will return <see cref="double.PositiveInfinity"/>.
-        /// </summary>
-        public static (double ay, double by) StandardLineToYxLine(double a, double b, double c)
-        {
-            if (Math.Abs(b) > (Math.Abs(a) + Math.Abs(c)) * 1e-10)
-            {
-                double ay = -a / b;
-                double by = -c / b;
-                return (ay, by);
-            }
-            return (double.PositiveInfinity, -c);
         }
 
         /// <summary>
