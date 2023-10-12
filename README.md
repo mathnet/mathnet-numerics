@@ -18,10 +18,12 @@ Math.NET Numerics is covered under the terms of the [MIT license](LICENSE.md). Y
 * [Wikipedia](https://en.wikipedia.org/wiki/Math.NET_Numerics) | [OpenHUB](https://www.openhub.net/p/mathnet-numerics)
 
 ### Current Version
-[![Math.NET Numerics Version](https://buildstats.info/nuget/MathNet.Numerics)](https://www.nuget.org/packages/MathNet.Numerics/) Math.NET Numerics  
-[![MKL Native Provider Version](https://buildstats.info/nuget/MathNet.Numerics.MKL.Win)](https://www.nuget.org/packages/MathNet.Numerics.MKL.Win/) MKL Native Provider  
-[![OpenBLAS Native Provider Version](https://buildstats.info/nuget/MathNet.Numerics.OpenBLAS.Win)](https://www.nuget.org/packages/MathNet.Numerics.OpenBLAS.Win/) OpenBLAS Native Provider  
-[![Data Extensions Version](https://buildstats.info/nuget/MathNet.Numerics.Data.Text)](https://www.nuget.org/packages/MathNet.Numerics.Data.Text/) Data Extensions
+| **Package** | **Latest Version** |
+|:--|:--|
+| Math.NET Numerics  |[![Math.NET Numerics Version](https://buildstats.info/nuget/MathNet.Numerics)](https://www.nuget.org/packages/MathNet.Numerics/) |
+| MKL Native Provider |[![MKL Native Provider Version](https://buildstats.info/nuget/MathNet.Numerics.MKL.Win)](https://www.nuget.org/packages/MathNet.Numerics.MKL.Win/)  |
+| OpenBLAS Native Provider  |[![OpenBLAS Native Provider Version](https://buildstats.info/nuget/MathNet.Numerics.OpenBLAS.Win)](https://www.nuget.org/packages/MathNet.Numerics.OpenBLAS.Win/) | 
+| Data Extensions |[![Data Extensions Version](https://buildstats.info/nuget/MathNet.Numerics.Data.Text)](https://www.nuget.org/packages/MathNet.Numerics.Data.Text/) |
 
 
 Installation Instructions
