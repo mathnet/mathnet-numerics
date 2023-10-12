@@ -759,7 +759,7 @@ namespace MathNet.Numerics.Tests.RootFindingTests
         private static double BroydenFindRoot(Func<double, double> f, double lowerBound, double upperBound, double accuracy = 1e-8, int maxIterations = 100, double jacobianStepSize = 1.0e-4)
         {
             Func<Vector<double>, Vector<double>> fw = x => new DenseVector(new[] { f(x[0]) });
-            var initialGuess = new DenseVector(new [] { (lowerBound + upperBound) * 0.5 });
+            var initialGuess = new DenseVector(new[] { (lowerBound + upperBound) * 0.5 });
             return Broyden.FindRoot(fw, initialGuess, accuracy, maxIterations, jacobianStepSize)[0];
         }
 
@@ -805,10 +805,10 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                 double k = 0.12 * Math.Exp(12581 * (T - 298) / (298 * T));
                 double fx = 120 * x - 75 * k * (1 - x);
                 double fT = -x * (873 - T) + 11.0 * (T - 300);
-                return new DenseVector( new [] { fx, fT });
+                return new DenseVector(new[] { fx, fT });
             };
 
-            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector( new double[] { 1, 400 }), 1e-6);
+            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector(new double[] { 1, 400 }), 1e-6);
             Assert.AreEqual(0.9638680512795, r[0], 1e-5);
             Assert.AreEqual(346.16369814640, r[1], 1e-5);
             Assert.AreEqual(0, fa1(r)[0], 1e-6);
@@ -828,10 +828,10 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                 double Kp = Math.Exp(42300 / T - 24.2 + 0.17 * Math.Log(T));
                 double fx = k * Math.Sqrt(1 - x) * ((0.91 - 0.5 * x) / (9.1 - 0.5 * x) - x * x / ((1 - x) * (1 - x) * Kp));
                 double fT = T * (1.84 * x + 77.3) - 43260 * x - 105128;
-                return new DenseVector( new double[] { fx, fT });
+                return new DenseVector(new[] { fx, fT });
             };
 
-            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector( new double[] { 0.5, 1700 }), 1e-11);
+            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector(new[] { 0.5, 1700 }), 1e-11);
             Assert.AreEqual(0.5333728995523, r[0], 1e-5);
             Assert.AreEqual(1637.70322946500, r[1], 1e-5);
             Assert.AreEqual(0, fa1(r)[0], 1e-11);
@@ -860,10 +860,10 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                 double g1calc = Math.Exp(-Math.Log(t1) + x2 * (G12 * t2 - G21 * t1) / (t1 * t2));
                 double fG21 = Math.Log(gamma2) + Math.Log(t2) + x1 * (G12 * t2 - G21 * t1) / (t1 * t2);
                 double fG12 = Math.Log(gamma1) + Math.Log(t1) - x2 * (G12 * t2 - G21 * t1) / (t1 * t2);
-                return new DenseVector( new double[] { fG21, fG12 });
+                return new DenseVector(new[] { fG21, fG12 });
             };
 
-            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector( new double[] { 0.5, 0.5 }), 1e-14);
+            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector(new[] { 0.5, 0.5 }), 1e-14);
             Assert.AreEqual(0.3017535930592, r[0], 1e-5);
             Assert.AreEqual(0.0785888476379, r[1], 1e-5);
             Assert.AreEqual(0, fa1(r)[0], 1e-14);
@@ -892,10 +892,10 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                 double g1calc = Math.Exp(-Math.Log(t1) + x2 * (G12 * t2 - G21 * t1) / (t1 * t2));
                 double fG21 = t1 * t2 * (Math.Log(gamma2) + Math.Log(t2)) + x1 * (G12 * t2 - G21 * t1);
                 double fG12 = t1 * t2 * (Math.Log(gamma1) + Math.Log(t1)) - x2 * (G12 * t2 - G21 * t1);
-                return new DenseVector( new double[] { fG21, fG12 });
+                return new DenseVector(new[] { fG21, fG12 });
             };
 
-            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector( new double[] { 0.8, 0.8 }), 1e-14);
+            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector(new[] { 0.8, 0.8 }), 1e-14);
             Assert.AreEqual(0.3017535528355, r[0], 1e-5);
             Assert.AreEqual(0.0785888934885, r[1], 1e-5);
             Assert.AreEqual(0, fa1(r)[0], 1e-14);
@@ -922,10 +922,10 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                 double g2calc = Math.Pow(10, B * Math.Pow(x1 / (x1 + B * x2 / A), 2));
                 double fA = Math.Log10(gamma1) - A * Math.Pow(x2 / (A * x1 / B + x2), 2);
                 double fB = Math.Log10(gamma2) - B * Math.Pow(x1 / (x1 + B * x2 / A), 2);
-                return new DenseVector( new double[] { fA, fB });
+                return new DenseVector(new[] { fA, fB });
             };
 
-            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector( new double[] { 1.0, 1.0 }), 1e-14);
+            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector(new[] { 1.0, 1.0 }), 1e-14);
             Assert.AreEqual(0.7580768059470, r[0], 1e-5);
             Assert.AreEqual(1.1249034445330, r[1], 1e-5);
             Assert.AreEqual(0, fa1(r)[0], 1e-14);
@@ -952,10 +952,10 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                 double g2calc = Math.Pow(10, B * Math.Pow(x1 / (x1 + B * x2 / A), 2));
                 double fA = Math.Log10(gamma1) * Math.Pow(A * x1 / B + x2, 2) - A * Math.Pow(x2, 2);
                 double fB = Math.Log10(gamma2) * Math.Pow(x1 + B * x2 / A, 2) - B * Math.Pow(x1, 2);
-                return new DenseVector( new double[] { fA, fB });
+                return new DenseVector(new[] { fA, fB });
             };
 
-            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector( new double[] { 1.0, 1.0 }), 1e-14);
+            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector(new[] { 1.0, 1.0 }), 1e-14);
             Assert.AreEqual(0.7580768919420, r[0], 1e-5);
             Assert.AreEqual(1.1249035089540, r[1], 1e-5);
             Assert.AreEqual(0, fa1(r)[0], 1e-14);
@@ -972,10 +972,10 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                 double x2 = x[1];
                 double f1 = x1 / (1 - x1) - 5 * Math.Log(0.4 * (1 - x1) / x2) + 4.45977;
                 double f2 = x2 - (0.4 - 0.5 * x1);
-                return new DenseVector( new double[] { f1, f2 });
+                return new DenseVector(new[] { f1, f2 });
             };
 
-            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector( new double[] { 0.9, 0.5 }), 1e-14);
+            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector(new[] { 0.9, 0.5 }), 1e-14);
             Assert.AreEqual(0.7573962468236, r[0], 1e-5);
             Assert.AreEqual(0.0213018765882, r[1], 1e-5);
             Assert.AreEqual(0, fa1(r)[0], 1e-14);
@@ -997,10 +997,10 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                 const double P = 0.00243;
                 double f1 = a - Math.Pow((c + 2 * x1) * (a + b + c - 2 * x1), 2) / (x2) - x1;
                 double f2 = x2 - kp * P * P * Math.Pow(b - 3 * x1, 3);
-                return new DenseVector( new double[] { f1, f2 });
+                return new DenseVector(new[] { f1, f2 });
             };
 
-            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector( new double[] { 0, -1 }), 1e-14);
+            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector(new double[] { 0, -1 }), 1e-14);
             Assert.AreEqual(0.6003231171445, r[0], 1e-5);
             Assert.AreEqual(-3.57990244801, r[1], 1e-5);
             Assert.AreEqual(0, fa1(r)[0], 1e-14);
@@ -1017,10 +1017,10 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                 double x = xa[1];
                 double frp = rp - 0.327 * Math.Pow(x, 0.804) * Math.Exp(-5230 / (1.987 * (373 + 1.84e6 * rp)));
                 double fx = x - (0.06 - 161 * rp);
-                return new DenseVector( new double[] { frp, fx });
+                return new DenseVector(new[] { frp, fx });
             };
 
-            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector( new double[] { 0.0001, 0.01 }), 1e-14, 100, 1e-8);
+            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector(new[] { 0.0001, 0.01 }), 1e-14, 100, 1e-8);
             Assert.AreEqual(0.0003406054400, r[0], 1e-5);
             Assert.AreEqual(0.0051625241669, r[1], 1e-5);
             Assert.AreEqual(0, fa1(r)[0], 1e-14);
@@ -1043,10 +1043,10 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                 double Re = rho * D * u / (13.2 * 0.000672);
                 double ffF = fF - 1 / Math.Pow(2.28 - 4 * Math.Log10(eps / D + 4.67 / (Re * Math.Sqrt(fF))), 2);
                 double fu = 133.7 - (2 * fF * rho * u * u * L / D + rho * g * 200) / (g * 144);
-                return new DenseVector( new double[] { ffF, fu });
+                return new DenseVector(new[] { ffF, fu });
             };
 
-            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector( new double[] { 0.1, 10.0 }), 1e-14);
+            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector(new[] { 0.1, 10.0 }), 1e-14);
             Assert.AreEqual(0.006874616348157, r[0], 1e-5);
             Assert.AreEqual(5.6728221306731, r[1], 1e-5);
             Assert.AreEqual(0, fa1(r)[0], 1e-14);
@@ -1071,10 +1071,10 @@ namespace MathNet.Numerics.Tests.RootFindingTests
 
                 double ft12 = 1 / (x1 * x2) - 2 * t21 * c2 / Math.Pow(x1 + x2 * c1, 3) - 2 * t12 * c4 / Math.Pow(x2 + x1 * c3, 3);
                 double ft21 = (x1 - x2) / Math.Pow(x1 * x2, 2) + 6 * t21 * c2 * (1 - c1) / Math.Pow(x1 + x2 * c1, 4) + 6 * t12 * c4 * (c3 - 1) / Math.Pow(x2 + x1 * c3, 4);
-                return new DenseVector( new double[] { ft12, ft21 });
+                return new DenseVector(new[] { ft12, ft21 });
             };
 
-            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector( new double[] { 0.1, 0.1 }), 1e-14);
+            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector(new[] { 0.1, 0.1 }), 1e-14);
             Assert.AreEqual(1.6043843214350, r[0], 1e-5);
             Assert.AreEqual(1.6043843214350, r[1], 1e-5);
             Assert.AreEqual(0, fa1(r)[0], 1e-14);
@@ -1103,10 +1103,10 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                 double ft = x1 + x2 - 1;
                 double fx1 = x1 - y1 / k1;
                 double fx2 = x2 - y2 / k2;
-                return new DenseVector( new double[] { ft, fx1, fx2 });
+                return new DenseVector(new[] { ft, fx1, fx2 });
             };
 
-            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector( new double[] { 100, 0.2, 0.8 }), 1e-14);
+            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector(new[] { 100, 0.2, 0.8 }), 1e-14);
             Assert.AreEqual(93.96706523770, r[0], 1e-5);
             Assert.AreEqual(0.0078754574659, r[1], 1e-5);
             Assert.AreEqual(0.9921245425339, r[2], 1e-5);
@@ -1140,10 +1140,10 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                 double fx1 = x1 - z1 / (1 + alpha * (k1 - 1));
                 double fx2 = x2 - z2 / (1 + alpha * (k2 - 1));
                 double falpha = x1 + x2 - (y1 + y2);
-                return new DenseVector( new double[] { fx1, fx2, falpha });
+                return new DenseVector(new[] { fx1, fx2, falpha });
             };
 
-            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector( new double[] { 0, 1, 0.5 }), 1e-14);
+            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector(new[] { 0, 1, 0.5 }), 1e-14);
             Assert.AreEqual(0.0226974766367, r[0], 1e-5);
             Assert.AreEqual(0.9773025233633, r[1], 1e-5);
             Assert.AreEqual(0.5322677863643, r[2], 1e-5);
@@ -1174,10 +1174,10 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                 double fT = F * (T0 - T) / V + 30000 * k * Ca / rhocp - U * A * (T - Tj) / (rhocp * V);
                 double fCa = F * (Ca0 - Ca) / V - k * Ca;
                 double fTj = Fj * (Tj0 - Tj) / 3.85 + U * A * (T - Tj) / (62.3 * 1.0 * 3.85);
-                return new DenseVector( new double[] { fT, fCa, fTj });
+                return new DenseVector(new[] { fT, fCa, fTj });
             };
 
-            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector( new double[] { 600, 0.1, 600 }), 1e-11, 100, 1e-6);
+            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector(new[] { 600, 0.1, 600 }), 1e-11, 100, 1e-6);
             Assert.AreEqual(590.34979512380, r[0], 1e-5);
             Assert.AreEqual(0.3301868979161, r[1], 1e-5);
             Assert.AreEqual(585.72976766210, r[2], 1e-5);
@@ -1207,10 +1207,10 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                 double fCD = CC * CD / (CA * CB) - KC1;
                 double fCX = CX * CY / (CB * CC) - KC2;
                 double fCZ = CZ / (CA * CX) - KC3;
-                return new DenseVector( new double[] { fCD, fCX, fCZ });
+                return new DenseVector(new[] { fCD, fCX, fCZ });
             };
 
-            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector( new double[] { 0.7, 0.2, 0.4 }), 1e-14);
+            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector(new[] { 0.7, 0.2, 0.4 }), 1e-14);
             Assert.AreEqual(0.7053344059695, r[0], 1e-5);
             Assert.AreEqual(0.1777924200537, r[1], 1e-5);
             Assert.AreEqual(0.3739765850146, r[2], 1e-5);
@@ -1240,10 +1240,10 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                 double fCD = CC * CD - KC1 * (CA * CB);
                 double fCX = CX * CY - KC2 * (CB * CC);
                 double fCZ = CZ - KC3 * (CA * CX);
-                return new DenseVector( new double[] { fCD, fCX, fCZ });
+                return new DenseVector(new[] { fCD, fCX, fCZ });
             };
 
-            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector( new double[] { 0.7, 0.2, 0.4 }), 1e-14);
+            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector(new[] { 0.7, 0.2, 0.4 }), 1e-14);
             Assert.AreEqual(0.7053344059695, r[0], 1e-5);
             Assert.AreEqual(0.1777924200537, r[1], 1e-5);
             Assert.AreEqual(0.3739765850146, r[2], 1e-5);
@@ -1268,10 +1268,10 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                 double fX = -0.16 * X * F0 / h + k1 * (1 - X) - k2 * X;
                 double fT = 0.16 * F0 * T0 / h - 0.16 * T * F0 / h + 5 * (k1 * (1 - X) - k2 * X);
                 double fh = 0.16 * F0 - 0.4 * Math.Sqrt(h);
-                return new DenseVector( new double[] { fX, fT, fh });
+                return new DenseVector(new[] { fX, fT, fh });
             };
 
-            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector( new double[] { 0.5, 500, 0.5 }), 1e-13);
+            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector(new[] { 0.5, 500, 0.5 }), 1e-13);
             Assert.AreEqual(0.0171035426725, r[0], 1e-5);
             Assert.AreEqual(300.08551771340, r[1], 1e-5);
             Assert.AreEqual(0.16, r[2], 1e-5);
@@ -1295,10 +1295,10 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                 double fCA = 0.1 * (1 - CA) - k1 * CA * CA;
                 double fCB = -0.1 * CB + k1 * CA * CA - k2 * CB;
                 double fT = 0.1 * (25 - T) - 418 * k1 * CA * CA - 418 * k2 * CB + Q * 1e-5;
-                return new DenseVector( new double[] { fCA, fCB, fT });
+                return new DenseVector(new[] { fCA, fCB, fT });
             };
 
-            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector( new double[] { 0.5, 0.5, 500 }), 1e-13);
+            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector(new[] { 0.5, 0.5, 500 }), 1e-13);
             Assert.AreEqual(0.1578109142617, r[0], 1e-5);
             Assert.AreEqual(0.77071354919, r[1], 1e-5);
             Assert.AreEqual(153.09, r[2], 1e-2);
@@ -1329,10 +1329,10 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                 double fCA = CA0 - CA - theta * k1 * CA / (1 + KA * CB);
                 double fCB = CB - CB0 - (theta * k1 * CA / (1 + KA * CB) - theta * k2 * CB + theta * k2p * CC);
                 double fT = 85 * (T - T0) + 0.02 * (T * T - T0 * T0) - ((16000 + 3 * T - 0.002 * T * T) * ((CA0 - CA) / CA0) + (30000 + 4 * T - 0.003 * T * T) * CC / CA0);
-                return new DenseVector( new double[] { fCA, fCB, fT });
+                return new DenseVector(new[] { fCA, fCB, fT });
             };
 
-            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector( new double[] { 3, 0, 300 }), 1e-13);
+            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector(new double[] { 3, 0, 300 }), 1e-13);
             Assert.AreEqual(2.7873203092940, r[0], 1e-5);
             Assert.AreEqual(0.2126796260201, r[1], 1e-5);
             Assert.AreEqual(310.212556340, r[2], 1e-5);
@@ -1363,10 +1363,10 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                 double fp4 = 70 * 32.3 - p4 * (144 * 32.2 / 62.35) + k45 * Math.Pow(Q24 + Q34, 2);
                 double fQ24 = (p4 - p2) * (144 * 32.2 / 62.35) + k24 * Q24 * Q24;
                 double fQ34 = (p4 - p3) * (144 * 32.2 / 62.35) + k34 * Q34 * Q34;
-                return new DenseVector( new double[] { fp4, fQ24, fQ34 });
+                return new DenseVector(new[] { fp4, fQ24, fQ34 });
             };
 
-            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector( new double[] { 50, 100, 100 }), 1e-11, 100, 1e-5);
+            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector(new double[] { 50, 100, 100 }), 1e-11, 100, 1e-5);
             Assert.AreEqual(57.12556038475, r[0], 1e-5);
             Assert.AreEqual(51.75154563498, r[1], 1e-5);
             Assert.AreEqual(92.91811138918, r[2], 1e-5);
@@ -1398,10 +1398,10 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                 double fCB = CB - CB0 - (theta * k1 * CA / (1 + KA * CB) - theta * k2 * CB + theta * k2p * CC);
                 double fCC = CC - CC0 - theta * k2 * CB + theta * k2p * CC;
                 double fT = 85 * (T - T0) + 0.02 * (T * T - T0 * T0) - ((16000 + 3 * T - 0.002 * T * T) * ((CA0 - CA) / CA0) + (30000 + 4 * T - 0.003 * T * T) * CC / CA0);
-                return new DenseVector( new double[] { fCA, fCB, fCC, fT });
+                return new DenseVector(new[] { fCA, fCB, fCC, fT });
             };
 
-            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector( new double[] { 3, 0, 0, 300 }), 1e-14);
+            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector(new double[] { 3, 0, 0, 300 }), 1e-14);
             Assert.AreEqual(2.7873203092938, r[0], 1e-5);
             Assert.AreEqual(0.2126796260201, r[1], 1e-5);
             Assert.AreEqual(6.468613E-08, r[2], 1e-14);
@@ -1441,10 +1441,10 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                 double ftc = u * a * (t1 - tc) / (1.82 * 1000 * 4184) - fc * (tc - 27) / 1.82;
                 double fb = ((t1 - 80) / 20 - b) / 20;
                 double fy = (m - y) / taui;
-                return new DenseVector( new double[] { fca, ft1, ftc, fb, fy });
+                return new DenseVector(new[] { fca, ft1, ftc, fb, fy });
             };
 
-            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector( new double[] { 1, 100, 50, 0.4, 0.25 }), 1e-14);
+            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector(new[] { 1, 100, 50, 0.4, 0.25 }), 1e-14);
             //Assert.AreEqual(1.1206138931808, r[0], 1e-5);
             //Assert.AreEqual(90, r[1], 1e-5);
             //Assert.AreEqual(54.8512245178517, r[2], 1e-5);
@@ -1475,10 +1475,10 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                 double fx4 = x1 - 0.1 * x2;
                 double fx5 = x1 - 1e4 * x3 * x4;
                 double fx6 = x5 - 55e14 * x3 * x6;
-                return new DenseVector( new double[] { fx1, fx2, fx3, fx4, fx5, fx6 });
+                return new DenseVector(new[] { fx1, fx2, fx3, fx4, fx5, fx6 });
             };
 
-            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector( new double[] { 10, 10, 10, 10, 10, 10 }), 1e-2, 1000);
+            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector(new double[] { 10, 10, 10, 10, 10, 10 }), 1e-2, 1000);
             Assert.AreEqual(0.0000826446329, r[0], 1e-9);
             Assert.AreEqual(0.0008264463286, r[1], 1e-8);
             Assert.AreEqual(0.0000909091485, r[2], 1e-8);
@@ -1516,10 +1516,10 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                 double fx4 = k1 * x1 * x6 - kr1 * x4 - k3 * x4 * x5;
                 double fx5 = 1.5 * (k2 * x2 * x6 - kr2 * x5) - k3 * x4 * x5;
                 double fx6 = 1 - x4 - x5 - x6;
-                return new DenseVector( new double[] { fx1, fx2, fx3, fx4, fx5, fx6 });
+                return new DenseVector(new[] { fx1, fx2, fx3, fx4, fx5, fx6 });
             };
 
-            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector( new double[] { 0.99, 0.05, 0.05, 0.99, 0.05, 0 }), 1e-14);
+            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector(new[] { 0.99, 0.05, 0.05, 0.99, 0.05, 0 }), 1e-14);
             Assert.AreEqual(0.9700739407529, r[0], 1e-5);
             Assert.AreEqual(0.9800492938353, r[1], 1e-5);
             Assert.AreEqual(0.0598521184942, r[2], 1e-6);
@@ -1557,10 +1557,10 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                 double fx4 = k1 * x1 * x6 - kr1 * x4 - k3 * x4 * x5;
                 double fx5 = 1.5 * (k2 * x2 * x6 - kr2 * x5) - k3 * x4 * x5;
                 double fx6 = 1 - x4 - x5 - x6;
-                return new DenseVector( new double[] { fx1, fx2, fx3, fx4, fx5, fx6 });
+                return new DenseVector(new[] { fx1, fx2, fx3, fx4, fx5, fx6 });
             };
 
-            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector( new double[] { 0.99, 0.05, 0.05, 0.99, 0.05, 0 }), 1e-14);
+            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector(new[] { 0.99, 0.05, 0.05, 0.99, 0.05, 0 }), 1e-14);
             Assert.AreEqual(0.9499424500947, r[0], 1e-5);
             Assert.AreEqual(0.9666283000631, r[1], 1e-5);
             Assert.AreEqual(0.1001150998106, r[2], 1e-5);
@@ -1598,10 +1598,10 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                 double fx4 = k1 * x1 * x6 - kr1 * x4 - k3 * x4 * x5;
                 double fx5 = 1.5 * (k2 * x2 * x6 - kr2 * x5) - k3 * x4 * x5;
                 double fx6 = 1 - x4 - x5 - x6;
-                return new DenseVector( new double[] { fx1, fx2, fx3, fx4, fx5, fx6 });
+                return new DenseVector(new[] { fx1, fx2, fx3, fx4, fx5, fx6 });
             };
 
-            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector( new double[] { 0.99, 0.05, 0.05, 0.99, 0.05, 0 }), 1e-14);
+            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector(new[] { 0.99, 0.05, 0.05, 0.99, 0.05, 0 }), 1e-14);
             Assert.AreEqual(0.9499356376871, r[0], 1e-5);
             Assert.AreEqual(0.9666237584581, r[1], 1e-5);
             Assert.AreEqual(0.1001150998106, r[2], 1e-4);
@@ -1646,10 +1646,10 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                 double fx22 = x22 - x21 * k21 / k22;
                 double ft = x11 * (1 - k11) + x21 * (1 - k21);
                 double fbeta1 = (x11 - x12) + (x21 - x22);
-                return new DenseVector( new double[] { fx11, fx12, fx21, fx22, ft, fbeta1 });
+                return new DenseVector(new[] { fx11, fx12, fx21, fx22, ft, fbeta1 });
             };
 
-            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector( new double[] { 0, 1, 1, 0, 100, 0.8 }), 1e-14);
+            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector(new[] { 0, 1, 1, 0, 100, 0.8 }), 1e-14);
             Assert.AreEqual(0.0226982050031, r[0], 1e-7);
             Assert.AreEqual(0.6867475652564, r[1], 1e-6);
             Assert.AreEqual(0.9773017949969, r[2], 1e-6);
@@ -1700,10 +1700,10 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                 double fCD = V - vo * CD / rD;
                 double fCE = V - vo * CE / rE;
                 double fT = 5000 * (350 - T) - 25 * (20 + 40) * (T - 300) + V * SRH;
-                return new DenseVector( new double[] { fCA, fCB, fCC, fCD, fCE, fT });
+                return new DenseVector(new[] { fCA, fCB, fCC, fCD, fCE, fT });
             };
 
-            Assert.That(() => Broyden.FindRoot(fa1, new DenseVector( new double[] { 0.5, 0.01, 1, 0.01, 1, 420 }), 1e1), Throws.TypeOf<NonConvergenceException>());
+            Assert.That(() => Broyden.FindRoot(fa1, new DenseVector(new[] { 0.5, 0.01, 1, 0.01, 1, 420 }), 1e1), Throws.TypeOf<NonConvergenceException>());
         }
 
         [Test, Ignore("Known convergence problem")]
@@ -1741,10 +1741,10 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                 double fCD = V * rD - vo * CD;
                 double fCE = V * rE - vo * CE;
                 double fT = 5000 * (350 - T) - 25 * (20 + 40) * (T - 300) + V * SRH;
-                return new DenseVector( new double[] { fCA, fCB, fCC, fCD, fCE, fT });
+                return new DenseVector(new[] { fCA, fCB, fCC, fCD, fCE, fT });
             };
 
-            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector( new double[] { 0.5, 0.01, 1, 0.01, 1, 420 }), 1e-7, 10000);
+            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector(new[] { 0.5, 0.01, 1, 0.01, 1, 420 }), 1e-7, 10000);
             Assert.AreEqual(0.002666326911334, r[0], 1e-9);
             Assert.AreEqual(0.033464055791589, r[1], 1e-8);
             Assert.AreEqual(0.837065955800961, r[2], 1e-6);
@@ -1779,10 +1779,10 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                 double fx5 = x1 + x2 + x3 + x4 + x5 - 1;
                 double fx6 = 400 * x1 * x4 * x4 * x4 - 1.7837e5 * x3 * x5;
                 double fx7 = x1 * x3 - 2.6058 * x2 * x4;
-                return new DenseVector( new double[] { fx1, fx2, fx3, fx4, fx5, fx6, fx7 });
+                return new DenseVector(new[] { fx1, fx2, fx3, fx4, fx5, fx6, fx7 });
             };
 
-            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector( new double[] { 0.5, 0, 0, 0.5, 0, 0.5, 2 }), 1e-12);
+            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector(new[] { 0.5, 0, 0, 0.5, 0, 0.5, 2 }), 1e-12);
             Assert.AreEqual(0.3228708394765, r[0], 1e-9);
             Assert.AreEqual(0.0092235435392, r[1], 1e-8);
             Assert.AreEqual(0.0460170909606, r[2], 1e-8);
@@ -1819,10 +1819,10 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                 double fE = 150.2 * 133.7 * 0.32 * 0.32 / (A - B - C) - D * (A - B - C) / Math.Pow(0.0986 * A - D, 2);
                 double fF = 446.8 * 133.7 * 0.0032 * 0.0032 / (1.098 * A - B - 9 * D - E - F + G) - (A * 0.0986 - D) / (1.098 * A - B - 9 * D - E - F + G) + 0.01;
                 double fG = 0.04 * (74.12 * (0.986 * A - 10 * D) + 222.24 * (0.0986 * A - D) + 18 * (D - B) + 278.84 * D + 98.09 * 0.0136 * A) / 98.01 - 0.0136 * A - G;
-                return new DenseVector( new double[] { fA, fB, fC, fD, fE, fF, fG });
+                return new DenseVector(new[] { fA, fB, fC, fD, fE, fF, fG });
             };
 
-            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector( new double[] { 80, 7, 60, 7, 0.5, 4, 0.05 }), 1e-12);
+            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector(new[] { 80, 7, 60, 7, 0.5, 4, 0.05 }), 1e-12);
             Assert.AreEqual(80.5340430736936, r[0], 1e-9);
             Assert.AreEqual(6.9725465115675, r[1], 1e-8);
             Assert.AreEqual(61.1190817582544, r[2], 1e-8);
@@ -1859,10 +1859,10 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                 double fE = 2056.4 * Math.Pow(0.0986 * A - D, 2) - D * Math.Pow(A - B - C, 2);
                 double fF = 0.61177 - (A * 0.0986 - D) + 0.01 * (1.098 * A - B - 9 * D - E - F + G);
                 double fG = 0.04 * (74.12 * (0.986 * A - 10 * D) + 222.24 * (0.0986 * A - D) + 18 * (D - B) + 278.84 * D + 98.09 * 0.0136 * A) / 98.01 - 0.0136 * A - G;
-                return new DenseVector( new double[] { fA, fB, fC, fD, fE, fF, fG });
+                return new DenseVector(new[] { fA, fB, fC, fD, fE, fF, fG });
             };
 
-            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector( new double[] { 80, 7, 60, 7, 0.5, 4, 0.06 }), 1e-11);
+            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector(new[] { 80, 7, 60, 7, 0.5, 4, 0.06 }), 1e-11);
             Assert.AreEqual(80.5396204210231, r[0], 1e-9);
             Assert.AreEqual(6.9730107905982, r[1], 1e-8);
             Assert.AreEqual(61.1233326471120, r[2], 1e-8);
@@ -1913,10 +1913,10 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                 double fq23 = k01 * q01 * q01 + k12 * q12 * q12 + k24 * q24 * q24 + k45 * q45 * q45 + deltaPUMP;
                 double fq34 = k13 * q13 * q13 - k23 * q23 * q23 - k12 * q12 * q12;
                 double fq45 = k23 * q23 * q23 + k34 * q34 * q34 - k24 * q24 * q24;
-                return new DenseVector( new double[] { fq01, fq12, fq13, fq24, fq23, fq34, fq45 });
+                return new DenseVector(new[] { fq01, fq12, fq13, fq24, fq23, fq34, fq45 });
             };
 
-            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector( new double[] { 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1 }), 1e-9);
+            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector(new[] { 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1 }), 1e-9);
             Assert.AreEqual(0.098136927428176, r[0], 1e-8);
             Assert.AreEqual(0.064819554408160, r[1], 1e-8);
             Assert.AreEqual(0.033317373020015, r[2], 1e-8);
@@ -1975,10 +1975,10 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                 double fq23 = k01 * q01 * q01 + k12 * q12 * q12 + k24 * q24 * q24 + k45 * q45 * q45 + deltaPUMP;
                 double fq34 = k13 * q13 * q13 - k23 * q23 * q23 - k12 * q12 * q12;
                 double fq45 = k23 * q23 * q23 + k34 * q34 * q34 - k24 * q24 * q24;
-                return new DenseVector( new double[] { fq01, fq12, fq13, fq24, fq23, fq34, fq45 });
+                return new DenseVector(new[] { fq01, fq12, fq13, fq24, fq23, fq34, fq45 });
             };
 
-            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector( new double[] { 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1 }), 1e-10, 100, 1e-6);
+            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector(new[] { 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1 }), 1e-10, 100, 1e-6);
             Assert.AreEqual(0.110237410418775, r[0], 1e-8);
             Assert.AreEqual(0.073312448014583, r[1], 1e-8);
             Assert.AreEqual(0.036924962404192, r[2], 1e-8);
@@ -2020,10 +2020,10 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                 double fq35 = q35 + q65 - 420;
                 double fq65 = q46 - 140 - q65;
                 double fq46 = dp43 + dp35 - fc * 0.2572 * q65 * q65 - fc * 0.1286 * q46 * q46;
-                return new DenseVector( new double[] { fq12, fq14, fq23, fq43, fq35, fq65, fq46 });
+                return new DenseVector(new[] { fq12, fq14, fq23, fq43, fq35, fq65, fq46 });
             };
 
-            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector( new double[] { 1000, 500, 600, 200, 300, 100, 400 }), 1e-12);
+            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector(new double[] { 1000, 500, 600, 200, 300, 100, 400 }), 1e-12);
             Assert.AreEqual(872.751598594702, r[0], 1e-5);
             Assert.AreEqual(527.248401405298, r[1], 1e-5);
             Assert.AreEqual(452.751598594702, r[2], 1e-5);
@@ -2083,10 +2083,10 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                 double fV = x11 + x12 + x13 - 1;
                 double fL1 = L1 + L2 + V - 1;
                 double fL2 = x21 + x22 + x23 - 1;
-                return new DenseVector( new double[] { fx11, fx12, fx13, fx21, fx22, fx23, fV, fL1, fL2 });
+                return new DenseVector(new[] { fx11, fx12, fx13, fx21, fx22, fx23, fV, fL1, fL2 });
             };
 
-            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector( new double[] { 0.3, 0, 0.7, 0, 1, 0, 0.4, 0.55, 0.06 }), 1e-14);
+            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector(new[] { 0.3, 0, 0.7, 0, 1, 0, 0.4, 0.55, 0.06 }), 1e-14);
             Assert.AreEqual(0.2253818399616, r[0], 1e-5);
             Assert.AreEqual(0.0042438488738, r[1], 1e-5);
             Assert.AreEqual(0.7703743111646, r[2], 1e-5);
@@ -2136,11 +2136,11 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                 double fx8 = x8 * x4 - 1.799e-5 * x2 * xs;
                 double fx9 = x9 * x4 - 0.0002155 * x1 * Math.Sqrt(x3 * xs);
                 double fx10 = x10 * x4 * x4 - 3.846e-5 * x4 * x4 * xs;
-                return new DenseVector( new double[] { fx1, fx2, fx3, fx4, fx5, fx6, fx7, fx8, fx9, fx10 });
+                return new DenseVector(new[] { fx1, fx2, fx3, fx4, fx5, fx6, fx7, fx8, fx9, fx10 });
             };
 
-            Assert.That(() => Broyden.FindRoot(fa1, new DenseVector( new double[] { 1, 1, 10, 1, 1, 1, 0, 0, 0, 0 }), 1e-1), Throws.TypeOf<NonConvergenceException>());
-            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector( new double[] { 3, 4, 20, 0.1, 0.1, 0.01, 0.01, 0.01, 0.1, 0.001 }), 1e-14);
+            Assert.That(() => Broyden.FindRoot(fa1, new DenseVector(new double[] { 1, 1, 10, 1, 1, 1, 0, 0, 0, 0 }), 1e-1), Throws.TypeOf<NonConvergenceException>());
+            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector(new[] { 3, 4, 20, 0.1, 0.1, 0.01, 0.01, 0.01, 0.1, 0.001 }), 1e-14);
             Assert.AreEqual(2.88010599840556, r[0], 1e-5);
             Assert.AreEqual(3.95067493980017, r[1], 1e-5);
             Assert.AreEqual(19.9841296101664, r[2], 1e-5);
@@ -2192,11 +2192,11 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                 double fx8 = x8 * x4 - 1.799e-5 * x2 * xs;
                 double fx9 = x9 * x4 - 0.0002155 * x1 * Math.Sqrt(x3 * xs);
                 double fx10 = x10 * x4 * x4 - 3.846e-5 * x4 * x4 * xs;
-                return new DenseVector( new double[] { fx1, fx2, fx3, fx4, fx5, fx6, fx7, fx8, fx9, fx10 });
+                return new DenseVector(new[] { fx1, fx2, fx3, fx4, fx5, fx6, fx7, fx8, fx9, fx10 });
             };
 
-            Assert.That(() => Broyden.FindRoot(fa1, new DenseVector( new double[] { 2, 5, 80, 1, 0, 0, 0, 0, 20, 5 }), 1e-5), Throws.TypeOf<NonConvergenceException>());
-            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector( new double[] { 3, 4, 80, 0.001, 0.001, 0.001, 0.01, 4, 26, 0.01 }), 1e-14);
+            Assert.That(() => Broyden.FindRoot(fa1, new DenseVector(new double[] { 2, 5, 80, 1, 0, 0, 0, 0, 20, 5 }), 1e-5), Throws.TypeOf<NonConvergenceException>());
+            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector(new[] { 3, 4, 80, 0.001, 0.001, 0.001, 0.01, 4, 26, 0.01 }), 1e-14);
             Assert.AreEqual(2.99763549788728, r[0], 1e-5);
             Assert.AreEqual(3.96642685827836, r[1], 1e-5);
             Assert.AreEqual(79.9996980829447, r[2], 1e-5);
@@ -2255,11 +2255,11 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                 double fn8 = K8 * n1 - n4 * n8 * (p / nt);
                 double fn9 = K9 * n1 * Math.Sqrt(n3) - n4 * n9 * Math.Sqrt(p / nt);
                 double fn10 = K10 * n1 * n1 - n4 * n4 * n10 * (p / nt);
-                return new DenseVector( new double[] { fn1, fn2, fn3, fn4, fn5, fn6, fn7, fn8, fn9, fn10 });
+                return new DenseVector(new[] { fn1, fn2, fn3, fn4, fn5, fn6, fn7, fn8, fn9, fn10 });
             };
 
-            Assert.That(() => Broyden.FindRoot(fa1, new DenseVector( new double[] { 1.5, 2, 35, 0.5, 0.05, 0.005, 0.04, 0.003, 0.02, 5 }), 1e-5), Throws.TypeOf<NonConvergenceException>());
-            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector( new double[] { 3, 4, 20, 0.1, 0.01, 0.001, 0.04, 0.003, 0.03, 0.03 }), 1e-14);
+            Assert.That(() => Broyden.FindRoot(fa1, new DenseVector(new[] { 1.5, 2, 35, 0.5, 0.05, 0.005, 0.04, 0.003, 0.02, 5 }), 1e-5), Throws.TypeOf<NonConvergenceException>());
+            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector(new[] { 3, 4, 20, 0.1, 0.01, 0.001, 0.04, 0.003, 0.03, 0.03 }), 1e-14);
             Assert.AreEqual(2.91572542389522, r[0], 1e-5);
             Assert.AreEqual(3.96094281080888, r[1], 1e-5);
             Assert.AreEqual(19.9862916465515, r[2], 1e-5);
@@ -2318,11 +2318,11 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                 double fn8 = K8 * n1 - n4 * n8 * (p / nt);
                 double fn9 = K9 * n1 * Math.Sqrt(n3) - n4 * n9 * Math.Sqrt(p / nt);
                 double fn10 = K10 * n1 * n1 - n4 * n4 * n10 * (p / nt);
-                return new DenseVector( new double[] { fn1, fn2, fn3, fn4, fn5, fn6, fn7, fn8, fn9, fn10 });
+                return new DenseVector(new[] { fn1, fn2, fn3, fn4, fn5, fn6, fn7, fn8, fn9, fn10 });
             };
 
-            Assert.That(() => Broyden.FindRoot(fa1, new DenseVector( new double[] { 1.5, 2, 35, 0.5, 0.05, 0.005, 0.04, 0.003, 0.02, 5 }), 1e-5), Throws.TypeOf<NonConvergenceException>());
-            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector( new double[] { 3, 4, 80, 0.01, 0.002, 0.0006, 0.1, 0.004, 0.1, 15 }), 1e-14);
+            Assert.That(() => Broyden.FindRoot(fa1, new DenseVector(new[] { 1.5, 2, 35, 0.5, 0.05, 0.005, 0.04, 0.003, 0.02, 5 }), 1e-5), Throws.TypeOf<NonConvergenceException>());
+            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector(new[] { 3, 4, 80, 0.01, 0.002, 0.0006, 0.1, 0.004, 0.1, 15 }), 1e-14);
             //Assert.AreEqual(2.91572542389522, r[0], 1e-5);
             //Assert.AreEqual(3.96094281080888, r[1], 1e-5);
             //Assert.AreEqual(19.9862916465515, r[2], 1e-5);
@@ -2378,10 +2378,10 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                 double fx8 = x6 - x8 - x10;
                 double fx9 = x1 - 0.9;
                 double fx10 = x2 - 0.1;
-                return new DenseVector( new double[] { fx1, fx2, fx3, fx4, fx5, fx6, fx7, fx8, fx9, fx10 });
+                return new DenseVector(new[] { fx1, fx2, fx3, fx4, fx5, fx6, fx7, fx8, fx9, fx10 });
             };
 
-            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector( new double[] { 0.9, 0.1, 1, 0.2, 0.5, 0.8, 0.2, 0.7, 0.2, 0.1 }), 1e-14);
+            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector(new[] { 0.9, 0.1, 1, 0.2, 0.5, 0.8, 0.2, 0.7, 0.2, 0.1 }), 1e-14);
             Assert.AreEqual(0.9, r[0], 1e-5);
             Assert.AreEqual(0.1, r[1], 1e-5);
             Assert.AreEqual(1.1898916711704, r[2], 1e-5);
@@ -2454,10 +2454,10 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                 double fs61 = s81 + s101 + s31 - s61;
                 double fs62 = s82 + s102 + s32 - s62;
                 double fs63 = s83 + s103 + s33 - s63;
-                return new DenseVector( new double[] { fx1, fx2, fx3, V, L, s11, s12, s13, s61, s62, s63 });
+                return new DenseVector(new[] { fx1, fx2, fx3, V, L, s11, s12, s13, s61, s62, s63 });
             };
 
-            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector( new double[] { 0.1, 0.2, 0, 500, 500, 970, 30, 0, 970, 30, 0 }), 1e-14);
+            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector(new[] { 0.1, 0.2, 0, 500, 500, 970, 30, 0, 970, 30, 0 }), 1e-14);
             //Assert.AreEqual(0.16547930319775, r[0], 1e-5);
             //Assert.AreEqual(0.36109556119140, r[1], 1e-5);
             //Assert.AreEqual(0.4734251356109, r[2], 1e-5);
@@ -2515,10 +2515,10 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                 double fv11 = v1 + 2 * v2 + 2 * v3 + v6 + v10 - 2;
                 double fv12 = v4 + 2 * v5 + v6 + v7 - 1;
                 double fv13 = v3 + v7 + v8 + 2 * v9 + v10 - 1;
-                return new DenseVector( new double[] { fv1, fv2, fv3, fv4, fv5, fv6, fv7, fv8, fv9, fv10, fv11, fv12, fv13 });
+                return new DenseVector(new[] { fv1, fv2, fv3, fv4, fv5, fv6, fv7, fv8, fv9, fv10, fv11, fv12, fv13 });
             };
 
-            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector( new double[] { 0.05, 0.2, 0.8,0.001, 0.5, 0.0007, 0.03, 0.02, 0.1, 0.1, 10, 10, 10 }), 1e-13);
+            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector(new[] { 0.05, 0.2, 0.8, 0.001, 0.5, 0.0007, 0.03, 0.02, 0.1, 0.1, 10, 10, 10 }), 1e-13);
             Assert.AreEqual(0.04070664967202, r[0], 1e-5);
             Assert.AreEqual(0.14796418434584, r[1], 1e-5);
             Assert.AreEqual(0.78211670254494, r[2], 1e-5);
@@ -2575,7 +2575,7 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                 double L2 = V3 + F - D;
                 const double L3 = B;
                 const double P = 760 * 120 / 14.7;
-                double k11 = Math.Pow(10 ,6.80776 - 935.77 / ((t1 - 32) * 5 / 9 + 238.789)) / P;
+                double k11 = Math.Pow(10, 6.80776 - 935.77 / ((t1 - 32) * 5 / 9 + 238.789)) / P;
                 double k12 = Math.Pow(10, 6.80776 - 935.77 / ((t2 - 32) * 5 / 9 + 238.789)) / P;
                 double k13 = Math.Pow(10, 6.80776 - 935.77 / ((t3 - 32) * 5 / 9 + 238.789)) / P;
                 double k21 = Math.Pow(10, 6.85296 - 1064.84 / ((t1 - 32) * 5 / 9 + 232.012)) / P;
@@ -2596,10 +2596,10 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                 double hf = tf * (29.6 + 0.04 * tf) * z1 + tf * (38.5 + 0.025 * tf) * z2;
                 double h0 = t0 * (29.6 + 0.04 * t0) * k10 * k11 * x11 + t0 * (38.5 + 0.025 * t0) * k20 * k21 * x21;
                 const double Q = 10000;
-                double fx11 =-((V1-L0)*k11+L1)*x11+V2*k12*x12 ;
+                double fx11 = -((V1 - L0) * k11 + L1) * x11 + V2 * k12 * x12;
                 double fx12 = L1 * x11 - (V2 * k12 + L2) * x12 + V3 * k13 * x13 + z1 * F;
                 double fx13 = L2 * x12 - (V3 * k13 + B) * x13;
-                double fx21 =-((V1-L0)*k21+L1)*x21+V2*k22*x22 ;
+                double fx21 = -((V1 - L0) * k21 + L1) * x21 + V2 * k22 * x22;
                 double fx22 = L1 * x21 - (V2 * k22 + L2) * x22 + V3 * k23 * x23 + z2 * F;
                 double fx23 = L2 * x22 - (V3 * k23 + B) * x23;
                 double ft1 = k11 * x11 + k21 * x21 - 1;
@@ -2610,10 +2610,10 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                 double fV1 = -V1 * hv1 + V2 * hv2 - L1 * hl1 + L0 * h0;
                 double fV2 = -V2 * hv2 + V3 * hv3 + hf + L1 * hl1 - L2 * hl2;
                 double fV3 = -V3 * hv3 + Q + L2 * hl2 - L3 * hl3;
-                return new DenseVector( new double[] { fx11, fx12, fx13, fx21, fx22, fx23, ft1, ft2, ft3, ftf, ft0, fV1, fV2, fV3 });
+                return new DenseVector(new[] { fx11, fx12, fx13, fx21, fx22, fx23, ft1, ft2, ft3, ftf, ft0, fV1, fV2, fV3 });
             };
 
-            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector( new double[] { 0.5, 0.4, 0.3, 0.3, 0.4, 0.5, 145, 190, 210, 200, 200, 1, 1, 1 }), 1e-10);
+            Vector<double> r = Broyden.FindRoot(fa1, new DenseVector(new[] { 0.5, 0.4, 0.3, 0.3, 0.4, 0.5, 145, 190, 210, 200, 200, 1, 1, 1 }), 1e-10);
             Assert.AreEqual(0.57902594925514, r[0], 1e-5);
             Assert.AreEqual(0.39569120229748, r[1], 1e-5);
             Assert.AreEqual(0.27186578944464, r[2], 1e-5);
@@ -2651,16 +2651,17 @@ namespace MathNet.Numerics.Tests.RootFindingTests
         [Test]
         public void NumericalAccuracyProblemsWithBroydenMethod()
         {
-            Func<Vector<double>, Vector<double>> f = xa => {
+            Func<Vector<double>, Vector<double>> f = xa =>
+            {
                 var x1 = xa[0];
                 var x2 = xa[1];
                 var f1 = 1 + x1;
                 var f2 = 1 + x2;
-                return new DenseVector( new double[] { f1, f2 });
+                return new DenseVector(new[] { f1, f2 });
             };
-            var init = new DenseVector( new double[] { 10*Precision.PositiveMachineEpsilon, 1.0 });
+            var init = new DenseVector(new[] { 10 * Precision.PositiveMachineEpsilon, 1.0 });
             Vector<double> r = Broyden.FindRoot(f, init, 1e-5);
-            Assert.AreEqual(-1.0 , r[0], 1e-5);
+            Assert.AreEqual(-1.0, r[0], 1e-5);
             Assert.AreEqual(-1.0, r[1], 1e-5);
         }
     }
