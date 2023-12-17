@@ -31,6 +31,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{B54A0B40
 		appveyor.yml = appveyor.yml
 		Directory.Build.props = Directory.Build.props
 		global.json = global.json
+		build\MathNet.Numerics.nuspec = build\MathNet.Numerics.nuspec
+		build\MathNet.Numerics.FSharp.nuspec = build\MathNet.Numerics.FSharp.nuspec
 		build\MathNet.Numerics.CUDA.Win.nuspec = build\MathNet.Numerics.CUDA.Win.nuspec
 		build\MathNet.Numerics.MKL.Linux-x64.nuspec = build\MathNet.Numerics.MKL.Linux-x64.nuspec
 		build\MathNet.Numerics.MKL.Linux-x86.nuspec = build\MathNet.Numerics.MKL.Linux-x86.nuspec
@@ -42,6 +44,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{B54A0B40
 		build\NativeProvider.targets = build\NativeProvider.targets
 		paket.dependencies = paket.dependencies
 		paket.lock = paket.lock
+		build.cmd = build.cmd
+		build.sh = build.sh
+		.gitignore = .gitignore
+		.gitattributes = .gitattributes
+		NuGet.config = NuGet.config
+		restore.cmd = restore.cmd
+		restore.sh = restore.sh
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestData", "src\TestData\TestData.csproj", "{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}"
