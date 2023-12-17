@@ -1,9 +1,9 @@
-image: Visual Studio 2017
+image: Visual Studio 2022
 init:
    - git config --global core.autocrlf true
 install:
    # Download .NET Core SDK 6.0.100 and add to PATH
-   - ps: $urlCurrent = "https://dotnetcli.azureedge.net/dotnet/Sdk/6.0.100/dotnet-sdk-6.0.100-win-x64.zip"
+   - ps: $urlCurrent = "https://dotnetcli.azureedge.net/dotnet/Sdk/8.0.100/dotnet-sdk-8.0.100-win-x64.zip"
    - ps: $env:DOTNET_INSTALL_DIR = "$pwd\.dotnetsdk"
    - ps: mkdir $env:DOTNET_INSTALL_DIR -Force | Out-Null
    - ps: $tempFileCurrent = [System.IO.Path]::GetTempFileName()

@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <WarnOn>3390;$(WarnOn)</WarnOn>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
@@ -17,16 +17,17 @@
     <Compile Include="build.fs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Fake.Core.Context" Version="5.21.1" />
-    <PackageReference Include="Fake.Core.Environment" Version="5.21.1" />
-    <PackageReference Include="Fake.Core.ReleaseNotes" Version="5.21.1" />
-    <PackageReference Include="Fake.Core.String" Version="5.21.1" />
-    <PackageReference Include="Fake.Core.Target" Version="5.21.1" />
-    <PackageReference Include="Fake.Core.Trace" Version="5.21.1" />
-    <PackageReference Include="Fake.DotNet.Cli" Version="5.21.1" />
-    <PackageReference Include="Fake.DotNet.NuGet" Version="5.21.1" />
-    <PackageReference Include="Fake.IO.FileSystem" Version="5.21.1" />
-    <PackageReference Include="Fake.IO.Zip" Version="5.21.1" />
-    <PackageReference Include="Fake.Tools.Git" Version="5.21.1" />
+    <PackageReference Include="Fake.Core.Context" Version="6.0.0" />
+    <PackageReference Include="Fake.Core.Environment" Version="6.0.0" />
+    <PackageReference Include="Fake.Core.ReleaseNotes" Version="6.0.0" />
+    <PackageReference Include="Fake.Core.String" Version="6.0.0" />
+    <PackageReference Include="Fake.Core.Target" Version="6.0.0" />
+    <PackageReference Include="Fake.Core.Trace" Version="6.0.0" />
+    <PackageReference Include="Fake.DotNet.Cli" Version="6.0.0" />
+    <PackageReference Include="Fake.DotNet.NuGet" Version="6.0.0" />
+    <PackageReference Include="Fake.IO.FileSystem" Version="6.0.0" />
+    <PackageReference Include="Fake.IO.Zip" Version="6.0.0" />
+    <PackageReference Include="Fake.Tools.Git" Version="6.0.0" />
+    <PackageReference Include="MSBuild.StructuredLogger" Version="2.2.100" />
   </ItemGroup>
 </Project>

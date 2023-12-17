@@ -1,5 +1,5 @@
 STORAGE: PACKAGES
-RESTRICTION: || (== net461) (== net48) (== net50) (== netstandard2.0)
+RESTRICTION: || (== net461) (== net48) (== net6.0) (== net8.0) (== netstandard2.0)
 
 GROUP Build
 STORAGE: PACKAGES

@@ -101,14 +101,14 @@ namespace MathNet.Numerics.Tests.LinearAlgebraTests.Double
         public void DescriptionForMatrixWithRowsButNoColumns()
         {
             var matrix = GetMatrixWithRowsButNoColumns();
-            Assert.AreEqual("DenseMatrix 3x0-Double\r\n[empty]\r\n[empty]\r\n[empty]\r\n", matrix.ToString());
+            Assert.AreEqual($"DenseMatrix 3x0-Double{Environment.NewLine}[empty]{Environment.NewLine}[empty]{Environment.NewLine}[empty]{Environment.NewLine}", matrix.ToString());
         }
 
         [Test]
         public void DescriptionForMatrixWithColumnsButNoRows()
         {
             var matrix = GetMatrixWithColumnsButNoRows();
-            Assert.AreEqual("DenseMatrix 0x3-Double\r\n[empty]  [empty]  [empty]", matrix.ToString());
+            Assert.AreEqual($"DenseMatrix 0x3-Double{Environment.NewLine}[empty]  [empty]  [empty]", matrix.ToString());
         }
 
         [Test]
@@ -122,7 +122,7 @@ namespace MathNet.Numerics.Tests.LinearAlgebraTests.Double
             matrix = matrix.RemoveColumn(matrix.ColumnCount - 1);
             matrix = matrix.RemoveColumn(matrix.ColumnCount - 1);
 
-            Assert.AreEqual("DenseMatrix 0x0-Double\r\n[empty]", matrix.ToString());
+            Assert.AreEqual($"DenseMatrix 0x0-Double{Environment.NewLine}[empty]", matrix.ToString());
         }
 
         [Test]

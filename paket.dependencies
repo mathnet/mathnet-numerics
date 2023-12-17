@@ -1,7 +1,7 @@
 source https://api.nuget.org/v3/index.json
 storage: packages
 
-framework: net5.0,net48,net461,netstandard2.0
+framework: net8.0,net6.0,net48,net461,netstandard2.0
 
 group Build
     source https://api.nuget.org/v3/index.json
