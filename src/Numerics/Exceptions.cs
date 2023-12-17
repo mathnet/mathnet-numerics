@@ -19,11 +19,6 @@ namespace MathNet.Numerics
         public NonConvergenceException(string message, Exception innerException) : base(message, innerException)
         {
         }
-
-        protected NonConvergenceException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
-            : base(info, context)
-        {
-        }
     }
 
     /// <summary>
@@ -46,11 +41,6 @@ namespace MathNet.Numerics
             : base(message, innerException)
         {
         }
-
-        protected NumericalBreakdownException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
-            : base(info, context)
-        {
-        }
     }
 
     /// <summary>
@@ -70,11 +60,6 @@ namespace MathNet.Numerics
 
         protected NativeInterfaceException(string message, Exception innerException)
             : base(message, innerException)
-        {
-        }
-
-        protected NativeInterfaceException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
-            : base(info, context)
         {
         }
     }
@@ -99,11 +84,6 @@ namespace MathNet.Numerics
             : base($"An invalid parameter was passed to a native method, parameter number : {parameter}", innerException)
         {
         }
-
-        protected InvalidParameterException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
-            : base(info, context)
-        {
-        }
     }
 
     /// <summary>
@@ -119,11 +99,6 @@ namespace MathNet.Numerics
 
         public MemoryAllocationException(Exception innerException)
             : base("Unable to allocate native memory.", innerException)
-        {
-        }
-
-        protected MemoryAllocationException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
-            : base(info, context)
         {
         }
     }
@@ -146,11 +121,6 @@ namespace MathNet.Numerics
 
         public SingularUMatrixException(int element, Exception innerException)
             : base($"U is singular, and the inversion could not be completed. The {element}-th diagonal element of the factor U is zero.", innerException)
-        {
-        }
-
-        protected SingularUMatrixException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
-            : base(info, context)
         {
         }
     }
