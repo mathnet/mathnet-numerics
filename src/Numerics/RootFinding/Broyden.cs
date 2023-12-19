@@ -60,6 +60,24 @@ namespace MathNet.Numerics.RootFinding
         /// <summary>Find a solution of the equation f(x)=0.</summary>
         /// <param name="f">The function to find roots from.</param>
         /// <param name="initialGuess">Initial guess of the root.</param>
+        /// <param name="accuracy">Desired accuracy. The root will be refined until the accuracy or the maximum number of iterations is reached. Default 1e-8. Must be greater than 0.</param>
+        /// <param name="maxIterations">Maximum number of iterations. Default 100.</param>
+        /// <param name="jacobianStepSize">Relative step size for calculating the Jacobian matrix at first step. Default 1.0e-4</param>
+        /// <returns>Returns the root with the specified accuracy.</returns>
+        /// <exception cref="NonConvergenceException"></exception>
+        public static Vector<double> FindRoot(Func<Vector<double>, Vector<double>> f, Vector<double> initialGuess, double accuracy = 1e-8, int maxIterations = 100, double jacobianStepSize = 1.0e-4)
+        {
+            if (TryFindRootWithJacobianStep(f, initialGuess, accuracy, maxIterations, jacobianStepSize, out var root))
+            {
+                return root;
+            }
+
+            throw new NonConvergenceException("The algorithm has failed, exceeded the number of iterations allowed or there is no root within the provided bounds.");
+        }
+
+        /// <summary>Find a solution of the equation f(x)=0.</summary>
+        /// <param name="f">The function to find roots from.</param>
+        /// <param name="initialGuess">Initial guess of the root.</param>
         /// <param name="accuracy">Desired accuracy. The root will be refined until the accuracy or the maximum number of iterations is reached. Must be greater than 0.</param>
         /// <param name="maxIterations">Maximum number of iterations. Usually 100.</param>
         /// <param name="jacobianStepSize">Relative step size for calculating the Jacobian matrix at first step.</param>
@@ -84,21 +102,21 @@ namespace MathNet.Numerics.RootFinding
             {
                 for (int i = 0; i <= maxIterations; i++)
                 {
-                    var dx = (DenseVector) (-B.LU().Solve(y));
+                    var dx = (DenseVector)(-B.LU().Solve(y));
                     var xnew = x + dx;
                     var ynew = new DenseVector(f(xnew.Values));
                     double gnew = ynew.L2Norm();
 
                     if (gnew > g)
                     {
-                        double g2 = g*g;
-                        double scale = g2/(g2 + gnew*gnew);
+                        double g2 = g * g;
+                        double scale = g2 / (g2 + gnew * gnew);
                         if (scale == 0.0)
                         {
                             scale = 1.0e-4;
                         }
 
-                        dx = scale*dx;
+                        dx = scale * dx;
                         xnew = x + dx;
                         ynew = new DenseVector(f(xnew.Values));
                         gnew = ynew.L2Norm();
@@ -129,6 +147,80 @@ namespace MathNet.Numerics.RootFinding
             root = null;
             return false;
         }
+
+        /// <summary>Find a solution of the equation f(x)=0.</summary>
+        /// <param name="f">The function to find roots from.</param>
+        /// <param name="initialGuess">Initial guess of the root.</param>
+        /// <param name="accuracy">Desired accuracy. The root will be refined until the accuracy or the maximum number of iterations is reached. Must be greater than 0.</param>
+        /// <param name="maxIterations">Maximum number of iterations. Usually 100.</param>
+        /// <param name="jacobianStepSize">Relative step size for calculating the Jacobian matrix at first step.</param>
+        /// <param name="root">The root that was found, if any. Undefined if the function returns false.</param>
+        /// <returns>True if a root with the specified accuracy was found, else false.</returns>
+        public static bool TryFindRootWithJacobianStep(Func<Vector<double>, Vector<double>> f, Vector<double> initialGuess, double accuracy, int maxIterations, double jacobianStepSize, out Vector<double> root)
+        {
+            if (accuracy <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(accuracy), "Must be greater than zero.");
+            }
+
+            var x = initialGuess;
+
+            var y0 = f(initialGuess);
+            var y = y0;
+            var g = y.L2Norm();
+
+            Matrix<double> B = CalculateApproximateJacobian(f, initialGuess, y0, jacobianStepSize);
+
+            try
+            {
+                for (int i = 0; i <= maxIterations; i++)
+                {
+                    var dx = (DenseVector)(-B.LU().Solve(y));
+                    var xnew = x + dx;
+                    var ynew = f(xnew);
+                    double gnew = ynew.L2Norm();
+
+                    if (gnew > g)
+                    {
+                        double g2 = g * g;
+                        double scale = g2 / (g2 + gnew * gnew);
+                        if (scale == 0.0)
+                        {
+                            scale = 1.0e-4;
+                        }
+
+                        dx = scale * dx;
+                        xnew = x + dx;
+                        ynew = f(xnew);
+                        gnew = ynew.L2Norm();
+                    }
+
+                    if (gnew < accuracy)
+                    {
+                        root = xnew;
+                        return true;
+                    }
+
+                    // update Jacobian B
+                    var dF = ynew - y;
+                    var dB = (dF - B.Multiply(dx)).ToColumnMatrix() * dx.Multiply(1.0 / Math.Pow(dx.L2Norm(), 2)).ToRowMatrix();
+                    B += dB;
+
+                    x = xnew;
+                    y = ynew;
+                    g = gnew;
+                }
+            }
+            catch (InvalidParameterException)
+            {
+                root = null;
+                return false;
+            }
+
+            root = null;
+            return false;
+        }
+
         /// <summary>Find a solution of the equation f(x)=0.</summary>
         /// <param name="f">The function to find roots from.</param>
         /// <param name="initialGuess">Initial guess of the root.</param>
@@ -158,7 +250,7 @@ namespace MathNet.Numerics.RootFinding
 
             for (int j = 0; j < dim; j++)
             {
-                double h = (1.0+Math.Abs(x0[j]))*jacobianStepSize;
+                double h = (1.0 + Math.Abs(x0[j])) * jacobianStepSize;
 
                 var xj = x[j];
                 x[j] = xj + h;
@@ -167,7 +259,39 @@ namespace MathNet.Numerics.RootFinding
 
                 for (int i = 0; i < dim; i++)
                 {
-                    B.At(i, j, (y[i] - y0[i])/h);
+                    B.At(i, j, (y[i] - y0[i]) / h);
+                }
+            }
+
+            return B;
+        }
+
+        /// <summary>
+        /// Helper method to calculate an approximation of the Jacobian.
+        /// </summary>
+        /// <param name="f">The function.</param>
+        /// <param name="x0">The argument (initial guess).</param>
+        /// <param name="y0">The result (of initial guess).</param>
+        /// <param name="jacobianStepSize">Relative step size for calculating the Jacobian.</param>
+        static Matrix<double> CalculateApproximateJacobian(Func<Vector<double>, Vector<double>> f, Vector<double> x0, Vector<double> y0, double jacobianStepSize)
+        {
+            int dim = x0.Count;
+            var B = new DenseMatrix(dim);
+
+            var x = x0.ToArray();
+
+            for (int j = 0; j < dim; j++)
+            {
+                double h = (1.0 + Math.Abs(x0[j])) * jacobianStepSize;
+
+                var xj = x[j];
+                x[j] = xj + h;
+                var y = f(new DenseVector(x));
+                x[j] = xj;
+
+                for (int i = 0; i < dim; i++)
+                {
+                    B.At(i, j, (y[i] - y0[i]) / h);
                 }
             }
 
