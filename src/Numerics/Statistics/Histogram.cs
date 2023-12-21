@@ -499,5 +499,49 @@ namespace MathNet.Numerics.Statistics
 
             return sb.ToString();
         }
+
+        /// <summary>
+        /// Calculate the Distance between two histograms
+        /// </summary>
+        /// <param name="h">The histogram that will be compared with this histogram</param>
+        /// <param name="power">The power used for calculating the distance (e.g. 2 for Ecludian distance)</param>
+        /// <param name="distanceFunction">A delegate for the distance function</param>
+        /// <returns>The distance between the two histograms</returns>
+        public double HistogramDistance(Histogram h, double power, Func<double, double[], double[], double> distanceFunction){
+            if (this.BucketCount != h.BucketCount)
+            {
+                throw new ArgumentException("The two histograms must have the same number of buckets");
+            }
+            double[] a1 = new double[this.BucketCount];
+            double[] a2 = new double[this.BucketCount];
+            for (int i = 0; i < this.BucketCount; i++)
+            {
+                a1[i] = this[i].Count;
+                a2[i] = h[i].Count;
+            }
+            return distanceFunction(power, a1, a2);
+        }
+
+        /// <summary>
+        /// Calculate the Distance between two histograms
+        /// </summary>
+        /// <param name="h">The histogram that will be compared with this histogram</param>
+        /// <param name="distanceFunction">A delegate for the distance function</param>
+        /// <returns>The distance between the two histograms</returns>
+        public double HistogramDistance(Histogram h, Func<double[], double[], double> distanceFunction)
+        {
+            if (this.BucketCount != h.BucketCount)
+            {
+                throw new ArgumentException("The two histograms must have the same number of buckets");
+            }
+            double[] a1 = new double[this.BucketCount];
+            double[] a2 = new double[this.BucketCount];
+            for (int i = 0; i < this.BucketCount; i++)
+            {
+                a1[i] = this[i].Count;
+                a2[i] = h[i].Count;
+            }
+            return distanceFunction(a1, a2);
+        }
     }
 }
