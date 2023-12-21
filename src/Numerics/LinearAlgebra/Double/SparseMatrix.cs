@@ -1162,6 +1162,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">The result of the multiplication.</param>
         protected override void DoTransposeThisAndMultiply(Vector<double> rightSide, Vector<double> result)
         {
+            result.Clear();
             var rowPointers = _storage.RowPointers;
             var columnIndices = _storage.ColumnIndices;
             var values = _storage.Values;
