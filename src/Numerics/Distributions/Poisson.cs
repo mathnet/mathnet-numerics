@@ -246,12 +246,12 @@ namespace MathNet.Numerics.Distributions
         /// <param name="rnd">The random source to use.</param>
         /// <param name="lambda">The lambda (λ) parameter of the Poisson distribution. Range: λ > 0.</param>
         /// <returns>A random sample from the Poisson distribution.</returns>
-        static int SampleUnchecked(System.Random rnd, double lambda)
+        internal static int SampleUnchecked(System.Random rnd, double lambda)
         {
             return (lambda < 30.0) ? DoSampleShort(rnd, lambda) : DoSampleLarge(rnd, lambda);
         }
 
-        static void SamplesUnchecked(System.Random rnd, int[] values, double lambda)
+        internal static void SamplesUnchecked(System.Random rnd, int[] values, double lambda)
         {
             if (lambda < 30.0)
             {
@@ -300,7 +300,7 @@ namespace MathNet.Numerics.Distributions
             }
         }
 
-        static IEnumerable<int> SamplesUnchecked(System.Random rnd, double lambda)
+        internal static IEnumerable<int> SamplesUnchecked(System.Random rnd, double lambda)
         {
             if (lambda < 30.0)
             {

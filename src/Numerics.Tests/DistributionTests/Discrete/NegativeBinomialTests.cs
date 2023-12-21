@@ -45,7 +45,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Discrete
         /// </summary>
         /// <param name="r">Number of trials.</param>
         /// <param name="p">Probability of success.</param>
-        [TestCase(0.0, 0.0)]
+        [TestCase(0.0, 0.1)]
         [TestCase(0.1, 0.3)]
         [TestCase(1.0, 1.0)]
         public void CanCreateNegativeBinomial(double r, double p)
@@ -60,6 +60,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Discrete
         /// </summary>
         /// <param name="r">Number of trials.</param>
         /// <param name="p">Probability of success.</param>
+        [TestCase(0.0, 0.0)]
         [TestCase(0.0, double.NaN)]
         [TestCase(0.0, -1.0)]
         [TestCase(0.0, 2.0)]
@@ -99,7 +100,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Discrete
         /// </summary>
         /// <param name="r">Number of trials.</param>
         /// <param name="p">Probability of success.</param>
-        [TestCase(0.0, 0.0)]
+        [TestCase(0.0, 0.1)]
         [TestCase(0.1, 0.3)]
         [TestCase(1.0, 1.0)]
         public void ValidateSkewness(double r, double p)
@@ -113,8 +114,8 @@ namespace MathNet.Numerics.Tests.DistributionTests.Discrete
         /// </summary>
         /// <param name="r">Number of trials.</param>
         /// <param name="p">Probability of success.</param>
-        [TestCase(0.0, 0.0)]
-        [TestCase(0.3, 0.0)]
+        [TestCase(0.0, 0.1)]
+        [TestCase(0.3, 0.1)]
         [TestCase(1.0, 1.0)]
         public void ValidateMode(double r, double p)
         {
@@ -165,7 +166,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Discrete
         /// <param name="r">Number of trials.</param>
         /// <param name="p">Probability of success.</param>
         /// <param name="x">Input X value.</param>
-        [TestCase(0.0, 0.0, 0)]
+        [TestCase(0.0, 0.1, 0)]
         [TestCase(0.1, 0.3, 1)]
         [TestCase(1.0, 1.0, 2)]
         [TestCase(1.0, 1.0, 3)]
@@ -173,7 +174,10 @@ namespace MathNet.Numerics.Tests.DistributionTests.Discrete
         public void ValidateProbability(double r, double p, int x)
         {
             var d = new NegativeBinomial(r, p);
-            Assert.AreEqual(Math.Exp(SpecialFunctions.GammaLn(r + x) - SpecialFunctions.GammaLn(r) - SpecialFunctions.GammaLn(x + 1.0) + (r * Math.Log(p)) + (x * Math.Log(1.0 - p))), d.Probability(x));
+            if (p == 1.0 || r == 0.0)
+                Assert.AreEqual(x == 0 ? 1.0 : 0.0, d.Probability(x));
+            else
+                Assert.AreEqual(Math.Exp(SpecialFunctions.GammaLn(r + x) - SpecialFunctions.GammaLn(r) - SpecialFunctions.GammaLn(x + 1.0) + (r * Math.Log(p)) + (x * Math.Log(1.0 - p))), d.Probability(x));
         }
 
         /// <summary>
@@ -182,7 +186,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Discrete
         /// <param name="r">Number of trials.</param>
         /// <param name="p">Probability of success.</param>
         /// <param name="x">Input X value.</param>
-        [TestCase(0.0, 0.0, 0)]
+        [TestCase(0.0, 0.1, 0)]
         [TestCase(0.1, 0.3, 1)]
         [TestCase(1.0, 1.0, 2)]
         [TestCase(1.0, 1.0, 3)]
@@ -190,7 +194,10 @@ namespace MathNet.Numerics.Tests.DistributionTests.Discrete
         public void ValidateProbabilityLn(double r, double p, int x)
         {
             var d = new NegativeBinomial(r, p);
-            Assert.AreEqual(SpecialFunctions.GammaLn(r + x) - SpecialFunctions.GammaLn(r) - SpecialFunctions.GammaLn(x + 1.0) + (r * Math.Log(p)) + (x * Math.Log(1.0 - p)), d.ProbabilityLn(x));
+            if (p == 1.0 || r == 0.0)
+                Assert.AreEqual(x == 0 ? 0.0 : Double.NegativeInfinity, d.ProbabilityLn(x));
+            else
+                Assert.AreEqual(SpecialFunctions.GammaLn(r + x) - SpecialFunctions.GammaLn(r) - SpecialFunctions.GammaLn(x + 1.0) + (r * Math.Log(p)) + (x * Math.Log(1.0 - p)), d.ProbabilityLn(x));
         }
 
         /// <summary>
@@ -199,7 +206,7 @@ namespace MathNet.Numerics.Tests.DistributionTests.Discrete
         /// <param name="r">Number of trials.</param>
         /// <param name="p">Probability of success.</param>
         /// <param name="x">Input X value.</param>
-        [TestCase(0.0, 0.0, 0)]
+        [TestCase(0.0, 0.1, 0)]
         [TestCase(0.1, 0.3, 1)]
         [TestCase(1.0, 1.0, 2)]
         [TestCase(1.0, 1.0, 3)]
