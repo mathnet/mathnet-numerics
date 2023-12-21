@@ -130,6 +130,24 @@ namespace MathNet.Numerics.Interpolation
         /// <returns>Interpolated value x(t).</returns>
         public double Interpolate(double t)
         {
+            return Interpolate(t, true);
+        }
+
+        /// <summary>
+        /// Interpolate at point t.
+        /// </summary>
+        /// <param name="t">Point t to interpolate at.</param>
+        /// <param name="allowExtrapolate">set to fals if extrapolate should not be allowed</param>
+        /// <returns>Interpolated value x(t).</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when t is outside range and would result in Extrapolation!</exception>
+        public double Interpolate(double t, bool allowExtrapolate)
+        {
+            if (!allowExtrapolate &&
+                (t < _x[0] || t > _x[_x.Length - 1]))
+            {
+                throw new ArgumentOutOfRangeException("'t' is outside of the constructed array. This would result in Extrapolation!");
+            }
+
             int k = LeftSegmentIndex(t);
             return _c0[k] + (t - _x[k])*_c1[k];
         }
