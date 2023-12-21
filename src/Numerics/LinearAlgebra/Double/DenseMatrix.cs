@@ -581,11 +581,24 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                     denseRight.Count,
                     1,
                     denseResult.Values);
+                return;
             }
-            else
+
+            if (rightSide.Storage is SparseVectorStorage<double> sparseRight)
             {
-                base.DoMultiply(rightSide, result);
+                for (var i = 0; i < RowCount; i++)
+                {
+                    var s = 0.0;
+                    for (var j = 0; j < sparseRight.ValueCount; j++)
+                    {
+                        s += At(i, sparseRight.Indices[j])*sparseRight.Values[j];
+                    }
+                    result[i] = s;
+                }
+                return;
             }
+
+            base.DoMultiply(rightSide, result);
         }
 
         /// <summary>
@@ -699,11 +712,24 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                     1,
                     0.0,
                     denseResult.Values);
+                return;
             }
-            else
+
+            if (rightSide.Storage is SparseVectorStorage<double> sparseRight)
             {
-                base.DoTransposeThisAndMultiply(rightSide, result);
+                for (var j = 0; j < ColumnCount; j++)
+                {
+                    var s = 0.0;
+                    for (var i = 0; i < sparseRight.ValueCount; i++)
+                    {
+                        s += At(sparseRight.Indices[i], j)*sparseRight.Values[i];
+                    }
+                    result[j] = s;
+                }
+                return;
             }
+
+            base.DoTransposeThisAndMultiply(rightSide, result);
         }
 
         /// <summary>

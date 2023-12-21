@@ -598,11 +598,24 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                     denseRight.Count,
                     1,
                     denseResult.Values);
+                return;
             }
-            else
+
+            if (rightSide.Storage is SparseVectorStorage<Complex32> sparseRight)
             {
-                base.DoMultiply(rightSide, result);
+                for (var i = 0; i < RowCount; i++)
+                {
+                    var s = Complex32.Zero;
+                    for (var j = 0; j < sparseRight.ValueCount; j++)
+                    {
+                        s += At(i, sparseRight.Indices[j])*sparseRight.Values[j];
+                    }
+                    result[i] = s;
+                }
+                return;
             }
+
+            base.DoMultiply(rightSide, result);
         }
 
         /// <summary>
@@ -769,11 +782,24 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                     1,
                     0.0f,
                     denseResult.Values);
+                return;
             }
-            else
+
+            if (rightSide.Storage is SparseVectorStorage<Complex32> sparseRight)
             {
-                base.DoTransposeThisAndMultiply(rightSide, result);
+                for (var j = 0; j < ColumnCount; j++)
+                {
+                    var s = Complex32.Zero;
+                    for (var i = 0; i < sparseRight.ValueCount; i++)
+                    {
+                        s += At(sparseRight.Indices[i], j)*sparseRight.Values[i];
+                    }
+                    result[j] = s;
+                }
+                return;
             }
+
+            base.DoTransposeThisAndMultiply(rightSide, result);
         }
 
         /// <summary>
@@ -797,6 +823,20 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                     1,
                     0.0f,
                     denseResult.Values);
+                return;
+            }
+
+            if (rightSide.Storage is SparseVectorStorage<Complex32> sparseRight)
+            {
+                for (var j = 0; j < ColumnCount; j++)
+                {
+                    var s = Complex32.Zero;
+                    for (var i = 0; i < sparseRight.ValueCount; i++)
+                    {
+                        s += At(sparseRight.Indices[i], j).Conjugate()*sparseRight.Values[i];
+                    }
+                    result[j] = s;
+                }
                 return;
             }
 
