@@ -30,6 +30,7 @@
 using System;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.Optimization.LineSearch;
+using MathNet.Numerics.LinearAlgebra.Factorization;
 
 namespace MathNet.Numerics.Optimization
 {
@@ -38,20 +39,22 @@ namespace MathNet.Numerics.Optimization
         public double GradientTolerance { get; set; }
         public int MaximumIterations { get; set; }
         public bool UseLineSearch { get; set; }
+        public HessianModifiers Modifier { get; set; }
 
-        public NewtonMinimizer(double gradientTolerance, int maximumIterations, bool useLineSearch = false)
+        public NewtonMinimizer(double gradientTolerance, int maximumIterations, bool useLineSearch = false, HessianModifiers modifier = HessianModifiers.None)
         {
             GradientTolerance = gradientTolerance;
             MaximumIterations = maximumIterations;
             UseLineSearch = useLineSearch;
+            Modifier = modifier;
         }
 
         public MinimizationResult FindMinimum(IObjectiveFunction objective, Vector<double> initialGuess)
         {
-            return Minimum(objective, initialGuess, GradientTolerance, MaximumIterations, UseLineSearch);
+            return Minimum(objective, initialGuess, GradientTolerance, MaximumIterations, UseLineSearch, Modifier);
         }
 
-        public static MinimizationResult Minimum(IObjectiveFunction objective, Vector<double> initialGuess, double gradientTolerance=1e-8, int maxIterations=1000, bool useLineSearch=false)
+        public static MinimizationResult Minimum(IObjectiveFunction objective, Vector<double> initialGuess, double gradientTolerance=1e-8, int maxIterations=1000, bool useLineSearch=false, HessianModifiers modifier=HessianModifiers.None)
         {
             if (!objective.IsGradientSupported)
             {
@@ -83,7 +86,7 @@ namespace MathNet.Numerics.Optimization
             {
                 ValidateHessian(objective);
 
-                var searchDirection = objective.Hessian.LU().Solve(-objective.Gradient);
+                var searchDirection = CalculateSearchDirection(objective, modifier);
                 if (searchDirection * objective.Gradient >= 0)
                 {
                     searchDirection = -objective.Gradient;
@@ -123,6 +126,40 @@ namespace MathNet.Numerics.Optimization
             }
 
             return new MinimizationWithLineSearchResult(objective, iterations, ExitCondition.AbsoluteGradient, totalLineSearchSteps, iterationsWithNontrivialLineSearch);
+        }
+
+        static Vector<double> CalculateSearchDirection(IObjectiveFunction objective, HessianModifiers modifier)
+        {
+            Vector<double> searchDirection = null;
+            switch (modifier)
+            {
+                case HessianModifiers.None:
+                    searchDirection = SolveLU(objective);
+                    break;
+                case HessianModifiers.ReverseNegativeEigenValues:
+                    searchDirection = ReverseNegativeEigenValuesAndSolve(objective);
+                    break;
+            }
+
+            return searchDirection;
+        }
+
+        static Vector<double> SolveLU(IObjectiveFunction objective)
+        {
+            return objective.Hessian.LU().Solve(-objective.Gradient);
+        }
+
+        static Vector<double> ReverseNegativeEigenValuesAndSolve(IObjectiveFunction objective)
+        {
+            Evd<double> oEVD = objective.Hessian.Evd(Symmetricity.Symmetric);
+            for (int i = 0; i < oEVD.EigenValues.Count; i++)
+            {
+                if (oEVD.EigenValues[i].Real < double.Epsilon)
+                {
+                    oEVD.EigenValues[i] = Math.Max(-oEVD.EigenValues[i].Real, double.Epsilon);
+                }
+            }
+            return oEVD.Solve(-objective.Gradient);
         }
 
         static void ValidateGradient(IObjectiveFunctionEvaluation eval)
