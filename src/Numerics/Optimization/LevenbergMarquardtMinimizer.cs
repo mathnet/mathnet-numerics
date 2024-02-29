@@ -158,7 +158,7 @@ namespace MathNet.Numerics.Optimization
                     Pstep = Hessian.Solve(-Gradient);
 
                     // if ||ΔP|| <= xTol * (||P|| + xTol), found and stop
-                    if (Pstep.L2Norm() <= stepTolerance * (stepTolerance + P.DotProduct(P)))
+                    if (Pstep.L2Norm() <= stepTolerance * (P.L2Norm() + stepTolerance))
                     {
                         exitCondition = ExitCondition.RelativePoints;
                         break;
