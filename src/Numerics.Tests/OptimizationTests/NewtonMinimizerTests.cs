@@ -84,48 +84,30 @@ namespace MathNet.Numerics.Tests.OptimizationTests
         }
     }
 
-    public class LazyBealebjectiveFunction : LazyObjectiveFunctionBase
+    public class LazySixHumpCamelObjectiveFunction : LazyObjectiveFunctionBase
     {
-        public LazyBealebjectiveFunction() : base(true, true) { }
+        public LazySixHumpCamelObjectiveFunction() : base(true, true) { }
 
         public override IObjectiveFunction CreateNew()
         {
-            return new LazyBealebjectiveFunction();
+            return new LazySixHumpCamelObjectiveFunction();
         }
 
         protected override void EvaluateValue()
         {
-            Value = BealeFunction2D.Value(Point);
+            Value = SixHumpCamelFunction.Value(Point);
         }
 
         protected override void EvaluateGradient()
         {
-            Gradient = BealeFunction2D.Gradient(Point);
+            Gradient = SixHumpCamelFunction.Gradient(Point);
         }
 
         protected override void EvaluateHessian()
         {
-            Hessian = BealeFunction2D.Hessian(Point);
-        }
-    }
-
-    public class BealeObjectiveFunction : ObjectiveFunctionBase
-    {
-        public BealeObjectiveFunction() : base(true, true) { }
-
-        public override IObjectiveFunction CreateNew()
-        {
-            return new BealeObjectiveFunction();
+            Hessian = SixHumpCamelFunction.Hessian(Point);
         }
 
-        protected override void Evaluate()
-        {
-            // here we could directly overwrite the existing matrix cells instead.
-            // note: values must then be initialized manually first, if null.
-            Value = BealeFunction2D.Value(Point); ;
-            Gradient = BealeFunction2D.Gradient(Point);
-            Hessian = BealeFunction2D.Hessian(Point);
-        }
     }
 
     [TestFixture]
@@ -198,14 +180,14 @@ namespace MathNet.Numerics.Tests.OptimizationTests
         }
 
         [Test]
-        public void FindMinimum_Beale_IndefiniteHessian()
+        public void FindMinimum_SixHumpCamel_IndefiniteHessian()
         {
-            var obj = new LazyBealebjectiveFunction();
+            var obj = new LazySixHumpCamelObjectiveFunction();
             var solver = new NewtonMinimizer(1e-5, 1000, true);
-            var result = solver.FindMinimum(obj, new DenseVector(new double[] { 4, 0.9 }));
+            var result = solver.FindMinimum(obj, new DenseVector(new double[] { 1.0, -0.6 }));
 
-            Assert.That(Math.Abs(result.MinimizingPoint[0] - 3.0), Is.LessThan(1e-3));
-            Assert.That(Math.Abs(result.MinimizingPoint[1] - 0.5), Is.LessThan(1e-3));
+            Assert.That(result.MinimizingPoint[0], Is.EqualTo(0.0898).Within(1e-3));
+            Assert.That(result.MinimizingPoint[1], Is.EqualTo(-0.7126).Within(1e-3));
         }
 
         private class MghTestCaseEnumerator : IEnumerable<ITestCaseData>
