@@ -149,6 +149,12 @@ namespace MathNet.Numerics.Optimization
             return objective.Hessian.LU().Solve(-objective.Gradient);
         }
 
+        /// <summary>
+        /// Force the Hessian to be positive definite by reversing the negative eigenvalues. Use the EVD decomposition to then solve for the search direction.
+        /// Implementation based on Philip E. Gill, Walter Murray, and Margaret H. Wright, Practical Optimization, 1981, 107–8.
+        /// </summary>
+        /// <param name="objective"></param>
+        /// <returns></returns>
         static Vector<double> ReverseNegativeEigenValuesAndSolve(IObjectiveFunction objective)
         {
             Evd<double> evd = objective.Hessian.Evd(Symmetricity.Symmetric);

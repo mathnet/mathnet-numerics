@@ -32,6 +32,9 @@ using MathNet.Numerics.LinearAlgebra.Double;
 
 namespace MathNet.Numerics.Tests.OptimizationTests.TestFunctions
 {
+    /// <summary>
+    /// Six-Hump Camel Function, see http://www.sfu.ca/~ssurjano/camel6.html for formula and global minimum locations
+    /// </summary>
     public static class SixHumpCamelFunction
     {
         public static double Value(Vector<double> input)
