@@ -151,15 +151,15 @@ namespace MathNet.Numerics.Optimization
 
         static Vector<double> ReverseNegativeEigenValuesAndSolve(IObjectiveFunction objective)
         {
-            Evd<double> oEVD = objective.Hessian.Evd(Symmetricity.Symmetric);
-            for (int i = 0; i < oEVD.EigenValues.Count; i++)
+            Evd<double> evd = objective.Hessian.Evd(Symmetricity.Symmetric);
+            for (int i = 0; i < evd.EigenValues.Count; i++)
             {
-                if (oEVD.EigenValues[i].Real < double.Epsilon)
+                if (evd.EigenValues[i].Real < double.Epsilon)
                 {
-                    oEVD.EigenValues[i] = Math.Max(-oEVD.EigenValues[i].Real, double.Epsilon);
+                    evd.EigenValues[i] = Math.Max(-evd.EigenValues[i].Real, double.Epsilon);
                 }
             }
-            return oEVD.Solve(-objective.Gradient);
+            return evd.Solve(-objective.Gradient);
         }
 
         static void ValidateGradient(IObjectiveFunctionEvaluation eval)
