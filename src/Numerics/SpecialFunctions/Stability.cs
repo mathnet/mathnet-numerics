@@ -91,6 +91,11 @@ namespace MathNet.Numerics
         /// <returns>Returns <code>sqrt(a<sup>2</sup> + b<sup>2</sup>)</code> without underflow/overflow.</returns>
         public static double Hypotenuse(double a, double b)
         {
+            if (double.IsNaN(a) || double.IsNaN(b))
+            {
+                return double.NaN;
+            }
+
             if (Math.Abs(a) > Math.Abs(b))
             {
                 double r = b/a;
