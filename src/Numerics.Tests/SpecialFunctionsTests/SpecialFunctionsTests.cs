@@ -332,5 +332,18 @@ namespace MathNet.Numerics.Tests.SpecialFunctionsTests
         {
             AssertHelpers.AlmostEqualRelative(y, SpecialFunctions.Log1p(x), 14);
         }
+
+        [Test]
+        public void HypotenuseWhenArgumentIsNanReturnesNan()
+        {
+            Assert.True(double.IsNaN(SpecialFunctions.Hypotenuse(double.NaN, 0)));
+        }
+
+        [Test]
+        public void L2NormOfVectorWhenElementsNanReturnsNan()
+        {
+            var v = LinearAlgebra.Vector<double>.Build.Dense(new[] { double.NaN, 0 });
+            Assert.True(double.IsNaN(v.L2Norm()));
+        }
     }
 }
