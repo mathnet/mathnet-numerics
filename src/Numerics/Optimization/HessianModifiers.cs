@@ -38,6 +38,6 @@ namespace MathNet.Numerics.Optimization
     public enum HessianModifiers
     {
         None,
-        ReverseNegativeEigenValues
+        ReverseNegativeEigenvalues
     }
 }

@@ -136,8 +136,8 @@ namespace MathNet.Numerics.Optimization
                 case HessianModifiers.None:
                     searchDirection = SolveLU(objective);
                     break;
-                case HessianModifiers.ReverseNegativeEigenValues:
-                    searchDirection = ReverseNegativeEigenValuesAndSolve(objective);
+                case HessianModifiers.ReverseNegativeEigenvalues:
+                    searchDirection = ReverseNegativeEigenvaluesAndSolve(objective);
                     break;
             }
 
@@ -155,15 +155,12 @@ namespace MathNet.Numerics.Optimization
         /// </summary>
         /// <param name="objective"></param>
         /// <returns></returns>
-        static Vector<double> ReverseNegativeEigenValuesAndSolve(IObjectiveFunction objective)
+        static Vector<double> ReverseNegativeEigenvaluesAndSolve(IObjectiveFunction objective)
         {
             Evd<double> evd = objective.Hessian.Evd(Symmetricity.Symmetric);
             for (int i = 0; i < evd.EigenValues.Count; i++)
             {
-                if (evd.EigenValues[i].Real < double.Epsilon)
-                {
-                    evd.EigenValues[i] = Math.Max(-evd.EigenValues[i].Real, double.Epsilon);
-                }
+                evd.EigenValues[i] = Math.Max(Math.Abs(evd.EigenValues[i].Real), double.Epsilon);
             }
             return evd.Solve(-objective.Gradient);
         }

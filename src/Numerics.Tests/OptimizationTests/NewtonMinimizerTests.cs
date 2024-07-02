@@ -183,7 +183,7 @@ namespace MathNet.Numerics.Tests.OptimizationTests
         public void FindMinimum_SixHumpCamel_IndefiniteHessian()
         {
             var obj = new LazySixHumpCamelObjectiveFunction();
-            var solver = new NewtonMinimizer(1e-5, 1000, true, HessianModifiers.ReverseNegativeEigenValues);
+            var solver = new NewtonMinimizer(1e-5, 1000, true, HessianModifiers.ReverseNegativeEigenvalues);
             var result = solver.FindMinimum(obj, new DenseVector(new double[] { 1.0, -0.6 }));
 
             Assert.That(result.MinimizingPoint[0], Is.EqualTo(0.0898).Within(1e-3));
