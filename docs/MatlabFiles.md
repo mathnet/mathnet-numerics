@@ -53,7 +53,7 @@ to compose packed matrices into a file. Each matrix has a name which must not co
     var matrices = new List<MatlabMatrix>();
     m.Add(MatlabWriter.Pack(myFirstMatrix, "m1");
     m.Add(MatlabWriter.Pack(mySecondMatrix, "m2");
-    MatlabWrier.Store("file.mat", matrices);
+    MatlabWriter.Store("file.mat", matrices);
 
 But there are also direct routines if only a single matrix or matrices of all the same data type
 are to be stored in a file:
