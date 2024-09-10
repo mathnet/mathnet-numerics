@@ -147,6 +147,13 @@ namespace MathNet.Numerics.Interpolation
         double IInterpolation.Differentiate2(double t) => throw new NotSupportedException();
 
         /// <summary>
+        /// Differentiate three times at point t. NOT SUPPORTED.
+        /// </summary>
+        /// <param name="t">Point t to interpolate at.</param>
+        /// <returns>Interpolated third derivative at point t.</returns>
+        double IInterpolation.Differentiate3(double t) => throw new NotSupportedException();
+
+        /// <summary>
         /// Indefinite integral at point t. NOT SUPPORTED.
         /// </summary>
         /// <param name="t">Point t to integrate at.</param>
