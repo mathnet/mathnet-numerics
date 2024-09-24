@@ -270,6 +270,20 @@ namespace MathNet.Numerics.Tests.InterpolationTests
         }
 
         /// <summary>
+        /// Verifies that the 3rd derivative matches the given value at all the provided sample points.
+        /// </summary>
+        [TestCase(-10, -8.1428571428571423)]
+        [TestCase(-5, -8.1428571428571423)]
+        [TestCase(0, -10.714285714285715)]
+        [TestCase(5, 2.1428571428571423)]
+        [TestCase(10, 2.1428571428571423)]
+        public void ThirdDerivative(double x, double expected)
+        {
+            IInterpolation it = CubicSpline.InterpolateNatural(_t, _y);
+            Assert.AreEqual(expected, it.Differentiate3(x));
+        }
+
+        /// <summary>
         /// Generates a set of points representing an oscilating decaying function
         /// </summary>
         /// <param name="amplitude">The max amplitude</param>
