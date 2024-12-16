@@ -43,7 +43,7 @@ namespace MathNet.Numerics
         /// <param name="maxIterations">Maximum number of iterations. Example: 100.</param>
         public static double OfFunction(Func<double, double> f, double lowerBound, double upperBound, double accuracy = 1e-8, int maxIterations = 100)
         {
-            if (!ZeroCrossingBracketing.ExpandReduce(f, ref lowerBound, ref upperBound, 1.6, maxIterations, maxIterations*10))
+            if (!ZeroCrossingBracketing.ExpandReduce(f, ref lowerBound, ref upperBound, 1.6, maxIterations, maxIterations * 10))
             {
                 throw new NonConvergenceException("The algorithm has failed, exceeded the number of iterations allowed or there is no root within the provided bounds.");
             }
@@ -86,17 +86,40 @@ namespace MathNet.Numerics
         /// </summary>
         public static (Complex, Complex) Quadratic(double c, double b, double a)
         {
-            if (b == 0d)
+            Complex x1, x2;
+            if (a == 0.0)
             {
-                var t = new Complex(-c/a, 0d).SquareRoot();
-                return (t, -t);
+                if (b == 0.0)
+                {
+                    x1 = Complex.Zero / Complex.Zero;  // Complex.NaN;
+                    x2 = x1;
+                }
+                else
+                {
+                    x1 = new Complex(-c / b, 0.0);
+                    x2 = x1;
+                }
             }
-
-            var q = b > 0d
-                ? -0.5*(b + new Complex(b*b - 4*a*c, 0d).SquareRoot())
-                : -0.5*(b - new Complex(b*b - 4*a*c, 0d).SquareRoot());
-
-            return (q/a, c/q);
+            else
+            {
+                a = 1.0 / a;
+                b = -0.5 * b * a;
+                c = c * a;
+                double delta = b * b - c;
+                if (delta < 0.0)
+                {
+                    double sqrtDelta = Math.Sqrt(-delta);
+                    x1 = new Complex(b, sqrtDelta);
+                    x2 = new Complex(b, -sqrtDelta);
+                }
+                else
+                {
+                    double sqrtDelta = Math.Sqrt(delta);
+                    x1 = new Complex(b + sqrtDelta, 0.0);
+                    x2 = new Complex(b - sqrtDelta, 0.0);
+                }
+            }
+            return (x1, x2);
         }
 
         /// <summary>
@@ -143,16 +166,16 @@ namespace MathNet.Numerics
             }
 
             // transform to map to [-1..1] interval
-            double location = 0.5*(intervalBegin + intervalEnd);
-            double scale = 0.5*(intervalEnd - intervalBegin);
+            double location = 0.5 * (intervalBegin + intervalEnd);
+            double scale = 0.5 * (intervalEnd - intervalBegin);
 
             // evaluate first kind chebychev nodes
-            double angleFactor = Constants.Pi/(2*degree);
+            double angleFactor = Constants.Pi / (2 * degree);
 
             var samples = new double[degree];
             for (int i = 0; i < samples.Length; i++)
             {
-                samples[i] = location + scale*Math.Cos(((2*i) + 1)*angleFactor);
+                samples[i] = location + scale * Math.Cos(((2 * i) + 1) * angleFactor);
             }
             return samples;
         }
@@ -172,16 +195,16 @@ namespace MathNet.Numerics
             }
 
             // transform to map to [-1..1] interval
-            double location = 0.5*(intervalBegin + intervalEnd);
-            double scale = 0.5*(intervalEnd - intervalBegin);
+            double location = 0.5 * (intervalBegin + intervalEnd);
+            double scale = 0.5 * (intervalEnd - intervalBegin);
 
             // evaluate second kind chebychev nodes
-            double angleFactor = Constants.Pi/(degree + 1);
+            double angleFactor = Constants.Pi / (degree + 1);
 
             var samples = new double[degree];
             for (int i = 0; i < samples.Length; i++)
             {
-                samples[i] = location + scale*Math.Cos((i + 1)*angleFactor);
+                samples[i] = location + scale * Math.Cos((i + 1) * angleFactor);
             }
             return samples;
         }
