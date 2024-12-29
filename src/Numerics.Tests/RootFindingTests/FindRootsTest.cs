@@ -30,6 +30,7 @@
 using System;
 using Complex = System.Numerics.Complex;
 using NUnit.Framework;
+using System.Diagnostics;
 
 namespace MathNet.Numerics.Tests.RootFindingTests
 {
@@ -40,7 +41,7 @@ namespace MathNet.Numerics.Tests.RootFindingTests
         public void MultipleRoots()
         {
             // Roots at -2, 2
-            Func<double, double> f1 = x => x*x - 4;
+            Func<double, double> f1 = x => x * x - 4;
             Assert.AreEqual(0, f1(FindRoots.OfFunction(f1, 0, 5, 1e-14)));
             Assert.AreEqual(-2, FindRoots.OfFunction(f1, -5, -1, 1e-14));
             Assert.AreEqual(2, FindRoots.OfFunction(f1, 1, 4, 1e-14));
@@ -49,7 +50,7 @@ namespace MathNet.Numerics.Tests.RootFindingTests
             Assert.AreEqual(2, FindRoots.OfFunction(x => -f1(x), 1, 4, 1e-14));
 
             // Roots at 3, 4
-            Func<double, double> f2 = x => (x - 3)*(x - 4);
+            Func<double, double> f2 = x => (x - 3) * (x - 4);
             Assert.AreEqual(0, f2(FindRoots.OfFunction(f2, 3.5, 5, 1e-14)), 1e-14);
             Assert.AreEqual(3, FindRoots.OfFunction(f2, -5, 3.5, 1e-14));
             Assert.AreEqual(4, FindRoots.OfFunction(f2, 3.2, 5, 1e-14));
@@ -60,7 +61,7 @@ namespace MathNet.Numerics.Tests.RootFindingTests
         [Test]
         public void LocalMinima()
         {
-            Func<double, double> f1 = x => x*x*x - 2*x + 2;
+            Func<double, double> f1 = x => x * x * x - 2 * x + 2;
             Assert.AreEqual(0, f1(FindRoots.OfFunction(f1, -5, 5, 1e-14)), 1e-14);
             Assert.AreEqual(0, f1(FindRoots.OfFunction(f1, -2, 4, 1e-14)), 1e-14);
         }
@@ -68,7 +69,7 @@ namespace MathNet.Numerics.Tests.RootFindingTests
         [Test]
         public void NoRoot()
         {
-            Func<double, double> f1 = x => x*x + 4;
+            Func<double, double> f1 = x => x * x + 4;
             Assert.That(() => FindRoots.OfFunction(f1, -5, 5, 1e-14), Throws.TypeOf<NonConvergenceException>());
         }
 
@@ -76,7 +77,7 @@ namespace MathNet.Numerics.Tests.RootFindingTests
         public void Oneeq3()
         {
             // Test case from http://www.polymath-software.com/library/nle/Oneeq3.htm
-            Func<double, double> f1 = T => Math.Exp(21000/T)/(T*T) - 1.11e11;
+            Func<double, double> f1 = T => Math.Exp(21000 / T) / (T * T) - 1.11e11;
             double x = FindRoots.OfFunction(f1, 550, 560, 1e-12);
             Assert.AreEqual(551.773822885233, x, 1e-5);
             Assert.AreEqual(0, f1(x), 1e-2);
@@ -92,7 +93,7 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                 const double BETA = 2.298E-3;
                 const double GAMMA = 0.283E-6;
                 const double DH = -57798.0;
-                return DH + TR*(ALPHA + TR*(BETA/2 + TR*GAMMA/3)) - 298.0*(ALPHA + 298.0*(BETA/2 + 298.0*GAMMA/3));
+                return DH + TR * (ALPHA + TR * (BETA / 2 + TR * GAMMA / 3)) - 298.0 * (ALPHA + 298.0 * (BETA / 2 + 298.0 * GAMMA / 3));
             };
 
             double x = FindRoots.OfFunction(f1, 3000, 5000, 1e-10);
@@ -114,11 +115,11 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                 const double A = 0.01855;
                 const double B = -0.01587;
                 const double P = 100.0;
-                const double Beta = R*T*B0 - A0 - R*C/(T*T);
-                const double Gama = -R*T*B0*B + A0*A - R*C*B0/(T*T);
-                const double Delta = R*B0*B*C/(T*T);
+                const double Beta = R * T * B0 - A0 - R * C / (T * T);
+                const double Gama = -R * T * B0 * B + A0 * A - R * C * B0 / (T * T);
+                const double Delta = R * B0 * B * C / (T * T);
 
-                return R*T/V + Beta/(V*V) + Gama/(V*V*V) + Delta/(V*V*V*V) - P;
+                return R * T / V + Beta / (V * V) + Gama / (V * V * V) + Delta / (V * V * V * V) - P;
             };
 
             double x = FindRoots.OfFunction(f1, 0.1, 1);
@@ -130,7 +131,7 @@ namespace MathNet.Numerics.Tests.RootFindingTests
         public void Oneeq7()
         {
             // Test case from http://www.polymath-software.com/library/nle/Oneeq7.htm
-            Func<double, double> f1 = x => x/(1 - x) - 5*Math.Log(0.4*(1 - x)/(0.4 - 0.5*x)) + 4.45977;
+            Func<double, double> f1 = x => x / (1 - x) - 5 * Math.Log(0.4 * (1 - x) / (0.4 - 0.5 * x)) + 4.45977;
             double r = FindRoots.OfFunction(f1, 0, 0.79, 1e-10);
             Assert.AreEqual(0.757396293891, r, 1e-6);
             Assert.AreEqual(0, f1(r), 1e-6);
@@ -146,7 +147,7 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                 const double b = 40;
                 const double c = 200;
 
-                return a*v*v + b*Math.Pow(v, 7/4) - c;
+                return a * v * v + b * Math.Pow(v, 7 / 4) - c;
             };
 
             double x = FindRoots.OfFunction(f1, 0.01, 1);
@@ -158,7 +159,7 @@ namespace MathNet.Numerics.Tests.RootFindingTests
         public void StackOverflow39935588()
         {
             // Roots at -2, 2
-            Func<double, double> f1 = x => (x - 3.0)*(x - 4.0);
+            Func<double, double> f1 = x => (x - 3.0) * (x - 4.0);
             Assert.AreEqual(3.0, FindRoots.OfFunction(f1, -2.0, 3.5), 1e-10);
             Assert.AreEqual(4.0, FindRoots.OfFunction(f1, 3.5, 5.5), 1e-10);
             Assert.AreEqual(0.0, f1(FindRoots.OfFunction(f1, -2.0, 5.5, 1e-14)), 1e-14);
@@ -177,7 +178,7 @@ namespace MathNet.Numerics.Tests.RootFindingTests
         public void QuadraticExpanded(double u, double v, double t)
         {
             // t*(x+u)*(x+v) = t*u*v + t*(u+v)*x + t*x^2
-            double c = t*u*v, b = t*(u + v), a = t;
+            double c = t * u * v, b = t * (u + v), a = t;
             var x = FindRoots.Quadratic(c, b, a);
             Complex x1 = x.Item1, x2 = x.Item2;
 
@@ -187,8 +188,8 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                           || x1.AlmostEqualRelative(r2, 1e-14) && x2.AlmostEqualRelative(r1, 1e-14));
 
             // Verify they really are roots
-            AssertComplexEqual(Complex.Zero, c + b*x1 + a*x1*x1, 1e-14);
-            AssertComplexEqual(Complex.Zero, c + b*x2 + a*x2*x2, 1e-14);
+            AssertComplexEqual(Complex.Zero, c + b * x1 + a * x1 * x1, 1e-14);
+            AssertComplexEqual(Complex.Zero, c + b * x2 + a * x2 * x2, 1e-14);
         }
 
         [TestCase(1d, 1d, 1d, -0.5, -0.866025403784439, -0.5, 0.866025403784439)]
@@ -207,8 +208,101 @@ namespace MathNet.Numerics.Tests.RootFindingTests
                           || x1.AlmostEqualRelative(r2, 1e-14) && x2.AlmostEqualRelative(r1, 1e-14));
 
             // Verify they really are roots
-            AssertComplexEqual(Complex.Zero, c + b*x1 + a*x1*x1, 1e-14);
-            AssertComplexEqual(Complex.Zero, c + b*x2 + a*x2*x2, 1e-14);
+            AssertComplexEqual(Complex.Zero, c + b * x1 + a * x1 * x1, 1e-14);
+            AssertComplexEqual(Complex.Zero, c + b * x2 + a * x2 * x2, 1e-14);
+        }
+
+        public static (Complex, Complex) FasterQuadratic(double c, double b, double a)
+        {
+            Complex x1, x2;
+            if (a == 0.0)
+            {
+                if (b == 0.0)
+                {
+                    x1 = new Complex(double.NaN, double.NaN);  // Complex.NaN;
+                    x2 = x1;
+                }
+                else
+                {
+                    x1 = new Complex(-c / b, 0.0);
+                    x2 = x1;
+                }
+            }
+            else
+            {
+                a = 1.0 / a;
+                b = -0.5 * b * a;
+                c = c * a;
+                double delta = b * b - c;
+                if (delta < 0.0)
+                {
+                    double sqrtDelta = Math.Sqrt(-delta);
+                    x1 = new Complex(b, sqrtDelta);
+                    x2 = new Complex(b, -sqrtDelta);
+                }
+                else
+                {
+                    double sqrtDelta = Math.Sqrt(delta);
+                    x1 = new Complex(b + sqrtDelta, 0.0);
+                    x2 = new Complex(b - sqrtDelta, 0.0);
+                }
+            }
+            return (x1, x2);
+        }
+
+        [TestCase(70_000_000)]
+        public void TestQuadraticSpeed(int N)
+        {
+            Complex x1, x2;
+            double sum = 0.0;
+            double a, b, c;
+            Stopwatch stopwatch = new Stopwatch();
+            for (int i = 11; i < N; i++)
+            {
+                a = -0.1 * i + 1.0;
+                b = 0.3464 * i + 5.0;
+                c = -0.3 * i + 7.0;
+                (x1, x2) = FindRoots.Quadratic(c, b, a);
+                sum += x1.Real + x2.Imaginary;
+            }
+            Console.WriteLine($"sum={sum}");
+            stopwatch.Stop();
+            Console.WriteLine($"FindRoots.Quadratic time: {stopwatch.ElapsedMilliseconds * 0.001:F3}s");
+
+            sum = 0.0;
+            stopwatch.Restart();
+            for (int i = 11; i < N; i++)
+            {
+                a = -0.1 * i + 1.0;
+                b = 0.3464 * i + 5.0;
+                c = -0.3 * i + 7.0;
+                (x1, x2) = FasterQuadratic(c, b, a);
+                sum += x1.Real + x2.Imaginary;
+            }
+            Console.WriteLine($"sum={sum}");
+            stopwatch.Stop();
+            Console.WriteLine($"FasterQuadratic time: {stopwatch.ElapsedMilliseconds * 0.001:F3}s");
+        }
+
+        [TestCase(7_000_000)]
+        public void TestFasterQuadraticCorrectness(int N)
+        {
+            Complex x1, x2, x3, x4;
+            double a, b, c, b_a, c_a;
+            for (int i = 11; i < N; i++)
+            {
+                a = -0.1 * i + 1.0;
+                b = 0.3464 * i + 5.0;
+                c = -0.3 * i + 7.0;
+                b_a = -b / a;
+                c_a = c / a;
+                (x1, x2) = FasterQuadratic(c, b, a);
+                (x3, x4) = FindRoots.Quadratic(c, b, a);
+                AssertComplexEqual(x1 + x2, b_a, 1e-14);
+                AssertComplexEqual(x1 * x2, c_a, 1e-14);
+                AssertComplexEqual(x3 + x4, x1 + x2, 1e-14);
+                AssertComplexEqual(x3 * x4, x1 * x2, 1e-14);
+            }
         }
     }
 }
