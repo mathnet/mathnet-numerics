@@ -89,7 +89,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
         }
 
         /// <summary>
-        /// Gets the determinant of the square matrix for which the SVD was computed.
+        /// Gets the absolute value of the determinant of the square matrix for which the SVD was computed.
         /// </summary>
         public override Complex Determinant
         {
