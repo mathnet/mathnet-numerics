@@ -211,6 +211,126 @@ namespace MathNet.Numerics.Interpolation
         }
 
         /// <summary>
+        /// Creates a modified Akima (makima) cubic spline interpolation from a set of (x,y) value pairs,
+        /// sorted ascendingly by x.
+        /// </summary>
+        /// <param name="x">Sample points (must be sorted ascendingly)</param>
+        /// <param name="y">Sample values corresponding to x</param>
+        /// <returns>A CubicSpline instance using the makima method</returns>
+        public static CubicSpline InterpolateMakimaSorted(double[] x, double[] y)
+        {
+            if (x.Length != y.Length)
+            {
+                throw new ArgumentException("All vectors must have the same dimensionality.");
+            }
+            if (x.Length < 5)
+            {
+                throw new ArgumentException("The given array is too small. It must be at least 5 long.", nameof(x));
+            }
+
+            var n = x.Length;
+            var dx = new double[n - 1];
+            for (var i = 0; i < n - 1; i++)
+            {
+                dx[i] = x[i + 1] - x[i];
+            }
+
+            // Allocate m with padding: length = n + 3
+            var mLen = n + 3;
+            var m = new double[mLen];
+            // m[2] .. m[n+1] : slopes between adjacent points.
+            for (var i = 0; i < n - 1; i++)
+            {
+                m[i + 2] = (y[i + 1] - y[i]) / dx[i];
+            }
+
+            // Extrapolate two additional points on the left.
+            m[1] = 2 * m[2] - m[3];
+            m[0] = 2 * m[1] - m[2];
+
+            // Extrapolate two additional points on the right.
+            m[n + 1] = 2 * m[n] - m[n - 1];
+            m[n + 2] = 2 * m[n + 1] - m[n];
+
+            // Compute differences (dm) and sums (pm) for makima weights.
+            var dmLen = mLen - 1;
+            var dm = new double[dmLen];
+            var pm = new double[dmLen];
+            for (var i = 0; i < dmLen; i++)
+            {
+                dm[i] = Math.Abs(m[i + 1] - m[i]);
+                pm[i] = Math.Abs(m[i + 1] + m[i]);
+            }
+
+            // Compute modified weights: f1 and f2 for indices 0 .. n-1.
+            var f1 = new double[n];
+            var f2 = new double[n];
+            for (var i = 0; i < n; i++)
+            {
+                f1[i] = dm[i + 2] + 0.5 * pm[i + 2];
+                f2[i] = dm[i] + 0.5 * pm[i];
+            }
+            var f12 = new double[n];
+            for (var i = 0; i < n; i++)
+            {
+                f12[i] = f1[i] + f2[i];
+            }
+
+            // Initial derivative estimates: t[i] = 0.5*(m[i+3] + m[i])
+            var t = new double[n];
+            for (var i = 0; i < n; i++)
+            {
+                t[i] = 0.5 * (m[i + 3] + m[i]);
+            }
+
+            // Determine threshold from maximum of f12.
+            var maxF12 = 0.0;
+            for (var i = 0; i < n; i++)
+            {
+                if (f12[i] > maxF12)
+                    maxF12 = f12[i];
+            }
+            var threshold = 1e-9 * maxF12;
+
+            // For indices where f12 is significant, update t[i] using weighted average.
+            for (var i = 0; i < n; i++)
+            {
+                if (f12[i] > threshold)
+                {
+                    t[i] = (f1[i] * m[i + 1] + f2[i] * m[i + 2]) / f12[i];
+                }
+            }
+
+            // Construct the Hermite cubic spline using the computed derivatives.
+            return InterpolateHermiteSorted(x, y, t);
+        }
+
+        /// <summary>
+        /// Creates a modified Akima (makima) cubic spline interpolation from an unsorted set of (x,y) value pairs.
+        /// WARNING: This method works in-place and will sort the input arrays.
+        /// </summary>
+        /// <param name="x">Sample points</param>
+        /// <param name="y">Sample values corresponding to x</param>
+        /// <returns>A CubicSpline instance using the makima method</returns>
+        public static CubicSpline InterpolateMakimaInplace(double[] x, double[] y)
+        {
+            // Sorting.Sort is assumed to sort x and apply the same permutation to y.
+            Sorting.Sort(x, y);
+            return InterpolateMakimaSorted(x, y);
+        }
+
+        /// <summary>
+        /// Creates a modified Akima (makima) cubic spline interpolation from an unsorted set of (x,y) value pairs.
+        /// </summary>
+        /// <param name="x">Sample points as an IEnumerable</param>
+        /// <param name="y">Sample values corresponding to x as an IEnumerable</param>
+        /// <returns>A CubicSpline instance using the makima method</returns>
+        public static CubicSpline InterpolateMakima(IEnumerable<double> x, IEnumerable<double> y)
+        {
+            return InterpolateMakimaInplace(x.ToArray(), y.ToArray());
+        }
+
+        /// <summary>
         /// Create a piecewise cubic Hermite interpolating polynomial from an unsorted set of (x,y) value pairs.
         /// Monotone-preserving interpolation with continuous first derivative.
         /// </summary>
