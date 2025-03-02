@@ -50,7 +50,7 @@ namespace MathNet.Numerics.LinearRegression
 
             if (x.Length <= 1)
             {
-                throw new ArgumentException($"A regression of the requested order requires at least {2} samples. Only {x.Length} samples have been provided.");
+                throw new ArgumentException($"A regression of the requested order requires at least 2 samples. Only {x.Length} samples have been provided.");
             }
 
             // First Pass: Mean (Less robust but faster than ArrayStatistics.Mean)
