@@ -1,3 +1,7 @@
+### 6.0.0-beta2 - 2025-03-02
+* intermediate beta, mainly to verify we can still do releases
+* many contributions, proper release notes with attributions will follow. thank you all!
+
 ### 6.0.0-beta1 - 2023-12-17
 * attempt to revive this project with upgraded tooling, for net8.0, net6.0, net48 and netstandard2.0
 * many contributions, proper release notes with attributions will follow. thank you all!

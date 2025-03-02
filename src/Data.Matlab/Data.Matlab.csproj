@@ -10,10 +10,10 @@
         <PackageId>MathNet.Numerics.Data.Matlab</PackageId>
         <PackageId Condition="'$(StrongName)'=='True'">MathNet.Numerics.Data.Matlab.Signed</PackageId>
         <VersionPrefix>6.0.0</VersionPrefix>
-        <VersionSuffix>beta1</VersionSuffix>
+        <VersionSuffix>beta2</VersionSuffix>
         <Title>Math.NET Numerics - MATLAB Data I/O Extensions$(TitleSuffix)</Title>
         <Description>MathWorks MATLAB Data Input/Output Extensions for Math.NET Numerics, the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use.$(DescriptionSuffix)</Description>
-        <PackageReleaseNotes>attempt to revive this project with upgraded tooling, for net8.0, net6.0, net48 and netstandard2.0
+        <PackageReleaseNotes>intermediate beta, mainly to verify we can still do releases
 many contributions, proper release notes with attributions will follow. thank you all!</PackageReleaseNotes>
         <PackageTags>math numeric data matlab</PackageTags>
         <IsTool>false</IsTool>
