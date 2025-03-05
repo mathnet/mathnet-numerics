@@ -84,6 +84,32 @@ namespace MathNet.Numerics.Tests.OptimizationTests
         }
     }
 
+    public class LazySixHumpCamelObjectiveFunction : LazyObjectiveFunctionBase
+    {
+        public LazySixHumpCamelObjectiveFunction() : base(true, true) { }
+
+        public override IObjectiveFunction CreateNew()
+        {
+            return new LazySixHumpCamelObjectiveFunction();
+        }
+
+        protected override void EvaluateValue()
+        {
+            Value = SixHumpCamelFunction.Value(Point);
+        }
+
+        protected override void EvaluateGradient()
+        {
+            Gradient = SixHumpCamelFunction.Gradient(Point);
+        }
+
+        protected override void EvaluateHessian()
+        {
+            Hessian = SixHumpCamelFunction.Hessian(Point);
+        }
+
+    }
+
     [TestFixture]
     public class NewtonMinimizerTests
     {
@@ -151,6 +177,17 @@ namespace MathNet.Numerics.Tests.OptimizationTests
 
             Assert.That(Math.Abs(result.MinimizingPoint[0] - 1.0), Is.LessThan(1e-3));
             Assert.That(Math.Abs(result.MinimizingPoint[1] - 1.0), Is.LessThan(1e-3));
+        }
+
+        [Test]
+        public void FindMinimum_SixHumpCamel_IndefiniteHessian()
+        {
+            var obj = new LazySixHumpCamelObjectiveFunction();
+            var solver = new NewtonMinimizer(1e-5, 1000, true, HessianModifiers.ReverseNegativeEigenvalues);
+            var result = solver.FindMinimum(obj, new DenseVector(new double[] { 1.0, -0.6 }));
+
+            Assert.That(result.MinimizingPoint[0], Is.EqualTo(0.0898).Within(1e-3));
+            Assert.That(result.MinimizingPoint[1], Is.EqualTo(-0.7126).Within(1e-3));
         }
 
         private class MghTestCaseEnumerator : IEnumerable<ITestCaseData>
