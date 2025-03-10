@@ -81,6 +81,34 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
+        /// Deming/Orthogonal regression, least-Squares fitting the points in
+        /// the 2D dataset (x,y) to a line
+        /// <code>
+        ///    a*x + b*y + c = 0
+        /// </code>
+        /// For <paramref name="delta"/> equal 1 (the default value), this is
+        /// performing orthogonal regression, minimizing the sum of squared
+        /// perpendicular distances from the data points to the regression line.
+        /// <para>
+        /// Orthogonal regression is a special case of Deming regression,
+        /// and is assuming equal error variances on the x and y data,
+        /// and applied by the argument <paramref name="delta"/> default value of 1.0.
+        /// </para>
+        /// <para>
+        /// The parameters (a,b,c) are scaled such that a and b
+        /// in absolute values are always less than one.
+        /// </para>
+        /// </summary>
+        /// <param name="x">X data</param>
+        /// <param name="y">Y data</param>
+        /// <param name="delta">Ratio of variances of x and y data, var(y)/var(x). Default value is 1.0.</param>
+        /// <returns> returning its best fitting parameters as (a, b, c) tuple.</returns>
+        public static (double A, double B, double C) Deming(double[] x, double[] y, double delta = 1.0)
+        {
+            return DemingRegression.Fit(x, y, delta);
+        }
+
+        /// <summary>
         /// Least-Squares fitting the points (x,y) to an exponential y : x -> a*exp(r*x),
         /// returning its best fitting parameters as (a, r) tuple.
         /// </summary>
