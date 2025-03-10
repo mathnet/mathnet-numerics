@@ -118,7 +118,7 @@ module Sample =
     let logNormal mu sigma (rng:System.Random) = LogNormal.Sample(rng, mu, sigma)
     let logNormalSeq mu sigma (rng:System.Random) = LogNormal.Samples(rng, mu, sigma)
 
-    /// Negative-Binomial with number of failures (r) until the experiment stopped and probability (p) of a trial resulting in success.
+    /// Negative-Binomial with number of successes (r) until the experiment stopped and probability (p) of a trial resulting in success.
     let negativeBinomial r p (rng:System.Random) = NegativeBinomial.Sample(rng, r, p)
     let negativeBinomialSeq r p (rng:System.Random) = NegativeBinomial.Samples(rng, r, p)
 
