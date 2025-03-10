@@ -198,6 +198,36 @@ namespace MathNet.Numerics.Interpolation
         }
 
         /// <summary>
+        /// Differentiate three times at point t.
+        /// </summary>
+        /// <param name="t">Point t to interpolate at.</param>
+        /// <returns>Interpolated third derivative at point t.</returns>
+        public double Differentiate3(double t)
+        {
+            var x = new double[_y.Length];
+            var dx = new double[_y.Length];
+            var ddx = new double[_y.Length];
+            var dddx = new double[_y.Length];
+            _y.CopyTo(x, 0);
+
+            for (int level = 1; level < x.Length; level++)
+            {
+                for (int i = 0; i < x.Length - level; i++)
+                {
+                    double hp = t - _x[i + level];
+                    double ho = _x[i] - t;
+                    double den = _x[i] - _x[i + level];
+                    dddx[i] = ((hp * dddx[i]) + (3 * ddx[i]) + (ho * dddx[i + 1]) - (3 * ddx[i + 1])) / den;
+                    ddx[i] = ((hp * ddx[i]) +  (2 * dx[i])  + (ho * ddx[i + 1]) -  (2 * dx[i + 1])) / den;
+                    dx[i] = ((hp * dx[i]) + x[i]  + (ho * dx[i + 1]) - x[i + 1]) / den;
+                    x[i] = ((hp * x[i]) + (ho * x[i + 1])) / den;
+                }
+            }
+
+            return dddx[0];
+        }
+
+        /// <summary>
         /// Indefinite integral at point t. NOT SUPPORTED.
         /// </summary>
         /// <param name="t">Point t to integrate at.</param>

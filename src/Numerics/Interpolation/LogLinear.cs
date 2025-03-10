@@ -153,6 +153,24 @@ namespace MathNet.Numerics.Interpolation
         }
 
         /// <summary>
+        /// Differentiate three times at point t.
+        /// </summary>
+        /// <param name="t">Point t to interpolate at.</param>
+        /// <returns>Interpolated third derivative at point t.</returns>
+        public double Differentiate3(double t)
+        {
+            var linearFirstDerivative = _spline.Differentiate(t);
+            var linearSecondDerivative = _spline.Differentiate2(t);
+            var linearThirdDerivative = _spline.Differentiate3(t);
+
+            var thirdDerivative = Differentiate2(t) * linearFirstDerivative +
+                                  2 * Differentiate(t) * linearSecondDerivative +
+                                  Interpolate(t) * linearThirdDerivative;
+
+            return thirdDerivative;
+        }
+
+        /// <summary>
         /// Indefinite integral at point t.
         /// </summary>
         /// <param name="t">Point t to integrate at.</param>
