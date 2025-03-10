@@ -214,13 +214,11 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
                 weights = weights.PointwiseAbs();
             }
 
-            Weights = (weights == null)
+            Weights = weights == null
                     ? null
-                    : Matrix<double>.Build.DenseOfDiagonalVector(weights);
+                    : Matrix<double>.Build.DiagonalOfDiagonalVector(weights);
 
-            L = (weights == null)
-                ? null
-                : Weights.Diagonal().PointwiseSqrt();
+            L = weights?.PointwiseSqrt();
         }
 
         /// <summary>
