@@ -130,8 +130,29 @@ namespace MathNet.Numerics.Interpolation
         /// <returns>Interpolated value x(t).</returns>
         public double Interpolate(double t)
         {
+            return Interpolate(t, double.MaxValue);
+        }
+
+        /// <summary>
+        /// Interpolate at point t.
+        /// </summary>
+        /// <param name="t">Point t to interpolate at.</param>
+        /// <param name="maxDeltaT">Maximum allowed delta between point 't' and reference points.</param>
+        /// <returns>Interpolated value x(t).</returns>
+        /// <exception cref="InterpolatingDistanceException">Thrown when distance from xn or xn+1 to 't' is exceeding <paramref name="maxDeltaT"/>.</exception>
+        public double Interpolate(double t, double maxDeltaT)
+        {
             int k = LeftSegmentIndex(t);
-            return _c0[k] + (t - _x[k])*_c1[k];
+
+            if (Math.Abs(t - _x[k]) > maxDeltaT)
+            {
+                throw new InterpolatingDistanceException("Lower bound point exceeds maxDetlaT.");
+            }
+            else if (Math.Abs(_x[k + 1] - t) > maxDeltaT)
+            {
+                throw new InterpolatingDistanceException("Upper bound point exceeds maxDetlaT.");
+            }
+            return _c0[k] + (t - _x[k]) * _c1[k];
         }
 
         /// <summary>
