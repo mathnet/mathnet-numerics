@@ -93,16 +93,18 @@ namespace MathNet.Numerics.Optimization
             if (objective == null)
                 throw new ArgumentNullException(nameof(objective));
 
+            var objectiveModel = objective.CreateNew();
+
             ValidateBounds(initialGuess, lowerBound, upperBound, scales);
 
-            objective.SetParameters(initialGuess, isFixed);
+            objectiveModel.SetParameters(initialGuess, isFixed);
 
-            ExitCondition exitCondition = ExitCondition.None;
+            var exitCondition = ExitCondition.None;
 
             // First, calculate function values and setup variables
             var P = ProjectToInternalParameters(initialGuess); // current internal parameters
             Vector<double> Pstep; // the change of parameters
-            var RSS = EvaluateFunction(objective, P);  // Residual Sum of Squares = R'R
+            var RSS = EvaluateFunction(objectiveModel, P);  // Residual Sum of Squares = 1/2 R'R
 
             if (maximumIterations < 0)
             {
@@ -113,7 +115,7 @@ namespace MathNet.Numerics.Optimization
             if (double.IsNaN(RSS))
             {
                 exitCondition = ExitCondition.InvalidValues;
-                return new NonlinearMinimizationResult(objective, -1, exitCondition);
+                return new NonlinearMinimizationResult(objectiveModel, -1, exitCondition);
             }
 
             // When only function evaluation is needed, set maximumIterations to zero,
@@ -129,8 +131,7 @@ namespace MathNet.Numerics.Optimization
             }
 
             // Evaluate gradient and Hessian
-            var (Gradient, Hessian) = EvaluateJacobian(objective, P);
-            var diagonalOfHessian = Hessian.Diagonal(); // diag(H)
+            var (Gradient, Hessian) = EvaluateJacobian(objectiveModel, P);
 
             // if ||g||oo <= gtol, found and stop
             if (Gradient.InfinityNorm() <= gradientTolerance)
@@ -140,91 +141,181 @@ namespace MathNet.Numerics.Optimization
 
             if (exitCondition != ExitCondition.None)
             {
-                return new NonlinearMinimizationResult(objective, -1, exitCondition);
+                return new NonlinearMinimizationResult(objectiveModel, -1, exitCondition);
             }
 
-            double mu = initialMu * diagonalOfHessian.Max(); // μ
-            double nu = 2; //  ν
-            int iterations = 0;
+            // Initialize trust region boundary delta and damping parameter mu
+            var delta = initialMu * P.L2Norm(); // Trust region boundary
+            if (delta == 0.0) delta = initialMu;
+            var mu = initialMu * Hessian.Diagonal().Max(); // Damping parameter μ
+            var nu = 2.0; // Multiplication factor ν for mu updates
+
+            // Counters for successful and failed iterations
+            var ncsuc = 0;  // number of consecutive successful iterations
+            var ncfail = 0; // number of consecutive failed iterations
+
+            // Flag for first iteration special handling
+            var firstIteration = true;
+
+            var iterations = 0;
             while (iterations < maximumIterations && exitCondition == ExitCondition.None)
             {
                 iterations++;
 
                 while (true)
                 {
+                    // Store current Hessian diagonal for restoration if step is rejected
+                    var savedDiagonal = Hessian.Diagonal().Clone();
+
+                    // Add damping to Hessian: H + μI
                     Hessian.SetDiagonal(Hessian.Diagonal() + mu); // hessian[i, i] = hessian[i, i] + mu;
 
-                    // solve normal equations
+                    // Solve normal equations: (H + μI)Δp = -g
                     Pstep = Hessian.Solve(-Gradient);
 
-                    // if ||ΔP|| <= xTol * (||P|| + xTol), found and stop
-                    if (Pstep.L2Norm() <= stepTolerance * (P.L2Norm() + stepTolerance))
+                    // Calculate step size (norm)
+                    var pnorm = Pstep.L2Norm();
+
+                    // On first iteration, adjust the initial step bound
+                    if (firstIteration)
+                    {
+                        delta = Math.Min(delta, pnorm);
+                        firstIteration = false;
+                    }
+
+                    // Check convergence on step size
+                    if (pnorm <= stepTolerance * (P.L2Norm() + stepTolerance))
                     {
                         exitCondition = ExitCondition.RelativePoints;
                         break;
                     }
 
-                    var Pnew = P + Pstep; // new parameters to test
-                    // evaluate function at Pnew
-                    var RSSnew = EvaluateFunction(objective, Pnew);
+                    // New parameter vector
+                    var Pnew = P + Pstep;
 
+                    // Evaluate function at new point
+                    var RSSnew = EvaluateFunction(objectiveModel, Pnew);
+
+                    // Check for invalid results
                     if (double.IsNaN(RSSnew))
                     {
                         exitCondition = ExitCondition.InvalidValues;
                         break;
                     }
 
-                    // calculate the ratio of the actual to the predicted reduction.
-                    // ρ = (RSS - RSSnew) / (Δp'(μΔp - g))
-                    var predictedReduction = Pstep.DotProduct(mu * Pstep - Gradient);
-                    var rho = (predictedReduction != 0)
-                            ? (RSS - RSSnew) / predictedReduction
-                            : 0;
+                    // Compute the scaled actual reduction
+                    // actred = 1 - (fnorm1/fnorm)^2 if fnorm1 < fnorm, else -1
+                    var actred = (RSSnew < RSS) ? 1.0 - Math.Pow(RSSnew / RSS, 2.0) : -1.0;
 
-                    if (rho > 0.0)
+                    // Compute predicted reduction metrics
+                    // In LMDER, wa3 = J'*(Q'*fvec), where J is the Jacobian at the current point
+                    // and the predicted reduction is ||J*p||^2 + ||sqrt(par)*D*p||^2
+                    var tempVec = Hessian.Multiply(Pstep);
+                    var temp1 = Pstep.DotProduct(tempVec) / RSS;
+                    var temp2 = (Math.Sqrt(mu) * pnorm) / Math.Sqrt(RSS);
+                    var prered = temp1 + Math.Pow(temp2, 2.0) / 0.5;
+                    var dirder = -(temp1 + Math.Pow(temp2, 2.0));
+
+                    // Compute the ratio of actual to predicted reduction
+                    var ratio = (prered != 0.0) ? actred / prered : 0.0;
+
+                    // Update trust region based on reduction ratio
+                    if (ratio < 0.0001)
                     {
-                        // accepted
+                        // Failure: ratio too small
+                        ncsuc = 0;
+                        ncfail++;
+
+                        mu = mu * nu;
+                        nu = 2.0 * nu;
+
+                        delta = 0.25 * delta;
+                    }
+                    else if (ratio < 0.25)
+                    {
+                        // Accept but shrink
+                        ncfail = 0;
+                        ncsuc = 0;
+
+                        delta = 0.5 * delta;
+
+                        var temp = 1.0 - Math.Pow((2.0 * ratio - 1.0), 3);
+                        temp = Math.Max(temp, 1.0 / 3.0);
+                        mu = mu * temp;
+                    }
+                    else if (ratio < 0.75)
+                    {
+                        // Accept + mild delta increase
+                        ncsuc++;
+                        ncfail = 0;
+
+                        delta = Math.Max(delta, pnorm);
+
+                        var temp = 1.0 - Math.Pow((2.0 * ratio - 1.0), 3);
+                        temp = Math.Max(temp, 1.0 / 3.0);
+                        mu = mu * temp;
+                    }
+                    else
+                    {
+                        // ratio >= 0.75
+                        ncsuc++;
+                        ncfail = 0;
+
+                        delta = Math.Max(delta, 2.0 * pnorm);
+
+                        var temp = 1.0 - Math.Pow((2.0 * ratio - 1.0), 3);
+                        temp = Math.Max(temp, 1.0 / 3.0);
+                        mu = mu * temp;
+                    }
+
+                    // Test for successful iteration
+                    if (ratio >= 0.0001)
+                    {
+                        // Update parameters
                         Pnew.CopyTo(P);
                         RSS = RSSnew;
 
-                        // update gradient and Hessian
-                        (Gradient, Hessian) = EvaluateJacobian(objective, P);
-                        diagonalOfHessian = Hessian.Diagonal();
+                        // Recalculate gradient and Hessian at new point
+                        (Gradient, Hessian) = EvaluateJacobian(objectiveModel, P);
 
-                        // if ||g||_oo <= gtol, found and stop
+                        // Check convergence criteria
                         if (Gradient.InfinityNorm() <= gradientTolerance)
                         {
                             exitCondition = ExitCondition.RelativeGradient;
                         }
 
-                        // if ||R||^2 < fTol, found and stop
                         if (RSS <= functionTolerance)
                         {
-                            exitCondition = ExitCondition.Converged; // SmallRSS
+                            exitCondition = ExitCondition.Converged;
                         }
 
-                        mu = mu * Math.Max(1.0 / 3.0, 1.0 - Math.Pow(2.0 * rho - 1.0, 3));
-                        nu = 2;
-
-                        break;
+                        break; // Exit inner loop, step accepted
                     }
                     else
                     {
-                        // rejected, increased μ
-                        mu = mu * nu;
-                        nu = 2 * nu;
+                        // Step was rejected, restore original Hessian
+                        Hessian.SetDiagonal(savedDiagonal);
 
-                        Hessian.SetDiagonal(diagonalOfHessian);
+                        // Update mu and nu
+                        mu = mu * nu;
+                        nu = 2.0 * nu;
+
+                        // If we're making no progress, exit the inner loop
+                        if (ncfail >= 2)
+                        {
+                            break;  // Exit inner loop, try a new Jacobian
+                        }
                     }
                 }
             }
 
+            // Check if max iterations reached
             if (iterations >= maximumIterations)
             {
                 exitCondition = ExitCondition.ExceedIterations;
             }
 
-            return new NonlinearMinimizationResult(objective, iterations, exitCondition);
+            return new NonlinearMinimizationResult(objectiveModel, iterations, exitCondition);
         }
     }
 }

@@ -116,33 +116,58 @@ namespace MathNet.Numerics.Optimization
         }
 
         /// <summary>
-        /// objective model with a user supplied jacobian for non-linear least squares regression.
+        /// Creates an objective model with a user-supplied model function and Jacobian for non-linear least squares regression.
+        /// Uses the form F(p) = 1/2 * sum(w_i * (y_i - f(x_i; p))^2) where f(x; p) is the model function.
         /// </summary>
-        public static IObjectiveModel NonlinearModel(Func<Vector<double>, Vector<double>, Vector<double>> function,
+        /// <param name="function">The model function f(x; p) that maps from x to y given parameters p</param>
+        /// <param name="derivatives">The Jacobian of the model function with respect to parameters</param>
+        /// <param name="observedX">The observed x values</param>
+        /// <param name="observedY">The observed y values</param>
+        /// <param name="weight">Optional weights for the observations</param>
+        /// <returns>An objective model configured for the specified model and observations</returns>
+        public static IObjectiveModel NonlinearModel(
+            Func<Vector<double>, Vector<double>, Vector<double>> function,
             Func<Vector<double>, Vector<double>, Matrix<double>> derivatives,
             Vector<double> observedX, Vector<double> observedY, Vector<double> weight = null)
         {
-            var objective = new NonlinearObjectiveFunction(function, derivatives);
+            var objective = new NonlinearObjectiveModel(function, derivatives);
             objective.SetObserved(observedX, observedY, weight);
             return objective;
         }
 
         /// <summary>
-        /// Objective model for non-linear least squares regression.
+        /// Creates an objective model for non-linear least squares regression with numerical differentiation.
+        /// Uses the form F(p) = 1/2 * sum(w_i * (y_i - f(x_i; p))^2) where f(x; p) is the model function.
         /// </summary>
-        public static IObjectiveModel NonlinearModel(Func<Vector<double>, Vector<double>, Vector<double>> function,
+        /// <param name="function">The model function f(x; p) that maps from x to y given parameters p</param>
+        /// <param name="observedX">The observed x values</param>
+        /// <param name="observedY">The observed y values</param>
+        /// <param name="weight">Optional weights for the observations</param>
+        /// <param name="accuracyOrder">Accuracy order for numerical differentiation (1-6)</param>
+        /// <returns>An objective model configured for the specified model and observations</returns>
+        public static IObjectiveModel NonlinearModel(
+            Func<Vector<double>, Vector<double>, Vector<double>> function,
             Vector<double> observedX, Vector<double> observedY, Vector<double> weight = null,
             int accuracyOrder = 2)
         {
-            var objective = new NonlinearObjectiveFunction(function, accuracyOrder: accuracyOrder);
+            var objective = new NonlinearObjectiveModel(function, accuracyOrder: accuracyOrder);
             objective.SetObserved(observedX, observedY, weight);
             return objective;
         }
 
         /// <summary>
-        /// Objective model with a user supplied jacobian for non-linear least squares regression.
+        /// Creates an objective model with a user-supplied model function and Jacobian for non-linear least squares regression.
+        /// This overload accepts scalar x values with function f(p, x) and converts them to vector operations internally.
+        /// Uses the form F(p) = 1/2 * sum(w_i * (y_i - f(p, x_i))^2).
         /// </summary>
-        public static IObjectiveModel NonlinearModel(Func<Vector<double>, double, double> function,
+        /// <param name="function">The model function f(p, x) that maps from scalar x to y given parameters p</param>
+        /// <param name="derivatives">The derivatives of the model function with respect to parameters</param>
+        /// <param name="observedX">The observed x values</param>
+        /// <param name="observedY">The observed y values</param>
+        /// <param name="weight">Optional weights for the observations</param>
+        /// <returns>An objective model configured for the specified model and observations</returns>
+        public static IObjectiveModel NonlinearModel(
+            Func<Vector<double>, double, double> function,
             Func<Vector<double>, double, Vector<double>> derivatives,
             Vector<double> observedX, Vector<double> observedY, Vector<double> weight = null)
         {
@@ -168,15 +193,24 @@ namespace MathNet.Numerics.Optimization
                 return derivativeValues;
             }
 
-            var objective = new NonlinearObjectiveFunction(Func, Prime);
+            var objective = new NonlinearObjectiveModel(Func, Prime);
             objective.SetObserved(observedX, observedY, weight);
             return objective;
         }
 
         /// <summary>
-        /// Objective model for non-linear least squares regression.
+        /// Creates an objective model for non-linear least squares regression with numerical differentiation.
+        /// This overload accepts scalar x values with function f(p, x) and converts them to vector operations internally.
+        /// Uses the form F(p) = 1/2 * sum(w_i * (y_i - f(p, x_i))^2).
         /// </summary>
-        public static IObjectiveModel NonlinearModel(Func<Vector<double>, double, double> function,
+        /// <param name="function">The model function f(p, x) that maps from scalar x to y given parameters p</param>
+        /// <param name="observedX">The observed x values</param>
+        /// <param name="observedY">The observed y values</param>
+        /// <param name="weight">Optional weights for the observations</param>
+        /// <param name="accuracyOrder">Accuracy order for numerical differentiation (1-6)</param>
+        /// <returns>An objective model configured for the specified model and observations</returns>
+        public static IObjectiveModel NonlinearModel(
+            Func<Vector<double>, double, double> function,
             Vector<double> observedX, Vector<double> observedY, Vector<double> weight = null,
             int accuracyOrder = 2)
         {
@@ -191,33 +225,85 @@ namespace MathNet.Numerics.Optimization
                 return functionValues;
             }
 
-            var objective = new NonlinearObjectiveFunction(Func, accuracyOrder: accuracyOrder);
+            var objective = new NonlinearObjectiveModel(Func, accuracyOrder: accuracyOrder);
             objective.SetObserved(observedX, observedY, weight);
             return objective;
         }
 
         /// <summary>
-        /// Objective function with a user supplied jacobian for nonlinear least squares regression.
+        /// Creates an objective model from a direct residual function for non-linear optimization.
+        /// Uses the form F(p) = 1/2 * sum(r_i(p)^2) where r(p) is the residual function.
         /// </summary>
-        public static IObjectiveFunction NonlinearFunction(Func<Vector<double>, Vector<double>, Vector<double>> function,
+        /// <param name="residualFunction">Function that calculates residuals directly from parameters</param>
+        /// <param name="jacobian">Optional Jacobian of the residual function</param>
+        /// <param name="observationCount">Number of observations for degree of freedom calculations (optional)</param>
+        /// <param name="accuracyOrder">Accuracy order for numerical differentiation (1-6)</param>
+        /// <returns>An objective model configured for the specified residual function</returns>
+        public static IObjectiveModel NonlinearModel(
+            Func<Vector<double>, Vector<double>> residualFunction,
+            Func<Vector<double>, Matrix<double>> jacobian = null,
+            int? observationCount = null,
+            int accuracyOrder = 2)
+        {
+            return new NonlinearObjectiveModel(residualFunction, jacobian, observationCount, accuracyOrder);
+        }
+
+        /// <summary>
+        /// Creates an objective function with a user-supplied model function and Jacobian for non-linear least squares regression.
+        /// Uses the form F(p) = 1/2 * sum(w_i * (y_i - f(x_i; p))^2) where f(x; p) is the model function.
+        /// </summary>
+        /// <param name="function">The model function f(x; p) that maps from x to y given parameters p</param>
+        /// <param name="derivatives">The Jacobian of the model function with respect to parameters</param>
+        /// <param name="observedX">The observed x values</param>
+        /// <param name="observedY">The observed y values</param>
+        /// <param name="weight">Optional weights for the observations</param>
+        /// <returns>An objective function configured for the specified model and observations</returns>
+        public static IObjectiveFunction NonlinearFunction(
+            Func<Vector<double>, Vector<double>, Vector<double>> function,
             Func<Vector<double>, Vector<double>, Matrix<double>> derivatives,
             Vector<double> observedX, Vector<double> observedY, Vector<double> weight = null)
         {
-            var objective = new NonlinearObjectiveFunction(function, derivatives);
+            var objective = new NonlinearObjectiveModel(function, derivatives);
             objective.SetObserved(observedX, observedY, weight);
             return objective.ToObjectiveFunction();
         }
 
         /// <summary>
-        /// Objective function for nonlinear least squares regression.
-        /// The numerical jacobian with accuracy order is used.
+        /// Creates an objective function for non-linear least squares regression with numerical differentiation.
+        /// Uses the form F(p) = 1/2 * sum(w_i * (y_i - f(x_i; p))^2) where f(x; p) is the model function.
         /// </summary>
-        public static IObjectiveFunction NonlinearFunction(Func<Vector<double>, Vector<double>, Vector<double>> function,
+        /// <param name="function">The model function f(x; p) that maps from x to y given parameters p</param>
+        /// <param name="observedX">The observed x values</param>
+        /// <param name="observedY">The observed y values</param>
+        /// <param name="weight">Optional weights for the observations</param>
+        /// <param name="accuracyOrder">Accuracy order for numerical differentiation (1-6)</param>
+        /// <returns>An objective function configured for the specified model and observations</returns>
+        public static IObjectiveFunction NonlinearFunction(
+            Func<Vector<double>, Vector<double>, Vector<double>> function,
             Vector<double> observedX, Vector<double> observedY, Vector<double> weight = null,
             int accuracyOrder = 2)
         {
-            var objective = new NonlinearObjectiveFunction(function, null, accuracyOrder: accuracyOrder);
+            var objective = new NonlinearObjectiveModel(function, null, accuracyOrder: accuracyOrder);
             objective.SetObserved(observedX, observedY, weight);
+            return objective.ToObjectiveFunction();
+        }
+
+        /// <summary>
+        /// Creates an objective function from a direct residual function for non-linear optimization.
+        /// Uses the form F(p) = 1/2 * sum(r_i(p)^2) where r(p) is the residual function.
+        /// </summary>
+        /// <param name="residualFunction">Function that calculates residuals directly from parameters</param>
+        /// <param name="jacobian">Optional Jacobian of the residual function</param>
+        /// <param name="observationCount">Number of observations for degree of freedom calculations (optional)</param>
+        /// <param name="accuracyOrder">Accuracy order for numerical differentiation (1-6)</param>
+        /// <returns>An objective function configured for the specified residual function</returns>
+        public static IObjectiveFunction NonlinearFunction(
+            Func<Vector<double>, Vector<double>> residualFunction,
+            Func<Vector<double>, Matrix<double>> jacobian = null,
+            int? observationCount = null,
+            int accuracyOrder = 2)
+        {
+            var objective = new NonlinearObjectiveModel(residualFunction, jacobian, observationCount, accuracyOrder);
             return objective.ToObjectiveFunction();
         }
     }
