@@ -5,6 +5,14 @@ namespace MathNet.Numerics.Optimization.TrustRegion.Subproblems
 {
     internal static class Util
     {
+        /// <summary>
+        /// Finds the two intersection points of a line with the trust region boundary.
+        /// </summary>
+        /// <param name="alpha">Scaling factor for steepest descent direction</param>
+        /// <param name="sd">Steepest descent direction vector</param>
+        /// <param name="gn">Gauss-Newton direction vector</param>
+        /// <param name="delta">Trust region radius</param>
+        /// <returns>A tuple containing two beta values, sorted from low to high</returns>
         public static (double, double) FindBeta(double alpha, Vector<double> sd, Vector<double> gn, double delta)
         {
             // Pstep is intersection of the trust region boundary
@@ -28,6 +36,25 @@ namespace MathNet.Numerics.Optimization.TrustRegion.Subproblems
 
             // return sorted beta
             return beta1 < beta2 ? (beta1, beta2) : (beta2, beta1);
+        }
+
+        /// <summary>
+        /// Calculates the value of the quadratic model at a given point.
+        /// The quadratic model is defined as:
+        ///     m(p) = g^T * p + 0.5 * p^T * H * p
+        /// where g is the gradient and H is the Hessian at the current point.
+        /// </summary>
+        /// <param name="gradient">The gradient vector</param>
+        /// <param name="hessian">The Hessian matrix</param>
+        /// <param name="p">The point at which to evaluate the quadratic model</param>
+        /// <returns>The value of the quadratic model at point p</returns>
+        public static double CalculateQuadraticModel(Vector<double> gradient, Matrix<double> hessian, Vector<double> p)
+        {
+            // Quadratic model: m(p) = g^T * p + 0.5 * p^T * H * p
+            var linearTerm = gradient.DotProduct(p);
+            var quadraticTerm = 0.5 * p.DotProduct(hessian * p);
+
+            return linearTerm + quadraticTerm;
         }
     }
 }

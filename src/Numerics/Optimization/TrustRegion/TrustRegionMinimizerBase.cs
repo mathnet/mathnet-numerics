@@ -161,7 +161,7 @@ namespace MathNet.Numerics.Optimization.TrustRegion
                 iterations++;
 
                 // solve the subproblem
-                subproblem.Solve(objective, delta);
+                subproblem.Solve(Gradient, Hessian, delta);
                 Pstep = subproblem.Pstep;
                 hitBoundary = subproblem.HitBoundary;
 

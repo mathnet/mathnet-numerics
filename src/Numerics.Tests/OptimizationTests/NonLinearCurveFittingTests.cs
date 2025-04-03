@@ -202,6 +202,20 @@ namespace MathNet.Numerics.Tests.OptimizationTests
         }
 
         [Test]
+        public void Rat43_TREXACT_Dif()
+        {
+            var obj = ObjectiveFunction.NonlinearModel(Rat43Model, Rat43X, Rat43Y, accuracyOrder: 6);
+            var solver = new TrustRegionExactMinimizer();
+            var result = solver.FindMinimum(obj, Rat43Start2);
+
+            for (var i = 0; i < result.MinimizingPoint.Count; i++)
+            {
+                AssertHelpers.AlmostEqualRelative(Rat43Pbest[i], result.MinimizingPoint[i], 2);
+                AssertHelpers.AlmostEqualRelative(Rat43Pstd[i], result.StandardErrors[i], 2);
+            }
+        }
+
+        [Test]
         public void Rat43_Bfgs_Dif()
         {
             var obj = ObjectiveFunction.NonlinearFunction(Rat43Model, Rat43X, Rat43Y, accuracyOrder: 6);
@@ -412,6 +426,20 @@ namespace MathNet.Numerics.Tests.OptimizationTests
         }
 
         [Test]
+        public void BoxBod_TREXACT_Dif()
+        {
+            var obj = ObjectiveFunction.NonlinearModel(BoxBodModel, BoxBodX, BoxBodY, accuracyOrder: 6);
+            var solver = new TrustRegionExactMinimizer();
+            var result = solver.FindMinimum(obj, BoxBodStart2);
+
+            for (var i = 0; i < result.MinimizingPoint.Count; i++)
+            {
+                AssertHelpers.AlmostEqualRelative(BoxBodPbest[i], result.MinimizingPoint[i], 3);
+                AssertHelpers.AlmostEqualRelative(BoxBodPstd[i], result.StandardErrors[i], 3);
+            }
+        }
+
+        [Test]
         public void BoxBod_Bfgs_Der()
         {
             var obj = ObjectiveFunction.NonlinearFunction(BoxBodModel, BoxBodPrime, BoxBodX, BoxBodY);
@@ -575,6 +603,20 @@ namespace MathNet.Numerics.Tests.OptimizationTests
             var result = solver.FindMinimum(obj, ThurberStart, scales: ThurberScales);
 
             for (int i = 0; i < result.MinimizingPoint.Count; i++)
+            {
+                AssertHelpers.AlmostEqualRelative(ThurberPbest[i], result.MinimizingPoint[i], 3);
+                AssertHelpers.AlmostEqualRelative(ThurberPstd[i], result.StandardErrors[i], 3);
+            }
+        }
+
+        [Test]
+        public void Thurber_TREXACT_Dif()
+        {
+            var obj = ObjectiveFunction.NonlinearModel(ThurberModel, ThurberX, ThurberY, accuracyOrder: 6);
+            var solver = new TrustRegionExactMinimizer();
+            var result = solver.FindMinimum(obj, ThurberStart, scales: ThurberScales);
+
+            for (var i = 0; i < result.MinimizingPoint.Count; i++)
             {
                 AssertHelpers.AlmostEqualRelative(ThurberPbest[i], result.MinimizingPoint[i], 3);
                 AssertHelpers.AlmostEqualRelative(ThurberPstd[i], result.StandardErrors[i], 3);
