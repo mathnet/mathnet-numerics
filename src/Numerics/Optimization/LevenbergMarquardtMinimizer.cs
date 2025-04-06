@@ -5,25 +5,39 @@ using System.Linq;
 
 namespace MathNet.Numerics.Optimization
 {
-    public class LevenbergMarquardtMinimizer : NonlinearMinimizerBase
+    /// <summary>
+    /// Implements the Levenberg-Marquardt algorithm for solving nonlinear least squares problems.
+    /// This class inherits from <see cref="NonlinearMinimizerBase"/> and implements <see cref="ILeastSquaresMinimizer"/>.
+    /// </summary>
+    public class LevenbergMarquardtMinimizer : NonlinearMinimizerBase, ILeastSquaresMinimizer
     {
         /// <summary>
         /// The scale factor for initial mu
         /// </summary>
         public double InitialMu { get; set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LevenbergMarquardtMinimizer"/> class using the Levenberg-Marquardt algorithm.
+        /// </summary>
+        /// <param name="initialMu">The initial damping parameter (mu) for the algorithm. Default is 1E-3.</param>
+        /// <param name="gradientTolerance">The tolerance for the infinity norm of the gradient. Default is 1E-15.</param>
+        /// <param name="stepTolerance">The tolerance for the parameter update step size. Default is 1E-15.</param>
+        /// <param name="functionTolerance">The tolerance for the function value (residual sum of squares). Default is 1E-15.</param>
+        /// <param name="maximumIterations">The maximum number of iterations. Default is -1 (unlimited).</param>
         public LevenbergMarquardtMinimizer(double initialMu = 1E-3, double gradientTolerance = 1E-15, double stepTolerance = 1E-15, double functionTolerance = 1E-15, int maximumIterations = -1)
             : base(gradientTolerance, stepTolerance, functionTolerance, maximumIterations)
         {
             InitialMu = initialMu;
         }
 
+        /// <inheritdoc/>
         public NonlinearMinimizationResult FindMinimum(IObjectiveModel objective, Vector<double> initialGuess,
             Vector<double> lowerBound = null, Vector<double> upperBound = null, Vector<double> scales = null, List<bool> isFixed = null)
         {
             return Minimum(objective, initialGuess, lowerBound, upperBound, scales, isFixed, InitialMu, GradientTolerance, StepTolerance, FunctionTolerance, MaximumIterations);
         }
 
+        /// <inheritdoc/>
         public NonlinearMinimizationResult FindMinimum(IObjectiveModel objective, double[] initialGuess,
             double[] lowerBound = null, double[] upperBound = null, double[] scales = null, bool[] isFixed = null)
         {

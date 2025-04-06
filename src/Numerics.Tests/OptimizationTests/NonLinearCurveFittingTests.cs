@@ -202,6 +202,29 @@ namespace MathNet.Numerics.Tests.OptimizationTests
         }
 
         [Test]
+        public void Rat43_BasinHopping()
+        {
+            // Local Minimizer: LevenbergMarquardtMinimizer
+            var obj = ObjectiveFunction.NonlinearModel(Rat43Model, Rat43X, Rat43Y, accuracyOrder: 6);
+            var solver = new BasinHopping(localMinimizer: new LevenbergMarquardtMinimizer());
+            var result = solver.FindMinimum(obj, Rat43Start2);
+
+            for (var i = 0; i < result.MinimizingPoint.Count; i++)
+            {
+                AssertHelpers.AlmostEqualRelative(Rat43Pbest[i], result.MinimizingPoint[i], 2);
+            }
+
+            // Local Minimizer: TrustRegionNewtonCGMinimizer
+            solver = new BasinHopping(localMinimizer: new TrustRegionNewtonCGMinimizer());
+            result = solver.FindMinimum(obj.Fork(), Rat43Start2);
+
+            for (var i = 0; i < result.MinimizingPoint.Count; i++)
+            {
+                AssertHelpers.AlmostEqualRelative(Rat43Pbest[i], result.MinimizingPoint[i], 2);
+            }
+        }
+
+        [Test]
         public void Rat43_Bfgs_Dif()
         {
             var obj = ObjectiveFunction.NonlinearFunction(Rat43Model, Rat43X, Rat43Y, accuracyOrder: 6);
@@ -405,6 +428,42 @@ namespace MathNet.Numerics.Tests.OptimizationTests
             var result = solver.FindMinimum(obj, BoxBodStart2);
 
             for (int i = 0; i < result.MinimizingPoint.Count; i++)
+            {
+                AssertHelpers.AlmostEqualRelative(BoxBodPbest[i], result.MinimizingPoint[i], 3);
+                AssertHelpers.AlmostEqualRelative(BoxBodPstd[i], result.StandardErrors[i], 3);
+            }
+        }
+
+        [Test]
+        public void BoxBod_BasinHopping()
+        {
+            // Local minimizer: LevenbergMarquardtMinimizer
+
+            var obj = ObjectiveFunction.NonlinearModel(BoxBodModel, BoxBodX, BoxBodY, accuracyOrder: 2);
+            var solver = new BasinHopping(localMinimizer: new LevenbergMarquardtMinimizer());
+            var result = solver.FindMinimum(obj, BoxBodStart2);
+
+            for (var i = 0; i < result.MinimizingPoint.Count; i++)
+            {
+                AssertHelpers.AlmostEqualRelative(BoxBodPbest[i], result.MinimizingPoint[i], 3);
+                AssertHelpers.AlmostEqualRelative(BoxBodPstd[i], result.StandardErrors[i], 3);
+            }
+
+            // Local Minimizer: TrustRegionDogLegMinimizer
+            solver = new BasinHopping(localMinimizer: new TrustRegionDogLegMinimizer());
+            result = solver.FindMinimum(obj.Fork(), BoxBodStart2);
+
+            for (var i = 0; i < result.MinimizingPoint.Count; i++)
+            {
+                AssertHelpers.AlmostEqualRelative(BoxBodPbest[i], result.MinimizingPoint[i], 3);
+                AssertHelpers.AlmostEqualRelative(BoxBodPstd[i], result.StandardErrors[i], 3);
+            }
+
+            // Local minimizer: TrustRegionNewtonCGMinimizer
+            solver = new BasinHopping(localMinimizer: new TrustRegionNewtonCGMinimizer());
+            result = solver.FindMinimum(obj.Fork(), BoxBodStart2);
+
+            for (var i = 0; i < result.MinimizingPoint.Count; i++)
             {
                 AssertHelpers.AlmostEqualRelative(BoxBodPbest[i], result.MinimizingPoint[i], 3);
                 AssertHelpers.AlmostEqualRelative(BoxBodPstd[i], result.StandardErrors[i], 3);
