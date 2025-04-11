@@ -39,13 +39,6 @@ namespace MathNet.Numerics.Interpolation
     /// <remarks>Supports both differentiation and integration.</remarks>
     public class CubicSpline : IInterpolation
     {
-        readonly double[] _x;
-        readonly double[] _c0;
-        readonly double[] _c1;
-        readonly double[] _c2;
-        readonly double[] _c3;
-        readonly Lazy<double[]> _indefiniteIntegral;
-
         /// <param name="x">sample points (N+1), sorted ascending</param>
         /// <param name="c0">Zero order spline coefficients (N)</param>
         /// <param name="c1">First order spline coefficients (N)</param>
@@ -63,13 +56,25 @@ namespace MathNet.Numerics.Interpolation
                 throw new ArgumentException("The given array is too small. It must be at least 2 long.", nameof(x));
             }
 
-            _x = x;
-            _c0 = c0;
-            _c1 = c1;
-            _c2 = c2;
-            _c3 = c3;
-            _indefiniteIntegral = new Lazy<double[]>(ComputeIndefiniteIntegral);
+            X = x;
+            C0 = c0;
+            C1 = c1;
+            C2 = c2;
+            C3 = c3;
+            IndefiniteIntegral = new Lazy<double[]>(ComputeIndefiniteIntegral);
         }
+
+        public double[] X { get; private set; }
+
+        public double[] C0 { get; private set; }
+
+        public double[] C1 { get; private set; }
+
+        public double[] C2 { get; private set; }
+
+        public double[] C3 { get; private set; }
+
+        public Lazy<double[]> IndefiniteIntegral { get; private set; }
 
         /// <summary>
         /// Create a Hermite cubic spline interpolation from a set of (x,y) value pairs and their slope (first derivative), sorted ascendingly by x.
@@ -671,8 +676,8 @@ namespace MathNet.Numerics.Interpolation
         public double Interpolate(double t)
         {
             int k = LeftSegmentIndex(t);
-            var x = t - _x[k];
-            return _c0[k] + x*(_c1[k] + x*(_c2[k] + x*_c3[k]));
+            var x = t - X[k];
+            return C0[k] + x*(C1[k] + x*(C2[k] + x*C3[k]));
         }
 
         /// <summary>
@@ -683,8 +688,8 @@ namespace MathNet.Numerics.Interpolation
         public double Differentiate(double t)
         {
             int k = LeftSegmentIndex(t);
-            var x = t - _x[k];
-            return _c1[k] + x*(2*_c2[k] + x*3*_c3[k]);
+            var x = t - X[k];
+            return C1[k] + x*(2*C2[k] + x*3*C3[k]);
         }
 
         /// <summary>
@@ -695,8 +700,8 @@ namespace MathNet.Numerics.Interpolation
         public double Differentiate2(double t)
         {
             int k = LeftSegmentIndex(t);
-            var x = t - _x[k];
-            return 2*_c2[k] + x*6*_c3[k];
+            var x = t - X[k];
+            return 2*C2[k] + x*6*C3[k];
         }
 
         /// <summary>
@@ -706,8 +711,8 @@ namespace MathNet.Numerics.Interpolation
         public double Integrate(double t)
         {
             int k = LeftSegmentIndex(t);
-            var x = t - _x[k];
-            return _indefiniteIntegral.Value[k] + x*(_c0[k] + x*(_c1[k]/2 + x*(_c2[k]/3 + x*_c3[k]/4)));
+            var x = t - X[k];
+            return IndefiniteIntegral.Value[k] + x*(C0[k] + x*(C1[k]/2 + x*(C2[k]/3 + x*C3[k]/4)));
         }
 
         /// <summary>
@@ -719,11 +724,11 @@ namespace MathNet.Numerics.Interpolation
 
         double[] ComputeIndefiniteIntegral()
         {
-            var integral = new double[_c1.Length];
+            var integral = new double[C1.Length];
             for (int i = 0; i < integral.Length - 1; i++)
             {
-                double w = _x[i + 1] - _x[i];
-                integral[i + 1] = integral[i] + w*(_c0[i] + w*(_c1[i]/2 + w*(_c2[i]/3 + w*_c3[i]/4)));
+                double w = X[i + 1] - X[i];
+                integral[i + 1] = integral[i] + w*(C0[i] + w*(C1[i]/2 + w*(C2[i]/3 + w*C3[i]/4)));
             }
 
             return integral;
@@ -735,13 +740,13 @@ namespace MathNet.Numerics.Interpolation
         /// </summary>
         int LeftSegmentIndex(double t)
         {
-            int index = Array.BinarySearch(_x, t);
+            int index = Array.BinarySearch(X, t);
             if (index < 0)
             {
                 index = ~index - 1;
             }
 
-            return Math.Min(Math.Max(index, 0), _x.Length - 2);
+            return Math.Min(Math.Max(index, 0), X.Length - 2);
         }
 
         /// <summary>
@@ -752,33 +757,33 @@ namespace MathNet.Numerics.Interpolation
         public double[] StationaryPoints()
         {
             List<double> points = new List<double>();
-            for (int index = 0; index < _x.Length - 1; index++)
+            for (int index = 0; index < X.Length - 1; index++)
             {
-                double a = 6 * _c3[index]; //derive ax^3 and multiply by 2
-                double b = 2 * _c2[index]; //derive bx^2
-                double c = _c1[index];//derive cx
+                double a = 6 * C3[index]; //derive ax^3 and multiply by 2
+                double b = 2 * C2[index]; //derive bx^2
+                double c = C1[index];//derive cx
                 double d = b * b - 2 * a * c;
                 //first check if a is 0, if so its a linear function, this happens with quadratic condition
                 if (a.AlmostEqual(0))
                 {
-                    double x = _x[index] - c / b;
+                    double x = X[index] - c / b;
                     //check if the result is in the domain
-                    if (_x[index] <= x && x <= _x[index + 1]) points.Add(x);
+                    if (X[index] <= x && x <= X[index + 1]) points.Add(x);
                 }
                 else if (d.AlmostEqual(0))//its a quadratic with a single solution
                 {
-                    double x = _x[index] - b / a;
-                    if (_x[index] <= x && x <= _x[index + 1]) points.Add(x);
+                    double x = X[index] - b / a;
+                    if (X[index] <= x && x <= X[index + 1]) points.Add(x);
                 }
                 else if (d > 0)//only has a solution if d is greater than 0
                 {
                     d = (double)System.Math.Sqrt(d);
                     //apply quadratic equation
-                    double x1 = _x[index] + (-b + d) / a;
-                    double x2 = _x[index] + (-b - d) / a;
+                    double x1 = X[index] + (-b + d) / a;
+                    double x2 = X[index] + (-b - d) / a;
                     //Add any solution points that fall within the domain to the list
-                    if ((_x[index] <= x1) && (x1 <= _x[index + 1])) points.Add(x1);
-                    if ((_x[index] <= x2) && (x2 <= _x[index + 1])) points.Add(x2);
+                    if ((X[index] <= x1) && (x1 <= X[index + 1])) points.Add(x1);
+                    if ((X[index] <= x2) && (x2 <= X[index + 1])) points.Add(x2);
                 }
             }
             return points.ToArray();
@@ -792,13 +797,13 @@ namespace MathNet.Numerics.Interpolation
         {
             //Check the edges of the domain
             //set the initial values to the leftmost domain point
-            double t = _x[0];
+            double t = X[0];
             double max = Interpolate(t);
             double min = max;
             double minT = t;
             double maxT = t;
             //check the rightmost domain point
-            t = _x[_x.Length-1];
+            t = X[X.Length-1];
             var ty = Interpolate(t);
             if (ty > max)
             {
