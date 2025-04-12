@@ -28,6 +28,7 @@
 // </copyright>
 
 using MathNet.Numerics.Interpolation;
+using MathNet.Numerics.Random;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.Tests.InterpolationTests
@@ -52,6 +53,16 @@ namespace MathNet.Numerics.Tests.InterpolationTests
             Assert.That(ip.Differentiate(1.0), Is.EqualTo(1.0));
             Assert.That(ip.Differentiate(2.0), Is.EqualTo(1.0));
             Assert.That(ip.Differentiate(3.0), Is.EqualTo(1.0));
+        }
+
+        /// <summary>
+        /// Verifies that the 3rd derivative matches the given value at all the provided sample points.
+        /// </summary>
+        public void ThirdDerivative(double x, double expected)
+        {
+            var rnd = new SystemRandomSource(10);
+            IInterpolation it = LinearSpline.Interpolate(_t, _y);
+            Assert.AreEqual(0, it.Differentiate3(rnd.NextDouble()));
         }
 
         [Test]

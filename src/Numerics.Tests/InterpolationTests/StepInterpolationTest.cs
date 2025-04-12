@@ -1,4 +1,4 @@
-﻿// <copyright file="LinearSplineTest.cs" company="Math.NET">
+﻿// <copyright file="StepInterpolationTest.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -29,6 +29,7 @@
 
 using System;
 using MathNet.Numerics.Interpolation;
+using MathNet.Numerics.Random;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.Tests.InterpolationTests
@@ -54,6 +55,14 @@ namespace MathNet.Numerics.Tests.InterpolationTests
             Assert.That(ip.Differentiate(2.0), Is.EqualTo(double.NaN));
             Assert.That(ip.Differentiate(3.0), Is.EqualTo(double.NaN));
             Assert.That(ip.Differentiate(4.0), Is.EqualTo(0.0));
+        }
+
+        public void ThirdDerivative()
+        {
+            var rnd = new SystemRandomSource(10);
+            var x = rnd.NextDouble();
+            IInterpolation ip = new StepInterpolation(_t, _y);
+            Assert.That(ip.Differentiate(x), Is.EqualTo(ip.Differentiate(x)));
         }
 
         [Test]

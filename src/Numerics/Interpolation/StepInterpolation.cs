@@ -140,6 +140,13 @@ namespace MathNet.Numerics.Interpolation
         public double Differentiate2(double t) => Differentiate(t);
 
         /// <summary>
+        /// Differentiate three times at point t.
+        /// </summary>
+        /// <param name="t">Point t to interpolate at.</param>
+        /// <returns>Interpolated third derivative at point t.</returns>
+        public double Differentiate3(double t) => Differentiate2(t);
+
+        /// <summary>
         /// Indefinite integral at point t.
         /// </summary>
         /// <param name="t">Point t to integrate at.</param>
