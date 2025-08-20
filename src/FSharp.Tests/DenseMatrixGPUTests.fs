@@ -8,7 +8,6 @@ open MathNet.Numerics.LinearAlgebra
 open MathNet.Numerics.Distributions
 open MathNet.Numerics.Statistics
 open Brahma.FSharp
-open Moq
 
 
 /// Unit tests for the dense matrix type.
