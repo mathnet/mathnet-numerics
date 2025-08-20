@@ -3,7 +3,7 @@
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <GenerateProgramFile>false</GenerateProgramFile>
-        <TargetFrameworks>net8.0;net48</TargetFrameworks>
+        <TargetFrameworks>net8.0</TargetFrameworks>
         <AssemblyName>MathNet.Numerics.FSharp.Tests</AssemblyName>
         <RootNamespace>MathNet.Numerics.Tests</RootNamespace>
         <IsPackable>false</IsPackable>
@@ -35,6 +35,8 @@
         <Compile Include="Main.fs" />
     </ItemGroup>
     <ItemGroup>
+        <PackageReference Include="Brahma.FSharp" Version="2.0.6" />
+        <PackageReference Include="Moq" Version="4.20.72" />
         <PackageReference Include="NUnit" Version="3.14.0" />
         <PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
         <PackageReference Include="NUnitLite" Version="3.14.0" />

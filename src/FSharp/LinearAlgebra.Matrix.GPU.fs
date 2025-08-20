@@ -32,6 +32,8 @@ namespace MathNet.Numerics.LinearAlgebra.GPU
 open System
 open MathNet.Numerics
 open MathNet.Numerics.LinearAlgebra
+open Brahma.FSharp
+open FSharp.Quotations
 
 
 /// A module which implements functional matrix operations.
@@ -39,11 +41,37 @@ open MathNet.Numerics.LinearAlgebra
 module Matrix =
 
     /// !!!
-    let iter f (v: #Matrix<_>) = v
+    let iter (action: Expr<'t -> unit>) (matrix: #Matrix<'t>) = 
+        let device = ClDevice.GetFirstAppropriateDevice() 
+        let context = RuntimeContext(device).ClContext
+
+        let heigh = matrix.RowCount
+        let width = matrix.ColumnCount
+        let matrixClArray = context.CreateClArray(heigh * width, allocationMode = AllocationMode.Default)
+
+        let kernel = 
+            <@
+                fun (range: Range2D) (matrix: ClArray<'t>) ->
+                    let row = range.GlobalID0
+                    let col = range.GlobalID1 
+                    (%action) matrix.[row * width + col]
+            @>
+
+        let kernel = context.Compile kernel
+
+        fun (commandQueue: MailboxProcessor<_>) ->
+            let ndRange = Range2D(heigh, width, 16, 16)
+            let kernel = kernel.GetKernel()
+            
+            commandQueue.Post(
+                Msg.MsgSetArguments
+                    (fun () -> kernel.KernelFunc ndRange matrixClArray)
+            )
+            commandQueue.Post(Msg.CreateRunMsg<_, _> kernel)
+
 
     /// !!!
     let map2 f (v: #Matrix<_>) (w: #Matrix<_>) = v
 
     /// !!!
     let mXm (v: #Matrix<_>) (w: #Matrix<_>) = v
-

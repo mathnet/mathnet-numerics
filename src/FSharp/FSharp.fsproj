@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <OutputType>Library</OutputType>
-        <TargetFrameworks>net8.0;net6.0;net48;netstandard2.0</TargetFrameworks>
+        <TargetFrameworks>net8.0</TargetFrameworks>
         <AssemblyName>MathNet.Numerics.FSharp</AssemblyName>
         <RootNamespace>MathNet.Numerics</RootNamespace>
         <IsPackable>true</IsPackable>
@@ -42,6 +42,7 @@ many contributions, proper release notes with attributions will follow. thank yo
         <Compile Include="Quaternion.fs" />
     </ItemGroup>
     <ItemGroup>
+        <PackageReference Include="Brahma.FSharp" Version="2.0.6" />
         <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
