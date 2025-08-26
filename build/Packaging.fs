@@ -79,7 +79,7 @@ let zip (package:ZipPackage) header zipDir filesDir filesFilter =
 
 
 let private updateNuspec (nuget:NuGetPackage) outPath dependencies (spec:NuGet.NuGet.NuGetParams) =
-    { spec with ToolPath = "packages/build/NuGet.CommandLine/tools/NuGet.exe"
+    { spec with ToolPath = Path.getFullName"packages/build/NuGet.CommandLine/tools/NuGet.exe"
                 OutputPath = outPath
                 WorkingDir = "obj/NuGet"
                 Version = nuget.Release.PackageVersion
