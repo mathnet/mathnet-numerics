@@ -81,3 +81,4 @@ MsBuild/XBuild:
 
 See [Build & Tools](https://numerics.mathdotnet.com/Build.html) for full details
 on how to build, generate documentation or even create a full release.
+it'all!!
