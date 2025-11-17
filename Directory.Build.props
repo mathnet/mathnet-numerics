@@ -21,6 +21,12 @@
         <EnableNETAnalyzers>True</EnableNETAnalyzers>
         <AnalysisLevel>5.0</AnalysisLevel>
     </PropertyGroup>
+
+    <PropertyGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net6.0'))">
+        <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+        <TrimmerSingleWarn>false</TrimmerSingleWarn>
+    </PropertyGroup>
+
     <PropertyGroup Condition="'$(StrongName)'=='True'">
         <SignAssembly>true</SignAssembly>
         <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)build/MathNet.Numerics.snk</AssemblyOriginatorKeyFile>
