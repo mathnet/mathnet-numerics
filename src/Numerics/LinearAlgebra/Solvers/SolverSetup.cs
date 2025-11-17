@@ -29,11 +29,15 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 
 namespace MathNet.Numerics.LinearAlgebra.Solvers
 {
+#if NET6_0_OR_GREATER
+    [RequiresUnreferencedCode("Uses Activator.CreateInstance which might require members that are not statically referenced")]
+#endif
     public static class SolverSetup<T> where T : struct, IEquatable<T>, IFormattable
     {
         /// <summary>

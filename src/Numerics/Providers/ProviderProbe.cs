@@ -28,6 +28,7 @@
 // </copyright>
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 
 namespace MathNet.Numerics.Providers
@@ -43,8 +44,17 @@ namespace MathNet.Numerics.Providers
             _creator = new Lazy<IProviderCreator<T>>(() =>
             {
                 var type = Type.GetType(typeName);
-                return type is null ? null : Activator.CreateInstance(type) as IProviderCreator<T>;
+                return CreateProvider(type);
             }, LazyThreadSafetyMode.ExecutionAndPublication);
+        }
+
+        private static IProviderCreator<T> CreateProvider(
+#if NET6_0_OR_GREATER
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)]
+#endif
+            Type type)
+        {
+            return type == null ? null : Activator.CreateInstance(type) as IProviderCreator<T>;
         }
 
         public T Create()
