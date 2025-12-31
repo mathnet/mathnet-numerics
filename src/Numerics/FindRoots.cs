@@ -27,8 +27,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Complex;
+using MathNet.Numerics.LinearAlgebra.Factorization;
 using MathNet.Numerics.RootFinding;
+using System;
+using System.Linq;
 using Complex = System.Numerics.Complex;
 
 namespace MathNet.Numerics
@@ -116,6 +120,43 @@ namespace MathNet.Numerics
         public static Complex[] Polynomial(double[] coefficients)
         {
             return new Polynomial(coefficients).Roots();
+        }
+
+        /// <summary>
+        /// Find all roots of a polynomial with complex coefficients by calculating the characteristic polynomial of the companion matrix
+        /// </summary>
+        /// <param name="coefficients">The coefficients of the polynomial in ascending order, e.g. new Complex[] {new (5, 0), new (0, 2), new (2,3)} = "5 + 2i x^1 + (2 + 3i) x^2"</param>
+        /// <returns>The roots of the polynomial</returns>
+
+        public static Complex[] Roots(Complex[] coefficients)
+        {
+            int n = coefficients.Length - 1;
+            if (n < 1)
+            {
+                return Array.Empty<Complex>();
+            }
+            if (n == 1)
+            {        
+                return new Complex[] { -coefficients[0] / coefficients[1] };
+            }
+
+            // Negate, and normalize (scale such that the polynomial becomes monic)
+            Complex aN = coefficients[n];
+            Complex[] p = new Complex[n];
+            for (int i = n - 1; i >= 0; i--)
+            {
+                p[i] = -coefficients[i] / aN;
+            }
+
+            DenseMatrix A0 = DenseMatrix.CreateDiagonal(n - 1, n - 1, 1.0);
+            DenseMatrix A = new DenseMatrix(n);
+
+            A.SetSubMatrix(1, 0, A0);
+            A.SetRow(0, p.Reverse().ToArray());
+
+            Evd<Complex> eigen = A.Evd(Symmetricity.Asymmetric);
+
+            return eigen.EigenValues.ToArray();
         }
 
         /// <summary>
