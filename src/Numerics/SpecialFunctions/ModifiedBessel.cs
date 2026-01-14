@@ -282,7 +282,7 @@ namespace MathNet.Numerics
             if (x <= 2.0)
             {
                 double y = x * x - 2.0;
-                return Math.Log(0.5 * x) * BesselI1(x) + Evaluate.ChebyshevA(BesselK1A, y) / x * Math.Exp(x);
+                return (Math.Log(0.5 * x) * BesselI1(x) + Evaluate.ChebyshevA(BesselK1A, y) / x) * Math.Exp(x);
             }
 
             double x1 = 8.0 / x - 2.0;

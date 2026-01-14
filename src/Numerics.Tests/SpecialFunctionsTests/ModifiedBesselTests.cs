@@ -114,6 +114,7 @@ namespace MathNet.Numerics.Tests.SpecialFunctionsTests
         public void BesselK1Exact(double x, double expected)
         {
             AssertHelpers.AlmostEqualRelative(expected, SpecialFunctions.BesselK1(x), 14);
+            AssertHelpers.AlmostEqualRelative(expected * Math.Exp(x), SpecialFunctions.BesselK1e(x), 14);
         }
     }
 }
