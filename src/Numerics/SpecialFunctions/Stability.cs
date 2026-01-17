@@ -91,25 +91,26 @@ namespace MathNet.Numerics
         /// <returns>Returns <code>sqrt(a<sup>2</sup> + b<sup>2</sup>)</code> without underflow/overflow.</returns>
         public static double Hypotenuse(double a, double b)
         {
-            if (double.IsNaN(a) || double.IsNaN(b))
-            {
-                return double.NaN;
-            }
-
-            if (Math.Abs(a) > Math.Abs(b))
-            {
-                double r = b/a;
-                return Math.Abs(a)*Math.Sqrt(1 + (r*r));
-            }
-
-            if (b != 0.0)
-            {
-                // NOTE (ruegg): not "!b.AlmostZero()" to avoid convergence issues (e.g. in SVD algorithm)
-                double r = a/b;
-                return Math.Abs(b)*Math.Sqrt(1 + (r*r));
-            }
-
-            return 0d;
+             var min = Math.Abs(a);
+             var max = Math.Abs(b);
+             if (min > max)
+             {
+                 (min, max) = (max, min);
+             }
+             if (min == 0)
+             {
+                 return max;
+             }
+             else if (double.IsInfinity(min + max))
+             {
+                 return double.PositiveInfinity;
+             }
+             else
+             {
+                  // NOTE (ruegg): not "!b.AlmostZero()" to avoid convergence issues (e.g. in SVD algorithm)
+                  var r = min / max;
+                  return max * Math.Sqrt(1 + r * r);
+             }
         }
 
         /// <summary>
@@ -120,20 +121,26 @@ namespace MathNet.Numerics
         /// <returns>Returns <code>sqrt(a<sup>2</sup> + b<sup>2</sup>)</code> without underflow/overflow.</returns>
         public static float Hypotenuse(float a, float b)
         {
-            if (Math.Abs(a) > Math.Abs(b))
-            {
-                float r = b/a;
-                return Math.Abs(a)*(float)Math.Sqrt(1 + (r*r));
-            }
-
-            if (b != 0.0)
-            {
-                // NOTE (ruegg): not "!b.AlmostZero()" to avoid convergence issues (e.g. in SVD algorithm)
-                float r = a/b;
-                return Math.Abs(b)*(float)Math.Sqrt(1 + (r*r));
-            }
-
-            return 0f;
+             var min = Math.Abs(a);
+             var max = Math.Abs(b);
+             if (min > max)
+             {
+                 (min, max) = (max, min);
+             }
+             if (min == 0)
+             {
+                 return max;
+             }
+             else if (float.IsInfinity(min + max))
+             {
+                 return float.PositiveInfinity;
+             }
+             else
+             {
+                  // NOTE (ruegg): not "!b.AlmostZero()" to avoid convergence issues (e.g. in SVD algorithm)
+                  var r = min / max;
+                  return max * (float)Math.Sqrt(1 + r * r);
+             }
         }
     }
 }
