@@ -116,6 +116,103 @@ namespace MathNet.Numerics.Tests.LinearAlgebraTests.Double.Factorization
         }
 
         /// <summary>
+        /// Can handle a matrix at all scales (small, medium and large elements).
+        /// </summary>
+        /// <param name="scale">Scale to test.</param>
+        [TestCase(1)]
+        [TestCase(1E40)]
+        [TestCase(1E-40)]
+        public void CanFactorizeMatrixAtDifferentScales(double scale)
+        {
+            /* Values computed with Mathematica in this way:
+            *  matrix = {{4, 7, 4}, {10, 8, 8}, {5, 3, 4}, {5, 4, 5}}
+            *  {u, w, v} = SingularValueDecomposition[matrix];
+            *  N[u, 20]
+            *  N[w, 20]
+            *  N[Transpose[v], 20]
+            */
+
+            var matrixX = CreateMatrix.DenseOfRowArrays<double>(
+                new double[] { 4, 7, 4 },
+                new double[] { 10, 8, 8 },
+                new double[] { 5, 3, 4 },
+                new double[] { 5, 4, 5 }
+                );
+
+            var expectedU = CreateMatrix.DenseOfRowArrays<double>(
+              new double[] { 0.42215668141346500811, -0.87675136383986560620, 0.047995632277482876247, -0.22536015980024164867 },
+              new double[] { 0.73993840997833451205, 0.22051356023428738286, -0.46959889408365937068, 0.42818430362045913247 },
+              new double[] { 0.34231752064357875227, 0.38153678983509828442, -0.062299290485614282346, -0.85636860724091826495 },
+              new double[] { 0.39635035112528586728, 0.19264084136045230895, 0.87937028398887675954, 0.18028812784019331894 }
+              );
+
+            var expectedW = CreateMatrix.DenseOfRowArrays<double>(
+              new double[] { 20.381761793431507357, 0, 0 },
+              new double[] { 0, 3.0100938773437216581, 0 },
+              new double[] { 0, 0, 0.72327107324536682962 },
+              new double[] { 0, 0, 0 }
+              );
+
+
+            var expectedVT = CreateMatrix.DenseOfRowArrays<double>(
+              new double[] { 0.62709741747647217739, 0.56359004351894387921, 0.53769423638407554691 },
+              new double[] { 0.52125228212010301763, -0.81657829629776043208, 0.24798375833919346295 },
+              new double[] { -0.57883062063001098569, -0.12476437336740771587, 0.80584673714008074090 }
+              );
+
+            var matrixXScaled = matrixX * scale;
+            var result = matrixXScaled.Svd(computeVectors: true);
+
+            var reconstructedX = result.U * result.W * result.VT;
+            for (var i = 0; i < reconstructedX.RowCount; ++i)
+            {
+                for (var j = 0; j < reconstructedX.ColumnCount; ++j)
+                {
+                    Assert.AreEqual(matrixXScaled[i, j], reconstructedX[i, j], 1E-14 * scale);
+                }
+            }
+
+            var signU = new DiagonalMatrix(4); // The sign of the columns of U after SVD is not unique, thus we need to adopt it
+            for (var i = 0; i < expectedU.ColumnCount; ++i)
+            {
+                signU[i, i] = expectedU[0, i] * result.U[0, i] < 0 ? -1 : 1;
+            }
+
+            expectedU *= signU;
+            for (var i = 0; i < expectedU.RowCount; ++i)
+            {
+                for (var j = 0; j < expectedU.ColumnCount; ++j)
+                {
+                    Assert.AreEqual(expectedU[i, j], result.U[i, j], 1E-14); // U should be independent of scaling
+                }
+            }
+
+            expectedW *= scale; // W is dependent on scaling
+            for (var i = 0; i < expectedW.RowCount; ++i)
+            {
+                for (var j = 0; j < expectedW.ColumnCount; ++j)
+                {
+                    Assert.AreEqual(expectedW[i, j], result.W[i, j], 1E-14 * scale); // W should be scaled by scaling
+                }
+            }
+
+            var signVT = new DiagonalMatrix(3); // The sign of the columns of VT after SVD is not unique, thus we need to adopt it
+            for (int i = 0; i < expectedVT.ColumnCount; ++i)
+            {
+                signVT[i, i] = expectedVT[0, i] * result.VT[0, i] < 0 ? -1 : 1;
+            }
+
+            expectedVT *= signVT;
+            for (var i = 0; i < expectedVT.RowCount; ++i)
+            {
+                for (var j = 0; j < expectedVT.ColumnCount; ++j)
+                {
+                    Assert.AreEqual(expectedVT[i, j], result.VT[i, j], 1E-14); // VT should be independent of scaling
+                }
+            }
+        }
+
+        /// <summary>
         /// Can check rank of a non-square matrix.
         /// </summary>
         /// <param name="row">Matrix row number.</param>

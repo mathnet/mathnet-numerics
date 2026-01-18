@@ -2008,7 +2008,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 {
                     test = Math.Abs(stemp[l]) + Math.Abs(stemp[l + 1]);
                     ztest = test + Math.Abs(e[l]);
-                    if (ztest.AlmostEqualRelative(test, 15))
+                    if (AlmostEqualRelative(ztest, test, 4E-15))
                     {
                         e[l] = 0.0;
                         break;
@@ -2037,7 +2037,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                         }
 
                         ztest = test + Math.Abs(stemp[ls]);
-                        if (ztest.AlmostEqualRelative(test, 15))
+                        if (AlmostEqualRelative(ztest, test, 4E-15))
                         {
                             stemp[ls] = 0.0;
                             break;
@@ -3574,6 +3574,18 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             }
 
             return new Complex((ximag + (xreal*(yreal/yimag)))/(yimag + (yreal*(yreal/yimag))), (-xreal + (ximag*(yreal/yimag)))/(yimag + (yreal*(yreal/yimag))));
+        }
+
+        /// <summary>
+        /// Determines whether <paramref name="x1"/> and <paramref name="x2"/> are equal within a given relative tolerance.
+        /// </summary>
+        /// <param name="x1">The value <c>x1</c>.</param>
+        /// <param name="x2">The value <c>x2</c>.</param>
+        /// <param name="relativeTolerance">The relative tolerance value.</param>
+        /// <returns><see langword="true"/> if the values are equal within tolerance; otherwise, <see langword="false"/>.</returns>
+        static bool AlmostEqualRelative(double x1, double x2, double relativeTolerance)
+        {
+            return (x1 == x2) || Math.Abs(x1 - x2) < relativeTolerance * Math.Max(Math.Abs(x1), Math.Abs(x2));
         }
     }
 }
