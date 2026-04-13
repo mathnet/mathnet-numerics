@@ -320,22 +320,198 @@ namespace MathNet.Numerics.Providers.FourierTransform
 
         public void ForwardMultidim(Complex32[] samples, int[] dimensions, FourierTransformScaling scaling)
         {
-            throw new NotSupportedException();
+            TransformMultidim(samples, dimensions, true);
+            ApplyMultidimScaling(samples, scaling, true);
         }
 
         public void ForwardMultidim(Complex[] samples, int[] dimensions, FourierTransformScaling scaling)
         {
-            throw new NotSupportedException();
+            TransformMultidim(samples, dimensions, true);
+            ApplyMultidimScaling(samples, scaling, true);
         }
 
         public void BackwardMultidim(Complex32[] spectrum, int[] dimensions, FourierTransformScaling scaling)
         {
-            throw new NotSupportedException();
+            TransformMultidim(spectrum, dimensions, false);
+            ApplyMultidimScaling(spectrum, scaling, false);
         }
 
         public void BackwardMultidim(Complex[] spectrum, int[] dimensions, FourierTransformScaling scaling)
         {
-            throw new NotSupportedException();
+            TransformMultidim(spectrum, dimensions, false);
+            ApplyMultidimScaling(spectrum, scaling, false);
+        }
+
+        /// <summary>
+        /// Apply separable 1D FFT along each dimension of a row-major N-D array.
+        /// </summary>
+        static void TransformMultidim(Complex32[] samples, int[] dimensions, bool forward)
+        {
+            int totalLength = samples.Length;
+
+            for (int d = 0; d < dimensions.Length; d++)
+            {
+                int dimLength = dimensions[d];
+                int innerLength = 1;
+                for (int k = d + 1; k < dimensions.Length; k++)
+                {
+                    innerLength *= dimensions[k];
+                }
+
+                int outerLength = totalLength / (dimLength * innerLength);
+
+                var slice = new Complex32[dimLength];
+
+                for (int outer = 0; outer < outerLength; outer++)
+                {
+                    for (int inner = 0; inner < innerLength; inner++)
+                    {
+                        int baseIndex = outer * dimLength * innerLength + inner;
+
+                        // Extract slice along dimension d
+                        for (int i = 0; i < dimLength; i++)
+                        {
+                            slice[i] = samples[baseIndex + i * innerLength];
+                        }
+
+                        // Apply 1D FFT (no scaling - we scale once at the end)
+                        if (forward)
+                        {
+                            if (dimLength.IsPowerOfTwo())
+                            {
+                                if (dimLength >= 1024)
+                                    Radix2ForwardParallel(slice);
+                                else
+                                    Radix2Forward(slice);
+                            }
+                            else
+                            {
+                                BluesteinForward(slice);
+                            }
+                        }
+                        else
+                        {
+                            if (dimLength.IsPowerOfTwo())
+                            {
+                                if (dimLength >= 1024)
+                                    Radix2InverseParallel(slice);
+                                else
+                                    Radix2Inverse(slice);
+                            }
+                            else
+                            {
+                                BluesteinInverse(slice);
+                            }
+                        }
+
+                        // Write back
+                        for (int i = 0; i < dimLength; i++)
+                        {
+                            samples[baseIndex + i * innerLength] = slice[i];
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Apply separable 1D FFT along each dimension of a row-major N-D array.
+        /// </summary>
+        static void TransformMultidim(Complex[] samples, int[] dimensions, bool forward)
+        {
+            int totalLength = samples.Length;
+
+            for (int d = 0; d < dimensions.Length; d++)
+            {
+                int dimLength = dimensions[d];
+                int innerLength = 1;
+                for (int k = d + 1; k < dimensions.Length; k++)
+                {
+                    innerLength *= dimensions[k];
+                }
+
+                int outerLength = totalLength / (dimLength * innerLength);
+
+                var slice = new Complex[dimLength];
+
+                for (int outer = 0; outer < outerLength; outer++)
+                {
+                    for (int inner = 0; inner < innerLength; inner++)
+                    {
+                        int baseIndex = outer * dimLength * innerLength + inner;
+
+                        // Extract slice along dimension d
+                        for (int i = 0; i < dimLength; i++)
+                        {
+                            slice[i] = samples[baseIndex + i * innerLength];
+                        }
+
+                        // Apply 1D FFT (no scaling - we scale once at the end)
+                        if (forward)
+                        {
+                            if (dimLength.IsPowerOfTwo())
+                            {
+                                if (dimLength >= 1024)
+                                    Radix2ForwardParallel(slice);
+                                else
+                                    Radix2Forward(slice);
+                            }
+                            else
+                            {
+                                BluesteinForward(slice);
+                            }
+                        }
+                        else
+                        {
+                            if (dimLength.IsPowerOfTwo())
+                            {
+                                if (dimLength >= 1024)
+                                    Radix2InverseParallel(slice);
+                                else
+                                    Radix2Inverse(slice);
+                            }
+                            else
+                            {
+                                BluesteinInverse(slice);
+                            }
+                        }
+
+                        // Write back
+                        for (int i = 0; i < dimLength; i++)
+                        {
+                            samples[baseIndex + i * innerLength] = slice[i];
+                        }
+                    }
+                }
+            }
+        }
+
+        static void ApplyMultidimScaling(Complex32[] samples, FourierTransformScaling scaling, bool forward)
+        {
+            switch (scaling)
+            {
+                case FourierTransformScaling.SymmetricScaling:
+                    HalfRescale(samples);
+                    break;
+                case FourierTransformScaling.ForwardScaling when forward:
+                case FourierTransformScaling.BackwardScaling when !forward:
+                    FullRescale(samples);
+                    break;
+            }
+        }
+
+        static void ApplyMultidimScaling(Complex[] samples, FourierTransformScaling scaling, bool forward)
+        {
+            switch (scaling)
+            {
+                case FourierTransformScaling.SymmetricScaling:
+                    HalfRescale(samples);
+                    break;
+                case FourierTransformScaling.ForwardScaling when forward:
+                case FourierTransformScaling.BackwardScaling when !forward:
+                    FullRescale(samples);
+                    break;
+            }
         }
     }
 }
