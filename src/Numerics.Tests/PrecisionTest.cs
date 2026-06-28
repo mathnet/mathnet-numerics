@@ -217,6 +217,24 @@ namespace MathNet.Numerics.Tests
         }
 
         /// <summary>
+        /// Increment/Decrement with a count of int.MinValue must not overflow the stack.
+        /// </summary>
+        [Test]
+        public void IncrementDecrementWithIntMinValueCount()
+        {
+            // Regression: Increment/Decrement(value, int.MinValue) used to throw a StackOverflowException
+            // because -int.MinValue overflows back to int.MinValue, so Increment <-> Decrement recursed
+            // forever. A count of int.MinValue must step |int.MinValue| (2147483648) representable values
+            // in the opposite direction, like any other negative count.
+            const long magnitude = -(long)int.MinValue; // 2147483648
+            long bits = BitConverter.DoubleToInt64Bits(1.0);
+
+            var x = 1.0;
+            Assert.AreEqual(BitConverter.Int64BitsToDouble(bits - magnitude), x.Increment(int.MinValue));
+            Assert.AreEqual(BitConverter.Int64BitsToDouble(bits + magnitude), x.Decrement(int.MinValue));
+        }
+
+        /// <summary>
         /// Increment at min/max.
         /// </summary>
         [Test]

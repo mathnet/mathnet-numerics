@@ -263,6 +263,16 @@ namespace MathNet.Numerics
         /// <returns>The next larger floating point value.</returns>
         public static double Increment(this double value, int count = 1)
         {
+            return Increment(value, (long)count);
+        }
+
+        // The real logic lives in the long-count overloads. A negative count delegates to the sibling
+        // with the negated count; performing the negation in long means a count of int.MinValue -- whose
+        // int negation overflows back to int.MinValue and would make Increment/Decrement recurse forever
+        // into a StackOverflowException -- is handled like any other negative count
+        // (-(long)int.MinValue == 2147483648).
+        static double Increment(double value, long count)
+        {
             if (double.IsInfinity(value) || double.IsNaN(value) || count == 0)
             {
                 return value;
@@ -311,6 +321,11 @@ namespace MathNet.Numerics
         /// </remarks>
         /// <returns>The next smaller floating point value.</returns>
         public static double Decrement(this double value, int count = 1)
+        {
+            return Decrement(value, (long)count);
+        }
+
+        static double Decrement(double value, long count)
         {
             if (double.IsInfinity(value) || double.IsNaN(value) || count == 0)
             {
