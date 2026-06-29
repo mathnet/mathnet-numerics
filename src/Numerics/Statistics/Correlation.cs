@@ -161,7 +161,7 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         /// <param name="dataA">Sample data A.</param>
         /// <param name="dataB">Sample data B.</param>
-        /// <returns>The Pearson product-moment correlation coefficient.</returns>
+        /// <returns>The Pearson product-moment correlation coefficient. Returns NaN if either series has zero variance (e.g. fewer than two elements, or all values equal).</returns>
         public static double Pearson(IEnumerable<double> dataA, IEnumerable<double> dataB)
         {
             int n = 0;
@@ -217,7 +217,7 @@ namespace MathNet.Numerics.Statistics
         /// <param name="dataA">Sample data A.</param>
         /// <param name="dataB">Sample data B.</param>
         /// <param name="weights">Corresponding weights of data.</param>
-        /// <returns>The Weighted Pearson product-moment correlation coefficient.</returns>
+        /// <returns>The Weighted Pearson product-moment correlation coefficient. Returns NaN if either series has zero weighted variance.</returns>
         public static double WeightedPearson(IEnumerable<double> dataA, IEnumerable<double> dataB, IEnumerable<double> weights)
         {
             double meanA = 0;
@@ -310,7 +310,7 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         /// <param name="dataA">Sample data series A.</param>
         /// <param name="dataB">Sample data series B.</param>
-        /// <returns>The Spearman ranked correlation coefficient.</returns>
+        /// <returns>The Spearman ranked correlation coefficient. Returns NaN if either series has zero variance after ranking (e.g. fewer than two elements, or all values tied).</returns>
         public static double Spearman(IEnumerable<double> dataA, IEnumerable<double> dataB)
         {
             return Pearson(Rank(dataA), Rank(dataB));
