@@ -662,6 +662,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
 
                     exshift += s;
                     iter++;
+                    if (iter >= 30*order)
+                    {
+                        throw new NonConvergenceException();
+                    }
 
                     // Reduce to triangle (rows)
                     for (var i = l + 1; i <= n; i++)
