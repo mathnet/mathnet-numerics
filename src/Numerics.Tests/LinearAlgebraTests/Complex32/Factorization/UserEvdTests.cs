@@ -312,5 +312,25 @@ namespace MathNet.Numerics.Tests.LinearAlgebraTests.Complex32.Factorization
             AssertHelpers.AlmostEqual(ACopy, A, 14);
             AssertHelpers.AlmostEqual(BCopy, B, 14);
         }
+
+        /// <summary>
+        /// Factorizing a defective matrix with a repeated eigenvalue throws
+        /// NonConvergenceException instead of looping forever (see issue #11).
+        /// </summary>
+        [Test]
+        public void DefectiveMatrixThrowsNonConvergenceException()
+        {
+            // Lower-triangular with a single eigenvalue (0.9275488) of algebraic
+            // multiplicity 3 - a defective (non-diagonalizable) matrix that the
+            // non-symmetric complex QR iteration cannot converge on.
+            var matrixA = new UserDefinedMatrix(new[,]
+            {
+                { new Complex32(0.9275488f, 0f), Complex32.Zero, Complex32.Zero },
+                { new Complex32(-0.9275488f, 0f), new Complex32(0.9275488f, 0f), Complex32.Zero },
+                { Complex32.Zero, new Complex32(-0.9275488f, 0f), new Complex32(0.9275488f, 0f) }
+            });
+
+            Assert.Throws<NonConvergenceException>(() => matrixA.Evd());
+        }
     }
 }
