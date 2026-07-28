@@ -340,5 +340,26 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
             Assert.That(chiSquared.InverseCumulativeDistribution(x), Is.EqualTo(expected).Within(1e-14));
             Assert.That(ChiSquared.InvCDF(dof, x), Is.EqualTo(expected).Within(1e-14));
         }
+
+        /// <summary>
+        /// Fractional degrees of freedom (dof/2 &lt; ~0.6) inherited the Gamma inverse
+        /// small-shape lower-tail collapse: the quantile floored to ~1e-15 and disagreed
+        /// with the distribution's own CDF. Expected quantiles from mpmath (dps 40);
+        /// the round-trip CDF(InvCDF(p))==p is checked as an oracle-free invariant.
+        /// </summary>
+        [TestCase(0.2, 1e-6, 1.21460967248157651e-60)]
+        [TestCase(0.2, 1e-3, 1.21460967248157651e-30)]
+        [TestCase(0.4, 1e-6, 1.30509616869144647e-30)]
+        [TestCase(0.6, 1e-9, 1.39453981928187229e-30)]
+        public void ValidateInverseCumulativeDistributionFractionalDof(double dof, double p, double x)
+        {
+            double q = ChiSquared.InvCDF(dof, p);
+            Assert.That(q, Is.GreaterThan(0.0), "quantile underflowed to the spurious floor");
+            AssertHelpers.AlmostEqualRelative(x, q, 9);
+
+            double back = ChiSquared.CDF(dof, q);
+            Assert.That(back, Is.GreaterThan(0.0));
+            AssertHelpers.AlmostEqualRelative(p, back, 9);
+        }
     }
 }

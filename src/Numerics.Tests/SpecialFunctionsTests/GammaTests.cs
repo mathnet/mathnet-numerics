@@ -165,6 +165,74 @@ namespace MathNet.Numerics.Tests.SpecialFunctionsTests
         }
 
         /// <summary>
+        /// Gamma lower regularized keeps full precision for tiny x with small a,
+        /// instead of rounding x up to zero and returning P = 0. Expected values from mpmath.
+        /// </summary>
+        [TestCase(0.1, 6.073048362407882e-61, 9.99999999999999991e-7, 12)]
+        [TestCase(0.1, 6.073048362407882e-31, 0.000999999999999999991, 12)]
+        [TestCase(0.2, 6.525480843457232e-31, 9.99999999999999989e-7, 12)]
+        [TestCase(0.4, 7.415354682563961e-16, 9.99999999999999998e-7, 12)]
+        [TestCase(0.5, 7.853981633974483e-13, 9.99999999999738194e-7, 12)]
+        public void GammaLowerRegularizedSmallArgument(double a, double x, double p, int digits)
+        {
+            double actual = SpecialFunctions.GammaLowerRegularized(a, x);
+            Assert.That(actual, Is.GreaterThan(0.0));
+            AssertHelpers.AlmostEqualRelative(p, actual, digits);
+        }
+
+        /// <summary>
+        /// Gamma lower regularized inverse resolves the deep lower-tail quantile for small a,
+        /// instead of collapsing to a spurious ~1e-15 floor. Expected values from mpmath.
+        /// </summary>
+        [TestCase(0.1, 6.07304836240788253e-91, 1e-9, 10)]
+        [TestCase(0.1, 6.07304836240788253e-61, 1e-6, 10)]
+        [TestCase(0.1, 6.07304836240788253e-31, 1e-3, 10)]
+        [TestCase(0.1, 6.07304836240788253e-21, 1e-2, 10)]
+        [TestCase(0.2, 6.52548084345723235e-31, 1e-6, 10)]
+        [TestCase(0.2, 6.5254808434572359e-16, 1e-3, 10)]
+        [TestCase(0.3, 6.97269909640936145e-21, 1e-6, 10)]
+        [TestCase(0.4, 7.41535468256396103e-16, 1e-6, 10)]
+        [TestCase(0.5, 7.8539816339744831e-19, 1e-9, 10)]
+        // Trigger-boundary cases: the leading-order seed alone is only ~5e-11 accurate here,
+        // so the Newton refinement is load-bearing to reach these digit-11 tolerances.
+        [TestCase(0.1, 6.0730483627431726808e-11, 0.1, 11)]
+        [TestCase(0.2, 6.5254808438120815213e-11, 1e-2, 11)]
+        [TestCase(0.3, 6.9726990967833501673e-11, 1e-3, 11)]
+        public void GammaLowerRegularizedInvSmallShapeLowerTail(double a, double x, double y, int digits)
+        {
+            double actual = SpecialFunctions.GammaLowerRegularizedInv(a, y);
+            Assert.That(actual, Is.GreaterThan(0.0));
+            AssertHelpers.AlmostEqualRelative(x, actual, digits);
+        }
+
+        /// <summary>
+        /// Oracle-free self-consistency: P(a, P^-1(a, y)) == y and the inverse is monotone in y,
+        /// across small, moderate and large shape and the full probability range.
+        /// </summary>
+        [TestCase(0.1)]
+        [TestCase(0.2)]
+        [TestCase(0.5)]
+        [TestCase(1.0)]
+        [TestCase(5.0)]
+        [TestCase(20.0)]
+        public void GammaLowerRegularizedInvIsSelfConsistent(double a)
+        {
+            double[] ys = { 1e-9, 1e-6, 1e-3, 1e-2, 0.1, 0.3, 0.5, 0.7, 0.9, 0.999 };
+            double previous = 0.0;
+            foreach (double y in ys)
+            {
+                double x = SpecialFunctions.GammaLowerRegularizedInv(a, y);
+                double back = SpecialFunctions.GammaLowerRegularized(a, x);
+                // Non-vacuous: neither operand may be zero (the bug returned x=0 -> P=0).
+                Assert.That(x, Is.GreaterThan(0.0), $"quantile underflowed at a={a}, y={y}");
+                Assert.That(back, Is.GreaterThan(0.0));
+                Assert.That(x, Is.GreaterThan(previous), $"not monotone at a={a}, y={y}");
+                AssertHelpers.AlmostEqualRelative(y, back, 5);
+                previous = x;
+            }
+        }
+
+        /// <summary>
         /// Gamma lower incomplete.
         /// </summary>
         [TestCase(double.NaN, double.NaN, double.NaN)]

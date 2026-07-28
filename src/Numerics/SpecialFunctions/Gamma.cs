@@ -280,11 +280,14 @@ namespace MathNet.Numerics
                 return 1d;
             }
 
-            if (x.AlmostEqual(0.0))
+            if (x == 0d)
             {
                 return 0d;
             }
 
+            // Do not round tiny x up to zero: for small a, P(a,x) stays representable
+            // far below machine epsilon (e.g. P(0.1, 6e-61) = 1e-6). The series below
+            // handles it; genuine underflow is caught by the ax guard.
             double ax = (a*Math.Log(x)) - x - GammaLn(a);
             if (ax < -709.78271289338399)
             {
@@ -396,6 +399,43 @@ namespace MathNet.Numerics
             if (y0.AlmostEqual(1.0))
             {
                 return double.PositiveInfinity;
+            }
+
+            // Small lower-tail quantiles underflow the linear-space root finder below,
+            // which then floors at a spurious ~1e-15 (e.g. Gamma(0.1) at p=1e-6 is ~6e-61).
+            // Solve P(a,x)=y0 directly: seed from the leading series inversion
+            // x ~ (y0*Gamma(a+1))^(1/a), refine with Newton. GammaLowerRegularized keeps
+            // full relative precision as x->0, so P(a,x)-y0 avoids the 1-P cancellation.
+            double seedLog = (Math.Log(y0) + GammaLn(a + 1.0))/a;
+            if (seedLog < -23.025850929940457) // predicted quantile below 1e-10
+            {
+                double xTail = Math.Exp(seedLog);
+                if (xTail > 0.0)
+                {
+                    double lnGammaA = GammaLn(a);
+                    for (int i = 0; i < 100; i++)
+                    {
+                        double px = GammaLowerRegularized(a, xTail);
+                        double logPdf = ((a - 1.0)*Math.Log(xTail)) - xTail - lnGammaA;
+                        if (logPdf < -709.78271289338399 || logPdf > 709.78271289338399)
+                        {
+                            break;
+                        }
+
+                        double xNew = xTail - ((px - y0)/Math.Exp(logPdf));
+                        if (xNew <= 0.0)
+                        {
+                            xNew = xTail/2.0;
+                        }
+
+                        if (Math.Abs(xNew - xTail) <= 1e-14*xNew)
+                        {
+                            return xNew;
+                        }
+
+                        xTail = xNew;
+                    }
+                }
             }
 
             y0 = 1 - y0;
