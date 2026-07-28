@@ -445,5 +445,29 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
             Assert.That(gamma.InverseCumulativeDistribution(cdf), Is.EqualTo(x).Within(1e+4));
             Assert.That(Gamma.InvCDF(shape, invScale, cdf), Is.EqualTo(x).Within(1e+4));
         }
+
+        /// <summary>
+        /// Small-shape lower-tail quantiles used to collapse to a spurious ~1e-15 floor
+        /// (e.g. Gamma(0.1) at p=1e-6 returned 1.11e-15 instead of ~6e-61, disagreeing
+        /// with the distribution's own CDF by four orders of magnitude). Expected quantiles
+        /// from mpmath (dps 40); the round-trip CDF(InvCDF(p))==p is checked as an
+        /// oracle-free invariant.
+        /// </summary>
+        [TestCase(0.1, 1e-6, 6.07304836240788253e-61)]
+        [TestCase(0.1, 1e-3, 6.07304836240788253e-31)]
+        [TestCase(0.2, 1e-6, 6.52548084345723235e-31)]
+        [TestCase(0.3, 1e-6, 6.97269909640936145e-21)]
+        [TestCase(0.5, 1e-9, 7.8539816339744831e-19)]
+        public void ValidateInverseCumulativeDistributionSmallShapeLowerTail(double shape, double p, double x)
+        {
+            double q = Gamma.InvCDF(shape, 1.0, p);
+            Assert.That(q, Is.GreaterThan(0.0), "quantile underflowed to the spurious floor");
+            AssertHelpers.AlmostEqualRelative(x, q, 9);
+
+            // Oracle-free: the distribution must agree with itself.
+            double back = Gamma.CDF(shape, 1.0, q);
+            Assert.That(back, Is.GreaterThan(0.0));
+            AssertHelpers.AlmostEqualRelative(p, back, 9);
+        }
     }
 }
