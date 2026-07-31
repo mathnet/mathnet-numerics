@@ -477,14 +477,24 @@ namespace MathNet.Numerics.Distributions
                 return location;
             }
 
+            if (p == 0.0)
+            {
+                return double.NegativeInfinity;
+            }
+
+            if (p == 1.0)
+            {
+                return double.PositiveInfinity;
+            }
+
             // TODO PERF: We must implement this explicitly instead of solving for CDF^-1
-            return Brent.FindRoot(x =>
+            return Brent.FindRootExpand(x =>
             {
                 var k = (x - location)/scale;
                 var h = freedom/(freedom + (k*k));
                 var ib = 0.5*SpecialFunctions.BetaRegularized(freedom/2.0, 0.5, h);
                 return x <= location ? ib - p : 1.0 - ib - p;
-            }, -800, 800, accuracy: 1e-12);
+            }, location - (800*scale), location + (800*scale), accuracy: 1e-12);
         }
 
         /// <summary>

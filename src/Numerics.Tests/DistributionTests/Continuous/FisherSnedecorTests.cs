@@ -407,5 +407,35 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
             Assert.That(n.InverseCumulativeDistribution(p), Is.EqualTo(x).Within(1e-8));
             Assert.That(FisherSnedecor.InvCDF(d1, d2, p), Is.EqualTo(x).Within(1e-8));
         }
+
+        [TestCase(1.0, 1.0, 0.95, 161.4476387975869)]
+        [TestCase(1.0, 2.0, 0.999, 998.50025012506253)]
+        public void ValidateInverseCumulativeDistributionInsideOriginalBracket(double d1, double d2, double p, double expected)
+        {
+            double q = FisherSnedecor.InvCDF(d1, d2, p);
+            Assert.That(q, Is.EqualTo(expected).Within(1e-9));
+            Assert.That(FisherSnedecor.CDF(d1, d2, q), Is.EqualTo(p).Within(1e-10));
+        }
+
+        [TestCase(1.0, 1.0, 0.99, 4052.1806954768291)]
+        [TestCase(1.0, 2.0, 0.9999, 9998.5000250012501)]
+        [TestCase(2.0, 1.0, 0.999, 499999.5)]
+        [TestCase(2.0, 2.0, 0.9999, 9999.0)]
+        [TestCase(5.0, 2.0, 0.99999, 99999.299999299996)]
+        [TestCase(6.0, 4.0, 0.999999, 1631.8819372843883)]
+        public void ValidateInverseCumulativeDistributionTailQuantiles(double d1, double d2, double p, double expected)
+        {
+            double q = FisherSnedecor.InvCDF(d1, d2, p);
+            Assert.That(q, Is.EqualTo(expected).Within(Math.Abs(expected)*1e-5));
+            Assert.That(FisherSnedecor.CDF(d1, d2, q), Is.EqualTo(p).Within(1e-10));
+            Assert.That(q, Is.GreaterThan(1000.0));
+        }
+
+        [TestCase(0.0, 0.0)]
+        [TestCase(1.0, double.PositiveInfinity)]
+        public void ValidateInverseCumulativeDistributionBoundary(double p, double expected)
+        {
+            Assert.That(FisherSnedecor.InvCDF(1.0, 1.0, p), Is.EqualTo(expected));
+        }
     }
 }
