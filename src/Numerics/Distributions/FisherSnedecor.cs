@@ -381,7 +381,17 @@ namespace MathNet.Numerics.Distributions
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
-            return Brent.FindRoot(
+            if (p == 0.0)
+            {
+                return 0.0;
+            }
+
+            if (p == 1.0)
+            {
+                return double.PositiveInfinity;
+            }
+
+            return Brent.FindRootExpand(
                 x => SpecialFunctions.BetaRegularized(d1/2.0, d2/2.0, d1*x/(d1*x + d2)) - p,
                 0, 1000, accuracy: 1e-12);
         }

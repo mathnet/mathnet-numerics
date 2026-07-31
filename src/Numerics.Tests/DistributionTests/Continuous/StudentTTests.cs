@@ -367,5 +367,39 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
             Assert.That(dist.InverseCumulativeDistribution(p), Is.EqualTo(x).Within(1e-6));
             Assert.That(StudentT.InvCDF(location, scale, dof, p), Is.EqualTo(x).Within(1e-6));
         }
+
+        [TestCase(0.0, 1.0, 1.0, 0.999, 318.3088389670247)]
+        [TestCase(0.0, 1.0, 2.0, 0.999999, 707.10566436975103)]
+        [TestCase(0.0, 1.0, 3.0, 0.99999, 47.927728468397085)]
+        public void ValidateInverseCumulativeDistributionInsideOriginalBracket(double location, double scale, double dof, double p, double expected)
+        {
+            double q = StudentT.InvCDF(location, scale, dof, p);
+            Assert.That(q, Is.EqualTo(expected).Within(1e-9));
+            Assert.That(StudentT.CDF(location, scale, dof, q), Is.EqualTo(p).Within(1e-10));
+        }
+
+        [TestCase(0.0, 1.0, 1.0, 0.9999, 3183.0987571181509)]
+        [TestCase(0.0, 1.0, 1.0, 0.999999, 318309.88618274347)]
+        [TestCase(0.0, 1.0, 2.0, 0.9999999, 2236.0676426780629)]
+        [TestCase(0.0, 1.0, 1.0, 0.0001, -3183.0987571181509)]
+        [TestCase(1000.0, 1.0, 5.0, 0.99, 1003.3649299989072)]
+        [TestCase(1000000.0, 1.0, 5.0, 0.9, 1000001.4758840488245)]
+        [TestCase(-1000000.0, 1.0, 5.0, 0.1, -1000001.4758840488245)]
+        [TestCase(-1000000.0, 1.0, 5.0, 0.9, -999998.5241159511755)]
+        [TestCase(0.0, 10000.0, 3.0, 0.9999, 222037.42273205002)]
+        public void ValidateInverseCumulativeDistributionTailQuantiles(double location, double scale, double dof, double p, double expected)
+        {
+            double q = StudentT.InvCDF(location, scale, dof, p);
+            Assert.That(q, Is.EqualTo(expected).Within(Math.Abs(expected)*1e-5));
+            Assert.That(StudentT.CDF(location, scale, dof, q), Is.EqualTo(p).Within(1e-10));
+            Assert.That(Math.Abs(q), Is.GreaterThan(800.0));
+        }
+
+        [TestCase(0.0, 1.0, 5.0, 0.0, double.NegativeInfinity)]
+        [TestCase(0.0, 1.0, 5.0, 1.0, double.PositiveInfinity)]
+        public void ValidateInverseCumulativeDistributionBoundary(double location, double scale, double dof, double p, double expected)
+        {
+            Assert.That(StudentT.InvCDF(location, scale, dof, p), Is.EqualTo(expected));
+        }
     }
 }
