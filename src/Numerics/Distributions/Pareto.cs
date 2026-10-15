@@ -164,7 +164,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the entropy of the distribution.
         /// </summary>
-        public double Entropy => Math.Log(_shape/_scale) - (1.0/_shape) - 1.0;
+        public double Entropy => Math.Log(_scale/_shape) + (1.0/_shape) + 1.0;
 
         /// <summary>
         /// Gets the skewness of the distribution.
