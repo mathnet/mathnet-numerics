@@ -146,14 +146,28 @@ namespace MathNet.Numerics.Tests.DistributionTests.Continuous
         /// </summary>
         /// <param name="scale">Scale value.</param>
         /// <param name="shape">Shape value.</param>
-        [TestCase(0.1, 0.1)]
-        [TestCase(1.0, 1.0)]
-        [TestCase(10.0, 10.0)]
-        [TestCase(double.PositiveInfinity, double.PositiveInfinity)]
-        public void ValidateEntropy(double scale, double shape)
+        /// <param name="expected">Expected entropy.</param>
+        [TestCase(0.1, 0.1, 11.0)]
+        [TestCase(1.0, 1.0, 2.0)]
+        [TestCase(10.0, 10.0, 1.1)]
+        [TestCase(1.0, 2.0, 0.8068528194400547)]
+        [TestCase(0.1, 2.0, -1.495732273553991)]
+        [TestCase(3.0, 0.5, 4.791759469228055)]
+        [TestCase(double.PositiveInfinity, double.PositiveInfinity, double.NaN)]
+        public void ValidateEntropy(double scale, double shape, double expected)
         {
             var n = new Pareto(scale, shape);
-            Assert.AreEqual(Math.Log(shape / scale) - (1.0 / shape) - 1.0, n.Entropy);
+            Assert.AreEqual(expected, n.Entropy, 1e-14);
+        }
+
+        [TestCase(1.0, 1.0)]
+        [TestCase(0.1, 2.0)]
+        [TestCase(3.0, 0.5)]
+        public void EntropyIncreasesByLogTwoWhenScaleDoubles(double scale, double shape)
+        {
+            var original = new Pareto(scale, shape);
+            var scaled = new Pareto(2.0 * scale, shape);
+            Assert.AreEqual(Math.Log(2.0), scaled.Entropy - original.Entropy, 1e-14);
         }
 
         /// <summary>
