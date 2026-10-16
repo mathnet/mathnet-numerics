@@ -257,7 +257,13 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         static int SampleUnchecked(System.Random rnd, double r, double p)
         {
-            var lambda = Gamma.SampleUnchecked(rnd, r, p);
+            if (p == 1.0)
+            {
+                return 0;
+            }
+
+            // Poisson-Gamma mixture: lambda ~ Gamma(shape: r, rate: p/(1-p)), X ~ Poisson(lambda)
+            var lambda = Gamma.SampleUnchecked(rnd, r, p/(1.0 - p));
             var c = Math.Exp(-lambda);
             var p1 = 1.0;
             var k = 0;

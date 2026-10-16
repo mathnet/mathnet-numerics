@@ -30,6 +30,7 @@
 using System;
 using System.Linq;
 using MathNet.Numerics.Distributions;
+using MathNet.Numerics.Random;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.Tests.DistributionTests.Discrete
@@ -229,6 +230,38 @@ namespace MathNet.Numerics.Tests.DistributionTests.Discrete
             var d = new NegativeBinomial(1.0, 0.5);
             var ied = d.Samples();
             GC.KeepAlive(ied.Take(5).ToArray());
+        }
+
+        /// <summary>
+        /// Samples match the distribution's mean and variance.
+        /// </summary>
+        /// <param name="r">Number of successes.</param>
+        /// <param name="p">Probability of success.</param>
+        [TestCase(1.0, 0.5)]
+        [TestCase(5.0, 0.3)]
+        [TestCase(2.5, 0.8)]
+        [TestCase(10.0, 0.1)]
+        public void SamplesMatchMeanAndVariance(double r, double p)
+        {
+            var d = new NegativeBinomial(r, p, new MersenneTwister(42));
+            var samples = new int[200000];
+            d.Samples(samples);
+
+            var mean = samples.Average();
+            var variance = samples.Select(x => (x - mean)*(x - mean)).Sum()/(samples.Length - 1);
+
+            Assert.AreEqual(d.Mean, mean, 0.02*d.Mean);
+            Assert.AreEqual(d.Variance, variance, 0.05*d.Variance);
+        }
+
+        /// <summary>
+        /// Sampling with p = 1 always yields zero.
+        /// </summary>
+        [Test]
+        public void SampleWithProbabilityOneIsZero()
+        {
+            var d = new NegativeBinomial(3.0, 1.0);
+            Assert.IsTrue(d.Samples().Take(100).All(x => x == 0));
         }
     }
 }
